@@ -156,8 +156,8 @@ function RepByZone:SubZonesAndFactions()
         [BS["Winterfall Village"]] = 579, -- Timbermaw Hold
         [BS["Frostsaber Rock"]] = A and 589, -- Wintersaber Trainers
         [BS["Dun Modr"]] = A and 47, -- Ironforge
-        [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
-        [BS["Magram Village"]] = 93, -- Magram Clan Centaur
+        -- [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
+        -- [BS["Magram Village"]] = 93, -- Magram Clan Centaur
     }
     return subZonesAndFactions
 end
