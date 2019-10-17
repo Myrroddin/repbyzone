@@ -25,7 +25,7 @@ function RepByZone:ZoneAndFactionList()
         [1429]      = 72,       -- Elwynn Forest/Stormwind
         [1436]      = 72,       -- Westfall/Stormwind
         [1433]      = 72,       -- Redridge Mountains/Stormwind
-        [1437]      = 75,       -- Wetlands/Stormwind
+        [1437]      = 47,       -- Wetlands/Ironforge
         [1419]      = 72,       -- Blasted Lands/Stormwind
         [1426]      = 47,       -- Dun Morogh/Ironforge
         [1432]      = 47,       -- Loch Modan/Ironforge
@@ -55,7 +55,7 @@ function RepByZone:ZoneAndFactionList()
         [1438]      = A and 72 or H and 530, -- Stranglethorn Vale/Stormwind or Darkspear Trolls
         [1435]      = A and 72 or H and 46, -- Swamp of Sorrows/Stormwind or Orgrimmar
         [1441]      = A and 69 or H and 81, -- Thousand Needles/Darnassus or Thunder Bluff
-        [1442]      = A and 54 or H and 81, -- Stonetalon Mountains/Gnomeregan Exiles orThunder Bluff
+        [1442]      = A and 69 or H and 81, -- Stonetalon Mountains/Darnassus or Thunder Bluff
         [1443]      = A and 47 or H and 81, -- Desolace/Ironforge or Thunder Bluff
         [1445]      = A and 72 or H and 46, -- Dustwallow Marsh/Stormwind or Orgrimmar
         [1447]      = A and 47 or H and 46, -- Azshara/Ironforge or Orgrimmar
@@ -149,7 +149,6 @@ function RepByZone:SubZonesAndFactions()
         [BS["Uther's Tomb"]] = A and 72, -- Stormwind
         [BS["Direforge Hill"]] = A and 69, -- Darnassus
 		[BS["Greenwarden's Grove"]] = A and 69, -- Darnassus
-		[BS["Menethil Harbor"]] = A and 72, -- Stormwind
         [BS["The Green Belt"]] = A and 69, -- Darnassus
         [BS["Frostfire Hot Springs"]] = 579, -- Timbermaw Hold
         [BS["Timbermaw Post"]] = 579, -- Timbermaw Hold
@@ -158,6 +157,8 @@ function RepByZone:SubZonesAndFactions()
         [BS["Dun Modr"]] = A and 47, -- Ironforge
         -- [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
         -- [BS["Magram Village"]] = 93, -- Magram Clan Centaur
+        [BS["Ratchet"]] = 470, -- Ratchet
+        [BS["Deeprun Tram"]] = A and 72, -- Stormwind
     }
     return subZonesAndFactions
 end
