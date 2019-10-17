@@ -9,12 +9,13 @@ local defaults = {
         enabled = true,
         watchSubZones = true,
         verbose = true,
+        watchOnTaxi = false,
     }
 }
 local zonesAndFactions = zonesAndFactions or {}
 local instancesAndFactions = instancesAndFactions or {}
 local subZonesAndFactions = subZonesAndFactions or {}
-local inCombat = false
+local isOnTaxi = false
 
 -- Get the character's racial factionID and factionName
 local function GetRacialRep()
@@ -66,6 +67,10 @@ function RepByZone:OnInitialize()
     db.defaultRepID = db.defaultRepID or racialRepID
     db.defaultRepName = db.defaultRepName or racialRepName
 
+    if UnitOnTaxi("player") then
+        isOnTaxi = true
+    end
+
    -- Set initial watched faction correctly during login
     self:SwitchedZones()
 end
@@ -74,16 +79,17 @@ function RepByZone:OnEnable()
     -- Set initial watched faction correctly during login
     self:SwitchedZones()
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
-    if db.watchSubZones then
-        self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
-        self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
-    end
+    self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
+    self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
+    self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
+    self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
 end
 
 function RepByZone:OnDisable()
     self:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
     self:UnregisterEvent("ZONE_CHANGED")
     self:UnregisterEvent("ZONE_CHANGED_INDOORS")
+    self:UnregisterEvent("ACTIONBAR_UPDATE_USABLE")
 end
 
 function RepByZone:RefreshConfig()
@@ -103,6 +109,21 @@ function RepByZone:SlashHandler()
     else
         Dialog:Open("RepByZone")
     end
+end
+
+function RepByZone:InCombat()
+    if UnitAffectingCombat("player") then
+        if Dialog.OpenFrames["RepByZone"] then
+            Dialog:Close("RepByZone")
+        end
+        return
+    end
+end
+
+function RepByZone:CheckTaxi()
+    local checkIfTaxi = UnitOnTaxi("player")
+    if checkIfTaxi == isOnTaxi then return end
+    isOnTaxi = checkIfTaxi
 end
 
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
@@ -183,6 +204,8 @@ end
 
 -- Player switched zones, set watched faction
 function RepByZone:SwitchedZones()
+    if isOnTaxi and not db.watchOnTaxi then return end -- on taxi but don't watch
+
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local locationsAndFactions = IsInInstance() and self:InstanceAndFactionList() or self:ZoneAndFactionList()
     -- self:Print("DEBUG: Current UImapID is", UImapID)
@@ -198,6 +221,8 @@ end
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
     if not db.watchSubZones then return end
+    if isOnTaxi and not db.watchOnTaxi then return end -- on taxi but don't watch
+
     self:SwitchedZones()
     local subZone = GetSubZoneText()
     for babbleSubZone, factionID in pairs(subZonesAndFactions) do

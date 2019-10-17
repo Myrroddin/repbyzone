@@ -60,10 +60,20 @@ function RepByZone:GetOptions()
                         get = function() return db.verbose end,
                         set = function(info, value) db.verbose = value end
                     },
-                    defaultRep = {
+                    watchOnTaxi = {
                         order = 30,
+                        name = L["Switch on taxi"],
+                        desc = L["Switch watched faction while you are on a taxi."],
+                        descStyle = "inline",
+                        type = "select",
+                        width = "double",
+                        get = function() return db.watchOnTaxi end,
+                        set = function(info, value) db.watchOnTaxi = value end
+                    },
+                    defaultRep = {
+                        order = 40,
                         name = L["Default watched faction"],
-                        desc = "",
+                        desc = L["Defaults to your racial faction per character."],
                         type = "select",
                         values = function() return self:GetAllFactions() end,
                         get = function() return db.defaultRepID end,
