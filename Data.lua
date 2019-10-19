@@ -34,7 +34,7 @@ function RepByZone:ZoneAndFactionList()
         [1457]      = 69,       -- Darnassus/Darnassus
         [1438]      = 69,       -- Teldrassil/Darnassus
         [1439]      = 69,       -- Darkshore/Darnassus
-        [1450]      = 69,       -- Moonglade/Darnassus
+        [1450]      = 609,      -- Moonglade/Cenarion Circle
 
         --------- Both ---------
         [1422]      = 529,      -- Western Plaguelands/Argent Dawn
@@ -46,8 +46,8 @@ function RepByZone:ZoneAndFactionList()
         [1431]      = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
         [1440]      = A and 69 or H and 68, -- Ashenvale/Darnassus or Undercity
         [1444]      = A and 69 or H and 46, -- Feralas/Darnassus or Orgrimmar
-        [1413]      = A and 72 or H and 81, -- The Barrens/Stormwind or Thunder Bluff
-        [1417]      = A and 47 or H and 530, -- Arathi Highlands/Ironforge or Darkspear Trolls
+        [1413]      = A and 470 or H and 81, -- The Barrens/Ratchet or Thunder Bluff
+        [1417]      = A and 72 or H and 530, -- Arathi Highlands/Stormwind or Darkspear Trolls
         [1424]      = A and 72 or H and 68, -- Hillsbrad Foothills/Stormwind/Undercity
         [1416]      = A and 72 or H and 46, -- Alterac Mountains/Stormwind or Orgrimmar
         [1418]      = A and 47 or H and 46, -- Badlands/Ironforge or Orgrimmar
@@ -85,12 +85,14 @@ function RepByZone:InstancesAndFactionList()
         [230]       = 59, -- Blackrock Depths/Thorium Brotherhood
         [109]       = 910, -- Temple of Atal'Hakkar (Sunken Temple)/Brood of Nozdormu
         [43]        = 81, -- Wailing Caverns/Thunder Bluff
+        [429]       = 809, -- Dire Maul/Shen'dralar
         [129]       = A and 72 or H and 46, -- Razorfen Downs/Stormwind or Orgrimmar
         [47]        = A and 69 or H and 81, -- Razorfen Kraul/Darnassus or Thunderbluff
         [48]        = A and 69 or H and 530, -- Blackfathom Deeps/Darnassus or Darkspear Trolls
         [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
         [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
         [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+        [369]       = A and 72, -- Deeprun Tram/Stormwind
 
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
@@ -99,9 +101,12 @@ function RepByZone:InstancesAndFactionList()
 
         ---------- Raids -----------
         [409]       = 749, -- Molten Core/Hydraxian Waterlords
-        [509]       = 910, -- Ruins of Ahn'Qiraj/Brood of Nozdormu
+        [509]       = 609, -- Ruins of Ahn'Qiraj/Cenarion Circle
         [531]       = 910, -- Temple of Ahn'Qiraj/Brood of Nozdormu
+        [533]       = 529, -- Naxxramas/Argent Dawn
         [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
+        [249]       = A and 72 or H and 46, -- Onyxia's Lair/Stormwind or Orgrimmar
+        [309]       = A and 72 or H and 530, -- Zul'Gurub/Stormwind or Darkspear Trolls
     }
     return instancesAndFactions
 end
@@ -154,11 +159,11 @@ function RepByZone:SubZonesAndFactions()
         [BS["Timbermaw Post"]] = 579, -- Timbermaw Hold
         [BS["Winterfall Village"]] = 579, -- Timbermaw Hold
         [BS["Frostsaber Rock"]] = A and 589, -- Wintersaber Trainers
-        [BS["Dun Modr"]] = A and 47, -- Ironforge
         -- [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
         -- [BS["Magram Village"]] = 93, -- Magram Clan Centaur
         [BS["Ratchet"]] = 470, -- Ratchet
         [BS["Deeprun Tram"]] = A and 72, -- Stormwind
+        [BS["Rut'theran Village"]] = A and 69, -- Darnassus
     }
     return subZonesAndFactions
 end

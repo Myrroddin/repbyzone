@@ -70,19 +70,18 @@ function RepByZone:OnInitialize()
     if UnitOnTaxi("player") then
         isOnTaxi = true
     end
-
-   -- Set initial watched faction correctly during login
-    self:SwitchedZones()
 end
 
 function RepByZone:OnEnable()
-    -- Set initial watched faction correctly during login
-    self:SwitchedZones()
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
     self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
+
+    -- Set initial watched faction correctly during login
+    self:SwitchedZones()
+    self:SwitchedSubZones()
 end
 
 function RepByZone:OnDisable()
@@ -124,8 +123,11 @@ function RepByZone:CheckTaxi()
     local checkIfTaxi = UnitOnTaxi("player")
     if checkIfTaxi == isOnTaxi then return end
     isOnTaxi = checkIfTaxi
+    self:SwitchedZones()
+    self:SwitchedSubZones()
 end
 
+-------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
@@ -207,7 +209,7 @@ function RepByZone:SwitchedZones()
     if isOnTaxi and not db.watchOnTaxi then return end -- on taxi but don't watch
 
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
-    local locationsAndFactions = IsInInstance() and self:InstanceAndFactionList() or self:ZoneAndFactionList()
+    local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
     -- self:Print("DEBUG: Current UImapID is", UImapID)
     for zoneID, factionID in pairs(locationsAndFactions) do
         if zoneID == UImapID then
