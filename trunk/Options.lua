@@ -65,7 +65,7 @@ function RepByZone:GetOptions()
                         name = L["Switch on taxi"],
                         desc = L["Switch watched faction while you are on a taxi."],
                         descStyle = "inline",
-                        type = "select",
+                        type = "toggle",
                         width = "double",
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value) db.watchOnTaxi = value end
