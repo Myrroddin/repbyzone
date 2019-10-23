@@ -86,13 +86,13 @@ function RepByZone:InstancesAndFactionList()
         [109]       = 910, -- Temple of Atal'Hakkar (Sunken Temple)/Brood of Nozdormu
         [43]        = 81, -- Wailing Caverns/Thunder Bluff
         [429]       = 809, -- Dire Maul/Shen'dralar
+        [369]       = 72, -- Deeprun Tram/Stormwind
         [129]       = A and 72 or H and 46, -- Razorfen Downs/Stormwind or Orgrimmar
         [47]        = A and 69 or H and 81, -- Razorfen Kraul/Darnassus or Thunderbluff
         [48]        = A and 69 or H and 530, -- Blackfathom Deeps/Darnassus or Darkspear Trolls
         [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
         [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
         [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
-        [369]       = A and 72, -- Deeprun Tram/Stormwind
 
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
@@ -159,11 +159,13 @@ function RepByZone:SubZonesAndFactions()
         [BS["Timbermaw Post"]] = 579, -- Timbermaw Hold
         [BS["Winterfall Village"]] = 579, -- Timbermaw Hold
         [BS["Frostsaber Rock"]] = A and 589, -- Wintersaber Trainers
-        -- [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
-        -- [BS["Magram Village"]] = 93, -- Magram Clan Centaur
+        [BS["Gelkis Village"]] = 92, -- Gelkis Clan Centaur
+        [BS["Magram Territory"]] = 93, -- Magram Clan Centaur
         [BS["Ratchet"]] = 470, -- Ratchet
         [BS["Deeprun Tram"]] = A and 72, -- Stormwind
         [BS["Rut'theran Village"]] = A and 69, -- Darnassus
+        [BS["Gnomeregan"]] = 54, -- Gnomeregan Exiles
+        [BS["Ethel Rethor"]] = 529, -- Argent Dawn
     }
     return subZonesAndFactions
 end

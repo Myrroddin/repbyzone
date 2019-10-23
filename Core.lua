@@ -73,14 +73,13 @@ function RepByZone:OnInitialize()
 end
 
 function RepByZone:OnEnable()
-    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedSubZones")
     self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
     self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
 
     -- Set initial watched faction correctly during login
-    self:SwitchedZones()
     self:SwitchedSubZones()
 end
 
@@ -123,7 +122,6 @@ function RepByZone:CheckTaxi()
     local checkIfTaxi = UnitOnTaxi("player")
     if checkIfTaxi == isOnTaxi then return end
     isOnTaxi = checkIfTaxi
-    self:SwitchedZones()
     self:SwitchedSubZones()
 end
 
@@ -206,7 +204,7 @@ end
 
 -- Player switched zones, set watched faction
 function RepByZone:SwitchedZones()
-    if isOnTaxi and not db.watchOnTaxi then return end -- on taxi but don't watch
+    -- if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
 
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
@@ -222,14 +220,15 @@ end
 
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
+    if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
+    self:SwitchedZones() -- Set core zone first
     if not db.watchSubZones then return end
-    if isOnTaxi and not db.watchOnTaxi then return end -- on taxi but don't watch
 
-    self:SwitchedZones()
     local subZone = GetSubZoneText()
     for babbleSubZone, factionID in pairs(subZonesAndFactions) do
         if babbleSubZone == subZone then
             self:SetWatchedFactionByFactionID(factionID)
+            break
         end
     end
 end
