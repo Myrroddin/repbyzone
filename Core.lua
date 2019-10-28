@@ -15,7 +15,7 @@ local defaults = {
 local zonesAndFactions = zonesAndFactions or {}
 local instancesAndFactions = instancesAndFactions or {}
 local subZonesAndFactions = subZonesAndFactions or {}
-local isOnTaxi = false
+local isOnTaxi
 
 -- Get the character's racial factionID and factionName
 local function GetRacialRep()
@@ -66,28 +66,36 @@ function RepByZone:OnInitialize()
     local racialRepID, racialRepName = GetRacialRep()
     db.defaultRepID = db.defaultRepID or racialRepID
     db.defaultRepName = db.defaultRepName or racialRepName
-
-    if UnitOnTaxi("player") then
-        isOnTaxi = true
-    end
 end
 
 function RepByZone:OnEnable()
+    -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedSubZones")
     self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
+    -- If player is in combat, close options panel and exit out of command line
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
+    -- There is no direct event to check if the player is on a taxi so check if the action bar is usable
     self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
+
+    -- Check taxi status only if RBZ is enabled on login
+    if UnitOnTaxi("player") then
+        isOnTaxi = true
+    end
 
     -- Set initial watched faction correctly during login
     self:SwitchedSubZones()
 end
 
 function RepByZone:OnDisable()
+    -- Stop watching most events if RBZ is disabled
     self:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
     self:UnregisterEvent("ZONE_CHANGED")
     self:UnregisterEvent("ZONE_CHANGED_INDOORS")
     self:UnregisterEvent("ACTIONBAR_UPDATE_USABLE")
+
+    -- Wipe variables when RBZ is disabled
+    isOnTaxi = nil
 end
 
 function RepByZone:RefreshConfig()
@@ -95,13 +103,10 @@ function RepByZone:RefreshConfig()
 end
 
 function RepByZone:SlashHandler()
-    if UnitAffectingCombat("player") then
-        if Dialog.OpenFrames["RepByZone"] then
-            Dialog:Close("RepByZone")
-        end
-        return
-    end
+    -- Check if player is in combat, exit out and close options panels if that's the case
+    self:InCombat()
 
+    -- Close option panel if opened, otherwise open option panel
     if Dialog.OpenFrames["RepByZone"] then
         Dialog:Close("RepByZone")
     else
@@ -187,8 +192,6 @@ function RepByZone:SetWatchedFactionByFactionID(id)
     self:OpenAllFactionHeaders()
     for i = 1, GetNumFactions() do
         local name, _, standingID, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)
-        -- self:Print("DEBUG: SetWatchedFactionByFactionID name:", name)
-        -- self:Print("DEBUG: SetWatchedFactionByFactionID index:", i)
         if id == factionID then
             if not isWatched then
                 SetWatchedFactionIndex(i)
@@ -204,14 +207,10 @@ end
 
 -- Player switched zones, set watched faction
 function RepByZone:SwitchedZones()
-    -- if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
-
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
-    -- self:Print("DEBUG: Current UImapID is", UImapID)
     for zoneID, factionID in pairs(locationsAndFactions) do
         if zoneID == UImapID then
-            -- self:Print("DEBUG: zoneID and UImapID match")
             self:SetWatchedFactionByFactionID(factionID)
             break
         end
