@@ -21,7 +21,7 @@
 ## SavedVariables: RepByZoneDB
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-SubZone-3.0, LibAboutPanel-2.0
 
-## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES, esMX
+## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
 ## X-Category: Quests & Leveling, Action Bars, Combat, Roleplay
 ## X-Website: https://www.curseforge.com/wow/addons/repbyzone
