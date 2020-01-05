@@ -15,7 +15,7 @@
 ## Author: Sygon
 ## X-Author-Server: Bloodsail Buccaneers
 ## X-Author-Faction: Alliance
-## X-Author-Guild: Righteous Storm
+## X-Author-Guild: Solstice
 ## X-Copyright: Copyright (c) 2019 - 2020 Paul Vandersypen. All Rights Reserved
 
 ## SavedVariables: RepByZoneDB
@@ -27,6 +27,7 @@
 ## X-Website: https://www.curseforge.com/wow/addons/repbyzone
 ## X-Email: psvander@gmail.com
 
+#@no-lib-strip@
 Libs\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\AceAddon-3.0\AceAddon-3.0.xml
@@ -39,6 +40,7 @@ Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
 Libs\LibBabble-SubZone-3.0\lib.xml
+#@end-no-lib-strip@
 
 Locales\enUS.lua
 Locales\deDE.lua
