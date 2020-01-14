@@ -19,7 +19,7 @@
 ## X-Copyright: Copyright (c) 2019 - 2020 Paul Vandersypen. All Rights Reserved
 
 ## SavedVariables: RepByZoneDB
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-SubZone-3.0, LibAboutPanel-2.0
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
 
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
@@ -39,7 +39,6 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
-Libs\LibBabble-SubZone-3.0\lib.xml
 #@end-no-lib-strip@
 
 Locales\enUS.lua

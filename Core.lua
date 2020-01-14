@@ -217,6 +217,16 @@ function RepByZone:SwitchedZones()
     end
 end
 
+-- Table to localize subzones that Blizzard does not provide areaIDs
+local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+	-- ["Subzone"] = factionID
+	["Dwarven District"] = 47, -- Ironforge
+	["The Salty Sailor Tavern"] = 21, -- Booty Bay
+	["Tinker Town"] = 54, -- Gnomeregan Exiles
+	["Valley of Spirits"] = 530, -- Darkspear Trolls
+	["Valley of Wisdom"] = 81, -- Thunder Bluff
+}
+
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
     if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
@@ -224,10 +234,18 @@ function RepByZone:SwitchedSubZones()
     if not db.watchSubZones then return end
 
     local subZone = GetSubZoneText()
-    for babbleSubZone, factionID in pairs(subZonesAndFactions) do
-        if babbleSubZone == subZone then
+	-- Blizzard provided areaIDs
+    for areaID, factionID in pairs(subZonesAndFactions) do
+        if C_Map.GetAreaInfo(areaID) == subZone then
             self:SetWatchedFactionByFactionID(factionID)
             break
         end
     end
+	-- Our localized missing Blizzard areaIDs
+	for areaName, factionID in pairs(CitySubZonesAndFactions) do
+		if L[areaName] == subZone then
+			self:SetWatchedFactionByFactionID(factionID)
+			break
+		end
+	end
 end

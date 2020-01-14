@@ -12,7 +12,6 @@ externals:
     Libs/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
     Libs/AceConfig-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
     Libs/LibAboutPanel-2.0: https://repos.wowace.com/wow/libaboutpanel-2-0/trunk
-    Libs/LibBabble-SubZone-3.0: https://repos.wowace.com/wow/libbabble-subzone-3-0/trunk
 
 ignore:
-    - LibStub/tests
+    - Libs/LibStub/tests
