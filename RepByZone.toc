@@ -1,4 +1,4 @@
-## Interface: 11304
+## Interface: 11305
 ## Title: Reputation Bar by Zone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
