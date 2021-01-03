@@ -1,4 +1,4 @@
-## Interface: 11305
+## Interface: 11306
 ## Title: Reputation Bar by Zone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -16,7 +16,7 @@
 ## X-Author-Server: Bloodsail Buccaneers
 ## X-Author-Faction: Alliance
 ## X-Author-Guild: Solstice
-## X-Copyright: Copyright (c) 2019 - 2020 Paul Vandersypen. All Rights Reserved
+## X-Copyright: Copyright (c) 2019 - 2021 Paul Vandersypen. All Rights Reserved
 
 ## SavedVariables: RepByZoneDB
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
