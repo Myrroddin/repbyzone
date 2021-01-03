@@ -13,9 +13,9 @@
 ## Notes-zhTW: @localization(locale="zhTW", key="Notes", namespace="ToC")@
 ## Version: @project-version@
 ## Author: Sygon
-## X-Author-Server: Bloodsail Buccaneers
+## X-Author-Server: Lightbringer
 ## X-Author-Faction: Alliance
-## X-Author-Guild: Solstice
+## X-Author-Guild: Crimson Embers
 ## X-Copyright: Copyright (c) 2019 - 2021 Paul Vandersypen. All Rights Reserved
 ## X-Curse-Project-ID: 348072
 ## X-WoWI-ID: 25407
@@ -56,5 +56,5 @@ Locales\esMX.lua
 Locales\koKR.lua
 
 Core.lua
-Data.lua
+ClassicData.lua
 Options.lua
