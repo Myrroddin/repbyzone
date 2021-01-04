@@ -66,6 +66,6 @@ RetailData.lua
 RetailInstanceData.lua
 #@end-retail@
 #@non-retail@
-ClassicData.lua
+# ClassicData.lua
 #@end-non-retail@
 Options.lua
