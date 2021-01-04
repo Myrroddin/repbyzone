@@ -1,4 +1,9 @@
-## Interface: 11306
+#@retail@
+## Interface: 90002
+#@end-retail@
+#@non-retail@
+# ## Interface: 11306
+#@end-non-retail@
 ## Title: Reputation Bar by Zone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -56,5 +61,11 @@ Locales\esMX.lua
 Locales\koKR.lua
 
 Core.lua
+#@retail@
+RetailData.lua
+RetailInstanceData.lua
+#@end-retail@
+#@non-retail@
 ClassicData.lua
+#@end-non-retail@
 Options.lua

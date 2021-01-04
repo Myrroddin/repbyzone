@@ -19,7 +19,12 @@ local isOnTaxi
 
 -- Get the character's racial factionID and factionName
 local function GetRacialRep()
-    local _, playerRace = UnitRace("player")
+    local _, playerRace = UnitRace("player")    
+    --@retail@
+    local H = UnitFactionGroup("player") == "Horde"
+    local A = UnitFactionGroup("player") == "Alliance"
+    local _, classFileName = UnitClass("player")
+    --@end-retail@
     local racialRepID = playerRace == "Dwarf" and 47
     or playerRace == "Gnome" and 54
     or playerRace == "Human" and 72
@@ -28,6 +33,26 @@ local function GetRacialRep()
     or playerRace == "Tauren" and 81
     or playerRace == "Troll" and 530
     or playerRace == "Scourge" and 68
+    --@retail@
+    or playerRace == "Goblin" and 1133
+    or playerRace == "Draenei" and 930
+    or playerRace == "Worgen" and 1134
+    or playerRace == "BloodElf" and 911
+    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216)
+    or playerRace == "HighmountainTauren" and 1828
+    or playerRace == "VoidElf" and 2170
+    or playerRace == "Mechagnome" and 2391
+    or playerRace == "Vulpera" and 2158
+    or playerRace == "KulTiran" and 2160
+    or playerRace == "ZandalariTroll" and 2103
+    or playerRace == "Nightborne" and 1859
+    or playerRace == "MagharOrc" and 941
+    or playerRace == "DarkIronDwarf" and 47
+
+    -- classes have factions
+    racialRepID = classFileName == "DEATHKNIGHT" and 1098
+    or classFileName == "DEMONHUNTER" and (A and 69 or H and 911)
+    --@end-retail@
 
     local racialRepName = GetFactionInfoByID(racialRepID)
     return racialRepID, racialRepName
@@ -41,9 +66,9 @@ function RepByZone:OnInitialize()
     self:SetEnabledState(self.db.char.enabled)
     db = self.db.char
 
-    zonesAndFactions = self:ZoneAndFactionList() -- Data.lua
-    instancesAndFactions = self:InstancesAndFactionList() -- Data.lua
-    subZonesAndFactions = self:SubZonesAndFactions() -- Data.lua
+    zonesAndFactions = self:ZoneAndFactionList() -- ClassicData.lua or RetailData.lua
+    instancesAndFactions = self:InstancesAndFactionList() -- ClassicData.lua or RetailInstanceData.lua
+    subZonesAndFactions = self:SubZonesAndFactions() -- ClassicData.lua or RetailData.lua
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)

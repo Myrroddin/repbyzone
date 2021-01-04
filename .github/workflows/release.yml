@@ -7,7 +7,7 @@ name: Package and release
 # other branches or even pullrequests.
 on:
   push:
-    branches: [ master ]
+    # branches: [ master ] uncomment this line to make alpha builds
     tags:
       - '**'
 
@@ -44,3 +44,7 @@ jobs:
         uses: BigWigsMods/packager@master
         with:
           args: -g classic
+      
+      # for the Retail version of the game
+      - name: Package and release
+        uses: BigWigsMods/packager@master
