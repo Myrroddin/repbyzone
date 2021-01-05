@@ -1,4 +1,5 @@
 package-as: RepByZone
+enable-nolib-creation: yes
 
 externals:
     Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk

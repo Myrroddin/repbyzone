@@ -45,6 +45,9 @@ function RepByZone:InstancesAndFactionList()
         [309]       = 270, -- Zul'Gurub/Zandalar Tribe
         [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
         [249]       = A and 72 or H and 46, -- Onyxia's Lair/Stormwind or Orgrimmar
+
+        ---------- Shadowlands ----------
+        [2287]      = 2439, -- Halls of Atonement/The Avowed
     }
     return instancesAndFactions
 end

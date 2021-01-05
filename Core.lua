@@ -48,6 +48,7 @@ local function GetRacialRep()
     or playerRace == "Nightborne" and 1859
     or playerRace == "MagharOrc" and 941
     or playerRace == "DarkIronDwarf" and 47
+    or playerRace == "LightforgedDraenei" and 2165
 
     -- classes have factions
     racialRepID = classFileName == "DEATHKNIGHT" and 1098
@@ -155,6 +156,18 @@ function RepByZone:CheckTaxi()
     self:SwitchedSubZones()
 end
 
+--@retail@
+function RepByZone:CovenantToFactionID()
+    local covenenantType = C_Covenants.GetActiveCovenantID()
+    local covenenantRepID = covenenantType == 1 and 2407 -- Kyrian/The Ascended
+    or covenenantRepID = covenenantType == 2 and 2413 -- Venthyr/Court of Harvesters
+    or covenenantRepID = covenenantType == 3 and 2422 -- Night Fae/Night Fae
+    or covenenantRepID = covenenantType == 4 and 2410 -- Necrolords/The Undying Army
+
+    return covenenantRepID
+end
+--@end-retail@
+
 -------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
@@ -255,7 +268,8 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
     if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
-    self:SwitchedZones() -- Set core zone first
+    self:SetWatchedFactionByFactionID(db.defaultRepID) -- Set default faction rep first
+    self:SwitchedZones() -- Now core zone next
     if not db.watchSubZones then return end
 
     local subZone = GetSubZoneText()

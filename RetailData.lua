@@ -60,6 +60,13 @@ function RepByZone:ZoneAndFactionList()
         [1447]      = A and 69 or H and 46, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
 
+        --------- Shadowlands ---------
+        [11510]     = 2465,     -- Ardenweald/The Wild Hunt
+        [10413]     = 2413,     -- Revendreth/Court of Harvesters
+        [10534]     = 2407,     -- Bastion/The Ascended
+        [10462]     = 2410,     -- Maldraxxus/The Undying Army
+        [11400]     = 2432,     -- The Maw/Ve'nari
+        [10565]     = function return self:CovenantToFactionID() end, -- Oribos/Covenenant
     }
     return zonesAndFactions
 end
@@ -67,7 +74,7 @@ end
 function RepByZone:SubZonesAndFactions()
     local subZonesAndFactions = {
 		-- areaID = factionID
-		-- see https://wow.tools/dbc/?dbc=areatable&build=1.13.3.32887#search=&page=1
+		-- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
 		
         [35] = 21, -- Booty Bay/Booty Bay
         [36] = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
