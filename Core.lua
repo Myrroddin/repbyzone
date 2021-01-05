@@ -104,6 +104,12 @@ function RepByZone:OnEnable()
     -- There is no direct event to check if the player is on a taxi so check if the action bar is usable
     self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
 
+    --@retail@
+    if UnitFactionGroup("player") == nil then
+        self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
+    end
+    --@end-retail@
+
     -- Check taxi status only if RBZ is enabled on login
     if UnitOnTaxi("player") then
         isOnTaxi = true
@@ -119,6 +125,10 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("ZONE_CHANGED")
     self:UnregisterEvent("ZONE_CHANGED_INDOORS")
     self:UnregisterEvent("ACTIONBAR_UPDATE_USABLE")
+
+    --@retail@
+    self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
+    --@end-retail@
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -157,15 +167,25 @@ function RepByZone:CheckTaxi()
 end
 
 --@retail@
-function RepByZone:CovenantToFactionID()
-    local covenenantType = C_Covenants.GetActiveCovenantID()
-    local covenenantRepID = covenenantType == 1 and 2407 -- Kyrian/The Ascended
-    or covenenantRepID = covenenantType == 2 and 2413 -- Venthyr/Court of Harvesters
-    or covenenantRepID = covenenantType == 3 and 2422 -- Night Fae/Night Fae
-    or covenenantRepID = covenenantType == 4 and 2410 -- Necrolords/The Undying Army
+local covenantReps = {
+    [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
+    [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
+    [Enum.CovenantType.NightFae] = 2422, -- Night Fae
+    [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
+}
 
-    return covenenantRepID
+function RepByZone:CovenantToFactionID()
+    local id = C_Covenants.GetActiveCovenantID()
+    return covenantReps[id]
 end
+
+function RepByZone:CheckPandaren(self, success)
+    if success then
+        if UnitFactionGroup("player") ~= nil then
+            db.defaultRepID, db.defaultRepName = GetRacialRep()
+            self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
+        end
+    end
 --@end-retail@
 
 -------------------- Reputation code starts here --------------------

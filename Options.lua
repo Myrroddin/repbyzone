@@ -71,7 +71,7 @@ function RepByZone:GetOptions()
                         set = function(info, value) db.watchOnTaxi = value end
                     },
                     defaultRep = {
-                        order = 40,
+                        order = 100,
                         name = L["Default watched faction"],
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",

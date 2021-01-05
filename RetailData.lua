@@ -60,13 +60,16 @@ function RepByZone:ZoneAndFactionList()
         [1447]      = A and 69 or H and 46, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
 
+        --------- Cataclysm ---------
+        [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
+
         --------- Shadowlands ---------
         [11510]     = 2465,     -- Ardenweald/The Wild Hunt
         [10413]     = 2413,     -- Revendreth/Court of Harvesters
         [10534]     = 2407,     -- Bastion/The Ascended
         [10462]     = 2410,     -- Maldraxxus/The Undying Army
         [11400]     = 2432,     -- The Maw/Ve'nari
-        [10565]     = function return self:CovenantToFactionID() end, -- Oribos/Covenenant
+        [10565]     = function() return self:CovenantToFactionID() end, -- Oribos/Covenant
     }
     return zonesAndFactions
 end
@@ -144,6 +147,9 @@ function RepByZone:SubZonesAndFactions()
 		[3197] = 72, -- Chillwind Camp/Stormwind
         [3357] = 270, -- Yojamba Isle/Zandalar Tribe
         [3486] = 349, -- Ravenholdt Manor/Ravenholdt
+
+        --------- Shadowlands ---------
+        [13367] = 2422, -- Queen's Conservatory/Night Fae
     }
     return subZonesAndFactions
 end
