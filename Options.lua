@@ -44,6 +44,7 @@ function RepByZone:GetOptions()
                             if value then
                                 self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
                                 self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
+                                self:SwitchedSubZones()
                             else
                                 self:UnregisterEvent("ZONE_CHANGED")
                                 self:UnregisterEvent("ZONE_CHANGED_INDOORS")
