@@ -63,8 +63,14 @@ function RepByZone:ZoneAndFactionList()
         --------- Cataclysm ---------
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
 
+        --------- BfA ---------
+        [8501]      = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
+        [5499]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
+        [8500]      = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
+        [8567]      = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
+
         --------- Shadowlands ---------
-        [11510]     = 2465,     -- Ardenweald/The Wild Hunt
+        [11510]     = 2422,     -- Ardenweald/Night Fae
         [10413]     = 2413,     -- Revendreth/Court of Harvesters
         [10534]     = 2407,     -- Bastion/The Ascended
         [10462]     = 2410,     -- Maldraxxus/The Undying Army
@@ -132,7 +138,7 @@ function RepByZone:SubZonesAndFactions()
 		[2097] = H and 81 or A and 69, -- Darkcloud Pinnacle/Thunder Bluff or Darnassus
 		[2157] = H and 81 or A and 47, -- Bael'dun Keep/Thunder Bluff or Ironforge
 		[2240] = A and 54 or H and 76, -- Mirage Raceway/Gnomeregan Exiles or Orgrimmar
-        [2241] = A and 589, -- Frostsaber Rock/Wintersaber Trainers
+        [2241] = 589, -- Frostsaber Rock/Wintersaber Trainers
         [2243] = 579, -- Timbermaw Post/Timbermaw Hold
         [2244] = 579, -- Winterfall Village/Timbermaw Hold
         [2246] = 579, -- Frostfire Hot Springs/Timbermaw Hold
@@ -148,8 +154,14 @@ function RepByZone:SubZonesAndFactions()
         [3357] = 270, -- Yojamba Isle/Zandalar Tribe
         [3486] = 349, -- Ravenholdt Manor/Ravenholdt
 
+        --------- BfA ---------
+
+
         --------- Shadowlands ---------
-        [13367] = 2422, -- Queen's Conservatory/Night Fae
+        [13367] = 2422, -- Queen's Conservatory/Night Fae        
+        [1698] = 2410,  -- Seat of the Primus/The Undying Army
+        [11533] = 2464, -- Tirna Noch/Court of Night
+        [12858] = 2464, -- Heart of the Forest/Court of Night
     }
     return subZonesAndFactions
 end

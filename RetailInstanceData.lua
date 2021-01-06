@@ -7,7 +7,7 @@ function RepByZone:InstancesAndFactionList()
     local instancesAndFactions = {
         -- instanceID = factionID
         -- If an instanceID is not listed, that instance has no associated factionID
-        -- See https://wow.gamepedia.com/InstanceID for the list of instanceIDs        
+        -- See https://wow.gamepedia.com/InstanceID for the list of instanceIDs
 
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan

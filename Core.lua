@@ -108,6 +108,7 @@ function RepByZone:OnEnable()
     if UnitFactionGroup("player") == nil then
         self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
     end
+    self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
     --@end-retail@
 
     -- Check taxi status only if RBZ is enabled on login
@@ -128,6 +129,7 @@ function RepByZone:OnDisable()
 
     --@retail@
     self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
+    self:UnregisterEvent("COVENANT_CHOSEN")
     --@end-retail@
 
     -- Wipe variables when RBZ is disabled
@@ -168,14 +170,15 @@ end
 
 --@retail@
 local covenantReps = {
+    [Enum.CovenantType.None] = db.defaultRepID
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
     [Enum.CovenantType.NightFae] = 2422, -- Night Fae
     [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
 }
 
-function RepByZone:CovenantToFactionID()
-    local id = C_Covenants.GetActiveCovenantID()
+function RepByZone:CovenantToFactionID(covenantID)
+    local id == covenantID or = C_Covenants.GetActiveCovenantID()
     return covenantReps[id]
 end
 
@@ -186,6 +189,11 @@ function RepByZone:CheckPandaren(self, success)
             self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
         end
     end
+end
+
+function RepByZone:JoinedCovenant(self, covenantID)
+    self:SwitchedSubZones()
+end
 --@end-retail@
 
 -------------------- Reputation code starts here --------------------
@@ -292,7 +300,7 @@ function RepByZone:SwitchedSubZones()
     self:SwitchedZones() -- Now core zone next
     if not db.watchSubZones then return end
 
-    local subZone = GetSubZoneText()
+    local subZone = GetMinimapZoneText()
 	-- Blizzard provided areaIDs
     for areaID, factionID in pairs(subZonesAndFactions) do
         if C_Map.GetAreaInfo(areaID) == subZone then
