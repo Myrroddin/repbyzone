@@ -64,10 +64,17 @@ function RepByZone:ZoneAndFactionList()
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
 
         --------- BfA ---------
+        [10290]     = 2391, -- Mechagon/Rustbolt Resistance
+        [12825]     = 2391, -- Mechagon City/Rustbolt Resistance
+        [10833]     = 2417, -- Uldum/Uldum Accord
+        [10025]     = 2415, -- Valley of Four Winds/Rajani
         [8501]      = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
         [5499]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [8500]      = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
         [8567]      = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
+        [8721]      = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
+        [9042]      = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound        
+        [10052]     = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
 
         --------- Shadowlands ---------
         [11510]     = 2422,     -- Ardenweald/Night Fae
@@ -127,7 +134,7 @@ function RepByZone:SubZonesAndFactions()
         [1677] = A and 730 or H and 729, -- Gavin's Naze/Stormpike Guard or Frostwolf Clan
         [1679] = A and 730 or H and 729, -- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
         [1680] = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
-		[1658] = A and 609, -- Cenarion Enclave/Cenarion Circle
+		[1658] = 609, -- Cenarion Enclave/Cenarion Circle
         [1678] = 72, -- Sofera's Naze/Stormwind
 		[1739] = 21, -- Bloodsail Compound/Booty Bay
         [1741] = 87, -- Gurubashi Arena/Bloodsail Buccaneers
@@ -155,7 +162,14 @@ function RepByZone:SubZonesAndFactions()
         [3486] = 349, -- Ravenholdt Manor/Ravenholdt
 
         --------- BfA ---------
-
+        [9310] = 2386, -- The Wound/Champions of Azeroth
+        [9667] = 2386, -- Chamber of Heart/Champions of Azeroth
+        [10504] = 2386, -- Chamber of Heart (rebuilt)/Champions of Azeroth
+        [9693] = 2387, -- Seeker's Vista/Tortollan Seekers
+        [9329] = 2387, -- Seeker's Outpost/Tortollan Seekers
+        [9714] = 2387, -- Seeker's Expedition/Tortollan Seekers
+        [10006] = 2387, -- House of Jol/Tortollan Seekers
+        [9556] = 2387,  -- Tortaka Refuge/Tortollan Seekers
 
         --------- Shadowlands ---------
         [13367] = 2422, -- Queen's Conservatory/Night Fae        

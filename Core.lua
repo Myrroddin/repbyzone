@@ -170,7 +170,7 @@ end
 
 --@retail@
 local covenantReps = {
-    [Enum.CovenantType.None] = db.defaultRepID
+    [Enum.CovenantType.None] = function() return GetRacialRep() end,
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
     [Enum.CovenantType.NightFae] = 2422, -- Night Fae
@@ -178,7 +178,7 @@ local covenantReps = {
 }
 
 function RepByZone:CovenantToFactionID(covenantID)
-    local id == covenantID or = C_Covenants.GetActiveCovenantID()
+    local id = C_Covenants.GetActiveCovenantID()
     return covenantReps[id]
 end
 
