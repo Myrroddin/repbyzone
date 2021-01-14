@@ -34,7 +34,6 @@
 ## X-Website: https://www.curseforge.com/wow/addons/repbyzone
 ## X-Email: psvander@gmail.com
 
-#@no-lib-strip@
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\AceAddon-3.0\AceAddon-3.0.xml
@@ -46,7 +45,6 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
-#@end-no-lib-strip@
 
 Locales\enUS.lua
 Locales\deDE.lua

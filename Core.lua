@@ -51,8 +51,10 @@ local function GetRacialRep()
     or playerRace == "LightforgedDraenei" and 2165
 
     -- classes have factions
-    racialRepID = classFileName == "DEATHKNIGHT" and 1098
+    local classRepID = classFileName == "DEATHKNIGHT" and 1098
     or classFileName == "DEMONHUNTER" and (A and 69 or H and 911)
+
+    racialRepID = classRepID or racialRepID
     --@end-retail@
 
     local racialRepName = GetFactionInfoByID(racialRepID)
@@ -64,6 +66,7 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnNewProfile", "RefreshConfig")
     self:SetEnabledState(self.db.char.enabled)
     db = self.db.char
 
@@ -136,8 +139,9 @@ function RepByZone:OnDisable()
     isOnTaxi = nil
 end
 
-function RepByZone:RefreshConfig()
-    db = self.db.char
+function RepByZone:RefreshConfig(event, database, ...)
+    db = database.char
+    db.defaultRepID, db.defaultRepName = GetRacialRep()
 end
 
 function RepByZone:SlashHandler()

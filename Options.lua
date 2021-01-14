@@ -80,6 +80,7 @@ function RepByZone:GetOptions()
                         get = function() return db.defaultRepID end,
                         set = function(info, value)
                             db.defaultRepID = value
+                            db.defaultRepName = GetFactionInfoByID(value)
                         end
                     }
                 }
