@@ -92,9 +92,13 @@ function RepByZone:OnInitialize()
     self:RegisterChatCommand("rbz", "SlashHandler")
 
     -- Populate db.defaultRep
-    local racialRepID, racialRepName = GetRacialRep()
-    db.defaultRepID = db.defaultRepID or racialRepID
-    db.defaultRepName = db.defaultRepName or racialRepName
+    self.racialRepID, self.racialRepName = GetRacialRep()
+    db.watchedRepID = db.watchedRepID or self.racialRepID
+    db.watchedName = db.watchedRepName or self.racialRepName
+
+    --@retail@
+    self.covenantRepID = self:CovenantToFactionID()
+    --@end-retail@
 end
 
 function RepByZone:OnEnable()
@@ -141,7 +145,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = database.char
-    db.defaultRepID, db.defaultRepName = GetRacialRep()
+    db.watchedRepID, db.watchedRepName = GetRacialRep()
 end
 
 function RepByZone:SlashHandler()
@@ -174,7 +178,7 @@ end
 
 --@retail@
 local covenantReps = {
-    [Enum.CovenantType.None] = function() return GetRacialRep() end,
+    -- [Enum.CovenantType.None] = nil, -- don't assign a faction if the player isn't in a covenant
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
     [Enum.CovenantType.NightFae] = 2422, -- Night Fae
@@ -182,20 +186,27 @@ local covenantReps = {
 }
 
 function RepByZone:CovenantToFactionID(covenantID)
-    local id = C_Covenants.GetActiveCovenantID()
+    local id = covenantID or C_Covenants.GetActiveCovenantID()
     return covenantReps[id]
 end
 
 function RepByZone:CheckPandaren(self, success)
     if success then
-        if UnitFactionGroup("player") ~= nil then
-            db.defaultRepID, db.defaultRepName = GetRacialRep()
+        local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
+        local H = UnitFactionGroup("player") == "Horde" and HORDE
+        if UnitFactionGroup("player") ~= nil then            
+            self.racialRepID, self.racialRepName = GetRacialRep()
+            if db.watchedRepID == 1216 then
+                db.watchedRepID, db.watchedRepName = GetRacialRep()
+                self:Print(L["You have joined the faction %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
+            end
             self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
         end
     end
 end
 
 function RepByZone:JoinedCovenant(self, covenantID)
+    self.covenantRepID = self:CovenantToFactionID(covenantID)
     self:SwitchedSubZones()
 end
 --@end-retail@
@@ -279,9 +290,11 @@ end
 function RepByZone:SwitchedZones()
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
+    local watchedFactionID = db.watchedRepID or self.racialRepID
+
     for zoneID, factionID in pairs(locationsAndFactions) do
         if zoneID == UImapID then
-            self:SetWatchedFactionByFactionID(factionID)
+            self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
             break
         end
     end
@@ -300,7 +313,7 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
     if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
-    self:SetWatchedFactionByFactionID(db.defaultRepID) -- Set default faction rep first
+    local watchedFactionID = db.watchedRepID or self.racialRepID
     self:SwitchedZones() -- Now core zone next
     if not db.watchSubZones then return end
 
@@ -308,14 +321,14 @@ function RepByZone:SwitchedSubZones()
 	-- Blizzard provided areaIDs
     for areaID, factionID in pairs(subZonesAndFactions) do
         if C_Map.GetAreaInfo(areaID) == subZone then
-            self:SetWatchedFactionByFactionID(factionID)
+            self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
             break
         end
     end
 	-- Our localized missing Blizzard areaIDs
 	for areaName, factionID in pairs(CitySubZonesAndFactions) do
 		if L[areaName] == subZone then
-			self:SetWatchedFactionByFactionID(factionID)
+			self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
 			break
 		end
 	end

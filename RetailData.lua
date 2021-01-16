@@ -9,8 +9,17 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
-    local zonesAndFactions = {
-        --------- Horde ----------
+    local covenantRepID = self.covenantRepID
+    local db = self.db.char
+
+    local zonesAndFactions = {        
+        --------- Vanilla ----------
+        [1]         = 46,       -- Durotar/Orgrimmar
+        [84]        = 72,       -- Stormwind City/Stormwind
+        [37]        = 72,       -- Elwynn Forest/Stormwind
+        [52]        = 72,       -- Westfall/Stormwind
+        [47]        = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
+        --[[
         [1411]      = 46,       -- Durotar/Orgrimmar
         [1454]      = 46,       -- Orgrimmar/Orgrimmar
         [1412]      = 81,       -- Mulgore/Thunder Bluff
@@ -18,8 +27,6 @@ function RepByZone:ZoneAndFactionList()
         [1421]      = 68,       -- Silverpine Forest/Undercity
         [1458]      = 68,       -- Undercity/Undercity
         [1420]      = 68,       -- Tirisfal Glades/Undercity
-
-        --------- Alliance ----------
         [1453]      = 72,       -- Stormwind City/Stormwind
         [1429]      = 72,       -- Elwynn Forest/Stormwind
         [1436]      = 72,       -- Westfall/Stormwind
@@ -34,8 +41,6 @@ function RepByZone:ZoneAndFactionList()
         [1438]      = 69,       -- Teldrassil/Darnassus
         [1439]      = 69,       -- Darkshore/Darnassus
         [1450]      = 609,      -- Moonglade/Cenarion Circle
-
-        --------- Both ---------
         [1422]      = 529,      -- Western Plaguelands/Argent Dawn
         [1423]      = 529,      -- Eastern Plaguelands/Argent Dawn
         [1446]      = 369,      -- Tanaris/Gadgetzan
@@ -59,38 +64,57 @@ function RepByZone:ZoneAndFactionList()
         [1445]      = A and 72 or H and 46, -- Dustwallow Marsh/Stormwind or Orgrimmar
         [1447]      = A and 69 or H and 46, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
+        ]]--
 
         --------- Cataclysm ---------
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
+        [1320]      = 609,      -- Moonglade/Cenarion Circle
+        [1012]      = 72,       -- Stormwind City/Stormwind
+        [1256]      = 72,       -- Elwynn Forest/Stormwind
+        [1262]      = 72,       -- Westfall/Stormwind
+        [1305]      = 46,       -- Durotar/Orgrimmar
+        [1258]      = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
+        [1527]      = 1173,     -- Uldum/Ramkahen
+
+        --------- Legion ---------
+        [787]       = 609,      -- Moonglade/Cenarion Circle
 
         --------- BfA ---------
-        [10290]     = 2391, -- Mechagon/Rustbolt Resistance
-        [12825]     = 2391, -- Mechagon City/Rustbolt Resistance
-        [10833]     = 2417, -- Uldum/Uldum Accord
-        [10025]     = 2415, -- Valley of Four Winds/Rajani
-        [8501]      = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
-        [5499]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
-        [8500]      = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
-        [8567]      = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
-        [8721]      = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
-        [9042]      = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound        
-        [10052]     = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
+        [1264]      = 72,   -- Stormwind City/Stormwind
+        [1535]      = 46,   -- Durotar/Orgrimmar
+        [1462]      = 2391, -- Mechagon Island/Rustbolt Resistance
+        [1330]      = 2417, -- Uldum/Uldum Accord
+        [1570]      = 2415, -- Vale of Eternal Blossoms/Rajani
+        [864]       = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
+        [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
+        [863]       = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
+        [895]       = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
+        [896]       = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
+        [942]       = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound        
+        [1355]      = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
 
         --------- Shadowlands ---------
-        [11510]     = 2422,     -- Ardenweald/Night Fae
-        [10413]     = 2413,     -- Revendreth/Court of Harvesters
-        [10534]     = 2407,     -- Bastion/The Ascended
-        [10462]     = 2410,     -- Maldraxxus/The Undying Army
-        [11400]     = 2432,     -- The Maw/Ve'nari
-        [10565]     = function() return self:CovenantToFactionID() end, -- Oribos/Covenant
+        [1740]      = 2422,     -- Ardenweald/Night Fae
+        [1525]      = 2413,     -- Revendreth/Court of Harvesters
+        [1569]      = 2407,     -- Bastion/The Ascended
+        [1536]      = 2410,     -- Maldraxxus/The Undying Army
+        [1543]      = 2432,     -- The Maw/Ve'nari
+        -- Oribos has 4 UiMapIDs depending on where in the city you are
+        [1670]      = covenantRepID, -- Ring of Fates/Covenant
+        [1671]      = covenantRepID, -- Ring of Transference/Covenant
+        [1672]      = covenantRepID, -- The Broker's Den/Covenant
+        [1673]      = covenantRepID, -- The Crucible/Covenant
     }
     return zonesAndFactions
 end
 
-function RepByZone:SubZonesAndFactions()
+function RepByZone:SubZonesAndFactions()    
+    local covenantRepID = self.covenantRepID
+    local db = self.db.char
+
     local subZonesAndFactions = {
 		-- areaID = factionID
-		-- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
+        -- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
 		
         [35] = 21, -- Booty Bay/Booty Bay
         [36] = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
@@ -174,8 +198,8 @@ function RepByZone:SubZonesAndFactions()
         --------- Shadowlands ---------
         [13367] = 2422, -- Queen's Conservatory/Night Fae        
         [1698] = 2410,  -- Seat of the Primus/The Undying Army
-        [11533] = 2464, -- Tirna Noch/Court of Night
-        [12858] = 2464, -- Heart of the Forest/Court of Night
+        [11533] = 2465, -- Tirna Noch/The Wild Hunt
+        [12858] = 2465, -- Heart of the Forest/The Wild Hunt
     }
     return subZonesAndFactions
 end

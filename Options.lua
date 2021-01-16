@@ -77,10 +77,10 @@ function RepByZone:GetOptions()
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",
                         values = function() return self:GetAllFactions() end,
-                        get = function() return db.defaultRepID end,
+                        get = function() return db.watchedRepID end,
                         set = function(info, value)
-                            db.defaultRepID = value
-                            db.defaultRepName = GetFactionInfoByID(value)
+                            db.watchedRepID = value
+                            db.watchedRepName = GetFactionInfoByID(value)
                         end
                     }
                 }

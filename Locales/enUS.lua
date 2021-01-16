@@ -21,3 +21,4 @@ L["Valley of Spirits"] = true
 L["Valley of Wisdom"] = true
 L["Verbose"] = true
 L["Watch Subzones"] = true
+L["You have joined the faction %s, switching watched saved variable to %s."] = true
