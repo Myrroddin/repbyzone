@@ -19,7 +19,7 @@ local isOnTaxi
 
 -- Get the character's racial factionID and factionName
 local function GetRacialRep()
-    local _, playerRace = UnitRace("player")    
+    local _, playerRace = UnitRace("player")
     --@retail@
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
@@ -194,7 +194,7 @@ function RepByZone:CheckPandaren(self, success)
     if success then
         local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         local H = UnitFactionGroup("player") == "Horde" and HORDE
-        if UnitFactionGroup("player") ~= nil then            
+        if UnitFactionGroup("player") ~= nil then
             self.racialRepID, self.racialRepName = GetRacialRep()
             if db.watchedRepID == 1216 then
                 db.watchedRepID, db.watchedRepName = GetRacialRep()

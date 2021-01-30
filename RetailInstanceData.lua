@@ -19,54 +19,73 @@ function RepByZone:InstancesAndFactionList()
         [761]       = A and 1134 or H and 68, -- The Battle for Gilneas/Gilneas or Undercity
 
         ---------- Vanilla ----------
+        [33]        = A and 1134 or H and 68, -- Shadowfang Keep/Gilneas or Undercity
         [34]        = 72, -- The Stockades/Stormwind
-        [90]        = 54, -- Gnomeregan/Gnomeregan Exiles
-        [389]       = 46, -- Ragefire Chasm/Orgrimmar
+        [36]        = 72, -- The Deadmines/Stormwind
+        [43]        = 81, -- Wailing Caverns/Thunder Bluff
+        [47]        = A and 69 or H and 81, -- Razorfen Kraul/Darnassus or Thunderbluff
+        [48]        = A and 69 or H and 530, -- Blackfathom Depths/Darnassus or Darkspear Trolls
+        [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
+        [90]        = 54, -- Gnomeregan/Gnomeregan
+        [109]       = 270, -- Temple of Atal'Hakkar (Sunken Temple)/Zandalar Tribe
+        [129]       = A and 72 or H and 46, -- Razorfen Downs/Stormwind or Orgrimmar
+        [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+        [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
+        [230]       = 59, -- Blackrock Depths/Thorium Brotherhood
+        [309]       = 270, -- Zul'Gurub/Zandalar Tribe
+        [329]       = 529, -- Strathholme/Argent Dawn
         [349]       = 609, -- Maraudon/Cenarion Circle
+        [389]       = 46, -- Ragefire Chasm/Orgrimmar
+        [409]       = 749, -- Molten Core/Hydraxian Waterlords
+        [429]       = 809, -- Dire Maul/Shen'dralar
+        [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
+        [509]       = 609, -- Ruins of Ahn'Qiraj/Cenarion Circle
+        [531]       = 910, -- Temple of Ahn'Qiraj/Brood of Nozdormu
         [1001]      = 529, -- Scarlet Halls/Argent Dawn
         [1004]      = 529, -- Scarlet Monastary/Argent Dawn
         [1007]      = 529, -- Scholomance/Argent Dawn
-        [33]        = 68, -- Shadowfang Keep/Undercity
-        [329]       = 529, -- Strathholme/Argent Dawn
-        [36]        = 72, -- The Deadmines/Stormwind
-        [230]       = 59, -- Blackrock Depths/Thorium Brotherhood
-        [109]       = 270, -- Temple of Atal'Hakkar (Sunken Temple)/Zandalar Tribe
-        [43]        = 81, -- Wailing Caverns/Thunder Bluff
-        [429]       = 809, -- Dire Maul/Shen'dralar
-        [129]       = A and 72 or H and 46, -- Razorfen Downs/Stormwind or Orgrimmar
-        [47]        = A and 69 or H and 81, -- Razorfen Kraul/Darnassus or Thunderbluff
-        [48]        = A and 69 or H and 530, -- Blackfathom Depths/Darnassus or Darkspear Trolls
-        [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
-        [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
-        [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
-        [409]       = 749, -- Molten Core/Hydraxian Waterlords
-        [509]       = 609, -- Ruins of Ahn'Qiraj/Cenarion Circle
-        [531]       = 910, -- Temple of Ahn'Qiraj/Brood of Nozdormu
-        [533]       = 1106, -- Naxxramas/Argent Crusade
-        [309]       = 270, -- Zul'Gurub/Zandalar Tribe
-        [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
 
         ---------- WotLK ----------
         [249]       = A and 72 or H and 46, -- Onyxia's Lair/Stormwind or Orgrimmar
+        [533]       = 1106,     -- Naxxramas/Argent Crusade
+        [631]       = 1106,     -- Icecrown Citadel/Argent Crusade
+        [649]       = 1106,     -- Trial of the Crusader/Argent Crusade
 
-        ---------- Cataclysm ----------        
+        ---------- Cataclysm ----------
         [369]       = 72, -- Deeprun Tram/Stormwind
         
         ---------- BfA ----------
-        [2097]      = 2391,  -- Operation: Mechagon/Rustbolt Resistance
-        [2268]      = 2391,  -- Mechagon City/Rustbolt Resistance
+        [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
+        [1754]      = 2160,     -- Freehold/Proudmoore Admiralty
+        [1762]      = 2103,     -- King's Rest/Zandalari Empire
+        [1763]      = 2103,     -- Atal'Dazar/Zandalari Empire
+        [1771]      = 2160,     -- Tol Dagor/Proudmoore Admiralty
+        [1822]      = A and 2160 or H and 2103, -- Siege of Boralus/Proudmoore Admiralty or Zandalari Empire
+        [1841]      = 2103,     -- The Underrot/Zandalari Empire
+        [1861]      = 2164,     -- Uldir/Champions of Azeroth
+        [1862]      = 2161,     -- Waycrest Manor/Order of Embers
+        [1864]      = 2162,     -- Shrine of the Storm/Storm's Wake
+        [1877]      = 2158,     -- Temple of Sethraliss/Voldunai
+        [2070]      = A and 2160 or H and 2103, -- Battle of Dazara'lor/Proudmoore Admiralty or Zandalari Empire
+        [2096]      = 2162,     -- Crucible of Storms/Storm's Wake
+        [2097]      = 2391,     -- Operation: Mechagon/Rustbolt Resistance
+        [2164]      = A and 2401 or H and 2373, -- The Eternal Palace/Waveblade Ankoan or The Unshackled
+        [2212]      = 46,       -- Horrific Vision of Orgrimmar/Orgrimmar
+        [2213]      = 72,       -- Horrific Vision of Stormwind
+        [2217]      = 2164,     -- Ny'alotha: The Waking City/Champions of Azeroth
+        [2268]      = 2391,     -- Mechagon City/Rustbolt Resistance
 
         ---------- Shadowlands ----------
-        [2287]      = 2439, -- Halls of Atonement/The Avowed
-        [2290]      = 2422, -- Mists of Tirna Scithe/Night Fae
-        [2286]      = 2407, -- The Necrotic Wake/The Ascended
         [2284]      = 2413, -- Sanguine Depths/Court of Harvesters
+        [2285]      = 2407, -- Spires of Ascension/The Ascended
+        [2286]      = 2407, -- The Necrotic Wake/The Ascended
+        [2287]      = 2439, -- Halls of Atonement/The Avowed
         [2289]      = 2410, -- Plaguefall/Necrolords
+        [2290]      = 2422, -- Mists of Tirna Scithe/Night Fae
         [2291]      = 2422, -- De Other Side/Night Fae
         [2293]      = 2410, -- Theater of Pain/Necrolords
-        [2285]      = 2407, -- Spires of Ascension/The Ascended
-        [2453]      = 2432, -- Torgast/Ve'nari
         [2296]      = 2413, -- Castle Nathria/Court of Harvesters
+        [2453]      = 2432, -- Torgast/Ve'nari
     }
     return instancesAndFactions
 end

@@ -159,7 +159,7 @@ function RepByZone:SubZonesAndFactions()
         [1680] = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
 		[1658] = A and 609, -- Cenarion Enclave/Cenarion Circle
         [1678] = 72, -- Sofera's Naze/Stormwind
-		[1739] = 21, -- Bloodsail Compound/Booty Bay
+		[1739] = 87, -- Bloodsail Compound/Bloodsail Buccaneers
         [1741] = 87, -- Gurubashi Arena/Bloodsail Buccaneers
         [1761] = 579, -- Deadwood Village/Timbermaw Hold
         [1762] = 579, -- Felpaw Village/Timbermaw Hold
