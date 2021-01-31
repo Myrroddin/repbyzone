@@ -60,6 +60,7 @@ function RepByZone:InstancesAndFactionList()
         [1762]      = 2103,     -- King's Rest/Zandalari Empire
         [1763]      = 2103,     -- Atal'Dazar/Zandalari Empire
         [1771]      = 2160,     -- Tol Dagor/Proudmoore Admiralty
+        [1804]      = A and 509 or H and 530, -- Warfront: The Battle for Stromgarde/The League of Arathor or Darkspear Trolls
         [1822]      = A and 2160 or H and 2103, -- Siege of Boralus/Proudmoore Admiralty or Zandalari Empire
         [1841]      = 2103,     -- The Underrot/Zandalari Empire
         [1861]      = 2164,     -- Uldir/Champions of Azeroth
@@ -69,9 +70,11 @@ function RepByZone:InstancesAndFactionList()
         [2070]      = A and 2160 or H and 2103, -- Battle of Dazara'lor/Proudmoore Admiralty or Zandalari Empire
         [2096]      = 2162,     -- Crucible of Storms/Storm's Wake
         [2097]      = 2391,     -- Operation: Mechagon/Rustbolt Resistance
+        [2105]      = 69,       -- Warfront: Darkshore (Alliance)/Darnassus
+        [2111]      = 1133,     -- Warfront: Darkshore (Horde)/Bilgewater Cartel
         [2164]      = A and 2401 or H and 2373, -- The Eternal Palace/Waveblade Ankoan or The Unshackled
         [2212]      = 46,       -- Horrific Vision of Orgrimmar/Orgrimmar
-        [2213]      = 72,       -- Horrific Vision of Stormwind
+        [2213]      = 72,       -- Horrific Vision of Stormwind/Stormwind
         [2217]      = 2164,     -- Ny'alotha: The Waking City/Champions of Azeroth
         [2268]      = 2391,     -- Mechagon City/Rustbolt Resistance
 
@@ -81,8 +84,8 @@ function RepByZone:InstancesAndFactionList()
         [2286]      = 2407, -- The Necrotic Wake/The Ascended
         [2287]      = 2439, -- Halls of Atonement/The Avowed
         [2289]      = 2410, -- Plaguefall/Necrolords
-        [2290]      = 2422, -- Mists of Tirna Scithe/Night Fae
-        [2291]      = 2422, -- De Other Side/Night Fae
+        [2290]      = 2465, -- Mists of Tirna Scithe/The Wild Hunt
+        [2291]      = 2465, -- De Other Side/The Wild Hunt
         [2293]      = 2410, -- Theater of Pain/Necrolords
         [2296]      = 2413, -- Castle Nathria/Court of Harvesters
         [2453]      = 2432, -- Torgast/Ve'nari
