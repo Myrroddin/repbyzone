@@ -81,7 +81,7 @@ function RepByZone:InstancesAndFactionList()
         [1130]      = A and 47 or H and 2103, -- Blood in the Snow/Ironforge or Zandalari Empire
         [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
         [1136]      = A and 72 or H and 46, -- Siege of Orgrimmar/Stormwind or Orgrimmar
-        [1148]      = self.racialRepID -- Proving Grounds/racial rep
+        [1148]      = self.racialRepID, -- Proving Grounds/racial rep
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
