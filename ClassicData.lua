@@ -29,7 +29,7 @@ function RepByZone:ZoneAndFactionList()
         [1426]      = 47,       -- Dun Morogh/Ironforge
         [1432]      = 47,       -- Loch Modan/Ironforge
         [1455]      = 47,       -- Ironforge/Ironforge
-        [1427]      = 47,       -- Searing Gorge/Ironforge
+        [1427]      = 59,       -- Searing Gorge/Thorium Brotherhood
         [1457]      = 69,       -- Darnassus/Darnassus
         [1438]      = 69,       -- Teldrassil/Darnassus
         [1439]      = 69,       -- Darkshore/Darnassus

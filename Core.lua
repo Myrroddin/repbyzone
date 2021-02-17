@@ -47,7 +47,7 @@ local function GetRacialRep()
     or playerRace == "ZandalariTroll" and 2103
     or playerRace == "Nightborne" and 1859
     or playerRace == "MagharOrc" and 941
-    or playerRace == "DarkIronDwarf" and 47
+    or playerRace == "DarkIronDwarf" and 59
     or playerRace == "LightforgedDraenei" and 2165
 
     -- classes have factions

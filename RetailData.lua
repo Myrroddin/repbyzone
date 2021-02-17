@@ -18,18 +18,22 @@ function RepByZone:ZoneAndFactionList()
         [3]         = 72,       -- Tiragarde Keep/Stormwind
         [4]         = 72,       -- Tiragarde Keep (Great Hall)/Stormwind
         [7]         = 81,       -- Mulgore/Thunder Bluff
-        [10]        = A and 69 or H and 46, -- Northern Barrens/Darnassus or Orgrimmar
-        [14]        = A and 72 or H and 530, -- Arathi Highlands/Stormwind or Darkspear Trolls
+        [10]        = A and 470 or H and 46, -- Northern Barrens/Ratchet or Orgrimmar
+        [14]        = A and 72 or H and 46, -- Arathi Highlands/Stormwind or Orgrimmar
         [15]        = A and 47 or H and 46, -- Badlands/Ironforge or Orgrimmar
+        [17]        = A and 72 or H and 46, -- Blasted Lands/Stormwind or Orgrimmar
         [18]        = 68,       -- Tirisfal Glades/Undercity
-        [21]        = 68,       -- Silverpine Forest/Undercity
-        [22]        = 529,      -- Western Plaguelands/Argent Dawn
+        [21]        = A and 1134 or H and 68, -- Silverpine Forest/Gilneas or Undercity
+        [22]        = 1106,      -- Western Plaguelands/Argent Crusade
         [23]        = 529,      -- Eastern Plaguelands/Argent Dawn
+        [25]        = 68,       -- Hillsbrad Foothills/Undercity
+        [26]        = A and 1174 or H and 530, -- Hinterlands/Wildhammer Clan or Darkspear Trolls
         [27]        = 47,       -- Dun Morogh/Ironforge
         [30]        = 54,       -- New Tinkertown/Gnomeregan
-        [32]        = 47,       -- Searing Gorge/Ironforge
+        [32]        = 59,       -- Searing Gorge/Thorium Brotherhood
         [37]        = 72,       -- Elwynn Forest/Stormwind
         [41]        = 1090,     -- Dalaran/Kirin Tor
+        [42]        = 967,      -- Deadwind Pass/The Violet Eye
         [47]        = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
         [48]        = 47,       -- Loch Modan/Ironforge
         [52]        = 72,       -- Westfall/Stormwind
@@ -110,13 +114,18 @@ function RepByZone:SubZonesAndFactions()
         [122]       = 270,      -- Zuuldaia Ruins/Zandalar Tribe
         [125]       = 270,      -- Kal'ai Ruins/Zandalar Tribe
         [128]       = 270,      -- Ziata'jai Ruins/Zandalar Tribe
-        [133]       = 54,       -- Gnomeregan/Gnomeregan
+        [133]       = 54,       -- New Tinkertown/Gnomeregan
 		[150]       = 72,       -- Menethil Harbor/Stormwind
+        [152]       = 529,      -- The Bulwark/Argent Dawn
         [193]       = A and 72 or H and 68, -- Ruins of Andorhal/Stormwind or Undercity
         [196]       = 72,       -- Uthor's Tomb/Stormwind
         [197]       = 72,       -- Sorrow Hill/Stormwind
+        [199]       = 72,       -- Felstone Field/Stormwind
+        [201]       = 68,       -- Gahrron's Withering/Undercity
+        [202]       = 68,       -- Writhing Haunt/Undercity
         [204]       = 1134,     -- Pyrewood Village/Gilneas
         [233]       = 1134,     -- Ambermill/Gilneas
+        [279]       = 1090,     -- Dalaran Crater/Kirin Tor
         [280]       = 349,      -- Strahnbrad/Ravenholdt
         [288]       = 72,       -- Azurelode Mine/Stormwind
 		[297]       = 81,       -- Jaguero Isle/Thunder Bluff
@@ -125,6 +134,8 @@ function RepByZone:SubZonesAndFactions()
         [313]       = 349,      -- Northfold Manor/Ravenholdt
         [321]       = 68,       -- Hammerfall/Undercity
         [324]       = 349,      -- Stromgarde Keep/Ravenholdt
+        [327]       = 21,       -- Faldir's Cove/Booty Bay
+        [328]       = 21,       -- The Drowned Reef/Booty Bay
         [330]       = 47,       -- Thandol Span/Ironforge
         [350]       = 69,       -- Quel'Danil Lodge/Darnassus
 		[359]       = H and 81 or A and 47, -- Bael Modan/Thunder Bluff or Ironforge
@@ -135,10 +146,12 @@ function RepByZone:SubZonesAndFactions()
         [439]       = A and 54 or H and 76, -- The Shimmering Flats/Gnomeregan or Orgrimmar
         [477]       = 270,      -- Ruins of Jubuwal/Zandalar Tribe
         [484]       = H and 81 or A and 69, -- Freewind Post/Thunder Bluff or Darnassus
+        [530]       = 69,       -- Quel'Danil Lodge/Darnassus
 		[596]       = 470,      -- Kodo Graveyard/Ratchet
         [604]       = 93,       -- Magram Village/Magram Clan Centaur
         [606]       = 92,       -- Gelkis Village/Gelkis Clan Centaur
         [702]       = 69,       -- Rut'theran Village/Darnassus
+        [721]       = 54,       -- Gnomeregan/Gnomeregan
         [813]       = 529,      -- The Bulwark/Argent Dawn
         [880]       = 57,       -- Thandol Span/Ironforge
         [896]       = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
@@ -149,9 +162,9 @@ function RepByZone:SubZonesAndFactions()
         [1446]      = 59,       -- Thorium Point/Thorium Brotherhood
 		[1658]      = 609,      -- Cenarion Enclave/Cenarion Circle
         [1677]      = A and 730 or H and 729, -- Gavin's Naze/Stormpike Guard or Frostwolf Clan
+        [1678]      = 72,       -- Sofera's Naze/Stormwind
         [1679]      = A and 730 or H and 729, -- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
         [1680]      = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
-        [1678]      = 72,       -- Sofera's Naze/Stormwind
 		[1739]      = 87,       -- Bloodsail Compound/Bloodsail Buccaneers
         [1741]      = 87,       -- Gurubashi Arena/Bloodsail Buccaneers
         [1761]      = 579,      -- Deadwood Village/Timbermaw Hold
@@ -166,27 +179,43 @@ function RepByZone:SubZonesAndFactions()
         [2244]      = 579,      -- Winterfall Village/Timbermaw Hold
         [2246]      = 579,      -- Frostfire Hot Springs/Timbermaw Hold
         [2257]      = 72,       -- Deeprun Tram/Stormwind
+        [2379]      = 72,       -- Azurelode Mine/Stormwind
         [2405]      = 529,      -- Ethel Rethor/Argent Dawn
         [2406]      = 69,       -- Ranazjar Isle/Darnassus
         [2407]      = 470,      -- Kormek's Hut/Ratchet
         [2408]      = 530,      -- Shadowprey Village/Darkspear Trolls
         [2597]      = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
         [2617]      = 470,      -- Scrabblescrew's Camp/Ratchet
+        [2839]      = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
         [2897]      = 530,      -- Zoram'gar Outpost/Darkspear Trolls
 		[3197]      = 72,       -- Chillwind Camp/Stormwind
         [3357]      = 270,      -- Yojamba Isle/Zandalar Tribe
         [3486]      = 349,      -- Ravenholdt Manor/Ravenholdt
+        [4241]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
+        [4342]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
         [4745]      = 76,       -- Orgrimmar Rear Gate/Orgrimmar
+        [5044]      = 609,      -- The Tainted Forest/Cenarion Circle
+        [5083]      = 911,      -- Sunveil Excursion/Silvermoon City
         [5117]      = 1133,     -- Nozzlepot's Outpost/Bilgewater Cartel
         [5121]      = 68,       -- Galen's Fall/Undercity
+        [5367]      = 942,      -- The Mender's Stead/Cenarion Circle
         [5476]      = 1134,     -- Pyrewood Chapel/Gilneas
         [5477]      = 1134,     -- Pyrewood Inn/Gilneas
         [5478]      = 1134,     -- Pyrewood Town Hall/Gilneas
         [5480]      = 1134,     -- Gilneas Liberation Base Camp/Gilneas
         [5481]      = 47,       -- 7th Legion Base Camp/Ironforge
+        [5495]      = 54,       -- Gnomeregan/Gnomeregan
+        [5496]      = 369,      -- Fuselight/Gadgetzan
+        [5524]      = 911,      -- Bloodwatcher Point/Silvermoon City
+        [5497]      = 369,      -- Fuselight-by-the-Sea/Gadgetzan
+        [5564]      = 72,       -- Dragon's Mouth/Stormwind
         [5687]      = 1134,     -- The Howling Oak/Gilneas
         [9750]      = 68,       -- Hammerfall (BfA)/Undercity
         [9755]      = 47,       -- Thandol Span (BfA)/Ironforge
+
+        --------- WotLK ---------
+        [7679]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
+        [7743]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
 
         --------- MoP ---------
         [5876]      = 1271,     -- Serpent's Heart/Order of the Cloud Serpent
@@ -249,6 +278,7 @@ function RepByZone:SubZonesAndFactions()
         [9735]      = 1133,     -- Ar'gorok/Bilgewater Cartel
         [10006]     = 2387,     -- House of Jol/Tortollan Seekers
         [10504]     = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
+        [15539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
         [11533]     = covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
