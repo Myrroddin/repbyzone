@@ -57,7 +57,7 @@ function RepByZone:ZoneAndFactionList()
         [376]       = 1272,     -- Valley of the Four Winds/The Tillers
         [379]       = 1270,     -- Kun-Lai Summit/Shado-Pan
         [388]       = 1270,     -- Towlong Steppes/Shado-Pan
-        [390]       = 1341,     -- Vale of Eternal Blossoms/The August Celestials
+        [390]       = 1269,     -- Vale of Eternal Blossoms/Golden Lotus
         [418]       = 1302,     -- Krasarang Wilds/The Anglers
         [422]       = 1337,     -- Dread Wastes/The Klaxxi
         [433]       = 1359,     -- The Veiled Stair/The Black Prince
@@ -209,15 +209,19 @@ function RepByZone:SubZonesAndFactions()
         [6161]      = 1341,     -- Pedestal of Hope/The August Celestials
         [6162]      = 1341,     -- Dome Balrissa/The August Celestials
         [6174]      = 1341,     -- Temple of the White Tiger/The August Celestials
+        [6182]      = 1341,     -- Mogu'shan Palace2/The August Celestials
         [6213]      = 1341,     -- Niuzao Temple/The August Celestials
+        [6143]      = 1341,     -- Mogu'shan Palace1/The August Celestials
         [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
         [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
         [6393]      = 1270,     -- Serpent's Spine1/Shado-Pan
         [6394]      = 1270,     -- Serpent's Spine2/Shado-Pan
         [6395]      = 1270,     -- Serpent's Spine3/Shado-Pan
+        [6482]      = A and 1341, -- The Summer Terrace/The August Celestials
         [6498]      = 1341,     -- Gate of the August Celestials/The August Celestials
         [6512]      = 1271,     -- The Widow's Wail/Order of the Cloud Serpent
         [6513]      = 1271,     -- Oona Kagu/Order of the Cloud Serpent
+        [6560]      = H and 1341, -- The Golden Terrace/The August Celestials
         [6566]      = A and 1376 or H and 1375, -- Domination Point/Operation: Shieldwall or Dominance Offensive
         [6595]      = A and 1376 or H and 1375, -- The Skyfire/Operation: Shieldwall or Dominance Offensive
         [6596]      = A and 1376 or H and 1375, -- Lion's Landing1/Operation: Shieldwall or Dominance Offensive
@@ -231,6 +235,7 @@ function RepByZone:SubZonesAndFactions()
         [6644]      = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
         [6701]      = 54,       -- Beeble's Wreck/Gnomeregan
         [6702]      = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
+        [6771]      = 1341,     -- Celestial Tournament/The August Celestials
 
 
         --------- BfA ---------
