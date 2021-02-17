@@ -17,6 +17,7 @@ function RepByZone:InstancesAndFactionList()
         [529]       = A and 509 or H and 510, -- Arathi Basin (Classic)/The League of Arathor or The Defilers
         [489]       = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
         [761]       = A and 1134 or H and 68, -- The Battle for Gilneas/Gilneas or Undercity
+        [998]       = 1341,     -- Temple of Kotmogu/The August Celestials
 
         ---------- Vanilla ----------
         [33]        = A and 1134 or H and 68, -- Shadowfang Keep/Gilneas or Undercity
@@ -61,11 +62,26 @@ function RepByZone:InstancesAndFactionList()
         [962]       = 1270,     -- Gate of the Setting Sun/Shado-Pan
         [994]       = 1341,     -- Mogu'shan Palace/The August Celestials
         [996]       = 1492,     -- Terrace of Endless Spring/Emperor Shaohao
+        [1005]      = A and 1353 or H and 1352, -- A Brewing Storm/Tushi Pandaren or Huojin Pandaren
         [1008]      = 1341,     -- Mogu'shan Vault/The August Celestials
         [1009]      = 1337,     -- Heart of Fear/The Klaxxi
         [1011]      = 1341,     -- Siege of Niuzao Temple/The August Celestials
+        [1024]      = A and 1353 or H and 1352, -- Greenstone Village/Tushi Pandaren or Huojin Pandaren
+        [1030]      = 1270,     -- Crypt of Forgotten Kings/Shado-Pan
+        [1031]      = 1341,     -- Arena of Annihilation/The August Celestials
+        [1048]      = 1302,     -- Unga Ingoo/The Anglers
+        [1050]      = 1337,     -- Assault on Zan'vess/The Klaxxi
+        [1051]      = A and 1353 or H and 1352, -- Brewmoon Festival/Tushi Pandaren or Huojin Pandaren
+        [1095]      = 1395,     -- Dagger in the Dark (Alliance)/The Lorewalkers
         [1098]      = 1270,     -- Throne of Thunder/Shado-Pan
+        [1102]      = 1375,     -- Domination Point (Horde)/Dominance Offensive
+        [1103]      = 1376,     -- Lion's Landing/Operation: Shieldwall
+        [1104]      = 1395,     -- A Little Patience (Horde)/The Lorewalkers
+        [1112]      = 1012,     -- Pursuing the Black Harvest (Warlock)/Ashtongue Deathsworn
+        [1130]      = A and 47 or H and 2103, -- Blood in the Snow/Ironforge or Zandalari Empire
+        [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
         [1136]      = A and 72 or H and 46, -- Siege of Orgrimmar/Stormwind or Orgrimmar
+        [1148]      = self.racialRepID -- Proving Grounds/racial rep
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
