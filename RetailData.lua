@@ -38,7 +38,7 @@ function RepByZone:ZoneAndFactionList()
         [71]        = 369,      -- Tanaris/Gadgetzan
         [74]        = 989,      -- Timeless Tunnel/Keepers of Time
         [75]        = 989,      -- Caverns of Time/Keepers of Time
-        [76]        = A and 69 or H and 1133, -- Azshara/Darnassus or Bilgewater Cartel
+        [76]        = 1133,     -- Azshara/Bilgewater Cartel
         [80]        = 609,      -- Moonglade/Cenarion Circle
         [81]        = 609,      -- Silithus/Cenarion Circle
         [83]        = 577,      -- Winterspring/Everlook
@@ -48,55 +48,21 @@ function RepByZone:ZoneAndFactionList()
         [88]        = 81,       -- Thunder Bluff/Thunder Bluff
         [89]        = 69,       -- Darnassus/Darnassus
         [90]        = 68,       -- Undercity/Undercity
-        --[[
-        [1411]      = 46,       -- Durotar/Orgrimmar
-        [1454]      = 46,       -- Orgrimmar/Orgrimmar
-        [1412]      = 81,       -- Mulgore/Thunder Bluff
-        [1456]      = 81,       -- Thunder Bluff/Thunder Bluff
-        [1421]      = 68,       -- Silverpine Forest/Undercity
-        [1458]      = 68,       -- Undercity/Undercity
-        [1420]      = 68,       -- Tirisfal Glades/Undercity
-        [1453]      = 72,       -- Stormwind City/Stormwind
-        [1429]      = 72,       -- Elwynn Forest/Stormwind
-        [1436]      = 72,       -- Westfall/Stormwind
-        [1433]      = 72,       -- Redridge Mountains/Stormwind
-        [1437]      = 47,       -- Wetlands/Ironforge
-        [1419]      = 72,       -- Blasted Lands/Stormwind
-        [1426]      = 47,       -- Dun Morogh/Ironforge
-        [1432]      = 47,       -- Loch Modan/Ironforge
-        [1455]      = 47,       -- Ironforge/Ironforge
-        [1427]      = 47,       -- Searing Gorge/Ironforge
-        [1457]      = 69,       -- Darnassus/Darnassus
-        [1438]      = 69,       -- Teldrassil/Darnassus
-        [1439]      = 69,       -- Darkshore/Darnassus
-        [1450]      = 609,      -- Moonglade/Cenarion Circle
-        [1422]      = 529,      -- Western Plaguelands/Argent Dawn
-        [1423]      = 529,      -- Eastern Plaguelands/Argent Dawn
-        [1446]      = 369,      -- Tanaris/Gadgetzan
-        [1451]      = 609,      -- Silithus/Cenarion Circle
-        [1452]      = 577,      -- Winterspring/Everlook
-        [1425]      = A and 1174 or H and 530, -- The Hinterlands/Wildhammer Clan or Darkspear Trolls
-        [1431]      = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
-        [1440]      = A and 69 or H and 46, -- Ashenvale/Darnassus or Orgrimmar
-        [1444]      = A and 69 or H and 81, -- Feralas/Darnassus or Thunder Bluff
-        [1413]      = A and 470 or H and 81, -- The Barrens/Ratchet or Thunder Bluff
-        [1417]      = A and 72 or H and 530, -- Arathi Highlands/Stormwind or Darkspear Trolls
-        [1424]      = A and 72 or H and 68, -- Hillsbrad Foothills/Stormwind/Undercity
-        [1416]      = A and 72 or H and 46, -- Alterac Mountains/Stormwind or Orgrimmar
-        [1418]      = A and 47 or H and 46, -- Badlands/Ironforge or Orgrimmar
-        [1428]      = A and 47 or H and 530, -- Burning Steppes/Ironforge or Darkspear Trolls
-        [1438]      = A and 72 or H and 76, -- Stranglethorn Vale/Stormwind or Orgrimmar
-        [1435]      = A and 72 or H and 46, -- Swamp of Sorrows/Stormwind or Orgrimmar
-        [1441]      = A and 69 or H and 81, -- Thousand Needles/Darnassus or Thunder Bluff
-        [1442]      = A and 69 or H and 81, -- Stonetalon Mountains/Darnassus or Thunder Bluff
-        [1443]      = A and 72 or H and 81, -- Desolace/Stormwind or Thunder Bluff
-        [1445]      = A and 72 or H and 46, -- Dustwallow Marsh/Stormwind or Orgrimmar
-        [1447]      = A and 69 or H and 46, -- Azshara/Darnassus or Orgrimmar
-        [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
-        ]]--
 
         --------- Cataclysm ---------
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
+
+        --------- MoP ---------
+        [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
+        [376]       = 1272,     -- Valley of the Four Winds/The Tillers
+        [379]       = 1270,     -- Kun-Lai Summit/Shadow-Pan
+        [388]       = 1270,     -- Towlong Steppes/Shadow-Pan
+        [390]       = 1341,     -- Vale of Eternal Blossoms/The August Celestials
+        [418]       = 1302,     -- Krasarang Wilds/The Anglers
+        [422]       = 1337,     -- Dread Wastes/The Klaxxi
+        [433]       = 1359,     -- The Veiled Stair/The Black Prince
+
+        --------- WoD ---------
 
         --------- Legion ---------
         [787]       = 609,      -- Moonglade/Cenarion Circle
@@ -218,6 +184,48 @@ function RepByZone:SubZonesAndFactions()
         [5687]      = 1134,     -- The Howling Oak/Gilneas
         [9750]      = 68,       -- Hammerfall (BfA)/Undercity
         [9755]      = 47,       -- Thandol Span (BfA)/Ironforge
+
+        --------- MoP ---------
+        [5876]      = 1271,     -- Serpent's Heart/Order of the Cloud Serpent
+        [5931]      = 1271,     -- The Arboretum/Order of the Cloud Serpent
+        [5974]      = 1341,     -- Jade Temple Grounds/The August Celestials
+        [5975]      = 1341,     -- Temple of the Jade Serpent/The August Celestials
+        [5976]      = 1270,     -- Gate of the Setting Sun/Shadow-Pan
+        [6012]      = 1271,     -- Windward Isle/Order of the Cloud Serpent
+        [6013]      = 81,       -- Dawnchaser/Thunder Bluff
+        [6016]      = 69,       -- Sentinel Basecamp/Darnassus
+        [6022]      = 1271,     -- Mistveil Sea/Order of the Cloud Serpent
+        [6048]      = 1341,     -- Temple of the Red Crane/The August Celestials
+        [6080]      = 1271,     -- Serpent's Overlook/Order of the Cloud Serpent
+        [6117]      = 1341,     -- Fountain of the Everseeing/The August Celestials
+        [6118]      = 1341,     -- The Scrollkeeper's Sanctum/The August Celestials
+        [6119]      = 1341,     -- Terrace of the Twin Dragons/The August Celestials
+        [6120]      = 1341,     -- The Heart of Jade/The August Celestials
+        [6155]      = 1341,     -- Cradele of Chi-Ji/The August Celestials
+        [6160]      = 1341,     -- Angkhal Pavilion/The August Celestials
+        [6161]      = 1341,     -- Pedestal of Hope/The August Celestials
+        [6162]      = 1341,     -- Dome Balrissa/The August Celestials
+        [6174]      = 1341,     -- Temple of the White Tiger/The August Celestials
+        [6213]      = 1341,     -- Niuzao Temple/The August Celestials
+        [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
+        [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
+        [6393]      = 1270,     -- Serpent's Spine1/Shadow-Pan
+        [6394]      = 1270,     -- Serpent's Spine2/Shadow-Pan
+        [6395]      = 1270,     -- Serpent's Spine3/Shadow-Pan
+        [6498]      = 1341,     -- Gate of the August Celestials/The August Celestials
+        [6512]      = 1271,     -- The Widow's Wail/Order of the Cloud Serpent
+        [6513]      = 1271,     -- Oona Kagu/Order of the Cloud Serpent
+        [6566]      = A and 1376 or H and 1375, -- Domination Point/Operation: Shieldwall or Dominance Offensive
+        [6595]      = A and 1376 or H and 1375, -- The Skyfire/Operation: Shieldwall or Dominance Offensive
+        [6596]      = A and 1376 or H and 1375, -- Lion's Landing1/Operation: Shieldwall or Dominance Offensive
+        [6597]      = A and 1376 or H and 1375, -- Sparkrocket Outpost/Operation: Shieldwall or Dominance Offensive
+        [6600]      = A and 1376 or H and 1375, -- Blacksand Spillway/Operation: Shieldwall or Dominance Offensive
+        [6601]      = A and 1376 or H and 1375, -- Bilgewater Beach/Operation: Shieldwall or Dominance Offensive
+        [6602]      = A and 1376 or H and 1375, -- The Boiling Crustacean/Operation: Shieldwall or Dominance Offensive
+        [6604]      = A and 1376 or H and 1375, -- Quickchop's Lumber Farm/Operation: Shieldwall or Dominance Offensive
+        [6609]      = A and 1376 or H and 1375, -- Ruins of Ogudei/Operation: Shieldwall or Dominance Offensive
+        [6643]      = A and 1376 or H and 1375, -- Lion's Landing/Operation: Shieldwall or Dominance Offensive
+        [6644]      = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
 
         --------- BfA ---------
         [9310]      = 2386,     -- The Wound/Champions of Azeroth
