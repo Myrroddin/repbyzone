@@ -53,6 +53,19 @@ function RepByZone:InstancesAndFactionList()
 
         ---------- Cataclysm ----------
         [369]       = 72, -- Deeprun Tram/Stormwind
+
+        ---------- MoP ----------
+        [959]       = 1270,     -- Shado-pan Monestary/Shado-Pan
+        [960]       = 1341,     -- Temple of the Jade Serpent/The August Celestials
+        [961]       = 1272,     -- Stormstout Brewery/The Tillers
+        [962]       = 1270,     -- Gate of the Setting Sun/Shado-Pan
+        [994]       = 1341,     -- Mogu'shan Palace/The August Celestials
+        [996]       = 1492,     -- Terrace of Endless Spring/Emperor Shaohao
+        [1008]      = 1341,     -- Mogu'shan Vault/The August Celestials
+        [1009]      = 1337,     -- Heart of Fear/The Klaxxi
+        [1011]      = 1341,     -- Siege of Niuzao Temple/The August Celestials
+        [1098]      = 1270,     -- Throne of Thunder/Shado-Pan
+        [1136]      = A and 72 or H and 46, -- Siege of Orgrimmar/Stormwind or Orgrimmar
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel

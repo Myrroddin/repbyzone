@@ -55,12 +55,15 @@ function RepByZone:ZoneAndFactionList()
         --------- MoP ---------
         [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
         [376]       = 1272,     -- Valley of the Four Winds/The Tillers
-        [379]       = 1270,     -- Kun-Lai Summit/Shadow-Pan
-        [388]       = 1270,     -- Towlong Steppes/Shadow-Pan
+        [379]       = 1270,     -- Kun-Lai Summit/Shado-Pan
+        [388]       = 1270,     -- Towlong Steppes/Shado-Pan
         [390]       = 1341,     -- Vale of Eternal Blossoms/The August Celestials
         [418]       = 1302,     -- Krasarang Wilds/The Anglers
         [422]       = 1337,     -- Dread Wastes/The Klaxxi
         [433]       = 1359,     -- The Veiled Stair/The Black Prince
+        [507]       = A and 72 or H and 46, -- Isle of Giants/Stormwind or Orgrimmar
+        [516]       = A and 1387 or H and 1388, -- Isle of Thunder/Kirin Tor Offensive or Sunreaver Onslaught
+        [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
 
         --------- WoD ---------
 
@@ -190,7 +193,7 @@ function RepByZone:SubZonesAndFactions()
         [5931]      = 1271,     -- The Arboretum/Order of the Cloud Serpent
         [5974]      = 1341,     -- Jade Temple Grounds/The August Celestials
         [5975]      = 1341,     -- Temple of the Jade Serpent/The August Celestials
-        [5976]      = 1270,     -- Gate of the Setting Sun/Shadow-Pan
+        [5976]      = 1270,     -- Gate of the Setting Sun/Shado-Pan
         [6012]      = 1271,     -- Windward Isle/Order of the Cloud Serpent
         [6013]      = 81,       -- Dawnchaser/Thunder Bluff
         [6016]      = 69,       -- Sentinel Basecamp/Darnassus
@@ -201,7 +204,7 @@ function RepByZone:SubZonesAndFactions()
         [6118]      = 1341,     -- The Scrollkeeper's Sanctum/The August Celestials
         [6119]      = 1341,     -- Terrace of the Twin Dragons/The August Celestials
         [6120]      = 1341,     -- The Heart of Jade/The August Celestials
-        [6155]      = 1341,     -- Cradele of Chi-Ji/The August Celestials
+        [6155]      = 1341,     -- Cradle of Chi-Ji/The August Celestials
         [6160]      = 1341,     -- Angkhal Pavilion/The August Celestials
         [6161]      = 1341,     -- Pedestal of Hope/The August Celestials
         [6162]      = 1341,     -- Dome Balrissa/The August Celestials
@@ -209,9 +212,9 @@ function RepByZone:SubZonesAndFactions()
         [6213]      = 1341,     -- Niuzao Temple/The August Celestials
         [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
         [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
-        [6393]      = 1270,     -- Serpent's Spine1/Shadow-Pan
-        [6394]      = 1270,     -- Serpent's Spine2/Shadow-Pan
-        [6395]      = 1270,     -- Serpent's Spine3/Shadow-Pan
+        [6393]      = 1270,     -- Serpent's Spine1/Shado-Pan
+        [6394]      = 1270,     -- Serpent's Spine2/Shado-Pan
+        [6395]      = 1270,     -- Serpent's Spine3/Shado-Pan
         [6498]      = 1341,     -- Gate of the August Celestials/The August Celestials
         [6512]      = 1271,     -- The Widow's Wail/Order of the Cloud Serpent
         [6513]      = 1271,     -- Oona Kagu/Order of the Cloud Serpent
@@ -226,6 +229,9 @@ function RepByZone:SubZonesAndFactions()
         [6609]      = A and 1376 or H and 1375, -- Ruins of Ogudei/Operation: Shieldwall or Dominance Offensive
         [6643]      = A and 1376 or H and 1375, -- Lion's Landing/Operation: Shieldwall or Dominance Offensive
         [6644]      = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
+        [6701]      = 54,       -- Beeble's Wreck/Gnomeregan
+        [6702]      = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
+
 
         --------- BfA ---------
         [9310]      = 2386,     -- The Wound/Champions of Azeroth
