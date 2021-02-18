@@ -29,7 +29,6 @@ function RepByZone:ZoneAndFactionList()
         [1426]      = 47,       -- Dun Morogh/Ironforge
         [1432]      = 47,       -- Loch Modan/Ironforge
         [1455]      = 47,       -- Ironforge/Ironforge
-        [1427]      = 59,       -- Searing Gorge/Thorium Brotherhood
         [1457]      = 69,       -- Darnassus/Darnassus
         [1438]      = 69,       -- Teldrassil/Darnassus
         [1439]      = 69,       -- Darkshore/Darnassus
@@ -38,6 +37,7 @@ function RepByZone:ZoneAndFactionList()
         --------- Both ---------
         [1422]      = 529,      -- Western Plaguelands/Argent Dawn
         [1423]      = 529,      -- Eastern Plaguelands/Argent Dawn
+        [1427]      = 59,       -- Searing Gorge/Thorium Brotherhood
         [1446]      = 369,      -- Tanaris/Gadgetzan
         [1451]      = 609,      -- Silithus/Cenarion Circle
         [1452]      = 577,      -- Winterspring/Everlook
