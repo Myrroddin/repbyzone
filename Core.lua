@@ -10,6 +10,7 @@ local defaults = {
         watchSubZones = true,
         verbose = true,
         watchOnTaxi = false,
+        useClassRep = true,
     }
 }
 local zonesAndFactions = zonesAndFactions or {}
@@ -18,13 +19,12 @@ local subZonesAndFactions = subZonesAndFactions or {}
 local isOnTaxi
 
 -- Get the character's racial factionID and factionName
-local function GetRacialRep()
+function RepByZone:GetRacialRep()
     local _, playerRace = UnitRace("player")
     --@retail@
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
     --@end-retail@
-    local _, classFileName = UnitClass("player")
 
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
@@ -53,13 +53,19 @@ local function GetRacialRep()
     --@end-retail@
 
     -- classes have factions
-    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
-    or classFileName == "DRUID" and 609 -- Cenarion Circle
-    --@retail@
-    or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
-    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
-    or classFileName == "MAGE" and 1090 -- Kirin Tor
-    --@end-retail@
+    local classRepID = nil
+    local _, classFileName = UnitClass("player")
+    if self.db.char.useClassRep then
+        classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+        or classFileName == "DRUID" and 609 -- Cenarion Circle
+        --@retail@
+        or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
+        or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
+        or classFileName == "MAGE" and 1090 -- Kirin Tor
+        --@end-retail@
+    end
+
+    self.classRepID = classRepID
 
     racialRepID = classRepID or racialRepID
     local racialRepName = GetFactionInfoByID(racialRepID)
@@ -97,7 +103,7 @@ function RepByZone:OnInitialize()
     self:RegisterChatCommand("rbz", "SlashHandler")
 
     -- Populate db.defaultRep
-    self.racialRepID, self.racialRepName = GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or self.racialRepID
     db.watchedName = db.watchedRepName or self.racialRepName
 
@@ -150,7 +156,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = database.char
-    db.watchedRepID, db.watchedRepName = GetRacialRep()
+    db.watchedRepID, db.watchedRepName = self:GetRacialRep()
 end
 
 function RepByZone:SlashHandler()
@@ -200,9 +206,9 @@ function RepByZone:CheckPandaren(self, success)
         local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         local H = UnitFactionGroup("player") == "Horde" and HORDE
         if UnitFactionGroup("player") ~= nil then
-            self.racialRepID, self.racialRepName = GetRacialRep()
+            self.racialRepID, self.racialRepName = self:GetRacialRep()
             if db.watchedRepID == 1216 then
-                db.watchedRepID, db.watchedRepName = GetRacialRep()
+                db.watchedRepID, db.watchedRepName = self:GetRacialRep()
                 self:Print(L["You have joined the faction %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
             end
             self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")

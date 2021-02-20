@@ -71,6 +71,19 @@ function RepByZone:GetOptions()
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value) db.watchOnTaxi = value end
                     },
+                    useClassRep = {
+                        order = 40,
+                        name = L["Override some default racial reps with class reps."],
+                        desc = L["Your class reputation is %s"]:format(GetFactionInfoByID(self.classRepID) or NONE),
+                        descStyle = "inline",
+                        type = "toggle",
+                        width = "double",
+                        get = function() return db.useClassRep end,
+                        set = function(info, value)
+                            db.useClassRep = value
+                            self:GetRacialRep()
+                        end
+                    },
                     defaultRep = {
                         order = 100,
                         name = L["Default watched faction"],
