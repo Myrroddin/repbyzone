@@ -23,40 +23,45 @@ local function GetRacialRep()
     --@retail@
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
-    local _, classFileName = UnitClass("player")
     --@end-retail@
-    local racialRepID = playerRace == "Dwarf" and 47
-    or playerRace == "Gnome" and 54
-    or playerRace == "Human" and 72
-    or playerRace == "NightElf" and 69
-    or playerRace == "Orc" and 76
-    or playerRace == "Tauren" and 81
-    or playerRace == "Troll" and 530
-    or playerRace == "Scourge" and 68
+    local _, classFileName = UnitClass("player")
+
+    local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
+    or playerRace == "Gnome" and 54 -- Gnomeregan
+    or playerRace == "Human" and 72 -- Stormwind
+    or playerRace == "NightElf" and 69 -- Darnassus
+    or playerRace == "Orc" and 76 -- Orgrimmar
+    or playerRace == "Tauren" and 81 -- Thunder Bluff
+    or playerRace == "Troll" and 530 -- Darkspear Trolls
+    or playerRace == "Scourge" and 68 -- Undercity
     --@retail@
-    or playerRace == "Goblin" and 1133
-    or playerRace == "Draenei" and 930
-    or playerRace == "Worgen" and 1134
-    or playerRace == "BloodElf" and 911
-    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216)
-    or playerRace == "HighmountainTauren" and 1828
-    or playerRace == "VoidElf" and 2170
-    or playerRace == "Mechagnome" and 2391
-    or playerRace == "Vulpera" and 2158
-    or playerRace == "KulTiran" and 2160
-    or playerRace == "ZandalariTroll" and 2103
-    or playerRace == "Nightborne" and 1859
-    or playerRace == "MagharOrc" and 941
-    or playerRace == "DarkIronDwarf" and 59
-    or playerRace == "LightforgedDraenei" and 2165
+    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
+    or playerRace == "Draenei" and 930 -- Exodar
+    or playerRace == "Worgen" and 1134 -- Gilneas
+    or playerRace == "BloodElf" and 911 -- Sukvermoon City
+    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+    or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
+    or playerRace == "VoidElf" and 2170 -- Argussian Reach
+    or playerRace == "Mechagnome" and 2391 -- Rustbolt Resistance
+    or playerRace == "Vulpera" and 2158 -- Voldunai
+    or playerRace == "KulTiran" and 2160 -- Proudmoore Admiralty
+    or playerRace == "ZandalariTroll" and 2103 -- Zandalari Empire
+    or playerRace == "Nightborne" and 1859 -- The Nightfallen
+    or playerRace == "MagharOrc" and 941 -- The Mag'har
+    or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
+    or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
+    --@end-retail@
 
     -- classes have factions
-    local classRepID = classFileName == "DEATHKNIGHT" and 1098
-    or classFileName == "DEMONHUNTER" and (A and 69 or H and 911)
-
-    racialRepID = classRepID or racialRepID
+    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    or classFileName == "DRUID" and 609 -- Cenarion Circle
+    --@retail@
+    or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
+    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
+    or classFileName == "MAGE" and 1090 -- Kirin Tor
     --@end-retail@
 
+    racialRepID = classRepID or racialRepID
     local racialRepName = GetFactionInfoByID(racialRepID)
     return racialRepID, racialRepName
 end
