@@ -65,8 +65,6 @@ function RepByZone:GetRacialRep()
         --@end-retail@
     end
 
-    self.classRepID = classRepID
-
     racialRepID = classRepID or racialRepID
     local racialRepName = GetFactionInfoByID(racialRepID)
     return racialRepID, racialRepName
