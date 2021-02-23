@@ -11,13 +11,21 @@ function RepByZone:InstancesAndFactionList()
 
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
-        [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
-        [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
-        [2177]      = A and 509 or H and 510, -- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
-        [529]       = A and 509 or H and 510, -- Arathi Basin (Classic)/The League of Arathor or The Defilers
         [489]       = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
+        [529]       = A and 509 or H and 510, -- Arathi Basin (Classic)/The League of Arathor or The Defilers
+        [566]       = A and 930 or H and 911, -- Eye of the Storm/Exodar or Silvermoon City
+        [607]       = A and 1050 or H and 1085, -- Strand of the Ancients/Valiance Expedition or Warsong Offensive
+        [628]       = A and 1050 or H and 1085, -- Isle of Conquest/Valiance Expedition or Warsong Offensive
+        [726]       = A and 1174 or H and 1172, -- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
+        [727]       = A and 72 or H and 1133, -- Silvershard Mines/Stormwind or Bilgewater Cartel
         [761]       = A and 1134 or H and 68, -- The Battle for Gilneas/Gilneas or Undercity
-        [998]       = 1341,     -- Temple of Kotmogu/The August Celestials
+        [968]       = A and 930 or H and 911, -- Eye of the Storm (rated)/Exodar or Silvermoon City
+        [998]       = A and 1353 or H and 1352, -- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
+        [1105]      = A and 1353 or H and 1352, -- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
+        [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
+        [1803]      = A and 72 or H and 68, -- Seething Shore/Stormwind or Undercity
+        [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
+        [2177]      = A and 509 or H and 510, -- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
 
         ---------- Vanilla ----------
         [33]        = A and 1134 or H and 68, -- Shadowfang Keep/Gilneas or Undercity
