@@ -46,6 +46,31 @@ function RepByZone:InstancesAndFactionList()
         [1004]      = 529,      -- Scarlet Monastary/Argent Dawn
         [1007]      = 529,      -- Scholomance/Argent Dawn
 
+        ---------- TBC ----------
+        [269]       = 989,      -- The Black Morass/Keepers of Time
+        [532]       = 967,      -- Karazhan/The Violet Eye
+        [534]       = 990,      -- Hyjal Summit/The Scale of the Sands
+        [540]       = A and 946 or H and 947, -- The Shattered Halls/Honor Hold or Thrallmar
+        [542]       = A and 946 or H and 947, -- The Blood Furnace/Honor Hold or Thrallmar
+        [543]       = A and 946 or H and 947, -- Hellfire Ramparts/Honor Hold or Thrallmar
+        [544]       = A and 946 or H and 947, -- Magtheridon's Lair/Honor Hold or Thrallmar
+        [545]       = 942,      -- The Steamvault/Cenarion Expedition
+        [546]       = 942,      -- The Underbog/Cenarion Expedition
+        [547]       = 942,      -- The Slave Pens/Cenarion Expedition
+        [548]       = 942,      -- Serpentshrine Cavern/Cenarion Expedition
+        [550]       = 935,      -- Tempest Keep/The Sha'tar
+        [552]       = 935,      -- The Arcatraz/The Sha'tar
+        [553]       = 935,      -- The Botanica/The Sha'tar
+        [554]       = 935,      -- The Mechanar/The Sha'tar
+        [555]       = 1011,     -- Shadow Labyrinth/Lower City
+        [557]       = 933,      -- Mana-Tombs/The Consortium
+        [558]       = 1011,     -- Auchenai Crypts/Lower City
+        [560]       = 989,      -- Old Hillsbrad Foothills/Keepers of Time
+        [564]       = 1012,     -- Black Temple/Ashtongue Deathsworn
+        [565]       = 1038,     -- Gruul's Lair/Ogri'la
+        [580]       = 1077,     -- Sunwell Plateau/Shattered Sun Offensive
+        [585]       = 1077,     -- Magister's Terrace/Shattered Sun Offensive
+
         ---------- WotLK ----------
         [249]       = A and 72 or H and 46, -- Onyxia's Lair/Stormwind or Orgrimmar
         [533]       = 1106,     -- Naxxramas/Argent Crusade
