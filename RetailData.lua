@@ -181,6 +181,7 @@ function RepByZone:SubZonesAndFactions()
         [896]       = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
         [987]       = 1133,     -- Land's End Beach/Bilgewater Cartel
         [989]       = 1173,     -- Ruins of Uldum/Ramkahen
+        [990]       = 1173,     -- Valley of the Watchers/Ramkahen
         [1016]      = 69,       -- Direforge Hill/Darnassus
         [1019]      = 69,       -- The Green Belt/Darnassus
         [1025]      = 69,       -- The Green Belt/Darnassus
@@ -263,6 +264,7 @@ function RepByZone:SubZonesAndFactions()
         [5305]      = 69,       -- Greenwarden's Grove/Darnassus
         [5317]      = 530,      -- Bambala/Darkspear Trolls
         [5367]      = 942,      -- The Mender's Stead/Cenarion Circle
+        [5388]      = 911,      -- Dawnrise Expedition/Silvermoon City
         [5458]      = 369,      -- Bogpaddle/Gadgetzan
         [5476]      = 1134,     -- Pyrewood Chapel/Gilneas
         [5477]      = 1134,     -- Pyrewood Inn/Gilneas

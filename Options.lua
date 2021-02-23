@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 function RepByZone:GetOptions()
     local db = self.db.char
-    local racialRepID, racialRepName = self:GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
     local options = {
         name = "RepByZone",
         handler = RepByZone,
@@ -75,14 +75,14 @@ function RepByZone:GetOptions()
                     useClassRep = {
                         order = 40,
                         name = L["Override some default racial reps with class reps."],
-                        desc = function() return (L["Your class reputation is %s"]):format(racialRepName) end,
+                        desc = function() return (L["Your class reputation is %s"]):format(self.racialRepName) end,
                         descStyle = "inline",
                         type = "toggle",
                         width = "double",
                         get = function() return db.useClassRep end,
                         set = function(info, value)
                             db.useClassRep = value
-                            racialRepID, racialRepName = self:GetRacialRep()
+                            self.racialRepID, self.racialRepName = self:GetRacialRep()
                         end
                     },
                     defaultRep = {
