@@ -38,7 +38,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction based on subzones."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = "double",
+                        -- width = "double",
                         get = function() return db.watchSubZones end,
                         set = function(info, value)
                             db.watchSubZones = value
@@ -58,7 +58,7 @@ function RepByZone:GetOptions()
                         desc = L["Print to chat when you switch watched faction."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = "double",
+                        -- width = "double",
                         get = function() return db.verbose end,
                         set = function(info, value) db.verbose = value end
                     },
@@ -68,7 +68,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction while you are on a taxi."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = "double",
+                        -- width = "double",
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value) db.watchOnTaxi = value end
                     },
@@ -78,7 +78,7 @@ function RepByZone:GetOptions()
                         desc = function() return (L["Your class reputation is %s"]):format(self.racialRepName) end,
                         descStyle = "inline",
                         type = "toggle",
-                        width = "double",
+                        -- width = "double",
                         get = function() return db.useClassRep end,
                         set = function(info, value)
                             db.useClassRep = value
@@ -94,7 +94,11 @@ function RepByZone:GetOptions()
                         get = function() return db.watchedRepID end,
                         set = function(info, value)
                             db.watchedRepID = value
-                            db.watchedRepName = GetFactionInfoByID(value)
+                            if db.watchedRepID == "0-none" then
+                                db.watchedRepName = NONE
+                            else
+                                db.watchedRepName = GetFactionInfoByID(value)
+                            end
                         end
                     }
                 }

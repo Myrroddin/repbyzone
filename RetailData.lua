@@ -65,6 +65,13 @@ function RepByZone:ZoneAndFactionList()
         [89]        = 69,       -- Darnassus/Darnassus
         [90]        = 68,       -- Undercity/Undercity
 
+        --------- TBC ---------
+        [94]        = 911,      -- Eversong Woods/Silvermoon City
+        [95]        = 922,      -- Ghostlands/Tranquillien
+        [97]        = 930,      -- Azuremyst Isle/Exodar
+        [100]       = A and 946 or H and 947, -- Hellfire Peninsula/Honor Hold or Thrallmar
+        [102]       = 942,      -- Zangarmarsh/Cenarion Expedition
+
         --------- Cataclysm ---------
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
 
@@ -285,6 +292,24 @@ function RepByZone:SubZonesAndFactions()
         [5706]      = 369,      -- The Steam Pools/Gadgetzan
         [9750]      = 68,       -- Hammerfall (BfA)/Undercity
         [9755]      = 47,       -- Thandol Span (BfA)/Ironforge
+
+        --------- TBC ---------
+        [3482]      = 922,      -- The Dead Scar/Tranquillien
+        [3514]      = 922,      -- The Dead Scar/Tranquillien
+        [3530]      = 911,      -- Shadow Ridge/Silvermoon City
+        [3547]      = 1077,     -- Throne of Kil'jaeden/Shattered Sun Offensive
+        [3552]      = 978,      -- Temple of Telhamat/Kurenai
+        [3554]      = 911,      -- Falcon Watch/Silvermoon City
+        [3555]      = 941,      -- Mag'har Post/The Mag'har
+        [3569]      = 69,       -- Tides' Hollow/Darnassus
+        [3573]      = 72,       -- Odesyus' Landing/Stormwind
+        [3801]      = 941,      -- Mag'har Grounds/The Mag'har
+        [3806]      = 911,      -- Supply Caravan/Silvermoon City
+        [3808]      = 942,      -- Cenarion Post/Cenarion Expedition
+        [3816]      = 21,       -- Zeppelin Crash/Booty Bay
+        [3899]      = 1011,     -- Lower City/Lower City
+        [4092]      = 922,      -- The Dead Scar/Tranquillien
+        [4140]      = 922,      -- The Dead Scar/Tranquillien
 
         --------- WotLK ---------
         [7679]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade

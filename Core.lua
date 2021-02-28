@@ -103,7 +103,7 @@ function RepByZone:OnInitialize()
     -- Populate db.defaultRep
     self.racialRepID, self.racialRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or self.racialRepID
-    db.watchedName = db.watchedRepName or self.racialRepName
+    db.watchedRepName = db.watchedRepName or self.racialRepName
 
     --@retail@
     self.covenantRepID = self:CovenantToFactionID()
@@ -155,6 +155,7 @@ end
 function RepByZone:RefreshConfig(event, database, ...)
     db = database.char
     db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
 end
 
 function RepByZone:SlashHandler()
@@ -270,6 +271,7 @@ function RepByZone:GetAllFactions()
             factionList[factionID] = name
         end
     end
+    factionList["0-none"] = NONE
 
     self:CloseAllFactionHeaders()
     return factionList
@@ -299,11 +301,19 @@ end
 function RepByZone:SwitchedZones()
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
-    local watchedFactionID = db.watchedRepID or self.racialRepID
+    local watchedFactionID
+    if db.watchedRepID == "0-none" then
+        watchedFactionID = self.racialRepID
+    else
+        watchedFactionID = db.watchedRepID
+    end
 
+    self:SetWatchedFactionByFactionID(watchedFactionID) -- set zone faction to user pref or racial default
+
+    -- overwrite the above if RBZ has zoneID data
     for zoneID, factionID in pairs(locationsAndFactions) do
         if zoneID == UImapID then
-            self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
+            self:SetWatchedFactionByFactionID(factionID)
             break
         end
     end
@@ -322,22 +332,21 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 -- Player entered a subzone, check if it has a faction
 function RepByZone:SwitchedSubZones()
     if isOnTaxi and not db.watchOnTaxi then return end -- On taxi but don't watch
-    local watchedFactionID = db.watchedRepID or self.racialRepID
-    self:SwitchedZones() -- Now core zone next
+    self:SwitchedZones() -- core zone first
     if not db.watchSubZones then return end
 
     local subZone = GetMinimapZoneText()
 	-- Blizzard provided areaIDs
     for areaID, factionID in pairs(subZonesAndFactions) do
         if C_Map.GetAreaInfo(areaID) == subZone then
-            self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
+            self:SetWatchedFactionByFactionID(factionID)
             break
         end
     end
 	-- Our localized missing Blizzard areaIDs
 	for areaName, factionID in pairs(CitySubZonesAndFactions) do
 		if L[areaName] == subZone then
-			self:SetWatchedFactionByFactionID(factionID or watchedFactionID)
+			self:SetWatchedFactionByFactionID(factionID)
 			break
 		end
 	end
