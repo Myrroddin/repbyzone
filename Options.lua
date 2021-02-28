@@ -38,7 +38,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction based on subzones."],
                         descStyle = "inline",
                         type = "toggle",
-                        -- width = "double",
+                        width = 0.75,
                         get = function() return db.watchSubZones end,
                         set = function(info, value)
                             db.watchSubZones = value
@@ -58,7 +58,7 @@ function RepByZone:GetOptions()
                         desc = L["Print to chat when you switch watched faction."],
                         descStyle = "inline",
                         type = "toggle",
-                        -- width = "double",
+                        width = 0.75,
                         get = function() return db.verbose end,
                         set = function(info, value) db.verbose = value end
                     },
@@ -68,7 +68,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction while you are on a taxi."],
                         descStyle = "inline",
                         type = "toggle",
-                        -- width = "double",
+                        width = 0.75,
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value) db.watchOnTaxi = value end
                     },
@@ -78,11 +78,12 @@ function RepByZone:GetOptions()
                         desc = function() return (L["Your class reputation is %s"]):format(self.racialRepName) end,
                         descStyle = "inline",
                         type = "toggle",
-                        -- width = "double",
+                        width = 0.75,
                         get = function() return db.useClassRep end,
                         set = function(info, value)
                             db.useClassRep = value
                             self.racialRepID, self.racialRepName = self:GetRacialRep()
+                            self:SwitchedZones()
                         end
                     },
                     defaultRep = {
@@ -99,6 +100,7 @@ function RepByZone:GetOptions()
                             else
                                 db.watchedRepName = GetFactionInfoByID(value)
                             end
+                            self:SwitchedZones()
                         end
                     }
                 }
