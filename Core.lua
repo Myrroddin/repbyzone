@@ -104,6 +104,7 @@ function RepByZone:OnInitialize()
     self.racialRepID, self.racialRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or self.racialRepID
     db.watchedRepName = db.watchedRepName or self.racialRepName
+    db.watchedName = nil -- fix old typo
 
     --@retail@
     self.covenantRepID = self:CovenantToFactionID()
@@ -112,9 +113,9 @@ end
 
 function RepByZone:OnEnable()
     -- All events that deal with entering a new zone or subzone are handled with the same function
-    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedSubZones")
-    self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
-    self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedSubZones")
+    self:RegisterEvent("ZONE_CHANGED", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
+    self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
     -- If player is in combat, close options panel and exit out of command line
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
     -- There is no direct event to check if the player is on a taxi so check if the action bar is usable
@@ -133,7 +134,7 @@ function RepByZone:OnEnable()
     end
 
     -- Set initial watched faction correctly during login
-    self:SwitchedSubZones()
+    self:DelayUpdate()
 end
 
 function RepByZone:OnDisable()
@@ -183,12 +184,16 @@ function RepByZone:CheckTaxi()
     local checkIfTaxi = UnitOnTaxi("player")
     if checkIfTaxi == isOnTaxi then return end
     isOnTaxi = checkIfTaxi
-    self:SwitchedSubZones()
+    self:DelayUpdate()
+end
+
+function RepByZone:DelayUpdate()
+    C_Timer.After(0.5, function() RepByZone:SwitchedZones() end)
 end
 
 --@retail@
 local covenantReps = {
-    -- [Enum.CovenantType.None] = nil, -- don't assign a faction if the player isn't in a covenant
+    [Enum.CovenantType.None] = RepByZone.racialRepID, -- use racial rep if player hasn't joined a covenant
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
     [Enum.CovenantType.NightFae] = 2422, -- Night Fae
@@ -200,7 +205,7 @@ function RepByZone:CovenantToFactionID(covenantID)
     return covenantReps[id]
 end
 
-function RepByZone:CheckPandaren(self, success)
+function RepByZone:CheckPandaren(event, success)
     if success then
         local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         local H = UnitFactionGroup("player") == "Horde" and HORDE
@@ -210,14 +215,15 @@ function RepByZone:CheckPandaren(self, success)
                 db.watchedRepID, db.watchedRepName = self:GetRacialRep()
                 self:Print(L["You have joined the faction %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
             end
-            self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
+            self:DelayUpdate()
+            self:UnregisterEvent(event)
         end
     end
 end
 
-function RepByZone:JoinedCovenant(self, covenantID)
+function RepByZone:JoinedCovenant(event, covenantID)
     self.covenantRepID = self:CovenantToFactionID(covenantID)
-    self:SwitchedSubZones()
+    self:DelayUpdate()
 end
 --@end-retail@
 
@@ -292,11 +298,75 @@ function RepByZone:SetWatchedFactionByFactionID(id)
                 end
             end
             self:CloseAllFactionHeaders()
+            return name, id
         end
     end
     self:CloseAllFactionHeaders()
 end
 
+-------------------- Watched faction code starts here --------------------
+-- Table to localize subzones that Blizzard does not provide areaIDs
+local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+	-- ["Subzone"] = factionID
+	["Dwarven District"] = 47, -- Ironforge
+	["The Salty Sailor Tavern"] = 21, -- Booty Bay
+	["Tinker Town"] = 54, -- Gnomeregan Exiles
+	["Valley of Spirits"] = 530, -- Darkspear Trolls
+	["Valley of Wisdom"] = 81, -- Thunder Bluff
+}
+
+-- Player switched zones, subzones, or instances, set watched faction
+function RepByZone:SwitchedZones()
+    if isOnTaxi and not db.watchOnTaxi then
+        -- On taxi but don't switch
+        return
+    end
+
+    if WorldMapFrame:IsShown() then
+		-- Don't switch while the map is open
+		return
+	end
+
+    local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
+    local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
+    local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
+    local subZone = GetMinimapZoneText()
+
+    -- Apply subzones
+    if db.watchSubZones then
+        -- Blizzard provided areaIDs
+        for areaID, factionID in pairs(subZonesAndFactions) do
+            if C_Map.GetAreaInfo(areaID) == subZone then
+                self:SetWatchedFactionByFactionID(factionID)
+                break
+            end
+        end
+        -- Our localized missing Blizzard areaIDs
+        for areaName, factionID in pairs(CitySubZonesAndFactions) do
+            if L[areaName] == subZone then
+                self:SetWatchedFactionByFactionID(factionID)
+                break
+            end
+        end
+    end
+
+    -- Apply zoneID data
+    for zoneID, factionID in pairs(locationsAndFactions) do
+        if zoneID == UImapID then
+            self:SetWatchedFactionByFactionID(factionID)
+            break
+        end
+    end
+
+    -- If no data is found, use default watched faction or race/class faction
+    faction = db.watchedRepID or self.racialRepID
+    if not self:SetWatchedFactionByFactionID(faction) then
+        -- Player does not want a default watched faction
+        SetWatchedFactionIndex(0) -- Clear watched faction
+    end
+end
+
+--[[
 -- Player switched zones, set watched faction
 function RepByZone:SwitchedZones()
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
@@ -351,3 +421,4 @@ function RepByZone:SwitchedSubZones()
 		end
 	end
 end
+]]--

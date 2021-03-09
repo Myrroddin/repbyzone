@@ -38,14 +38,13 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction based on subzones."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = 1.75,
                         get = function() return db.watchSubZones end,
                         set = function(info, value)
                             db.watchSubZones = value
                             if value then
-                                self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
-                                self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
-                                self:SwitchedSubZones()
+                                self:RegisterEvent("ZONE_CHANGED", "DelayUpdate")
+                                self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate")
+                                self:DelayUpdate()
                             else
                                 self:UnregisterEvent("ZONE_CHANGED")
                                 self:UnregisterEvent("ZONE_CHANGED_INDOORS")
@@ -58,7 +57,6 @@ function RepByZone:GetOptions()
                         desc = L["Print to chat when you switch watched faction."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = 1.75,
                         get = function() return db.verbose end,
                         set = function(info, value) db.verbose = value end
                     },
@@ -68,11 +66,10 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction while you are on a taxi."],
                         descStyle = "inline",
                         type = "toggle",
-                        width = 1.75,
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value)
                             db.watchOnTaxi = value
-                            self:SwitchedSubZones()
+                            self:DelayUpdate()
                         end
                     },
                     useClassRep = {
@@ -81,12 +78,11 @@ function RepByZone:GetOptions()
                         desc = function() return (L["Your class reputation is %s"]):format(self.racialRepName) end,
                         descStyle = "inline",
                         type = "toggle",
-                        width = 1.75,
                         get = function() return db.useClassRep end,
                         set = function(info, value)
                             db.useClassRep = value
                             self.racialRepID, self.racialRepName = self:GetRacialRep()
-                            self:SwitchedZones()
+                            self:DelayUpdate()
                         end
                     },
                     defaultRep = {
@@ -103,7 +99,7 @@ function RepByZone:GetOptions()
                             else
                                 db.watchedRepName = GetFactionInfoByID(value)
                             end
-                            self:SwitchedZones()
+                            self:DelayUpdate()
                         end
                     }
                 }

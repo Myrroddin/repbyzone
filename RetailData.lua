@@ -385,9 +385,13 @@ function RepByZone:SubZonesAndFactions()
         [15539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
+        [10565]     = covenantRepID, -- Oribos/Covenant
         [11533]     = covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
         [12876]     = covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
+        [13209]     = covenantRepID, -- Netherhollow (Oribos)/Covenant
         [13367]     = covenantRepID == 3 and 2422 or 2465, -- Queen's Conservatory/Night Fae or The Wild Hunt
+        [13498]     = covenantRepID, -- Ring of Transference (Oribos)/Covenant
+        [13499]     = covenantRepID, -- Ring of Fates (Oribos)/Covenant
     }
     return subZonesAndFactions
 end
