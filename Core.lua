@@ -13,9 +13,8 @@ local defaults = {
         useClassRep = true,
     }
 }
-local zonesAndFactions = zonesAndFactions or {}
-local instancesAndFactions = instancesAndFactions or {}
-local subZonesAndFactions = subZonesAndFactions or {}
+local locationsAndFactions
+local subZonesAndFactions
 local isOnTaxi
 
 -- Get the character's racial factionID and factionName
@@ -79,9 +78,12 @@ function RepByZone:OnInitialize()
     self:SetEnabledState(self.db.char.enabled)
     db = self.db.char
 
-    zonesAndFactions = self:ZoneAndFactionList() -- ClassicData.lua or RetailData.lua
-    instancesAndFactions = self:InstancesAndFactionList() -- ClassicData.lua or RetailInstanceData.lua
-    subZonesAndFactions = self:SubZonesAndFactions() -- ClassicData.lua or RetailData.lua
+    if locationsAndFactions == nil then
+        locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
+    end
+    if subZonesAndFactions == nil then
+        subZonesAndFactions = self:SubZonesAndFactions()
+    end
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -329,7 +331,6 @@ function RepByZone:SwitchedZones()
 
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
-    local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
     local subZone = GetMinimapZoneText()
 
     -- Apply subzones
