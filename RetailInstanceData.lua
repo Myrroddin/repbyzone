@@ -42,7 +42,7 @@ function RepByZone:InstancesAndFactionList()
         [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
         [230]       = 59,       -- Blackrock Depths/Thorium Brotherhood
         [309]       = 270,      -- Zul'Gurub/Zandalar Tribe
-        [329]       = 529,      -- Strathholme/Argent Dawn
+        [329]       = 1106,     -- Strathholme/Argent Crusade
         [349]       = 609,      -- Maraudon/Cenarion Circle
         [389]       = 46,       -- Ragefire Chasm/Orgrimmar
         [409]       = 749,      -- Molten Core/Hydraxian Waterlords
@@ -50,9 +50,9 @@ function RepByZone:InstancesAndFactionList()
         [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
         [509]       = 609,      -- Ruins of Ahn'Qiraj/Cenarion Circle
         [531]       = 910,      -- Temple of Ahn'Qiraj/Brood of Nozdormu
-        [1001]      = 529,      -- Scarlet Halls/Argent Dawn
-        [1004]      = 529,      -- Scarlet Monastary/Argent Dawn
-        [1007]      = 529,      -- Scholomance/Argent Dawn
+        [1001]      = 1106,     -- Scarlet Halls/Argent Crusade
+        [1004]      = 1106,     -- Scarlet Monastary/Argent Crusade
+        [1007]      = 1106,     -- Scholomance/Argent Crusade
 
         ---------- TBC ----------
         [269]       = 989,      -- The Black Morass/Keepers of Time
