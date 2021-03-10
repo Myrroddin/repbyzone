@@ -25,7 +25,7 @@ function RepByZone:ZoneAndFactionList()
         [18]        = 68,       -- Tirisfal Glades/Undercity
         [21]        = A and 1134 or H and 68, -- Silverpine Forest/Gilneas or Undercity
         [22]        = 1106,      -- Western Plaguelands/Argent Crusade
-        [23]        = 529,      -- Eastern Plaguelands/Argent Dawn
+        [23]        = 1106,      -- Eastern Plaguelands/Argent Crusade
         [25]        = 68,       -- Hillsbrad Foothills/Undercity
         [26]        = A and 1174 or H and 530, -- Hinterlands/Wildhammer Clan or Darkspear Trolls
         [27]        = 47,       -- Dun Morogh/Ironforge
@@ -140,7 +140,7 @@ function RepByZone:SubZonesAndFactions()
         [128]       = 270,      -- Ziata'jai Ruins/Zandalar Tribe
         [133]       = 54,       -- New Tinkertown/Gnomeregan
 		[150]       = 72,       -- Menethil Harbor/Stormwind
-        [152]       = 529,      -- The Bulwark/Argent Dawn
+        [152]       = 1106,     -- The Bulwark/Argent Crusade
         [193]       = A and 72 or H and 68, -- Ruins of Andorhal/Stormwind or Undercity
         [196]       = 72,       -- Uthor's Tomb/Stormwind
         [197]       = 72,       -- Sorrow Hill/Stormwind
@@ -182,7 +182,7 @@ function RepByZone:SubZonesAndFactions()
         [609]       = 93,       -- Kolkar Village/Magram Clan Centaur
         [702]       = 69,       -- Rut'theran Village/Darnassus
         [721]       = 54,       -- Gnomeregan/Gnomeregan
-        [813]       = 529,      -- The Bulwark/Argent Dawn
+        [813]       = 1106,     -- The Bulwark/Argent Crusade
         [880]       = 47,       -- Thandol Span/Ironforge
         [881]       = 47,       -- Thandol Span/Ironforge
         [896]       = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan

@@ -113,9 +113,9 @@ end
 
 function RepByZone:OnEnable()
     -- All events that deal with entering a new zone or subzone are handled with the same function
-    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedSubZones")
-    self:RegisterEvent("ZONE_CHANGED", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED", "SwitchedSubZones")
-    self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate") -- self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedSubZones")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "DelayUpdate")
+    self:RegisterEvent("ZONE_CHANGED", "DelayUpdate")
+    self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate")
     -- If player is in combat, close options panel and exit out of command line
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
     -- There is no direct event to check if the player is on a taxi so check if the action bar is usable
@@ -337,15 +337,17 @@ function RepByZone:SwitchedZones()
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
-                self:SetWatchedFactionByFactionID(factionID)
-                break
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
+                end
             end
         end
         -- Our localized missing Blizzard areaIDs
         for areaName, factionID in pairs(CitySubZonesAndFactions) do
             if L[areaName] == subZone then
-                self:SetWatchedFactionByFactionID(factionID)
-                break
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
+                end
             end
         end
     end
@@ -353,8 +355,9 @@ function RepByZone:SwitchedZones()
     -- Apply zoneID data
     for zoneID, factionID in pairs(locationsAndFactions) do
         if zoneID == UImapID then
-            self:SetWatchedFactionByFactionID(factionID)
-            break
+            if self:SetWatchedFactionByFactionID(factionID) then
+                return
+            end
         end
     end
 
