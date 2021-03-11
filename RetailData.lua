@@ -71,6 +71,8 @@ function RepByZone:ZoneAndFactionList()
         [97]        = 930,      -- Azuremyst Isle/Exodar
         [100]       = A and 946 or H and 947, -- Hellfire Peninsula/Honor Hold or Thrallmar
         [102]       = 942,      -- Zangarmarsh/Cenarion Expedition
+        [103]       = 930,      -- The Exodar/Exodar
+        [104]       = 1012,     -- Shadowmoon Valley/Ashtongue Deathsworn
 
         --------- Cataclysm ---------
         [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
@@ -296,18 +298,37 @@ function RepByZone:SubZonesAndFactions()
         --------- TBC ---------
         [3482]      = 922,      -- The Dead Scar/Tranquillien
         [3514]      = 922,      -- The Dead Scar/Tranquillien
-        [3530]      = 911,      -- Shadow Ridge/Silvermoon City
+        [3530]      = A and 930 or H and 911, -- Shadow Ridge/Exodar or Silvermoon City
         [3547]      = 1077,     -- Throne of Kil'jaeden/Shattered Sun Offensive
         [3552]      = 978,      -- Temple of Telhamat/Kurenai
         [3554]      = 911,      -- Falcon Watch/Silvermoon City
         [3555]      = 941,      -- Mag'har Post/The Mag'har
         [3569]      = 69,       -- Tides' Hollow/Darnassus
         [3573]      = 72,       -- Odesyus' Landing/Stormwind
+        [3644]      = 930,      -- Telredor/Exodar
+        [3645]      = 530,      -- Zabra'jin/Darkspear Trolls
+        [3646]      = 970,      -- Quagg Ridge/Sporeggar
+        [3647]      = 970,      -- The Spawning Glen/Sporeggar
+        [3649]      = 970,      -- Sporeggar/Sporeggar
+        [3652]      = 970,      -- Funggor Cavern/Sporeggar
+        [3718]      = 530,      -- Swamprat Post/Darkspear Trolls
+        [3744]      = 76,       -- Shadowmoon Village/Orgrimmar
+        [3745]      = 1174,     -- Wildhammer Stronghold/Wildhammer Clan
+        [3754]      = 932,      -- Altar of Sha'tar/The Aldor
+        [3758]      = 1015,     -- Netherwing Fields/Netherwing
+        [3759]      = 1015,     -- Netherwing Ledge/Netherwing
+        [3766]      = A and 978, -- Orebor Harborage/Kurenai
         [3801]      = 941,      -- Mag'har Grounds/The Mag'har
         [3806]      = 911,      -- Supply Caravan/Silvermoon City
         [3808]      = 942,      -- Cenarion Post/Cenarion Expedition
         [3816]      = 21,       -- Zeppelin Crash/Booty Bay
         [3899]      = 1011,     -- Lower City/Lower City
+        [3936]      = 1174,     -- Deathforge Tower/Wildhammer Clan
+        [3937]      = 76,       -- Slag Watch/Orgrimmar
+        [3938]      = 934,      -- Sanctum of the Stars/The Scryers
+        [3950]      = 911,      -- Crimson Watch/Silvermoon City
+        [3965]      = 1015,     -- Netherwing Mines/Netherwing
+        [3966]      = 1015,     -- Dragonmaw Base Camp/Netherwing
         [4092]      = 922,      -- The Dead Scar/Tranquillien
         [4140]      = 922,      -- The Dead Scar/Tranquillien
 
