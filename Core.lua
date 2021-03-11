@@ -13,8 +13,6 @@ local defaults = {
         useClassRep = true,
     }
 }
-local locationsAndFactions
-local subZonesAndFactions
 local isOnTaxi
 
 -- Get the character's racial factionID and factionName
@@ -78,13 +76,6 @@ function RepByZone:OnInitialize()
     self:SetEnabledState(self.db.char.enabled)
     db = self.db.char
 
-    if locationsAndFactions == nil then
-        locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
-    end
-    if subZonesAndFactions == nil then
-        subZonesAndFactions = self:SubZonesAndFactions()
-    end
-
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 
@@ -120,8 +111,9 @@ function RepByZone:OnEnable()
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate")
     -- If player is in combat, close options panel and exit out of command line
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-    -- There is no direct event to check if the player is on a taxi so check if the action bar is usable
-    self:RegisterEvent("ACTIONBAR_UPDATE_USABLE", "CheckTaxi")
+    -- If the player loses or gains control of the character, it is one of the signs of taxi use
+    self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
+    self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
     --@retail@
     if UnitFactionGroup("player") == nil then
@@ -130,10 +122,8 @@ function RepByZone:OnEnable()
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
     --@end-retail@
 
-    -- Check taxi status only if RBZ is enabled on login
-    if UnitOnTaxi("player") then
-        isOnTaxi = true
-    end
+    -- Check taxi status
+    isOnTaxi = UnitOnTaxi("player")
 
     -- Set initial watched faction correctly during login
     self:DelayUpdate()
@@ -144,7 +134,8 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
     self:UnregisterEvent("ZONE_CHANGED")
     self:UnregisterEvent("ZONE_CHANGED_INDOORS")
-    self:UnregisterEvent("ACTIONBAR_UPDATE_USABLE")
+    self:UnregisterEvent("PLAYER_CONTROL_LOST")
+    self:UnregisterEvent("PLAYER_CONTROL_GAINED")
 
     --@retail@
     self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
@@ -183,10 +174,7 @@ function RepByZone:InCombat()
 end
 
 function RepByZone:CheckTaxi()
-    local checkIfTaxi = UnitOnTaxi("player")
-    if checkIfTaxi == isOnTaxi then return end
-    isOnTaxi = checkIfTaxi
-    self:DelayUpdate()
+    isOnTaxi = UnitOnTaxi("player")
 end
 
 function RepByZone:DelayUpdate()
@@ -319,9 +307,11 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    if isOnTaxi and not db.watchOnTaxi then
-        -- On taxi but don't switch
-        return
+    if isOnTaxi then
+        if not db.watchOnTaxi then
+            -- On taxi but don't switch
+            return
+        end
     end
 
     if WorldMapFrame:IsShown() then
@@ -332,6 +322,8 @@ function RepByZone:SwitchedZones()
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
     local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
     local subZone = GetMinimapZoneText()
+    local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
+    local subZonesAndFactions = self:SubZonesAndFactions()
 
     -- Apply subzones
     if db.watchSubZones then

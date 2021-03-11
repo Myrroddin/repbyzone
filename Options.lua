@@ -69,7 +69,6 @@ function RepByZone:GetOptions()
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value)
                             db.watchOnTaxi = value
-                            self:DelayUpdate()
                         end
                     },
                     useClassRep = {
