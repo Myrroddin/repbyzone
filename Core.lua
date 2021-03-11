@@ -99,9 +99,15 @@ function RepByZone:OnInitialize()
     db.watchedRepName = db.watchedRepName or self.racialRepName
     db.watchedName = nil -- fix old typo
 
+    -- Check taxi status
+    isOnTaxi = UnitOnTaxi("player")
+
     --@retail@
     self.covenantRepID = self:CovenantToFactionID()
     --@end-retail@
+
+    -- Set initial watched faction correctly during login
+    self:DelayUpdate()
 end
 
 function RepByZone:OnEnable()
@@ -125,7 +131,7 @@ function RepByZone:OnEnable()
     -- Check taxi status
     isOnTaxi = UnitOnTaxi("player")
 
-    -- Set initial watched faction correctly during login
+    -- Set initial watched faction correctly during enable
     self:DelayUpdate()
 end
 
