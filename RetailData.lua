@@ -317,7 +317,7 @@ function RepByZone:SubZonesAndFactions()
         [3754]      = 932,      -- Altar of Sha'tar/The Aldor
         [3758]      = 1015,     -- Netherwing Fields/Netherwing
         [3759]      = 1015,     -- Netherwing Ledge/Netherwing
-        [3766]      = A and 978, -- Orebor Harborage/Kurenai
+        [3766]      = 978,      -- Orebor Harborage/Kurenai
         [3801]      = 941,      -- Mag'har Grounds/The Mag'har
         [3806]      = 911,      -- Supply Caravan/Silvermoon City
         [3808]      = 942,      -- Cenarion Post/Cenarion Expedition
@@ -407,10 +407,12 @@ function RepByZone:SubZonesAndFactions()
 
         --------- Shadowlands ---------
         [10565]     = covenantRepID, -- Oribos/Covenant
+        [10979]     = 2413,     -- Darkhaven/Court of Harvesters
         [11533]     = covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
         [12876]     = covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
         [13209]     = covenantRepID, -- Netherhollow (Oribos)/Covenant
         [13367]     = covenantRepID == 3 and 2422 or 2465, -- Queen's Conservatory/Night Fae or The Wild Hunt
+        [13414]     = 2413,     -- The Sinposium/Court of Harvesters
         [13498]     = covenantRepID, -- Ring of Transference (Oribos)/Covenant
         [13499]     = covenantRepID, -- Ring of Fates (Oribos)/Covenant
     }
