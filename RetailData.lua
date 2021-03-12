@@ -85,6 +85,7 @@ function RepByZone:ZoneAndFactionList()
         [390]       = 1269,     -- Vale of Eternal Blossoms/Golden Lotus
         [418]       = 1302,     -- Krasarang Wilds/The Anglers
         [422]       = 1337,     -- Dread Wastes/The Klaxxi
+        [425]       = 72,       -- Northshire/Stormwind
         [433]       = 1359,     -- The Veiled Stair/The Black Prince
         [507]       = A and 72 or H and 46, -- Isle of Giants/Stormwind or Orgrimmar
         [516]       = A and 1387 or H and 1388, -- Isle of Thunder/Kirin Tor Offensive or Sunreaver Onslaught
