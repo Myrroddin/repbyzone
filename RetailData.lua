@@ -75,7 +75,6 @@ function RepByZone:ZoneAndFactionList()
         [104]       = 1012,     -- Shadowmoon Valley/Ashtongue Deathsworn
 
         --------- Cataclysm ---------
-        [5861]      = 909,      -- Darkmoon Island/Darkmoon Faire
 
         --------- MoP ---------
         [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
@@ -83,6 +82,8 @@ function RepByZone:ZoneAndFactionList()
         [379]       = 1270,     -- Kun-Lai Summit/Shado-Pan
         [388]       = 1270,     -- Towlong Steppes/Shado-Pan
         [390]       = 1269,     -- Vale of Eternal Blossoms/Golden Lotus
+        [407]       = 909,      -- Darkmoon Island (orphan)/Darkmoon Faire
+        [408]       = 909,      -- Darkmoon Island (dungeon)/Darkoon Faire
         [418]       = 1302,     -- Krasarang Wilds/The Anglers
         [422]       = 1337,     -- Dread Wastes/The Klaxxi
         [425]       = 72,       -- Northshire/Stormwind

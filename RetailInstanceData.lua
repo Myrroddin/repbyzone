@@ -86,7 +86,9 @@ function RepByZone:InstancesAndFactionList()
         [649]       = 1106,     -- Trial of the Crusader/Argent Crusade
 
         ---------- Cataclysm ----------
-        [369]       = 72, -- Deeprun Tram/Stormwind
+        [369]       = 72,       -- Deeprun Tram/Stormwind
+        [974]       = 909,      -- Darkmoon Island/Darkmoon Faire
+        [1113]      = 909,      -- Transport: Darkmoon Carousel/Darkmoon Faire
 
         ---------- MoP ----------
         [959]       = 1270,     -- Shado-pan Monestary/Shado-Pan
