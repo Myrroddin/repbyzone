@@ -18,10 +18,10 @@ function RepByZone:ZoneAndFactionList()
         [3]         = 72,       -- Tiragarde Keep/Stormwind
         [4]         = 72,       -- Tiragarde Keep (Great Hall)/Stormwind
         [7]         = 81,       -- Mulgore/Thunder Bluff
-        [10]        = A and 470 or H and 46, -- Northern Barrens/Ratchet or Orgrimmar
-        [14]        = A and 72 or H and 46, -- Arathi Highlands/Stormwind or Orgrimmar
-        [15]        = A and 47 or H and 46, -- Badlands/Ironforge or Orgrimmar
-        [17]        = A and 72 or H and 46, -- Blasted Lands/Stormwind or Orgrimmar
+        [10]        = A and 470 or H and 76, -- Northern Barrens/Ratchet or Orgrimmar
+        [14]        = A and 72 or H and 76, -- Arathi Highlands/Stormwind or Orgrimmar
+        [15]        = A and 47 or H and 76, -- Badlands/Ironforge or Orgrimmar
+        [17]        = A and 72 or H and 76, -- Blasted Lands/Stormwind or Orgrimmar
         [18]        = 68,       -- Tirisfal Glades/Undercity
         [21]        = A and 1134 or H and 68, -- Silverpine Forest/Gilneas or Undercity
         [22]        = 1106,      -- Western Plaguelands/Argent Crusade
@@ -31,15 +31,15 @@ function RepByZone:ZoneAndFactionList()
         [27]        = 47,       -- Dun Morogh/Ironforge
         [30]        = 54,       -- New Tinkertown/Gnomeregan
         [32]        = 59,       -- Searing Gorge/Thorium Brotherhood
-        [36]        = A and 72 or H and 46, -- Burning Steppes/Stormwind or Orgrimmar
+        [36]        = A and 72 or H and 76, -- Burning Steppes/Stormwind or Orgrimmar
         [37]        = 72,       -- Elwynn Forest/Stormwind
         [41]        = 1090,     -- Dalaran/Kirin Tor
         [42]        = 967,      -- Deadwind Pass/The Violet Eye
         [47]        = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
         [48]        = 47,       -- Loch Modan/Ironforge
         [49]        = 72,       -- Redridge Mountains/Stormwind
-        [50]        = A and 72 or H and 46, -- Northern Stranglethorn/Stormwind or Orgrimmar
-        [51]        = 46,       -- Swamp of Sorrows/Orgimmar
+        [50]        = A and 72 or H and 76, -- Northern Stranglethorn/Stormwind or Orgrimmar
+        [51]        = 76,       -- Swamp of Sorrows/Orgimmar
         [52]        = 72,       -- Westfall/Stormwind
         [56]        = 47,       -- Wetlands/Ironforge
         [57]        = 69,       -- Teldrassil/Darnassus
@@ -49,7 +49,7 @@ function RepByZone:ZoneAndFactionList()
         [65]        = A and 69 or H and 81, -- Stonetalon Mountains/Darnassus or Thunder Bluff
         [66]        = 609,      -- Desolace/Cenarion Circle
         [69]        = A and 69 or H and 81, -- Feralas/Darnassus or Thunder Bluff
-        [70]        = A and 72 or H and 46, -- Dustwallow Marsh/Stormwind or Orgrimmar
+        [70]        = A and 72 or H and 76, -- Dustwallow Marsh/Stormwind or Orgrimmar
         [71]        = 369,      -- Tanaris/Gadgetzan
         [74]        = 989,      -- Timeless Tunnel/Keepers of Time
         [75]        = 989,      -- Caverns of Time/Keepers of Time
@@ -59,7 +59,7 @@ function RepByZone:ZoneAndFactionList()
         [81]        = 609,      -- Silithus/Cenarion Circle
         [83]        = 577,      -- Winterspring/Everlook
         [84]        = 72,       -- Stormwind City/Stormwind
-        [85]        = 46,       -- Orgrimmar/Orgrimmar
+        [85]        = 76,       -- Orgrimmar/Orgrimmar
         [87]        = 47,       -- Ironforge/Ironforge
         [88]        = 81,       -- Thunder Bluff/Thunder Bluff
         [89]        = 69,       -- Darnassus/Darnassus
@@ -95,7 +95,7 @@ function RepByZone:ZoneAndFactionList()
         [422]       = 1337,     -- Dread Wastes/The Klaxxi
         [425]       = 72,       -- Northshire/Stormwind
         [433]       = 1359,     -- The Veiled Stair/The Black Prince
-        [507]       = A and 72 or H and 46, -- Isle of Giants/Stormwind or Orgrimmar
+        [507]       = A and 72 or H and 76, -- Isle of Giants/Stormwind or Orgrimmar
         [516]       = A and 1387 or H and 1388, -- Isle of Thunder/Kirin Tor Offensive or Sunreaver Onslaught
         [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
 

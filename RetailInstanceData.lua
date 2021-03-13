@@ -37,14 +37,14 @@ function RepByZone:InstancesAndFactionList()
         [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
         [90]        = 54,       -- Gnomeregan/Gnomeregan
         [109]       = 270,      -- Temple of Atal'Hakkar (Sunken Temple)/Zandalar Tribe
-        [129]       = A and 72 or H and 46, -- Razorfen Downs/Stormwind or Orgrimmar
+        [129]       = A and 72 or H and 76, -- Razorfen Downs/Stormwind or Orgrimmar
         [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
-        [229]       = A and 72 or H and 46, -- Blackrock Spire/Stormwind or Orgrimmar
+        [229]       = A and 72 or H and 76, -- Blackrock Spire/Stormwind or Orgrimmar
         [230]       = 59,       -- Blackrock Depths/Thorium Brotherhood
         [309]       = 270,      -- Zul'Gurub/Zandalar Tribe
         [329]       = 1106,     -- Strathholme/Argent Crusade
         [349]       = 609,      -- Maraudon/Cenarion Circle
-        [389]       = 46,       -- Ragefire Chasm/Orgrimmar
+        [389]       = 76,       -- Ragefire Chasm/Orgrimmar
         [409]       = 749,      -- Molten Core/Hydraxian Waterlords
         [429]       = 809,      -- Dire Maul/Shen'dralar
         [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
@@ -80,7 +80,7 @@ function RepByZone:InstancesAndFactionList()
         [585]       = 1077,     -- Magister's Terrace/Shattered Sun Offensive
 
         ---------- WotLK ----------
-        [249]       = A and 72 or H and 46, -- Onyxia's Lair/Stormwind or Orgrimmar
+        [249]       = A and 72 or H and 76, -- Onyxia's Lair/Stormwind or Orgrimmar
         [533]       = 1106,     -- Naxxramas/Argent Crusade
         [631]       = 1106,     -- Icecrown Citadel/Argent Crusade
         [649]       = 1106,     -- Trial of the Crusader/Argent Crusade
@@ -115,7 +115,7 @@ function RepByZone:InstancesAndFactionList()
         [1112]      = 1012,     -- Pursuing the Black Harvest (Warlock)/Ashtongue Deathsworn
         [1130]      = A and 47 or H and 2103, -- Blood in the Snow/Ironforge or Zandalari Empire
         [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
-        [1136]      = A and 72 or H and 46, -- Siege of Orgrimmar/Stormwind or Orgrimmar
+        [1136]      = A and 72 or H and 76, -- Siege of Orgrimmar/Stormwind or Orgrimmar
         [1148]      = self.racialRepID, -- Proving Grounds/racial rep
         
         ---------- BfA ----------
@@ -149,7 +149,7 @@ function RepByZone:InstancesAndFactionList()
         [2111]      = 1133,     -- Warfront: Darkshore (Horde)/Bilgewater Cartel
         [2124]      = A and 2160 or H and 76, -- Crestfall/Proudmoore Admiralty or Orgrimmar
         [2164]      = A and 2401 or H and 2373, -- The Eternal Palace/Waveblade Ankoan or The Unshackled
-        [2212]      = 46,       -- Horrific Vision of Orgrimmar/Orgrimmar
+        [2212]      = 76,       -- Horrific Vision of Orgrimmar/Orgrimmar
         [2213]      = 72,       -- Horrific Vision of Stormwind/Stormwind
         [2217]      = 2164,     -- Ny'alotha: The Waking City/Champions of Azeroth
         [2268]      = 2391,     -- Mechagon City/Rustbolt Resistance
