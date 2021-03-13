@@ -41,7 +41,7 @@ function RepByZone:ZoneAndFactionList()
         [1446]      = 369,      -- Tanaris/Gadgetzan
         [1451]      = 609,      -- Silithus/Cenarion Circle
         [1452]      = 577,      -- Winterspring/Everlook
-        [1425]      = A and 1174 or H and 530, -- The Hinterlands/Wildhammer Clan or Darkspear Trolls
+        [1425]      = A and 471 or H and 530, -- The Hinterlands/Wildhammer Clan or Darkspear Trolls
         [1431]      = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
         [1440]      = A and 69 or H and 76, -- Ashenvale/Darnassus or Orgrimmar
         [1444]      = A and 69 or H and 81, -- Feralas/Darnassus or Thunder Bluff
@@ -91,7 +91,7 @@ function RepByZone:InstancesAndFactionList()
         [48]        = A and 69 or H and 530, -- Blackfathom Deeps/Darnassus or Darkspear Trolls
         [229]       = A and 72 or H and 76, -- Blackrock Spire/Stormwind or Orgrimmar
         [70]        = A and 47 or H and 530, -- Uldaman/Ironforge or Darkspear Trolls
-        [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+        [209]       = A and 471 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
 
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
