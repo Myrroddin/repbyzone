@@ -256,8 +256,6 @@ function RepByZone:SubZonesAndFactions()
         [3427]      = 47,       -- Bronzebeard Encampment/Ironforge
         [3486]      = 349,      -- Ravenholdt Manor/Ravenholdt
         [4010]      = 369,      -- Mudsprocket/Gadgetzan
-        [4241]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
-        [4342]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
         [4690]      = 1135,     -- Thunder Peak/The Earthen Ring
         [4715]      = 1133,     -- The Skunkworks/Bilgewater Cartel
         [4745]      = 76,       -- Orgrimmar Rear Gate/Orgrimmar
@@ -271,7 +269,7 @@ function RepByZone:SubZonesAndFactions()
         [4933]      = 76,       -- Krom'gar Fortress/Orgimmar
         [4934]      = 1133,     -- The Sludgewerks/Bilgewater Cartel
         [4940]      = 1068,     -- Northwatch Expedition Base Camp/Explorer's League
-        [5011]      = 81,       -- Westrech Summit/Thunder Bluff
+        [5011]      = 81,       -- Westreach Summit/Thunder Bluff
         [5028]      = 87,       -- Southsea Holdfast/Bloodsail Buccaneers
         [5041]      = A and 54 or H and 1133, -- Fizzle & Pozzik's Speedbarge/Gnomeregan or Bilgewater Cartel
         [5044]      = 609,      -- The Tainted Forest/Cenarion Circle
@@ -391,8 +389,9 @@ function RepByZone:SubZonesAndFactions()
         [4140]      = 922,      -- The Dead Scar/Tranquillien
 
         --------- WotLK ---------
-        [7679]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
-        [7743]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
+        [4234]      = 1106,     -- Naxxramas/Argent Crusade
+        [4281]      = 1098,     -- Archerus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
+        [4342]      = 1098,     -- Archerus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
 
         --------- MoP ---------
         [4081]      = 81,       -- The Dawnchaser/Thunder Bluff
@@ -452,10 +451,14 @@ function RepByZone:SubZonesAndFactions()
         [6702]      = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
         [6771]      = 1341,     -- Celestial Tournament/The August Celestials
 
+        --------- Legion ---------
+        [7679]      = 1098,     -- Archerus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
+        [7743]      = 1098,     -- Archerus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
 
         --------- BfA ---------
         [9310]      = 2386,     -- The Wound/Champions of Azeroth
         [9329]      = 2387,     -- Seeker's Outpost/Tortollan Seekers
+        [9470]      = 2395,     -- Mildenhall Brewery/Honeyback Hive
         [9473]      = 69,       -- Staghelm Point/Darnassus
         [9474]      = 1133,     -- Southwind Village/Bilgewater Cartel
         [9494]      = 1133,     -- Warfront: The Battle for Stromgarde (Ar'gorok)/Bilgewater Cartel
@@ -466,7 +469,7 @@ function RepByZone:SubZonesAndFactions()
         [9735]      = 1133,     -- Ar'gorok/Bilgewater Cartel
         [10006]     = 2387,     -- House of Jol/Tortollan Seekers
         [10504]     = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
-        [15539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
+        [13539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
         [10565]     = covenantRepID, -- Oribos/Covenant

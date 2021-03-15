@@ -181,6 +181,7 @@ function RepByZone:SubZonesAndFactions()
         [2897] = 530, -- Zoram'gar Outpost/Darkspear Trolls
 		[3197] = 72, -- Chillwind Camp/Stormwind
         [3357] = 270, -- Yojamba Isle/Zandalar Tribe
+        [3456] = 529, -- Naxxramas/Argent Dawn
         [3486] = 349, -- Ravenholdt Manor/Ravenholdt
     }
     return subZonesAndFactions
