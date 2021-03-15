@@ -395,16 +395,19 @@ function RepByZone:SubZonesAndFactions()
         [7743]      = 1098,     -- Archerus: The Ebon Hold/Knights of the Ebon Blade
 
         --------- MoP ---------
+        [4081]      = 81,       -- The Dawnchaser/Thunder Bluff
         [5876]      = 1271,     -- Serpent's Heart/Order of the Cloud Serpent
         [5931]      = 1271,     -- The Arboretum/Order of the Cloud Serpent
         [5974]      = 1341,     -- Jade Temple Grounds/The August Celestials
         [5975]      = 1341,     -- Temple of the Jade Serpent/The August Celestials
         [5976]      = 1270,     -- Gate of the Setting Sun/Shado-Pan
         [6012]      = 1271,     -- Windward Isle/Order of the Cloud Serpent
-        [6013]      = 81,       -- Dawnchaser/Thunder Bluff
+        [6013]      = A and 1376 or H and 1375, -- The Dawnchaser (Retreat)/Operation: Shieldwall or Dominance Offensive
         [6016]      = 69,       -- Sentinel Basecamp/Darnassus
         [6022]      = 1271,     -- Mistveil Sea/Order of the Cloud Serpent
+        [6025]      = 47,       -- Nesingwary's Safari/Ironforge
         [6048]      = 1341,     -- Temple of the Red Crane/The August Celestials
+        [6059]      = A and 1353 or H and 1352, -- Binan Village/Tushui Pandaren or Huojin Pandaren
         [6080]      = 1271,     -- Serpent's Overlook/Order of the Cloud Serpent
         [6117]      = 1341,     -- Fountain of the Everseeing/The August Celestials
         [6118]      = 1341,     -- The Scrollkeeper's Sanctum/The August Celestials
@@ -418,6 +421,7 @@ function RepByZone:SubZonesAndFactions()
         [6182]      = 1341,     -- Mogu'shan Palace2/The August Celestials
         [6213]      = 1341,     -- Niuzao Temple/The August Celestials
         [6143]      = 1341,     -- Mogu'shan Palace1/The August Celestials
+        [6174]      = 1341,     -- Temple of the White Tiger/The August Celestials
         [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
         [6368]      = 1302,     -- Soggy's Gamble/The Anglers
         [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
@@ -431,6 +435,7 @@ function RepByZone:SubZonesAndFactions()
         [6498]      = 1341,     -- Gate of the August Celestials/The August Celestials
         [6512]      = 1271,     -- The Widow's Wail/Order of the Cloud Serpent
         [6513]      = 1271,     -- Oona Kagu/Order of the Cloud Serpent
+        [6533]      = 72,       -- The Skyfire (Jade Forest)/Stormwind
         [6560]      = H and 1341, -- The Golden Terrace/The August Celestials
         [6566]      = A and 1376 or H and 1375, -- Domination Point/Operation: Shieldwall or Dominance Offensive
         [6595]      = A and 1376 or H and 1375, -- The Skyfire/Operation: Shieldwall or Dominance Offensive
