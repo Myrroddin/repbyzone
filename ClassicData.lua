@@ -46,7 +46,7 @@ function RepByZone:ZoneAndFactionList()
         [1440]      = A and 69 or H and 76, -- Ashenvale/Darnassus or Orgrimmar
         [1444]      = A and 69 or H and 81, -- Feralas/Darnassus or Thunder Bluff
         [1413]      = A and 470 or H and 81, -- The Barrens/Ratchet or Thunder Bluff
-        [1417]      = A and 72 or H and 530, -- Arathi Highlands/Stormwind or Darkspear Trolls
+        [1417]      = A and 509 or H and 68, -- Arathi Highlands/The League of Arathor or Undercity
         [1424]      = A and 72 or H and 68, -- Hillsbrad Foothills/Stormwind/Undercity
         [1416]      = A and 72 or H and 76, -- Alterac Mountains/Stormwind or Orgrimmar
         [1418]      = A and 47 or H and 76, -- Badlands/Ironforge or Orgrimmar
@@ -132,7 +132,6 @@ function RepByZone:SubZonesAndFactions()
 		[299] = 72, -- Menethil Bay/Stormwind
         [311] = 270, -- Ruins of Aboraz/Zandalar Tribe
         [313] = 349, -- Northfold Manor/Ravenholdt
-        [324] = 349, -- Stromgarde Keep/Ravenholdt
         [327] = 21, -- Faldir's Cove/Booty Bay
         [328] = 21, -- The Drowned Reef/Booty Bay
         [350] = 69, -- Quel'Danil Lodge/Darnassus
@@ -149,9 +148,12 @@ function RepByZone:SubZonesAndFactions()
         [606] = 92, -- Gelkis Village/Gelkis Clan Centaur
         [702] = 69, -- Rut'theran Village/Darnassus
         [813] = 529, -- The Bulwark/Argent Dawn
+        [880] = 471, -- Thandol Span (Arathi Highlands)/Wildhammer Clan
+        [881] = 47, -- Thandol Span (Wetlands)/Ironforge
         [896] = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
         [1016] = 69, -- Direforge Hill/Darnassus
-        [1019] = 69, -- The Green Belt/Darnassus
+        [1025] = 69, -- The Green Belt/Darnassus
+        [1057] = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
         [1216] = 579, -- Timbermaw Hold/Timbermaw Hold
         [1446] = 59, -- Thorium Point/Thorium Brotherhood
         [1677] = A and 730 or H and 729, -- Gavin's Naze/Stormpike Guard or Frostwolf Clan
@@ -163,6 +165,7 @@ function RepByZone:SubZonesAndFactions()
         [1741] = 87, -- Gurubashi Arena/Bloodsail Buccaneers
         [1761] = 579, -- Deadwood Village/Timbermaw Hold
         [1762] = 579, -- Felpaw Village/Timbermaw Hold
+        [1857] = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
 		[1977] = 309, -- Zul'Gurub/Zandalar Tribe
 		[2097] = H and 81 or A and 69, -- Darkcloud Pinnacle/Thunder Bluff or Darnassus
 		[2157] = H and 81 or A and 47, -- Bael'dun Keep/Thunder Bluff or Ironforge

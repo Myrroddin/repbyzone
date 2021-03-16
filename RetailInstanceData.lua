@@ -124,7 +124,7 @@ function RepByZone:InstancesAndFactionList()
         [1762]      = 2103,     -- King's Rest/Zandalari Empire
         [1763]      = 2103,     -- Atal'Dazar/Zandalari Empire
         [1771]      = 2160,     -- Tol Dagor/Proudmoore Admiralty
-        [1804]      = A and 509 or H and 530, -- Warfront: The Battle for Stromgarde/The League of Arathor or Darkspear Trolls
+        [1804]      = A and 509 or H and 510, -- Warfront: The Battle for Stromgarde/The League of Arathor or The Defilers
         [1813]      = A and 69 or H and 76, -- Un'gol Ruins/Darnassus or Orgrimmar
         [1814]      = A and 1134 or H and 68, -- Havenswood/Gilneas or Undercity
         [1822]      = A and 2160 or H and 2103, -- Siege of Boralus/Proudmoore Admiralty or Zandalari Empire

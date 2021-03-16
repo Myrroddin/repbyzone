@@ -19,7 +19,7 @@ function RepByZone:ZoneAndFactionList()
         [4]         = 72,       -- Tiragarde Keep (Great Hall)/Stormwind
         [7]         = 81,       -- Mulgore/Thunder Bluff
         [10]        = A and 470 or H and 76, -- Northern Barrens/Ratchet or Orgrimmar
-        [14]        = A and 72 or H and 76, -- Arathi Highlands/Stormwind or Orgrimmar
+        [14]        = A and 509 or H and 510, -- Arathi Highlands/The League of Arathor or The Defilers
         [15]        = A and 47 or H and 76, -- Badlands/Ironforge or Orgrimmar
         [17]        = A and 72 or H and 76, -- Blasted Lands/Stormwind or Orgrimmar
         [18]        = 68,       -- Tirisfal Glades/Undercity
@@ -194,15 +194,15 @@ function RepByZone:SubZonesAndFactions()
         [702]       = 69,       -- Rut'theran Village/Darnassus
         [721]       = 54,       -- Gnomeregan/Gnomeregan
         [813]       = 1106,     -- The Bulwark/Argent Crusade
-        [880]       = 47,       -- Thandol Span/Ironforge
-        [881]       = 47,       -- Thandol Span/Ironforge
+        [880]       = 1174,     -- Thandol Span (Arathi Highlands)/Wildhammer Clan
+        [881]       = 47,       -- Thandol Span (Wetlands)/Ironforge
         [896]       = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
         [987]       = 1133,     -- Land's End Beach/Bilgewater Cartel
         [989]       = 1173,     -- Ruins of Uldum/Ramkahen
         [990]       = 1173,     -- Valley of the Watchers/Ramkahen
         [1016]      = 69,       -- Direforge Hill/Darnassus
-        [1019]      = 69,       -- The Green Belt/Darnassus
         [1025]      = 69,       -- The Green Belt/Darnassus
+        [1057]      = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
         [1216]      = 579,      -- Timbermaw Hold/Timbermaw Hold
         [1220]      = 69,       -- Darnassian Base Camp/Darnassus
         [1336]      = A and 54 or H and 1133, -- Lost Rigger Cove/Gnomeregan or Bilgewater Cartel
@@ -219,6 +219,7 @@ function RepByZone:SubZonesAndFactions()
         [1769]      = 579,      -- Timbermaw Hold/Timbermaw Hold
         [1778]      = 369,      -- Sorrowmurk/Gadgetzan
         [1797]      = 1133,     -- Stagalbog/Bilgewater Cartel
+        [1857]      = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
 		[1858]      = 1174,     -- Boulder'gor/Wildhammer Clan
         [1941]      = 989,      -- Caverns of Time/Keepers of Time
 		[1977]      = 309,      -- Zul'Gurub/Zandalar Tribe
@@ -299,12 +300,10 @@ function RepByZone:SubZonesAndFactions()
         [5687]      = 1134,     -- The Howling Oak/Gilneas
         [5705]      = A and 47 or H and 530, -- Snowden Chalet/Ironforge or Darkspear Trolls
         [5706]      = 369,      -- The Steam Pools/Gadgetzan
-        [9750]      = 68,       -- Hammerfall (BfA)/Undercity
-        [9755]      = 47,       -- Thandol Span (BfA)/Ironforge
 
         --------- TBC ---------
-        [3482]      = 922,      -- The Dead Scar/Tranquillien
-        [3514]      = 922,      -- The Dead Scar/Tranquillien
+        [3482]      = 922,      -- The Dead Scar (Eversong Woods)/Tranquillien
+        [3514]      = 922,      -- The Dead Scar (Ghostlands)/Tranquillien
         [3530]      = A and 930 or H and 911, -- Shadow Ridge/Exodar or Silvermoon City
         [3547]      = 1077,     -- Throne of Kil'jaeden/Shattered Sun Offensive
         [3552]      = 978,      -- Temple of Telhamat/Kurenai
@@ -385,8 +384,6 @@ function RepByZone:SubZonesAndFactions()
         [3976]      = 1031,     -- Veil Ala'rak/Sha'tari Skyguard
         [3977]      = 1031,     -- Upper Veil Shil'ak/Sha'tari Skyguard
         [3978]      = 1031,     -- Lower Veil Shil'ak/Sha'tari Skyguard
-        [4092]      = 922,      -- The Dead Scar/Tranquillien
-        [4140]      = 922,      -- The Dead Scar/Tranquillien
 
         --------- WotLK ---------
         [4234]      = 1106,     -- Naxxramas/Argent Crusade
@@ -424,9 +421,9 @@ function RepByZone:SubZonesAndFactions()
         [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
         [6368]      = 1302,     -- Soggy's Gamble/The Anglers
         [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
-        [6393]      = 1270,     -- Serpent's Spine1/Shado-Pan
-        [6394]      = 1270,     -- Serpent's Spine2/Shado-Pan
-        [6395]      = 1270,     -- Serpent's Spine3/Shado-Pan
+        [6393]      = 1270,     -- Serpent's Spine (Valley of the Four Winds)/Shado-Pan
+        [6394]      = 1270,     -- Serpent's Spine (Vale of Eternal Blossoms)/Shado-Pan
+        [6395]      = 1270,     -- Serpent's Spine (Kun-Lai Summit)/Shado-Pan
         [6401]      = 1302,     -- Shelf of Mazu/The Anglers
         [6402]      = 1302,     -- Wreck of the Mist-Hopper/The Anglers
         [6433]      = 1302,     -- Lonesome Cove/The Anglers
@@ -456,6 +453,7 @@ function RepByZone:SubZonesAndFactions()
         [7743]      = 1098,     -- Archerus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
 
         --------- BfA ---------
+        [8925]      = 47,       -- Nesingwary's Trek/Ironforge
         [9310]      = 2386,     -- The Wound/Champions of Azeroth
         [9329]      = 2387,     -- Seeker's Outpost/Tortollan Seekers
         [9470]      = 2395,     -- Mildenhall Brewery/Honeyback Hive
@@ -467,6 +465,11 @@ function RepByZone:SubZonesAndFactions()
         [9693]      = 2387,     -- Seeker's Vista/Tortollan Seekers
         [9714]      = 2387,     -- Seeker's Expedition/Tortollan Seekers
         [9735]      = 1133,     -- Ar'gorok/Bilgewater Cartel
+        [9750]      = 68,       -- Hammerfall/Undercity
+        [9755]      = 47,       -- Thandol Span/Ironforge
+        [9756]      = 68,       -- Thoradin's Wall (Horde Warfront)/Undercity
+        [9758]      = 47,       -- Thoradin's Wall (Alliance Warfront)/Ironforge
+        [6759]      = A and 47 or H and 68, -- Thoradin's Wall/Ironforge or Undercity
         [10006]     = 2387,     -- House of Jol/Tortollan Seekers
         [10504]     = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
         [13539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
