@@ -126,6 +126,7 @@ function RepByZone:OnEnable()
         self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
     end
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
+    self.covenantRepID = self:CovenantToFactionID()
     --@end-retail@
 
     -- Check taxi status

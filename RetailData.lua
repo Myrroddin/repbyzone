@@ -461,7 +461,7 @@ function RepByZone:SubZonesAndFactions()
         [9474]      = 1133,     -- Southwind Village/Bilgewater Cartel
         [9494]      = 1133,     -- Warfront: The Battle for Stromgarde (Ar'gorok)/Bilgewater Cartel
         [9556]      = 2387,     -- Tortaka Refuge/Tortollan Seekers
-        [9667]      = 2386,     -- Chamber of Heart/Champions of Azeroth
+        [9667]      = 2386,     -- Chamber of Heart (Destroyed)/Champions of Azeroth
         [9693]      = 2387,     -- Seeker's Vista/Tortollan Seekers
         [9714]      = 2387,     -- Seeker's Expedition/Tortollan Seekers
         [9735]      = 1133,     -- Ar'gorok/Bilgewater Cartel
@@ -472,6 +472,7 @@ function RepByZone:SubZonesAndFactions()
         [6759]      = A and 47 or H and 68, -- Thoradin's Wall/Ironforge or Undercity
         [10006]     = 2387,     -- House of Jol/Tortollan Seekers
         [10504]     = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
+        [12905]     = 2386,     -- Chamber of Heart (scenario)/Champions of Azeroth
         [13539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
