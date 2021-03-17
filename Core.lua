@@ -14,6 +14,9 @@ local defaults = {
     }
 }
 local isOnTaxi
+local instancesAndFactions
+local zonesAndFactions
+local subZonesAndFactions
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
@@ -105,6 +108,11 @@ function RepByZone:OnInitialize()
     --@retail@
     self.covenantRepID = self:CovenantToFactionID()
     --@end-retail@
+
+    -- Cache instance, zone, and subzone data
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
 
     -- Set initial watched faction correctly during login
     self:DelayUpdate()
@@ -327,36 +335,56 @@ function RepByZone:SwitchedZones()
 	end
 
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
-    local UImapID = IsInInstance() and select(8, GetInstanceInfo()) or C_Map.GetBestMapForUnit("player")
+    local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
-    local locationsAndFactions = IsInInstance() and self:InstancesAndFactionList() or self:ZoneAndFactionList()
-    local subZonesAndFactions = self:SubZonesAndFactions()
 
-    -- Apply subzones
-    if db.watchSubZones then
-        -- Blizzard provided areaIDs
-        for areaID, factionID in pairs(subZonesAndFactions) do
-            if C_Map.GetAreaInfo(areaID) == subZone then
+    if inInstance then
+        -- Apply instance data
+        for instanceID, factionID in pairs(instancesAndFactions) do
+            if instanceID == inInstance then
                 if self:SetWatchedFactionByFactionID(factionID) then
                     return
                 end
             end
         end
-        -- Our localized missing Blizzard areaIDs
-        for areaName, factionID in pairs(CitySubZonesAndFactions) do
-            if L[areaName] == subZone then
+        -- Some instances have subzone data
+        if db.watchSubZones then
+            -- Blizzard provided areaIDs
+            for areaID, factionID in pairs(subZonesAndFactions) do
+                if C_Map.GetAreaInfo(areaID) == subZone then
+                    if self:SetWatchedFactionByFactionID(factionID) then
+                        return
+                    end
+                end
+            end
+        end
+    else
+        -- Apply world zone data
+        local UImapID = C_Map.GetBestMapForUnit("player")
+        for zoneID, factionID in pairs(zonesAndFactions) do
+            if zoneID == UImapID then
                 if self:SetWatchedFactionByFactionID(factionID) then
                     return
                 end
             end
         end
-    end
-
-    -- Apply zoneID data
-    for zoneID, factionID in pairs(locationsAndFactions) do
-        if zoneID == UImapID then
-            if self:SetWatchedFactionByFactionID(factionID) then
-                return
+        -- Apply subzone data
+        if db.watchSubZones then
+            -- Blizzard provided areaIDs
+            for areaID, factionID in pairs(subZonesAndFactions) do
+                if C_Map.GetAreaInfo(areaID) == subZone then
+                    if self:SetWatchedFactionByFactionID(factionID) then
+                        return
+                    end
+                end
+            end
+            -- Our localized missing Blizzard areaIDs
+            for areaName, factionID in pairs(CitySubZonesAndFactions) do
+                if L[areaName] == subZone then
+                    if self:SetWatchedFactionByFactionID(factionID) then
+                        return
+                    end
+                end
             end
         end
     end
