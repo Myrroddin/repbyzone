@@ -15,4 +15,8 @@ externals:
 
 ignore:
     - Libs/LibStub/tests
-    - ClassicData.lua
+    - Data-Retail.lua
+    - InstanceData-Retail.lua
+    - Data-Classic.lua
+    - Core-Retail.lua
+    - Core-Classic.lua

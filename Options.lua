@@ -42,9 +42,9 @@ function RepByZone:GetOptions()
                         set = function(info, value)
                             db.watchSubZones = value
                             if value then
-                                self:RegisterEvent("ZONE_CHANGED", "DelayUpdate")
-                                self:RegisterEvent("ZONE_CHANGED_INDOORS", "DelayUpdate")
-                                self:DelayUpdate()
+                                self:RegisterEvent("ZONE_CHANGED")
+                                self:RegisterEvent("ZONE_CHANGED_INDOORS")
+                                self:SwitchedZones()
                             else
                                 self:UnregisterEvent("ZONE_CHANGED")
                                 self:UnregisterEvent("ZONE_CHANGED_INDOORS")
@@ -81,7 +81,7 @@ function RepByZone:GetOptions()
                         set = function(info, value)
                             db.useClassRep = value
                             self.racialRepID, self.racialRepName = self:GetRacialRep()
-                            self:DelayUpdate()
+                            self:SwitchedZones()
                         end
                     },
                     defaultRep = {
@@ -98,7 +98,7 @@ function RepByZone:GetOptions()
                             else
                                 db.watchedRepName = GetFactionInfoByID(value)
                             end
-                            self:DelayUpdate()
+                            self:SwitchedZones()
                         end
                     }
                 }

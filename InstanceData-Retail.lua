@@ -153,6 +153,7 @@ function RepByZone:InstancesAndFactionList()
         [2213]      = 72,       -- Horrific Vision of Stormwind/Stormwind
         [2217]      = 2164,     -- Ny'alotha: The Waking City/Champions of Azeroth
         [2268]      = 2391,     -- Mechagon City/Rustbolt Resistance
+        [2292]      = A and 509 or H and 510, -- Arathi (Epic Warfront)/The League of Arathor or The Defilers
 
         ---------- Shadowlands ----------
         [2284]      = 2413,     -- Sanguine Depths/Court of Harvesters

@@ -45,6 +45,15 @@ jobs:
         with:
           args: -g classic -m .pkgmeta-classic
       
+      # another example where we supply additional arguments, this example is specifically to release
+      # for the TBC version of the game
+      - name: Package and release for TBC
+        uses: BigWigsMods/packager@master
+        with:
+          args: -g bc -m .pkgmeta-bc
+      
       # for the Retail version of the game
       - name: Package and release
         uses: BigWigsMods/packager@master
+        with:
+          args: -m .pkgmeta-retail
