@@ -2,7 +2,7 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 function RepByZone:GetOptions()
-    local db = self.db.char
+    local db = self.db.profile
     self.racialRepID, self.racialRepName = self:GetRacialRep()
     local options = {
         name = "RepByZone",

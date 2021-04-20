@@ -46,7 +46,7 @@ end
 function RepByZone:ReturnDefaults()
     local racialRepID, racialRepName = self:GetRacialRep()
     local defaults = {
-        char = {
+        profile = {
             enabled = true,
             watchSubZones = true,
             verbose = true,
@@ -61,13 +61,13 @@ end
 
 function RepByZone:OnInitialize()
     local defaults = self:ReturnDefaults()
-    self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
+    self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
-    self.db.RegisterCallback(self, "OnNewProfile", "RefreshConfig")
-    self:SetEnabledState(self.db.char.enabled)
-    db = self.db.char
+    db = self.db.profile
+    
+    self:SetEnabledState(db.enabled)
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -127,11 +127,6 @@ function RepByZone:OnDisable()
     isOnTaxi = nil
 end
 
-function RepByZone:RefreshConfig(event, database, ...)
-    db = self.db.char
-    self.racialRepID, self.racialRepName = db.watchedRepID, db.watchedRepName
-end
-
 function RepByZone:SlashHandler()
     -- Check if player is in combat, exit out and close options panels if that's the case
     self:InCombat()
@@ -142,6 +137,11 @@ function RepByZone:SlashHandler()
     else
         Dialog:Open("RepByZone")
     end
+end
+
+function RepByZone:RefreshConfig(event, database, ...)
+    db = self.db.profile
+    self.racialRepID, self.racialRepName = db.watchedRepID, db.watchedRepName
 end
 
 ------------------- Event handlers starts here --------------------
