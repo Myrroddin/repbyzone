@@ -4,15 +4,6 @@ local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
 local db
-local defaults = {
-    char = {
-        enabled = true,
-        watchSubZones = true,
-        verbose = true,
-        watchOnTaxi = false,
-        useClassRep = true,
-    }
-}
 local isOnTaxi
 local instancesAndFactions
 local zonesAndFactions
@@ -20,11 +11,12 @@ local subZonesAndFactions
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
+    -- Catch possible errors during initialization
+    local useClassRep = self.db.char.useClassRep or true
+
     local _, playerRace = UnitRace("player")
-    --@retail@
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
-    --@end-retail@
 
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
@@ -34,7 +26,6 @@ function RepByZone:GetRacialRep()
     or playerRace == "Tauren" and 81 -- Thunder Bluff
     or playerRace == "Troll" and 530 -- Darkspear Trolls
     or playerRace == "Scourge" and 68 -- Undercity
-    --@retail@
     or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
     or playerRace == "Draenei" and 930 -- Exodar
     or playerRace == "Worgen" and 1134 -- Gilneas
@@ -50,19 +41,16 @@ function RepByZone:GetRacialRep()
     or playerRace == "MagharOrc" and 941 -- The Mag'har
     or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
     or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
-    --@end-retail@
 
     -- classes have factions
     local classRepID = nil
     local _, classFileName = UnitClass("player")
-    if self.db.char.useClassRep then
+    if useClassRep then
         classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
         or classFileName == "DRUID" and 609 -- Cenarion Circle
-        --@retail@
         or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
         or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
         or classFileName == "MAGE" and 1090 -- Kirin Tor
-        --@end-retail@
     end
 
     racialRepID = classRepID or racialRepID
@@ -70,7 +58,25 @@ function RepByZone:GetRacialRep()
     return racialRepID, racialRepName
 end
 
+-- Return a table of defaul SV values
+function RepByZone:ReturnDefaults()
+    local racialRepID, racialRepName = self:GetRacialRep()
+    local defaults = {
+        char = {
+            enabled = true,
+            watchSubZones = true,
+            verbose = true,
+            watchOnTaxi = false,
+            useClassRep = true,
+            watchedRepID = racialRepID,
+            watchedRepName = racialRepName,
+        }
+    }
+    return defaults
+end
+
 function RepByZone:OnInitialize()
+    local defaults = self:ReturnDefaults()
     self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
@@ -96,11 +102,8 @@ function RepByZone:OnInitialize()
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
 
-    -- Populate db.defaultRep
+    -- Populate variables
     self.racialRepID, self.racialRepName = self:GetRacialRep()
-    db.watchedRepID = db.watchedRepID or self.racialRepID
-    db.watchedRepName = db.watchedRepName or self.racialRepName
-    db.watchedName = nil -- fix old typo
 
     -- Check taxi status
     isOnTaxi = UnitOnTaxi("player")
@@ -122,14 +125,11 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload") -- Set watched faction when the player first loads into the game
-
-    --@retail@
     if UnitFactionGroup("player") == nil then
         self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
     end
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
     self:JoinedCovenant()
-    --@end-retail@
 
     -- Check taxi status
     isOnTaxi = UnitOnTaxi("player")
@@ -143,20 +143,16 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("PLAYER_CONTROL_LOST")
     self:UnregisterEvent("PLAYER_CONTROL_GAINED")
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-
-    --@retail@
     self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
     self:UnregisterEvent("COVENANT_CHOSEN")
-    --@end-retail@
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
 end
 
 function RepByZone:RefreshConfig(event, database, ...)
-    db = database.char
-    db.watchedRepID, db.watchedRepName = self:GetRacialRep()
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
+    db = self.db.char
+    self.racialRepID, self.racialRepName = db.watchedRepID, db.watchedRepName
 end
 
 function RepByZone:SlashHandler()
@@ -190,7 +186,6 @@ function RepByZone:LoginReload(event, ...)
     self:SwitchedZones()
 end
 
---@retail@
 local covenantReps = {
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
@@ -223,7 +218,6 @@ function RepByZone:CheckPandaren(event, success)
         end
     end
 end
---@end-retail@
 
 -------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
@@ -340,8 +334,7 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
-        -- Some instances have subzone data. Only Retail does this, comment section out for Classic
-        --@retail@
+        -- Some instances have subzone data
         if db.watchSubZones then
             -- Blizzard provided areaIDs
             for areaID, factionID in pairs(subZonesAndFactions) do
@@ -352,7 +345,6 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
-        --@end-retail@
     else
         -- Apply world zone data
         local UImapID = C_Map.GetBestMapForUnit("player")
