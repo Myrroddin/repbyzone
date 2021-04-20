@@ -12,7 +12,12 @@ local subZonesAndFactions
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
     -- Catch possible errors during initialization
-    local useClassRep = self.db.char.useClassRep or true
+    local useClassRep
+    if self.db == nil then
+        useClassRep = true
+    else
+        useClassRep = self.db.char.useClassRep
+    end
 
     local _, playerRace = UnitRace("player")
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge

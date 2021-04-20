@@ -345,8 +345,7 @@ function RepByZone:SubZonesAndFactions()
         [3828]      = 942,      -- Ruuan Weald/Cenarion Expedition
         [3832]      = 1038,     -- Vortex Summit/Ogri'la
         [3839]      = 1011,     -- Abandoned Armory/Lower City
-        [3842]      = 935,      -- Tempest Keep/The Sha'tar
-        [3845]      = 935,      -- Tempest Keep/The Sha'tar
+        [3842]      = 935,      -- Tempest Keep (Netherstorm)/The Sha'tar
         [3864]      = 1031,     -- Bash'ir Landing/Sha'tari Skyguard
         [3896]      = 932,      -- Aldor Rise/The Aldor
         [3898]      = 934,      -- Scryer's Tier/The Scryers
@@ -357,7 +356,6 @@ function RepByZone:SubZonesAndFactions()
         [3936]      = 1174,     -- Deathforge Tower/Wildhammer Clan
         [3937]      = 76,       -- Slag Watch/Orgrimmar
         [3938]      = 934,      -- Sanctum of the Stars/The Scryers
-        [3950]      = 911,      -- Crimson Watch/Silvermoon City
         [3951]      = 942,      -- Evergrove/Cenarion Expedition
         [3952]      = 942,      -- Wyrmskull Bridge/Cenarion Expedition
         [3958]      = 1031,     -- Sha'tari Base Camp/Sha'tari Skyguard
@@ -370,6 +368,9 @@ function RepByZone:SubZonesAndFactions()
         [3976]      = 1031,     -- Veil Ala'rak/Sha'tari Skyguard
         [3977]      = 1031,     -- Upper Veil Shil'ak/Sha'tari Skyguard
         [3978]      = 1031,     -- Lower Veil Shil'ak/Sha'tari Skyguard
+        [5554]      = 935,      -- The Mechanar Entrance/The Sha'tar
+        [5555]      = 935.      -- The Botanica Entrance/The Sha'tar
+        [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
 
         --------- WotLK ---------
         [4234]      = 1106,     -- Naxxramas/Argent Crusade

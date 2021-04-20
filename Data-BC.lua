@@ -136,6 +136,7 @@ function RepByZone:SubZonesAndFactions()
 		-- areaID = factionID
 		-- see https://wow.tools/dbc/?dbc=areatable&build=1.13.3.32887#search=&page=1
 		
+        --------- Vanilla ---------
         [35] = 21, -- Booty Bay/Booty Bay
         [36] = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
         [100] = 47, -- Nesingwary's Expedition/Ironforge
@@ -169,7 +170,6 @@ function RepByZone:SubZonesAndFactions()
         [606] = 92, -- Gelkis Village/Gelkis Clan Centaur
         [702] = 69, -- Rut'theran Village/Darnassus
         [813] = 529, -- The Bulwark/Argent Dawn
-        [880] = 471, -- Thandol Span (Arathi Highlands)/Wildhammer Clan
         [881] = 47, -- Thandol Span (Wetlands)/Ironforge
         [896] = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
         [1016] = 69, -- Direforge Hill/Darnassus
@@ -207,6 +207,85 @@ function RepByZone:SubZonesAndFactions()
         [3357] = 270, -- Yojamba Isle/Zandalar Tribe
         [3456] = 529, -- Naxxramas/Argent Dawn
         [3486] = 349, -- Ravenholdt Manor/Ravenholdt
+
+        --------- TBC ---------
+        [3482]      = 922,      -- The Dead Scar (Eversong Woods)/Tranquillien
+        [3514]      = 922,      -- The Dead Scar (Ghostlands)/Tranquillien
+        [3530]      = A and 930 or H and 911, -- Shadow Ridge/Exodar or Silvermoon City
+        [3547]      = 1077,     -- Throne of Kil'jaeden/Shattered Sun Offensive
+        [3552]      = 978,      -- Temple of Telhamat/Kurenai
+        [3554]      = 911,      -- Falcon Watch/Silvermoon City
+        [3555]      = 941,      -- Mag'har Post/The Mag'har
+        [3569]      = 69,       -- Tides' Hollow/Darnassus
+        [3573]      = 72,       -- Odesyus' Landing/Stormwind
+        [3590]      = 69,       -- Wrathscale Lair/Darnassus
+        [3591]      = 69,       -- Ruins of Loreth'Aran/Darnassus
+        [3598]      = 69,       -- Wyrmscar Island/Darnassus
+        [3623]      = 933,      -- Aeris Landing/The Consortium
+        [3673]      = 47,       -- Nesingwary Safari/Ironforge
+        [3828]      = A and 930 or H and 911, -- Halaa/Exodar or Silvermoon City
+        [3630]      = 933,      -- Oshu'gun/The Consortium
+        [3631]      = 933,      -- Spirit Fields/The Consortium
+        [3644]      = 930,      -- Telredor/Exodar
+        [3645]      = 530,      -- Zabra'jin/Darkspear Trolls
+        [3646]      = 970,      -- Quagg Ridge/Sporeggar
+        [3647]      = 970,      -- The Spawning Glen/Sporeggar
+        [3649]      = 970,      -- Sporeggar/Sporeggar
+        [3652]      = 970,      -- Funggor Cavern/Sporeggar
+        [3674]      = 942,      -- Cenarion Thicket/Cenarion Expedition
+        [3679]      = 1031,     -- Skettis/Sha'tari Skyguard
+        [3680]      = 1031,     -- Blackwind Valley/Sha'tari Skyguard
+        [3681]      = 934,      -- Firewing Point/The Scryers
+        [3683]      = 941,      -- Stonebreaker Hold/The Mag'har
+        [3684]      = 69,       -- Allerian Stronghold/Darnassus
+        [3690]      = 1031,     -- Blackwind Lake/Sha'tari Skyguard
+        [3691]      = 1031,     -- Lake Ere'Noru/Sha'tari Skyguard
+        [3718]      = 530,      -- Swamprat Post/Darkspear Trolls
+        [3719]      = 941,      -- Bleeding Hollow Ruins/The Mag'har
+        [3744]      = 76,       -- Shadowmoon Village/Orgrimmar
+        [3754]      = 932,      -- Altar of Sha'tar/The Aldor
+        [3758]      = 1015,     -- Netherwing Fields/Netherwing
+        [3759]      = 1015,     -- Netherwing Ledge/Netherwing
+        [3766]      = 978,      -- Orebor Harborage/Kurenai
+        [3769]      = 941,      -- Thunderlord Stronghold/The Mag'har
+        [3771]      = 69,       -- The Living Grove/Darnassus
+        [3772]      = 69,       -- Sylvanaar/Darnassus
+        [3784]      = 1031,     -- Forge Camp: Terror/Sha'tari Skyguard
+        [3785]      = 1031,     -- Forge Camp: Wrath/Sha'tari Skyguard
+        [3786]      = 1038,     -- Ogri'la/Ogri'la
+        [3792]      = 933,      -- Mana-Tombs/The Consortium
+        [3801]      = 941,      -- Mag'har Grounds/The Mag'har
+        [3806]      = 911,      -- Supply Caravan/Silvermoon City
+        [3808]      = 942,      -- Cenarion Post/Cenarion Expedition
+        [3816]      = 21,       -- Zeppelin Crash/Booty Bay
+        [3828]      = 942,      -- Ruuan Weald/Cenarion Expedition
+        [3832]      = 1038,     -- Vortex Summit/Ogri'la
+        [3839]      = 1011,     -- Abandoned Armory/Lower City
+        [3842]      = 935,      -- Tempest Keep (Netherstorm)/The Sha'tar
+        [3864]      = 1031,     -- Bash'ir Landing/Sha'tari Skyguard
+        [3896]      = 932,      -- Aldor Rise/The Aldor
+        [3898]      = 934,      -- Scryer's Tier/The Scryers
+        [3899]      = 1011,     -- Lower City/Lower City
+        [3901]      = 69,       -- Allerian Post/Darnassus
+        [3902]      = 941,      -- Stonebreaker Camp/The Mag'har
+        [3918]      = 54,       -- Toshley's Station/Gnomeregan
+        [3937]      = 76,       -- Slag Watch/Orgrimmar
+        [3938]      = 934,      -- Sanctum of the Stars/The Scryers
+        [3951]      = 942,      -- Evergrove/Cenarion Expedition
+        [3952]      = 942,      -- Wyrmskull Bridge/Cenarion Expedition
+        [3958]      = 1031,     -- Sha'tari Base Camp/Sha'tari Skyguard
+        [3965]      = 1015,     -- Netherwing Mines/Netherwing
+        [3966]      = 1015,     -- Dragonmaw Base Camp/Netherwing
+        [3964]      = 1031,     -- Skyguard Outpost/Sha'tari Skyguard
+        [3973]      = 1031,     -- Blackwind Landing/Sha'tari Skyguard
+        [3974]      = 1031,     -- Veil Harr'ik/Sha'tari Skyguard
+        [3975]      = 1031,     -- Terokk's Rest/Sha'tari Skyguard
+        [3976]      = 1031,     -- Veil Ala'rak/Sha'tari Skyguard
+        [3977]      = 1031,     -- Upper Veil Shil'ak/Sha'tari Skyguard
+        [3978]      = 1031,     -- Lower Veil Shil'ak/Sha'tari Skyguard
+        [5554]      = 935,      -- The Mechanar Entrance/The Sha'tar
+        [5555]      = 935.      -- The Botanica Entrance/The Sha'tar
+        [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
     }
     return subZonesAndFactions
 end
