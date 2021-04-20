@@ -84,10 +84,25 @@ function RepByZone:InstancesAndFactionList()
         [209]       = A and 471 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
         [229]       = A and 72 or H and 76, -- Blackrock Spire/Stormwind or Orgrimmar
         [230]       = 59, -- Blackrock Depths/Thorium Brotherhood
+        [269]       = 989,  -- The Black Morass/Keepers of Time
         [329]       = 529, -- Strathholme/Argent Dawn
         [349]       = 609, -- Maraudon/Cenarion Circle
         [389]       = 76, -- Ragefire Chasm/Orgrimmar
         [429]       = 809, -- Dire Maul/Shen'dralar
+        [540]       = A and 946 or H and 947, -- The Shattered Halls/Honor Hold or Thrallmar
+        [542]       = A and 946 or H and 947, -- The Blood Furnace/Honor Hold or Thrallmar
+        [543]       = A and 946 or H and 947, -- Hellfire Ramparts/Honor Hold or Thrallmar
+        [545]       = 942,      -- The Steamvault/Cenarion Expedition
+        [546]       = 942,      -- The Underbog/Cenarion Expedition
+        [547]       = 942,      -- The Slave Pens/Cenarion Expedition
+        [552]       = 935,      -- The Arcatraz/The Sha'tar
+        [553]       = 935,      -- The Botanica/The Sha'tar
+        [554]       = 935,      -- The Mechanar/The Sha'tar
+        [555]       = 1011,     -- Shadow Labyrinth/Lower City
+        [557]       = 933,      -- Mana-Tombs/The Consortium
+        [558]       = 1011,     -- Auchenai Crypts/Lower City
+        [560]       = 989,      -- Old Hillsbrad Foothills/Keepers of Time
+        [585]       = 1077,     -- Magister's Terrace/Shattered Sun Offensive
         [1001]      = 529, -- Scarlet Halls/Argent Dawn
         [1004]      = 529, -- Scarlet Monastary/Argent Dawn
         [1007]      = 529, -- Scholomance/Argent Dawn
@@ -104,7 +119,14 @@ function RepByZone:InstancesAndFactionList()
         [469]       = A and 72 or H and 76, -- Blackwing Lair/Stormwind or Orgrimmar
         [509]       = 609, -- Ruins of Ahn'Qiraj/Cenarion Circle
         [531]       = 910, -- Temple of Ahn'Qiraj/Brood of Nozdormu
+        [532]       = 967,      -- Karazhan/The Violet Eye
         [533]       = 529, -- Naxxramas/Argent Dawn
+        [544]       = A and 946 or H and 947, -- Magtheridon's Lair/Honor Hold or Thrallmar
+        [548]       = 942,      -- Serpentshrine Cavern/Cenarion Expedition
+        [550]       = 935,      -- Tempest Keep/The Sha'tar
+        [564]       = 1012,     -- Black Temple/Ashtongue Deathsworn
+        [565]       = 1038,     -- Gruul's Lair/Ogri'la
+        [580]       = 1077,     -- Sunwell Plateau/Shattered Sun Offensive
     }
     return instancesAndFactions
 end

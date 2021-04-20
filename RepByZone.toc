@@ -60,12 +60,14 @@ Core-Retail.lua
 Data-Retail.lua
 InstanceData-Retail.lua
 #@end-version-retail@
-#@version-classic@
-Core-Classic.lua
-Data-Classic.lua
-#@end-version-classic@
-#@version-bc@
-Core-BC.lua
-Data-BC.lua
-#@end-version-bc@
+#@non-debug@
+# #@version-classic@
+# Core-Classic.lua
+# Data-Classic.lua
+# #@end-version-classic@
+# #@version-bc@
+# Core-BC.lua
+# Data-BC.lua
+# #@end-version-bc@
+#@end-non-debug@
 Options.lua
