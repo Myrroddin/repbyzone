@@ -138,17 +138,9 @@ function RepByZone:SubZonesAndFactions()
         -- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
 
         --------- Vanilla ---------
-        [19]        = 309,      -- Zul'Gurub/Zandalar Tribe
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
         [100]       = 47,       -- Nesingwary's Expedition/Ironforge
-        [102]       = 309,      -- Ruins of Zul'Kunda/Zandalar Tribe
-        [103]       = 309,      -- Ruins of Zul'Mamwe/Zandalar Tribe
-        [122]       = 270,      -- Zuuldaia Ruins/Zandalar Tribe
-        [123]       = 309,      -- Bal'lal Ruins/Zandalar Tribe
-        [125]       = 270,      -- Kal'ai Ruins/Zandalar Tribe
-        [127]       = 309,      -- Balia'mah Ruins/Zandalar Tribe
-        [128]       = 270,      -- Ziata'jai Ruins/Zandalar Tribe
         [133]       = 54,       -- New Tinkertown/Gnomeregan
 		[150]       = 72,       -- Menethil Harbor/Stormwind
         [152]       = 1106,     -- The Bulwark/Argent Crusade
@@ -166,7 +158,6 @@ function RepByZone:SubZonesAndFactions()
         [288]       = 72,       -- Azurelode Mine/Stormwind
 		[297]       = 81,       -- Jaguero Isle/Thunder Bluff
 		[299]       = 72,       -- Menethil Bay/Stormwind
-        [311]       = 270,      -- Ruins of Aboraz/Zandalar Tribe
         [313]       = 349,      -- Northfold Manor/Ravenholdt
         [321]       = 68,       -- Hammerfall/Undercity
         [324]       = 349,      -- Stromgarde Keep/Ravenholdt
@@ -180,7 +171,6 @@ function RepByZone:SubZonesAndFactions()
         [392]       = 470,      -- Ratchet/Ratchet
         [393]       = 530,      -- Darkspear Strand/Darkspear Trolls
         [439]       = A and 54 or H and 76, -- The Shimmering Flats/Gnomeregan or Orgrimmar
-        [477]       = 270,      -- Ruins of Jubuwal/Zandalar Tribe
         [484]       = H and 81 or A and 69, -- Freewind Post/Thunder Bluff or Darnassus
         [501]       = 369,     -- Beezil's Wreck/Gadgetzan
         [517]       = 1358,     -- Tidefury Cove/Nat Pagle
@@ -222,7 +212,6 @@ function RepByZone:SubZonesAndFactions()
         [1857]      = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
 		[1858]      = 1174,     -- Boulder'gor/Wildhammer Clan
         [1941]      = 989,      -- Caverns of Time/Keepers of Time
-		[1977]      = 309,      -- Zul'Gurub/Zandalar Tribe
         [1998]      = 1134,     -- Talonbranch Glade/Gilneas
         [2079]      = A and 54 or H and 68, -- Alcaz Island/Gnomeregan or Undercity
 		[2097]      = H and 81 or A and 69, -- Darkcloud Pinnacle/Thunder Bluff or Darnassus
@@ -250,9 +239,7 @@ function RepByZone:SubZonesAndFactions()
         [2897]      = 530,      -- Zoram'gar Outpost/Darkspear Trolls
         [3137]      = 69,       -- Talrendis Point/Darnassus
 		[3197]      = 72,       -- Chillwind Camp/Stormwind
-        [3217]      = 809,      -- Dire Maul (The Maul)/Shen'dralar
         [3319]      = 890,      -- Silverwing Grove/Silverwing Sentinels
-        [3357]      = 270,      -- Yojamba Isle/Zandalar Tribe
         [3426]      = 69,       -- Staghelm Point/Darnassus
         [3427]      = 47,       -- Bronzebeard Encampment/Ironforge
         [3486]      = 349,      -- Ravenholdt Manor/Ravenholdt
@@ -264,7 +251,6 @@ function RepByZone:SubZonesAndFactions()
         [4803]      = 911,      -- Furien's Post/Silvermoon City
         [4882]      = 369,      -- Marshal's Stand/Gadgetzan
         [4883]      = 369,      -- Mossy Pile/Gadgetzan
-        [4992]      = 809,      -- Dire Maul (Broken Commons)/Shen'dralar
         [4925]      = 609,      -- Thunk's Abode/Cenarion Circle
         [4927]      = 76,       -- The Fold/Orgimmar
         [4933]      = 76,       -- Krom'gar Fortress/Orgimmar
