@@ -61,11 +61,11 @@ Data-Retail.lua
 InstanceData-Retail.lua
 #@end-version-retail@
 #@version-classic@
-# Core-Classic.lua
-# Data-Classic.lua
+Core-Classic.lua
+Data-Classic.lua
 #@end-version-classic@
 #@version-bc@
-# Core-BC.lua
-# Data-BC.lua
+Core-BC.lua
+Data-BC.lua
 #@end-version-bc@
 Options.lua
