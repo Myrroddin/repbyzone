@@ -16,7 +16,7 @@ function RepByZone:GetRacialRep()
     if self.db == nil then
         useClassRep = true
     else
-        useClassRep = self.db.char.useClassRep
+        useClassRep = self.db.profile.useClassRep
     end
 
     local _, playerRace = UnitRace("player")

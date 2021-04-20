@@ -369,7 +369,7 @@ function RepByZone:SubZonesAndFactions()
         [3977]      = 1031,     -- Upper Veil Shil'ak/Sha'tari Skyguard
         [3978]      = 1031,     -- Lower Veil Shil'ak/Sha'tari Skyguard
         [5554]      = 935,      -- The Mechanar Entrance/The Sha'tar
-        [5555]      = 935.      -- The Botanica Entrance/The Sha'tar
+        [5555]      = 935,      -- The Botanica Entrance/The Sha'tar
         [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
 
         --------- WotLK ---------
