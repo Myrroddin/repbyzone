@@ -68,6 +68,9 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
+
+    -- Clean up SV after transition from older format
+    self.db.char = nil
     
     self:SetEnabledState(db.enabled)
 
@@ -160,9 +163,13 @@ function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
 end
 
-function RepByZone:LoginReload(event, ...)
-    local isLogin, isReloadUI = ...
-    self:SwitchedZones()
+function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
+    if isInitialLogin or isReloadingUi then
+        self:SwitchedZones()
+    else
+        -- Zoning, and that's handled elsewhere
+        return
+    end
 end
 
 -------------------- Reputation code starts here --------------------

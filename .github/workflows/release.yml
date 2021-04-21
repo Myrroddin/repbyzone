@@ -7,7 +7,7 @@ name: Package and release
 # other branches or even pullrequests.
 on:
   push:
-    branches: [ master ] # uncomment this line to make alpha builds
+    # branches: [ master ] # uncomment this line to make alpha builds
     tags:
       - '**'
 
@@ -43,17 +43,17 @@ jobs:
       - name: Package and release for Classic
         uses: BigWigsMods/packager@master
         with:
-          args: -g classic -m .pkgmeta-classic
+          args: -g classic -m pkgmeta-classic.yml
       
       # another example where we supply additional arguments, this example is specifically to release
       # for the TBC version of the game
       - name: Package and release for TBC
         uses: BigWigsMods/packager@master
         with:
-          args: -g bc -m .pkgmeta-bc
+          args: -g bc -m pkgmeta-bc.yml
       
       # for the Retail version of the game
       - name: Package and release
         uses: BigWigsMods/packager@master
         with:
-          args: -m .pkgmeta-retail
+          args: -m pkgmeta-retail.yml

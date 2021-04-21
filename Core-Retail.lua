@@ -87,6 +87,9 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
+
+    -- Clean up SV after transition from older format
+    self.db.char = nil
     
     self:SetEnabledState(db.enabled)
 
@@ -109,6 +112,7 @@ function RepByZone:OnInitialize()
 
     -- Populate variables
     self.racialRepID, self.racialRepName = self:GetRacialRep()
+    self.covenantRepID = self:CovenantToFactionID()
 
     -- Check taxi status
     isOnTaxi = UnitOnTaxi("player")
@@ -134,7 +138,6 @@ function RepByZone:OnEnable()
         self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
     end
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
-    self:JoinedCovenant()
 
     -- Check taxi status
     isOnTaxi = UnitOnTaxi("player")
@@ -186,9 +189,13 @@ function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
 end
 
-function RepByZone:LoginReload(event, ...)
-    local isLogin, isReloadUI = ...
-    self:SwitchedZones()
+function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
+    if isInitialLogin or isReloadingUi then
+        self:SwitchedZones()
+    else
+        -- Zoning, and that's handled elsewhere
+        return
+    end
 end
 
 local covenantReps = {
