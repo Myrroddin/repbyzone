@@ -82,7 +82,7 @@ function RepByZone:ZoneAndFactionList()
         [122]       = 1077,     -- Isle of Quel'Danas/Shattered Sun Offensive
 
         --------- WotLK ---------
-        [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valliance Expedition or Warsong Offensive
+        [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valiance Expedition or Warsong Offensive
         [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
 
         --------- Cataclysm ---------

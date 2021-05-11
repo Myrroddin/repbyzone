@@ -25,6 +25,7 @@ function RepByZone:InstancesAndFactionList()
         [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
         [1803]      = A and 72 or H and 68, -- Seething Shore/Stormwind or Undercity
         [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
+        [2118]      = A and 1037 or H and 1052, -- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
         [2177]      = A and 509 or H and 510, -- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
 
         ---------- Vanilla ----------
@@ -80,8 +81,28 @@ function RepByZone:InstancesAndFactionList()
         ---------- WotLK ----------
         [249]       = A and 72 or H and 76, -- Onyxia's Lair/Stormwind or Orgrimmar
         [533]       = 1106,     -- Naxxramas/Argent Crusade
-        [631]       = 1106,     -- Icecrown Citadel/Argent Crusade
+        [574]       = A and 1050 or H and 1067, -- Utgarde Keep/Valiance Expedition or The Hand of Vengeance
+        [575]       = A and 1050 or H and 1067, -- Utgarde Pinnacle/Valiance Expedition or The Hand of Vengeance
+        [576]       = 1090,     -- The Nexus/Kirin Tor
+        [578]       = 1091,     -- The Oculus/The Wyrmrest Accord
+        [595]       = 989,      -- The Culling of Stratholme/Keepers of Time
+        [599]       = A and 1050 or H and 1067, -- Halls of Stone/Valiance Expedition or The Hand of Vengeance
+        [600]       = A and 1050 or H and 1067, -- Drak'Tharon Keep/Valiance Expedition or The Hand of Vengeance
+        [601]       = A and 1050 or H and 1067, -- Azjol-Nerub/Valiance Expedition or The Hand of Vengeance
+        [602]       = A and 1050 or H and 1067, -- Halls of Lightning/Valiance Expedition or The Hand of Vengeance
+        [603]       = 1119,     -- Ulduar/The Sons of Hodir
+        [604]       = A and 1050 or H and 1067, -- Gundrak/Valiance Expedition or The Hand of Vengeance
+        [608]       = 1090,     -- The Violet Hold/Kirin Tor
+        [615]       = 1091,     -- The Eye of Eternity/The Wyrmrest Accord
+        [619]       = A and 1050 or H and 1067, -- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
+        [624]       = A and 1037 or H and 1052, -- Vault of Archavon/Alliance Vanguard or Horde Expedition
+        [631]       = 1156,     -- Icecrown Citadel/The Ashen Verdict
+        [632]       = 1156,     -- Forge of Souls/The Ashen Verdict
         [649]       = 1106,     -- Trial of the Crusader/Argent Crusade
+        [650]       = 1106,     -- Trial of the Champion/Argent Crusade
+        [658]       = 1156,     -- Pit of Saron/The Ashen Verdict
+        [668]       = 1156,     -- Halls of Reflection/The Ashen Verdict
+        [724]       = 1091,     -- The Ruby Sanctum/The Wyrmrest Accord
 
         ---------- Cataclysm ----------
         [369]       = 72,       -- Deeprun Tram/Stormwind
