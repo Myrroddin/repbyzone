@@ -81,6 +81,10 @@ function RepByZone:ZoneAndFactionList()
         [111]       = 935,      -- Shattrath City/The Sha'tar
         [122]       = 1077,     -- Isle of Quel'Danas/Shattered Sun Offensive
 
+        --------- WotLK ---------
+        [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valliance Expedition or Warsong Offensive
+        [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
+
         --------- Cataclysm ---------
 
         --------- MoP ---------
@@ -373,9 +377,44 @@ function RepByZone:SubZonesAndFactions()
         [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
 
         --------- WotLK ---------
+        [4023]      = 1090,     -- Amber Ledge/Kirin Tor
+        [4024]      = 1090,     -- Coldarra/Kirin Tor
+        [4033]      = 942,      -- Winterfin Village/Cenarion Expedition
+        [4037]      = 1064,     -- Taunka'le Village/The Taunka
+        [4040]      = 1073,     -- Njord's Breath Bay/The Kalu'ak
+        [4041]      = 1073,     -- Kaskala/The Kalu'ak
+        [4097]      = 942,      -- Winterfin Caverns/Cenarion Expedition
+        [4099]      = 942,      -- Winterfin Retreat/Cenarion Expedition
+        [4113]      = 1073,     -- Unu'pe/The Kalu'ak
+        [4120]      = 1090,     -- The Nexus/Kirin Tor
+        [4121]      = 1090,     -- Transitus Shield/Kirin Tor
+        [4151]      = 1064,     -- Westwind Refuge Camp/The Taunka
+        [4152]      = 1073,     -- Moa'ki Harbor/The Kalu'ak
+        [4155]      = 1073,     -- The Half Shell/The Kalu'ak
+        [4158]      = 1037,     -- Stars' Rest/Alliance Vanguard
+        [4165]      = 1052,     -- Agmar's Hammer/Horde Expedition
+        [4169]      = 1037,     -- Fordragon Hold/Alliance Vanguard
+        [4170]      = 1052,     -- Kor'kron Vanguard/Horde Expedition
+        [4171]      = A and 1037 or H and 1052, -- The Court of Skulls/Alliance Vanguard or Horde Expedition
+        [4172]      = A and 1037 or H and 1052, -- Angrathar the Wrathgate/Alliance Vanguard or Horde Expedition
+        [4177]      = 1037,     -- Wintergarde Keep/Alliance Vanguard
+        [4178]      = 1037,     -- Wintergarde Mine/Alliance Vanguarde
+        [4186]      = 1067,     -- Venomspite/The Hand of Vengeance
+        [4188]      = 1037,     -- The Carrion Fields/Alliance Vanguard
+        [4189]      = 942,      -- D.E.H.T.A Encampment/Cenarion Expedition
+        [4190]      = 1037,     -- Thorson's Post/Alliance Vanguard
+        [4191]      = 1106,     -- Light's Trust/Argent Crusade
+        [4224]      = 1073,     -- The Briny Pinnacle/The Kalu'ak
+        [4227]      = 530,      -- Dragon's Fall/Darkspear Trolls
+        [4233]      = 1106,     -- Dawn's Reach/Argent Crusade
         [4234]      = 1106,     -- Naxxramas/Argent Crusade
+        [4243]      = 1037,     -- Wintergarde Crypt/Alliance Vanguard
+        [4246]      = 1037,     -- Wintergarde Mausoleum/Alliance Vanguard
+        [4253]      = 2159,     -- 7th Legion Front/7th Legion
+        [4256]      = A and 1094 or H and 1124, -- Drak'mar Lake/The Silver Covenant or The Sunreavers
         [4281]      = 1098,     -- Archerus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
         [4342]      = 1098,     -- Archerus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
+        [5561]      = 1090,     -- The Nexus Entrance/Kirin Tor
 
         --------- MoP ---------
         [4081]      = 81,       -- The Dawnchaser/Thunder Bluff
