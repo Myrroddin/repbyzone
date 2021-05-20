@@ -190,13 +190,6 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    --[[if isInitialLogin or isReloadingUi then
-        self:SwitchedZones()
-    else
-        -- Zoning, and that's handled elsewhere
-        return
-    end
-    ]]--
     self:SwitchedZones()
 end
 
