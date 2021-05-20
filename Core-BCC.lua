@@ -248,8 +248,13 @@ end
 -- Table to localize subzones that Blizzard does not provide areaIDs
 local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 	-- ["Subzone"] = factionID
+	["Aldor Rise"] = 932, -- The Aldor
+    ["Deeprun Tram"] = 72, -- Stormwind
 	["Dwarven District"] = 47, -- Ironforge
+    ["Scryer's Tier"] = 934, -- The Scryers
+    ["Shrine of Unending Light"] = 932 -- The Aldor
 	["The Salty Sailor Tavern"] = 21, -- Booty Bay
+    ["The Seer's Library"] = 934, -- The Scryers
 	["Tinker Town"] = 54, -- Gnomeregan Exiles
 	["Valley of Spirits"] = 530, -- Darkspear Trolls
 	["Valley of Wisdom"] = 81, -- Thunder Bluff
