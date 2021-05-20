@@ -18,5 +18,5 @@ ignore:
     - Libs/LibStub/tests
     - Data-Classic.lua
     - Core-Classic.lua
-    - Data-BC.lua
-    - Core-BC.lua
+    - Data-BCC.lua
+    - Core-BCC.lua

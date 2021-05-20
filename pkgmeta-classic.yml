@@ -18,6 +18,6 @@ ignore:
     - Libs/LibStub/tests
     - Data-Retail.lua
     - InstanceData-Retail.lua
-    - Data-BC.lua
+    - Data-BCC.lua
     - Core-Retail.lua
-    - Core-BC.lua
+    - Core-BCC.lua

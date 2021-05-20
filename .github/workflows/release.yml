@@ -50,7 +50,7 @@ jobs:
       - name: Package and release for TBC
         uses: BigWigsMods/packager@master
         with:
-          args: -g bc -m pkgmeta-bc.yml
+          args: -g bcc -m pkgmeta-bcc.yml
       
       # for the Retail version of the game
       - name: Package and release

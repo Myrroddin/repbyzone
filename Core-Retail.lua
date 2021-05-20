@@ -34,7 +34,7 @@ function RepByZone:GetRacialRep()
     or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
     or playerRace == "Draenei" and 930 -- Exodar
     or playerRace == "Worgen" and 1134 -- Gilneas
-    or playerRace == "BloodElf" and 911 -- Sukvermoon City
+    or playerRace == "BloodElf" and 911 -- Silvermoon City
     or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
     or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
     or playerRace == "VoidElf" and 2170 -- Argussian Reach
@@ -190,12 +190,14 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    if isInitialLogin or isReloadingUi then
+    --[[if isInitialLogin or isReloadingUi then
         self:SwitchedZones()
     else
         -- Zoning, and that's handled elsewhere
         return
     end
+    ]]--
+    self:SwitchedZones()
 end
 
 local covenantReps = {

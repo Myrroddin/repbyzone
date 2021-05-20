@@ -1,6 +1,6 @@
 ## Interface-Retail: 90005
 ## Interface-Classic: 11307
-## Interface-BC: 20501
+## Interface-BCC: 20501
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -65,9 +65,9 @@ InstanceData-Retail.lua
 # Core-Classic.lua
 # Data-Classic.lua
 # #@end-version-classic@
-# #@version-bc@
-# Core-BC.lua
-# Data-BC.lua
-# #@end-version-bc@
+# #@version-bcc@
+# Core-BCC.lua
+# Data-BCC.lua
+# #@end-version-bcc@
 #@end-non-debug@
 Options.lua
