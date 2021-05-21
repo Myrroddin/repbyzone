@@ -6,7 +6,7 @@ local A = UnitFactionGroup("player") == "Alliance"
 function RepByZone:ZoneAndFactionList()
     -- UImapID = factionID
     -- If an UImapID is not listed, that zone has no associated factionID
-    -- see https://wow.gamepedia.com/UiMapID/Classic for the Classic list of UImapIDs
+    -- see https://wow.tools/dbc/?dbc=uimap&build=2.5.1.38741#page=1 for the TBC Classic list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
     local zonesAndFactions = {
@@ -60,6 +60,21 @@ function RepByZone:ZoneAndFactionList()
         [1447]      = A and 69 or H and 76, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
 
+        --------- TBC ---------
+        [1941]      = 911,      -- Eversong Woods/Silvermoon City
+        [1942]      = 922,      -- Ghostlands/Tranquillien
+        [1943]      = 930,      -- Azuremyst Isle/Exodar
+        [1944]      = A and 946 or H and 947, -- Hellfire Peninsula/Honor Hold or Thrallmar
+        [1946]      = 942,      -- Zangarmarsh/Cenarion Expedition
+        [1947]      = 930,      -- The Exodar/Exodar
+        [1948]      = 1012,     -- Shadowmoon Valley/Ashtongue Deathsworn
+        [1950]      = 930,      -- Bloodmyst Isle/Exodar
+        [1951]      = A and 978 or H and 941, -- Nagrand/Kurenai or The Mag'har
+        [1952]      = 1011,     -- Terokkar Forest/Lower City
+        [1953]      = 933,      -- Netherstorm/The Consortium
+        [1954]      = 911,      -- Silvermoon City/Silvermoon City
+        [1955]      = 935,      -- Shattrath City/The Sha'tar
+        [1957]      = 1077,     -- Isle of Quel'Danas/Shattered Sun Offensive
     }
     return zonesAndFactions
 end
