@@ -328,11 +328,6 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    if WorldMapFrame:IsShown() then
-		-- Don't switch while the map is open
-		return
-	end
-
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
