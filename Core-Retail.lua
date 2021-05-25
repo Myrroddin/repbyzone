@@ -56,6 +56,7 @@ function RepByZone:GetRacialRep()
     or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
     or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
     or classFileName == "MAGE" and 1090 -- Kirin Tor
+    or classFileName == "MONK" and 1341 -- The August Celestials
 
     self:OpenAllFactionHeaders()
     if racialRepID then
