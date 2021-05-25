@@ -22,6 +22,7 @@ function RepByZone:GetRacialRep()
     local _, playerRace = UnitRace("player")
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
+    local whichID, whichName = nil, nil
 
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
@@ -50,17 +51,43 @@ function RepByZone:GetRacialRep()
     -- classes have factions
     local classRepID = nil
     local _, classFileName = UnitClass("player")
-    if useClassRep then
-        classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
-        or classFileName == "DRUID" and 609 -- Cenarion Circle
-        or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
-        or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
-        or classFileName == "MAGE" and 1090 -- Kirin Tor
+    classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    or classFileName == "DRUID" and 609 -- Cenarion Circle
+    or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
+    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
+    or classFileName == "MAGE" and 1090 -- Kirin Tor
+
+    self:OpenAllFactionHeaders()
+    if racialRepID then
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == racialRepID then
+                    whichID, whichName = factionID, name
+                    break
+                end
+            end
+        end
     end
 
-    racialRepID = classRepID or racialRepID
-    local racialRepName = GetFactionInfoByID(racialRepID)
-    return racialRepID, racialRepName
+    if useClassRep then
+        if classRepID then
+            for i = 1, GetNumFactions() do
+                local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+                if name and not isHeader then
+                    if factionID == classRepID then
+                        whichID, whichName = factionID, name
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    self:CloseAllFactionHeaders()
+    self.racialRepID = useClassRep and classRepID or racialRepID
+    self.racialRepName = GetFactionInfoByID(self.racialRepID)
+    return whichID, whichName
 end
 
 -- Return a table of defaul SV values
@@ -111,7 +138,6 @@ function RepByZone:OnInitialize()
     self:RegisterChatCommand("rbz", "SlashHandler")
 
     -- Populate variables
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
     self.covenantRepID = self:CovenantToFactionID()
 
     -- Check taxi status
@@ -172,7 +198,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
-    self.racialRepID, self.racialRepName = db.watchedRepID, db.watchedRepName
+    self:GetRacialRep()
 end
 
 ------------------- Event handlers starts here --------------------

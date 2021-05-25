@@ -18,6 +18,7 @@ function RepByZone:GetRacialRep()
     else
         useClassRep = self.db.profile.useClassRep
     end
+    local whichID, whichName = nil, nil
 
     local _, playerRace = UnitRace("player")
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
@@ -39,9 +40,37 @@ function RepByZone:GetRacialRep()
         or classFileName == "DRUID" and 609 -- Cenarion Circle
     end
 
-    racialRepID = classRepID or racialRepID
-    local racialRepName = GetFactionInfoByID(racialRepID)
-    return racialRepID, racialRepName
+    self:OpenAllFactionHeaders()
+    if racialRepID then
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == racialRepID then
+                    whichID, whichName = factionID, name
+                    break
+                end
+            end
+        end
+    end
+
+    if useClassRep then
+        if classRepID then
+            for i = 1, GetNumFactions() do
+                local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+                if name and not isHeader then
+                    if factionID == classRepID then
+                        whichID, whichName = factionID, name
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    self:CloseAllFactionHeaders()
+    self.racialRepID = useClassRep and classRepID or racialRepID
+    self.racialRepName = GetFactionInfoByID(self.racialRepID)
+    return whichID, whichName
 end
 
 -- Return a table of defaul SV values
@@ -146,7 +175,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
-    self.racialRepID, self.racialRepName = db.watchedRepID, db.watchedRepName
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
 end
 
 ------------------- Event handlers starts here --------------------

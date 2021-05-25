@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 function RepByZone:GetOptions()
     local db = self.db.profile
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
+    self:GetRacialRep()
     local options = {
         name = "RepByZone",
         handler = RepByZone,
@@ -80,7 +80,7 @@ function RepByZone:GetOptions()
                         get = function() return db.useClassRep end,
                         set = function(info, value)
                             db.useClassRep = value
-                            self.racialRepID, self.racialRepName = self:GetRacialRep()
+                            self:GetRacialRep()
                             self:SwitchedZones()
                         end
                     },
