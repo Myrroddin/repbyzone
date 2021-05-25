@@ -20,3 +20,6 @@ ignore:
     - Core-Classic.lua
     - Data-BCC.lua
     - Core-BCC.lua
+    - pkgmeta-classic.yml
+    - pkgmeta-bcc.yml
+    - pkmeta-retail.yml
