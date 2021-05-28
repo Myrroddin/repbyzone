@@ -36,7 +36,6 @@ function RepByZone:GetOptions()
                         order = 10,
                         name = L["Watch Subzones"],
                         desc = L["Switch watched faction based on subzones."],
-                        descStyle = "inline",
                         type = "toggle",
                         get = function() return db.watchSubZones end,
                         set = function(info, value)
@@ -55,7 +54,6 @@ function RepByZone:GetOptions()
                         order = 20,
                         name = L["Verbose"],
                         desc = L["Print to chat when you switch watched faction."],
-                        descStyle = "inline",
                         type = "toggle",
                         get = function() return db.verbose end,
                         set = function(info, value) db.verbose = value end
@@ -64,7 +62,6 @@ function RepByZone:GetOptions()
                         order = 30,
                         name = L["Switch on taxi"],
                         desc = L["Switch watched faction while you are on a taxi."],
-                        descStyle = "inline",
                         type = "toggle",
                         get = function() return db.watchOnTaxi end,
                         set = function(info, value)
@@ -74,8 +71,12 @@ function RepByZone:GetOptions()
                     useClassRep = {
                         order = 40,
                         name = L["Override some default racial reps with class reps."],
-                        desc = function() return (L["Your class reputation is %s"]):format(self.racialRepName) end,
-                        descStyle = "inline",
+                        desc = function()
+                            if self.racialRepName == nil then
+                                self:GetRacialRep()
+                            end
+                            return (L["Your class reputation is %s"]):format(self.racialRepName)
+                        end,
                         type = "toggle",
                         get = function() return db.useClassRep end,
                         set = function(info, value)
@@ -90,7 +91,12 @@ function RepByZone:GetOptions()
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",
                         values = function() return self:GetAllFactions() end,
-                        get = function() return db.watchedRepID end,
+                        get = function()
+                            if db.watchedRepID == nil then
+                                db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+                            end
+                            return db.watchedRepID
+                        end,
                         set = function(info, value)
                             db.watchedRepID = value
                             if db.watchedRepID == "0-none" then

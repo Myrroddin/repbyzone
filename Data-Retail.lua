@@ -84,6 +84,7 @@ function RepByZone:ZoneAndFactionList()
         --------- WotLK ---------
         [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valiance Expedition or Warsong Offensive
         [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
+        [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
 
         --------- Cataclysm ---------
 

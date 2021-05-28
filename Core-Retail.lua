@@ -15,6 +15,8 @@ function RepByZone:GetRacialRep()
     local useClassRep
     if self.db == nil then
         useClassRep = true
+    elseif self.db.profile.useClassRep == nil then
+        useClassRep = true
     else
         useClassRep = self.db.profile.useClassRep
     end
@@ -22,7 +24,7 @@ function RepByZone:GetRacialRep()
     local _, playerRace = UnitRace("player")
     local H = UnitFactionGroup("player") == "Horde"
     local A = UnitFactionGroup("player") == "Alliance"
-    local whichID, whichName = nil, nil
+    local whichID, whichName
 
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
@@ -37,21 +39,20 @@ function RepByZone:GetRacialRep()
     or playerRace == "Worgen" and 1134 -- Gilneas
     or playerRace == "BloodElf" and 911 -- Silvermoon City
     or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
-    or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
-    or playerRace == "VoidElf" and 2170 -- Argussian Reach
-    or playerRace == "Mechagnome" and 2391 -- Rustbolt Resistance
-    or playerRace == "Vulpera" and 2158 -- Voldunai
-    or playerRace == "KulTiran" and 2160 -- Proudmoore Admiralty
-    or playerRace == "ZandalariTroll" and 2103 -- Zandalari Empire
-    or playerRace == "Nightborne" and 1859 -- The Nightfallen
-    or playerRace == "MagharOrc" and 941 -- The Mag'har
-    or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
-    or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
+    or playerRace == "HighmountainTauren" and 1828 or 81 -- Highmountain Tribe or Thunder Bluff
+    or playerRace == "VoidElf" and 2170 or 69 -- Argussian Reach or Danassus
+    or playerRace == "Mechagnome" and 2391 or 54 -- Rustbolt Resistance or Gnomeregan
+    or playerRace == "Vulpera" and 2158 or 76 -- Voldunai or Orgrimmar
+    or playerRace == "KulTiran" and 2160 or 72 -- Proudmoore Admiralty or Stormwind
+    or playerRace == "ZandalariTroll" and 2103 or 530 -- Zandalari Empire or Darkspear Trolls
+    or playerRace == "Nightborne" and 1859 or 911 -- The Nightfallen or Silvermoon City
+    or playerRace == "MagharOrc" and 941 or 76 -- The Mag'har or Orgrimmar
+    or playerRace == "DarkIronDwarf" and 59 or 47 -- Thorium Brotherhood or Ironforge
+    or playerRace == "LightforgedDraenei" and 2165 or 930 -- Army of the Light or Exodar
 
-    -- classes have factions
-    local classRepID = nil
+    -- Classes have factions
     local _, classFileName = UnitClass("player")
-    classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
     or classFileName == "DRUID" and 609 -- Cenarion Circle
     or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
     or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
@@ -59,67 +60,78 @@ function RepByZone:GetRacialRep()
     or classFileName == "MONK" and 1341 -- The August Celestials
 
     self:OpenAllFactionHeaders()
-    if racialRepID then
+    -- Check if the player has discovered the race faction
+    local function CheckRace()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == racialRepID then
                     whichID, whichName = factionID, name
-                    break
                 end
             end
         end
     end
+    CheckRace()
 
+    -- Check if the player has discoverd the class faction
     if useClassRep then
-        if classRepID then
-            for i = 1, GetNumFactions() do
-                local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-                if name and not isHeader then
-                    if factionID == classRepID then
-                        whichID, whichName = factionID, name
-                        break
-                    end
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == classRepID then
+                    whichID, whichName = factionID, name
                 end
             end
         end
+        -- Either no class faction or player hasn't discovered it yet
+        if not whichID then
+            CheckRace()
+        end
     end
-    
     self:CloseAllFactionHeaders()
+
     self.racialRepID = useClassRep and classRepID or racialRepID
     self.racialRepName = GetFactionInfoByID(self.racialRepID)
     return whichID, whichName
 end
 
 -- Return a table of defaul SV values
-function RepByZone:ReturnDefaults()
-    local racialRepID, racialRepName = self:GetRacialRep()
-    local defaults = {
-        profile = {
-            enabled = true,
-            watchSubZones = true,
-            verbose = true,
-            watchOnTaxi = false,
-            useClassRep = true,
-            watchedRepID = racialRepID,
-            watchedRepName = racialRepName,
-        }
+local defaults = {
+    profile = {
+        enabled = true,
+        watchSubZones = true,
+        verbose = true,
+        watchOnTaxi = false,
+        useClassRep = true,
     }
-    return defaults
-end
+}
 
 function RepByZone:OnInitialize()
-    local defaults = self:ReturnDefaults()
     self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
-
-    -- Clean up SV after transition from older format
-    self.db.char = nil
     
     self:SetEnabledState(db.enabled)
+
+    if db.watchedRepID == nil then
+        db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+    end
+
+    if self.racialRepID == nil then
+        self:GetRacialRep()
+    end
+
+    -- Populate variables
+    isOnTaxi = UnitOnTaxi("player")
+    self.covenantRepID = self:CovenantToFactionID()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
+
+    -- Cache instance, zone, and subzone data
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -137,17 +149,6 @@ function RepByZone:OnInitialize()
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
-
-    -- Populate variables
-    self.covenantRepID = self:CovenantToFactionID()
-
-    -- Check taxi status
-    isOnTaxi = UnitOnTaxi("player")
-
-    -- Cache instance, zone, and subzone data
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
 end
 
 function RepByZone:OnEnable()
@@ -166,8 +167,10 @@ function RepByZone:OnEnable()
     end
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
 
-    -- Check taxi status
+    -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
+    self.covenantRepID = self:CovenantToFactionID()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
 end
 
 function RepByZone:OnDisable()
@@ -199,7 +202,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
-    self:GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
 end
 
 ------------------- Event handlers starts here --------------------

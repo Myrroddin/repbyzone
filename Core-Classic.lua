@@ -11,14 +11,16 @@ local subZonesAndFactions
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
-    -- Catch possible errors during initialization
-    local useClassRep
-    if self.db == nil then
-        useClassRep = true
-    else
-        useClassRep = self.db.profile.useClassRep
-    end
-    local whichID, whichName = nil, nil
+     -- Catch possible errors during initialization
+     local useClassRep
+     if self.db == nil then
+         useClassRep = true
+     elseif self.db.profile.useClassRep == nil then
+         useClassRep = true
+     else
+         useClassRep = self.db.profile.useClassRep
+     end
+     local whichID, whichName
 
     local _, playerRace = UnitRace("player")
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
@@ -30,76 +32,83 @@ function RepByZone:GetRacialRep()
     or playerRace == "Troll" and 530 -- Darkspear Trolls
     or playerRace == "Scourge" and 68 -- Undercity
 
-    -- classes have factions
-    local classRepID = nil
+    -- Classes have factions
     local _, classFileName = UnitClass("player")
-    if useClassRep then
-        classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
-        or classFileName == "DRUID" and 609 -- Cenarion Circle
-    end
+    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    or classFileName == "DRUID" and 609 -- Cenarion Circle
 
     self:OpenAllFactionHeaders()
-    if racialRepID then
+    -- Check if the player has discovered the race faction
+    local function CheckRace()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == racialRepID then
                     whichID, whichName = factionID, name
-                    break
                 end
             end
         end
     end
+    CheckRace()
 
+    -- Check if the player has discoverd the class faction
     if useClassRep then
-        if classRepID then
-            for i = 1, GetNumFactions() do
-                local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-                if name and not isHeader then
-                    if factionID == classRepID then
-                        whichID, whichName = factionID, name
-                        break
-                    end
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == classRepID then
+                    whichID, whichName = factionID, name
                 end
             end
         end
+        -- Either no class faction or player hasn't discovered it yet
+        if not whichID then
+            CheckRace()
+        end
     end
-    
     self:CloseAllFactionHeaders()
+
     self.racialRepID = useClassRep and classRepID or racialRepID
     self.racialRepName = GetFactionInfoByID(self.racialRepID)
     return whichID, whichName
 end
 
 -- Return a table of defaul SV values
-function RepByZone:ReturnDefaults()
-    local racialRepID, racialRepName = self:GetRacialRep()
-    local defaults = {
-        profile = {
-            enabled = true,
-            watchSubZones = true,
-            verbose = true,
-            watchOnTaxi = false,
-            useClassRep = true,
-            watchedRepID = racialRepID,
-            watchedRepName = racialRepName,
-        }
+local defaults = {
+    profile = {
+        enabled = true,
+        watchSubZones = true,
+        verbose = true,
+        watchOnTaxi = false,
+        useClassRep = true,
     }
-    return defaults
-end
+}
 
 function RepByZone:OnInitialize()
-    local defaults = self:ReturnDefaults()
     self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
-
-    -- Clean up SV after transition from older format
-    self.db.char = nil
     
     self:SetEnabledState(db.enabled)
+
+    if db.watchedRepID == nil then
+        db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+    end
+
+    if self.racialRepID == nil then
+        self:GetRacialRep()
+    end
+
+    -- Populate variables
+    isOnTaxi = UnitOnTaxi("player")
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
+
+    -- Cache instance, zone, and subzone data
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -117,17 +126,6 @@ function RepByZone:OnInitialize()
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
-
-    -- Populate variables
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
-
-    -- Check taxi status
-    isOnTaxi = UnitOnTaxi("player")
-
-    -- Cache instance, zone, and subzone data
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
 end
 
 function RepByZone:OnEnable()
@@ -142,8 +140,9 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload") -- Set watched faction when the player first loads into the game
 
-    -- Check taxi status
+    -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
 end
 
 function RepByZone:OnDisable()
