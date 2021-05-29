@@ -314,22 +314,22 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
-        -- Apply subzone data
-        if db.watchSubZones then
-            -- Blizzard provided areaIDs
-            for areaID, factionID in pairs(subZonesAndFactions) do
-                if C_Map.GetAreaInfo(areaID) == subZone then
-                    if self:SetWatchedFactionByFactionID(factionID) then
-                        return
-                    end
+    end
+
+    if db.watchSubZones then
+        -- Blizzard provided areaIDs
+        for areaID, factionID in pairs(subZonesAndFactions) do
+            if C_Map.GetAreaInfo(areaID) == subZone then
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
                 end
             end
-            -- Our localized missing Blizzard areaIDs
-            for areaName, factionID in pairs(CitySubZonesAndFactions) do
-                if L[areaName] == subZone then
-                    if self:SetWatchedFactionByFactionID(factionID) then
-                        return
-                    end
+        end
+        -- Our localized missing Blizzard areaIDs
+        for areaName, factionID in pairs(CitySubZonesAndFactions) do
+            if L[areaName] == subZone then
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
                 end
             end
         end

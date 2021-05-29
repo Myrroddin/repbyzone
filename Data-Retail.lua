@@ -9,6 +9,9 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
+    if self.covenantRepID == nil then
+        self.covenantRepID = self:CovenantToFactionID()
+    end
     local covenantRepID = self.covenantRepID
     local db = self.db.char
 
