@@ -93,23 +93,6 @@ function RepByZone:OnInitialize()
     
     self:SetEnabledState(db.enabled)
 
-    if db.watchedRepID == nil then
-        db.watchedRepID, db.watchedRepName = self:GetRacialRep()
-    end
-
-    if self.racialRepID == nil then
-        self:GetRacialRep()
-    end
-
-    -- Populate variables
-    isOnTaxi = UnitOnTaxi("player")
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
-
-    -- Cache instance, zone, and subzone data
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
-
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 
@@ -129,20 +112,34 @@ function RepByZone:OnInitialize()
 end
 
 function RepByZone:OnEnable()
+    -- Populate variables
+    isOnTaxi = UnitOnTaxi("player")
+    self.covenantRepID = self:CovenantToFactionID()
+    db.watchedRepID = db.watchedRepID or self:GetRacialRep()
+    db.watchedRepName = GetFactionInfoByID(db.watchedRepID)
+    if self.racialRepID == nil then
+        self:GetRacialRep()
+    end
+
+    -- Cache instance, zone, and subzone data
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
+
     -- If player is in combat, close options panel and exit out of command line
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
+
     -- If the player loses or gains control of the character, it is one of the signs of taxi use
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload") -- Set watched faction when the player first loads into the game
 
-    -- Populate variables
-    isOnTaxi = UnitOnTaxi("player")
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
+    -- Set watched faction when the player first loads into the game
+    self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload")
 end
 
 function RepByZone:OnDisable()
@@ -156,6 +153,10 @@ function RepByZone:OnDisable()
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
+    isOnTaxi = nil
+    instancesAndFactions = nil
+    zonesAndFactions = nil
+    subZonesAndFactions = nil
 end
 
 function RepByZone:SlashHandler()
@@ -172,7 +173,7 @@ end
 
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
-    self.racialRepID, self.racialRepName = self:GetRacialRep()
+    db.watchedRepID, db.watchedRepName = self:GetRacialRep()
 end
 
 ------------------- Event handlers starts here --------------------
@@ -295,6 +296,25 @@ function RepByZone:SwitchedZones()
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
 
+    if db.watchSubZones then
+        -- Blizzard provided areaIDs
+        for areaID, factionID in pairs(subZonesAndFactions) do
+            if C_Map.GetAreaInfo(areaID) == subZone then
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
+                end
+            end
+        end
+        -- Our localized missing Blizzard areaIDs
+        for areaName, factionID in pairs(CitySubZonesAndFactions) do
+            if L[areaName] == subZone then
+                if self:SetWatchedFactionByFactionID(factionID) then
+                    return
+                end
+            end
+        end
+    end
+
     if inInstance then
         -- Apply instance data
         for instanceID, factionID in pairs(instancesAndFactions) do
@@ -309,25 +329,6 @@ function RepByZone:SwitchedZones()
         local UImapID = C_Map.GetBestMapForUnit("player")
         for zoneID, factionID in pairs(zonesAndFactions) do
             if zoneID == UImapID then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-    end
-
-    if db.watchSubZones then
-        -- Blizzard provided areaIDs
-        for areaID, factionID in pairs(subZonesAndFactions) do
-            if C_Map.GetAreaInfo(areaID) == subZone then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-        -- Our localized missing Blizzard areaIDs
-        for areaName, factionID in pairs(CitySubZonesAndFactions) do
-            if L[areaName] == subZone then
                 if self:SetWatchedFactionByFactionID(factionID) then
                     return
                 end
