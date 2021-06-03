@@ -13,7 +13,7 @@ function RepByZone:ZoneAndFactionList()
         self.covenantRepID = self:CovenantToFactionID()
     end
     local covenantRepID = self.covenantRepID
-    local db = self.db.char
+    local sholazarRepID = self:CheckSholazarBasin()
 
     local zonesAndFactions = {
         --------- Vanilla ----------
@@ -89,6 +89,16 @@ function RepByZone:ZoneAndFactionList()
         [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
         [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
         [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
+        [118]       = 1098,     -- Icecrown/Knights of the Ebon Blade
+        [119]       = sholazarRepID, -- See Core-Retail.lua's CheckSholazarBasin()
+        [120]       = 1119,     -- The Storm Peaks/The Sons of Hodir
+        [121]       = 1106,     -- Zul'Drak/Argent Crusade
+        [123]       = A and 1050 or H and 1052, -- Wintergrasp/Valiance Expedition or Horde Expedition
+        [124]       = 1098,     -- Plaguelands: The Scarlet Enclave (DK starting zone)/Knights of the Ebon Blade
+        [125]       = 1090,     -- Dalaran City/Kirin Tor
+        [126]       = 1090,     -- Dalaran City (The Underbelly)/Kirin Tor
+        [127]       = 1090,     -- Crystalsong Forest
+        [170]       = 1106,     -- Hrothgar's Landing/Argent Crusade
         [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
 
         --------- Cataclysm ---------
@@ -141,7 +151,6 @@ end
 
 function RepByZone:SubZonesAndFactions()
     local covenantRepID = self.covenantRepID
-    local db = self.db.char
 
     local subZonesAndFactions = {
 		-- areaID = factionID
@@ -428,9 +437,58 @@ function RepByZone:SubZonesAndFactions()
         [4256]      = A and 1094 or H and 1124, -- Drak'mar Lake/The Silver Covenant or The Sunreavers
         [4261]      = 68,       -- Ghostblade Point/Undercity
         [4281]      = 1098,     -- Archerus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
+        [4284]      = 47,       -- Nesingwary Base Camp/Ironforge
+        [4286]      = 1105,     -- The Bones of Nozronn/The Oracles
+        [4287]      = 1104,     -- Kartak's Hold/Frenzyheart Tribe
+        [4288]      = 1105,     -- Sparktouched Haven/The Oracles
+        [4291]      = 1105,     -- Rainspeaker Canopy/The Oracles
+        [4292]      = 1104,     -- Frenzyheart Hill/Frenzyheart Tribe
+        [4297]      = 1105,     -- Mosswalker Village/The Oracles
+        [4302]      = sholazarRepID, -- The Skyreach Pillar
+        [4303]      = 1104,     -- Hardknuckle Clearing/Frenzyheart Tribe
+        [4306]      = 1105,     -- Mistwhisper Village/The Oracles
+        [4308]      = 1104,     -- Spearborn Encampment/Frenzyheart Tribe
+        [4312]      = 1098,     -- Ebon Watch/Knights of the Ebon Blade
+        [4369]      = 47,       -- Dorian's Outpost/Ironforge
         [4342]      = 1098,     -- Archerus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
+        [4392]      = 1105,     -- The Stormwright's Shelf/The Oracles
+        [4429]      = 1052,     -- Grom'arsh Crash-Site/Horde Expedition
+        [4418]      = 21,       -- K3/Booty Bay
+        [4441]      = 1064,     -- Camp Tunka'lo/The Taunka
+        [4442]      = 1068,     -- Brann's Base-Camp/Explorers' League
+        [4458]      = 21,       -- Sparksocket Minefield/Booty Bay
+        [4459]      = 21,       -- Ricket's Folly/Booty Bay
         [4479]      = A and 1094 or H and 1124, -- Winter's Breath Lake/The Silver Covenant or The Sunreavers
+        [4501]      = 1106,     -- The Argent Vanguard/Argent Crusade
+        [4503]      = A and 1094 or H and 1124, -- Ironwall Dam/The Silver Covenant or The Sunreavers
+        [4504]      = 1106,     -- Valley of Echoes/Argent Crusade
+        [4505]      = 1106,     -- The Breach/Argent Crusade
+        [4506]      = 1106,     -- Scourgeholme/Argent Crusade
+        [4507]      = A and 1037 or H and 1052, -- The Broken Front/Alliance Vanguard or Horde Expedition
+        [4511]      = A and 1037 or H and 1052, -- The Skybreaker/Alliance Vanguard or Horde Expedition
+        [4512]      = A and 1037 or H and 1052, -- Orgrim's Hammer/Alliance Vanguard or Horde Expedition
+        [4516]      = 1106,     -- Ironwall Rampart/Argent Crusade
+        [4522]      = 1156,     -- Icecrown Citadel/The Ashen Verdict
+        [4541]      = 1106,     -- Vanguard Infirmary/Argent Crusade
+        [4558]      = A and 1094 or H and 1124, -- Sunreaver's Command/The Silver Covenant or The Sunreavers
+        [4559]      = A and 1094 or H and 1124, -- Windrunner's Overlook/The Silver Covenant or The Sunreavers
+        [4580]      = 1106,     -- Crusaders' Pinnacle/Argent Crusade
+        [4593]      = 1106,     -- The Pit of Fiends/Argent Crusade
+        [4616]      = A and 1094 or H and 1124, -- Sunreaver's Sanctuary/The Silver Covenant or The Sunreavers
         [4646]      = A and 1094 or H and 1124, -- Ashwood Lake/The Silver Covenant or The Sunreavers
+        [4658]      = 1106,     -- Argent Tournament Grounds/Argent Crusade
+        [4666]      = A and 1094 or H and 1124, -- Sunreaver Pavilion/The Silver Covenant or The Sunreavers
+        [4667]      = A and 1094 or H and 1124, -- Silver Covenant Pavilion/The Silver Covenant or The Sunreavers
+        [4669]      = 1106,     -- The Ring of Champions/Argent Crusade
+        [4670]      = 1106,     -- The Aspirants' Ring/Argent Crusade
+        [4671]      = 1106,     -- The Argent Valiants' Ring/Argent Crusade
+        [4672]      = A and 1094 or H and 1124, -- The Alliance Valiants' Ring/The Silver Covenant or The Sunreavers
+        [4673]      = A and 1094 or H and 1124, -- The Horde Valiants' Ring/The Silver Covenant or The Sunreavers
+        [4674]      = 1106,     -- Argent Pavilion/Argent Crusade
+        [4676]      = A and 1094 or H and 1124, -- Sunreaver Pavilion (Outside)/The Silver Covenant or The Sunreavers
+        [4677]      = A and 1094 or H and 1124, -- Silver Covenant Pavilion (Outside)/The Silver Covenant or The Sunreavers
+        [4740]      = A and 1094 or H and 1124, -- The Silver Enclave/The Silver Covenant or The Sunreavers
+        [4760]      = A and 1094 or H and 1124, -- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
         [5561]      = 1090,     -- The Nexus Entrance/Kirin Tor
 
         --------- MoP ---------

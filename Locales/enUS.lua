@@ -5,6 +5,7 @@ flag = false
 
 local L = LibStub("AceLocale-3.0"):NewLocale("RepByZone", "enUS", true, flag)
 
+L["A Hero's Welcome"] = true
 L["Aldor Rise"] = true
 L["Deeprun Tram"] = true
 L["Default watched faction"] = true
@@ -19,8 +20,12 @@ L["Shrine of Unending Light"] = true
 L["Switch on taxi"] = true
 L["Switch watched faction based on subzones."] = true
 L["Switch watched faction while you are on a taxi."] = true
+L["The Beer Garden"] = true
+L["The Crimson Dawn"] = true
+L["The Filthy Animal"] = true
 L["The Salty Sailor Tavern"] = true
 L["The Seer's Library"] = true
+L["The Silver Blade"] = true
 L["Tinker Town"] = true
 L["Toggle RepByZone on or off."] = true
 L["Valley of Spirits"] = true
