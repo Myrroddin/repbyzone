@@ -87,6 +87,8 @@ function RepByZone:ZoneAndFactionList()
         --------- WotLK ---------
         [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valiance Expedition or Warsong Offensive
         [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
+        [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
+        [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
         [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
 
         --------- Cataclysm ---------
@@ -381,6 +383,12 @@ function RepByZone:SubZonesAndFactions()
         [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
 
         --------- WotLK ---------
+        [3987]      = 1073,     -- The Isle of Spears/The Kalu'ak
+        [3988]      = 1073,     -- Kamagua/The Kalu'ak
+        [3990]      = 1073,     -- Scalawag Point/The Kalu'ak
+        [3997]      = 1068,     -- Explorers' League Outpost/Explorers' League
+        [3999]      = 1068,     -- Steel Gate/Explorers' League
+        [4018]      = 1064,     -- Camp Winterhoof/The Taunka
         [4023]      = 1090,     -- Amber Ledge/Kirin Tor
         [4024]      = 1090,     -- Coldarra/Kirin Tor
         [4033]      = 942,      -- Winterfin Village/Cenarion Expedition
@@ -408,7 +416,9 @@ function RepByZone:SubZonesAndFactions()
         [4189]      = 942,      -- D.E.H.T.A Encampment/Cenarion Expedition
         [4190]      = 1037,     -- Thorson's Post/Alliance Vanguard
         [4191]      = 1106,     -- Light's Trust/Argent Crusade
+        [4211]      = 1064,     -- Camp Oneqwah/The Taunka
         [4224]      = 1073,     -- The Briny Pinnacle/The Kalu'ak
+        [4226]      = 1073,     -- Iskaal/The Kalu'ak
         [4227]      = 530,      -- Dragon's Fall/Darkspear Trolls
         [4233]      = 1106,     -- Dawn's Reach/Argent Crusade
         [4234]      = 1106,     -- Naxxramas/Argent Crusade
@@ -416,8 +426,11 @@ function RepByZone:SubZonesAndFactions()
         [4246]      = 1037,     -- Wintergarde Mausoleum/Alliance Vanguard
         [4253]      = 2159,     -- 7th Legion Front/7th Legion
         [4256]      = A and 1094 or H and 1124, -- Drak'mar Lake/The Silver Covenant or The Sunreavers
+        [4261]      = 68,       -- Ghostblade Point/Undercity
         [4281]      = 1098,     -- Archerus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
         [4342]      = 1098,     -- Archerus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
+        [4479]      = A and 1094 or H and 1124, -- Winter's Breath Lake/The Silver Covenant or The Sunreavers
+        [4646]      = A and 1094 or H and 1124, -- Ashwood Lake/The Silver Covenant or The Sunreavers
         [5561]      = 1090,     -- The Nexus Entrance/Kirin Tor
 
         --------- MoP ---------
