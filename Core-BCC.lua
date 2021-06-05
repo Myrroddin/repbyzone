@@ -116,7 +116,6 @@ end
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
-    self.covenantRepID = self:CovenantToFactionID()
     db.watchedRepID = db.watchedRepID or self:GetRacialRep()
     db.watchedRepName = GetFactionInfoByID(db.watchedRepID)
     if self.racialRepID == nil then

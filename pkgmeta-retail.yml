@@ -22,4 +22,4 @@ ignore:
     - Core-BCC.lua
     - pkgmeta-classic.yml
     - pkgmeta-bcc.yml
-    - pkmeta-retail.yml
+    - pkgmeta-retail.yml
