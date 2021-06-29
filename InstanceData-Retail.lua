@@ -4,6 +4,8 @@ local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
 
 function RepByZone:InstancesAndFactionList()
+    local covenantRepID = self.covenantRepID
+
     local instancesAndFactions = {
         -- instanceID = factionID
         -- If an instanceID is not listed, that instance has no associated factionID
@@ -186,6 +188,8 @@ function RepByZone:InstancesAndFactionList()
         [2291]      = 2465,     -- De Other Side/The Wild Hunt
         [2293]      = 2410,     -- Theater of Pain/The Undying Army
         [2296]      = 2413,     -- Castle Nathria/Court of Harvesters
+        [2441]      = 2432,     -- Tazavesh, The Veiled Market/Ve'nari
+        [2450]      = covenantRepID, -- Sanctum of Domination/Covenant
         [2453]      = 2432,     -- Torgast/Ve'nari
     }
     return instancesAndFactions

@@ -148,6 +148,7 @@ function RepByZone:ZoneAndFactionList()
         [1673]      = covenantRepID, -- The Crucible/Covenant
         [1707]      = 2407,     -- Elysian Hold/The Ascended
         [1740]      = 2465,     -- Ardenweald/The Wild Hunt
+        [1961]      = 2470,     -- Korthia/Death's Advance
     }
     return zonesAndFactions
 end
@@ -590,6 +591,10 @@ function RepByZone:SubZonesAndFactions()
         [13414]     = 2413,     -- The Sinposium/Court of Harvesters
         [13498]     = covenantRepID, -- Ring of Transference (Oribos)/Covenant
         [13499]     = covenantRepID, -- Ring of Fates (Oribos)/Covenant
+        [13625]     = 2472,     -- Keeper's Respite/The Archivists' Codex
+        [13652]     = 2472,     -- Reliquarty of Rememberance/The Archivists' Codex
+        [13691]     = 2472,     -- Chamber of Knowledge/The Archivists' Codex
+        [13692]     = 2472,     -- Chamber of Wisdom/The Archivists' Codex
     }
     return subZonesAndFactions
 end
