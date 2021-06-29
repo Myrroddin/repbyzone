@@ -49,6 +49,7 @@ function RepByZone:InstancesAndFactionList()
         [469]       = A and 72 or H and 46, -- Blackwing Lair/Stormwind or Orgrimmar
         [509]       = 609,      -- Ruins of Ahn'Qiraj/Cenarion Circle
         [531]       = 910,      -- Temple of Ahn'Qiraj/Brood of Nozdormu
+        [556]       = 1011,     -- Sethekk Halls/Lower City
         [1001]      = 1106,     -- Scarlet Halls/Argent Crusade
         [1004]      = 1106,     -- Scarlet Monastary/Argent Crusade
         [1007]      = 1106,     -- Scholomance/Argent Crusade
@@ -166,7 +167,7 @@ function RepByZone:InstancesAndFactionList()
         [2097]      = 2391,     -- Operation: Mechagon/Rustbolt Resistance
         [2105]      = 69,       -- Warfront: Darkshore (Alliance)/Darnassus
         [2111]      = 68,     -- Warfront: Darkshore (Horde)/Undercity
-        [2124]      = A and 2160 or H and 76, -- Crestfall/Proudmoore Admiralty or Orgrimmar        
+        [2124]      = A and 2160 or H and 76, -- Crestfall/Proudmoore Admiralty or Orgrimmar
         [2147]      = 1098,     -- Icecrown Citadel (8.1)/Knights of the Ebon Blade
         [2164]      = A and 2401 or H and 2373, -- The Eternal Palace/Waveblade Ankoan or The Unshackled
         [2212]      = 76,       -- Horrific Vision of Orgrimmar/Orgrimmar

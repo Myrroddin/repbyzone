@@ -130,6 +130,8 @@ function RepByZone:ZoneAndFactionList()
         [895]       = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
         [896]       = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
         [942]       = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound
+        [1161]      = A and 2160 or H and 2157, -- Borealus/Proudmore Admiralty or The Honorbound
+        [1165]      = A and 2159 or H and 2378, -- Dazar'alor/7th Legion or Zandalari Empire
         [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [1355]      = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
         [1462]      = 2391,      -- Mechagon Island/Rustbolt Resistance
@@ -144,6 +146,7 @@ function RepByZone:ZoneAndFactionList()
         [1671]      = covenantRepID, -- Ring of Transference/Covenant
         [1672]      = covenantRepID, -- The Broker's Den/Covenant
         [1673]      = covenantRepID, -- The Crucible/Covenant
+        [1707]      = 2407,     -- Elysian Hold/The Ascended
         [1740]      = 2465,     -- Ardenweald/The Wild Hunt
     }
     return zonesAndFactions
@@ -390,6 +393,7 @@ function RepByZone:SubZonesAndFactions()
         [5554]      = 935,      -- The Mechanar Entrance/The Sha'tar
         [5555]      = 935,      -- The Botanica Entrance/The Sha'tar
         [5556]      = 935,      -- The Arcatraz Entrance/The Sha'tar
+        [5776]      = 1174,     -- Wildhammer Stronghold/Wildhammer Clan
 
         --------- WotLK ---------
         [3987]      = 1073,     -- The Isle of Spears/The Kalu'ak

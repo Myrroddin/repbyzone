@@ -114,6 +114,7 @@ function RepByZone:InstancesAndFactionList()
         [553]       = 935,      -- The Botanica/The Sha'tar
         [554]       = 935,      -- The Mechanar/The Sha'tar
         [555]       = 1011,     -- Shadow Labyrinth/Lower City
+        [556]       = 1011,     -- Sethekk Halls/Lower City
         [557]       = 933,      -- Mana-Tombs/The Consortium
         [558]       = 1011,     -- Auchenai Crypts/Lower City
         [560]       = 989,      -- Old Hillsbrad Foothills/Keepers of Time
