@@ -135,6 +135,10 @@ function RepByZone:ZoneAndFactionList()
         [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [1355]      = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
         [1462]      = 2391,      -- Mechagon Island/Rustbolt Resistance
+        [1527]      = 2417,     -- Uldum/Uldum Accord
+        [1530]      = 2415,     -- Vale of Eternal Blossoms/Rajani
+        [1570]      = 2415,     -- Vale of Eternal Blossoms/Rajani
+        [1571]      = 2417,     -- Uldum/Uldum Accord
 
         --------- Shadowlands ---------
         [1525]      = 2413,     -- Revendreth/Court of Harvesters
@@ -600,6 +604,7 @@ function RepByZone:SubZonesAndFactions()
         --------- Shadowlands ---------
         [10565]     = covenantRepID, -- Oribos/Covenant
         [10979]     = 2413,     -- Darkhaven/Court of Harvesters
+        [10995]     = 2439,     -- Halls of Atonement/The Avowed
         [11533]     = covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
         [12876]     = covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
         [13209]     = covenantRepID, -- Netherhollow (Oribos)/Covenant
