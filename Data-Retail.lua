@@ -138,17 +138,33 @@ function RepByZone:ZoneAndFactionList()
 
         --------- Shadowlands ---------
         [1525]      = 2413,     -- Revendreth/Court of Harvesters
+        [1533]      = 2407,     -- Bastion/The Ascended
         [1536]      = 2410,     -- Maldraxxus/The Undying Army
         [1543]      = 2432,     -- The Maw/Ve'nari
+        [1565]      = 2465,     -- Ardenweald/The Wild Hunt
         [1569]      = 2407,     -- Bastion/The Ascended
-        -- Oribos has 4 UiMapIDs depending on where in the city you are
+        [1603]      = 2465,     -- Ardenweald/The Wild Hunt
+        [1648]      = 2432,     -- The Maw/Ve'nari
         [1670]      = covenantRepID, -- Ring of Fates/Covenant
         [1671]      = covenantRepID, -- Ring of Transference/Covenant
         [1672]      = covenantRepID, -- The Broker's Den/Covenant
         [1673]      = covenantRepID, -- The Crucible/Covenant
+        [1688]      = 2413,     -- Revendreth/Court of Havesters
+        [1689]      = 2410,     -- Maldraxxus/The Undying Army
         [1707]      = 2407,     -- Elysian Hold/The Ascended
+        [1708]      = 2407,     -- Sanctum of Binding/The Ascended
+        [1709]      = 2465,     -- Ardenweald/The Wild Hunt
+        [1734]      = 2413,     -- Revendreth/Court of Harvesters
+        [1738]      = 2413,     -- Revendreth/Court of Harvesters
+        [1739]      = 2465,     -- Ardenweald/The Wild Hunt
         [1740]      = 2465,     -- Ardenweald/The Wild Hunt
+        [1741]      = 2410,     -- Maldraxxus/The Undying Army
+        [1742]      = 2413,     -- Revendreth/Court of Harvesters
+        [1813]      = 2407,     -- Bastion/The Ascended
+        [1814]      = 2410,     -- Maldraxxus/The Undying Army
+        [1960]      = 2432,     -- The Maw/Ve'nari
         [1961]      = 2470,     -- Korthia/Death's Advance
+        [2005]      = 2465,     -- Ardenweald/The Wild Hunt
     }
     return zonesAndFactions
 end
