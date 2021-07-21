@@ -122,6 +122,11 @@ function RepByZone:ZoneAndFactionList()
         --------- WoD ---------
 
         --------- Legion ---------
+        [626]       = 349,      -- Dalaran: Hall of Shadows (Rogue Class Hall)/Ravenholdt
+        [627]       = 1090,     -- Dalaran City/Kirin Tor
+        [628]       = 1090,     -- Dalaran: The Underbelly/Kirin Tor
+        [629]       = 1090,     -- Dalran: Aegwynn's Gallery/Kirin Tor
+        [630]       = 1900,     -- Azsuna/Court of Farondis
         [787]       = 609,      -- Moonglade/Cenarion Circle
 
         --------- BfA ---------
@@ -134,7 +139,7 @@ function RepByZone:ZoneAndFactionList()
         [1165]      = A and 2159 or H and 2378, -- Dazar'alor/7th Legion or Zandalari Empire
         [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [1355]      = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
-        [1462]      = 2391,      -- Mechagon Island/Rustbolt Resistance
+        [1462]      = 2391,     -- Mechagon Island/Rustbolt Resistance
         [1527]      = 2417,     -- Uldum/Uldum Accord
         [1530]      = 2415,     -- Vale of Eternal Blossoms/Rajani
         [1570]      = 2415,     -- Vale of Eternal Blossoms/Rajani
@@ -155,6 +160,9 @@ function RepByZone:ZoneAndFactionList()
         [1673]      = covenantRepID, -- The Crucible/Covenant
         [1688]      = 2413,     -- Revendreth/Court of Havesters
         [1689]      = 2410,     -- Maldraxxus/The Undying Army
+        [1701]      = 2465,     -- Heart of the Forest/The Wild Hunt
+        [1702]      = 2465,     -- Heart of the Forest/The Wild Hunt
+        [1703]      = 2465,     -- Heart of the Forest/The Wild Hunt
         [1707]      = 2407,     -- Elysian Hold/The Ascended
         [1708]      = 2407,     -- Sanctum of Binding/The Ascended
         [1709]      = 2465,     -- Ardenweald/The Wild Hunt
@@ -166,8 +174,10 @@ function RepByZone:ZoneAndFactionList()
         [1742]      = 2413,     -- Revendreth/Court of Harvesters
         [1813]      = 2407,     -- Bastion/The Ascended
         [1814]      = 2410,     -- Maldraxxus/The Undying Army
+        [1911]      = 2432,     -- Torghast: Tower of the Damned/Ve'nari
         [1960]      = 2432,     -- The Maw/Ve'nari
         [1961]      = 2470,     -- Korthia/Death's Advance
+        [1971]      = 1948,     -- Skyhold/Valarjar
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
     }
     return zonesAndFactions
@@ -577,6 +587,11 @@ function RepByZone:SubZonesAndFactions()
         --------- Legion ---------
         [7679]      = 1098,     -- Archerus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
         [7743]      = 1098,     -- Archerus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
+        [7787]      = 1894,     -- Vault of the Wardens/The Wardens
+        [7814]      = 1894,     -- Vault of the Wardens (Demon Hunter)/The Wardens
+        [8147]      = 1894,     -- Isle of the Watchers/The Wardens
+        [8370]      = 1894,     -- Watchers' Aerie/The Wardens
+        [8371]      = 1894,     -- Wardens' Redoubt/The Wardens
 
         --------- BfA ---------
         [8925]      = 47,       -- Nesingwary's Trek/Ironforge

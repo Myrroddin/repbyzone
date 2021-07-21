@@ -365,6 +365,9 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 	["Valley of Wisdom"] = 81, -- Thunder Bluff
 }
 
+-- Fancy trick to localize all floors of Torghast, Tower of the Damned
+local torghastName = C_Map.GetMapInfo(1762).name
+
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
 function RepByZone:CheckSholazarBasin()
     local whichID
@@ -394,6 +397,14 @@ function RepByZone:SwitchedZones()
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+
+    -- Check for all floors of Torghast, Tower of the Damned
+    local isTorghast = strmatch(subZone, "^" .. torghastName .. ".*")
+    if isTorghast then
+        if self:SetWatchedFactionByFactionID(2432) then -- Ve'nari
+            return
+        end
+    end
 
     if db.watchSubZones then
         -- Blizzard provided areaIDs

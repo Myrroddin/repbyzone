@@ -97,6 +97,7 @@ function RepByZone:InstancesAndFactionList()
         [604]       = A and 1050 or H and 1067, -- Gundrak/Valiance Expedition or The Hand of Vengeance
         [608]       = 1090,     -- The Violet Hold/Kirin Tor
         [615]       = 1091,     -- The Eye of Eternity/The Wyrmrest Accord
+        [618]       = 1374,     -- The Ring of Valor/Brawl'gar Arena
         [619]       = A and 1050 or H and 1067, -- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
         [624]       = A and 1037 or H and 1052, -- Vault of Archavon/Alliance Vanguard or Horde Expedition
         [631]       = 1156,     -- Icecrown Citadel/The Ashen Verdict
@@ -106,6 +107,7 @@ function RepByZone:InstancesAndFactionList()
         [658]       = 1156,     -- Pit of Saron/The Ashen Verdict
         [668]       = 1156,     -- Halls of Reflection/The Ashen Verdict
         [724]       = 1091,     -- The Ruby Sanctum/The Wyrmrest Accord
+        [1043]      = 1374,     -- Brawl'gar Arena/Brawl'gar Arena
 
         ---------- Cataclysm ----------
         [369]       = 72,       -- Deeprun Tram/Stormwind
@@ -139,6 +141,9 @@ function RepByZone:InstancesAndFactionList()
         [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
         [1136]      = A and 72 or H and 76, -- Siege of Orgrimmar/Stormwind or Orgrimmar
         [1148]      = self.racialRepID, -- Proving Grounds/racial rep
+
+        ---------- Legion ----------
+        [617]       = 1090,     -- Dalaran Arena/Kirin Tor
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
