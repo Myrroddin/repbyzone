@@ -489,6 +489,7 @@ function RepByZone:SubZonesAndFactions()
         [4392]      = 1105,     -- The Stormwright's Shelf/The Oracles
         [4429]      = 1052,     -- Grom'arsh Crash-Site/Horde Expedition
         [4418]      = 21,       -- K3/Booty Bay
+        [4428]      = 1068,     -- Frosthold/Explorers' League
         [4441]      = 1064,     -- Camp Tunka'lo/The Taunka
         [4442]      = 1068,     -- Brann's Base-Camp/Explorers' League
         [4458]      = 21,       -- Sparksocket Minefield/Booty Bay
@@ -627,6 +628,7 @@ function RepByZone:SubZonesAndFactions()
         [13414]     = 2413,     -- The Sinposium/Court of Harvesters
         [13498]     = covenantRepID, -- Ring of Transference (Oribos)/Covenant
         [13499]     = covenantRepID, -- Ring of Fates (Oribos)/Covenant
+        [13515]     = 2407,     -- Seat of the Archon: Font of Fealty/The Ascended
         [13625]     = 2472,     -- Keeper's Respite/The Archivists' Codex
         [13652]     = 2472,     -- Reliquarty of Rememberance/The Archivists' Codex
         [13691]     = 2472,     -- Chamber of Knowledge/The Archivists' Codex
