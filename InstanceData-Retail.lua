@@ -145,6 +145,23 @@ function RepByZone:InstancesAndFactionList()
         ---------- Legion ----------
         [617]       = 1090,     -- Dalaran Arena/Kirin Tor
         [1456]      = 1894,     -- Eye of Azshara/The Wardens
+        [1458]      = 1828,     -- Neltharion's Lair/Highmountain Tribe
+        [1466]      = 1883,     -- Darkheart Thicket/Dreamweavers
+        [1477]      = 1948,     -- Halls of Valor/Valarjar
+        [1492]      = 1948,     -- Maw of Souls/Valarjar
+        [1493]      = 1894,     -- Vault of the Wardens/The Wardens
+        [1501]      = 1883,     -- Black Rook Hold/Dreamweavers
+        [1516]      = 1859,     -- The Arcway/The Nightfallen
+        [1520]      = 1883,     -- The Emerald Nightmare/Dreamweavers
+        [1530]      = 1859,     -- The Nighthold/The Nightfallen
+        [1544]      = 1090,     -- Volet Hold/Kirin Tor
+        [1648]      = 1948,     -- Trial of Valor/Valarjar
+        [1571]      = 1859,     -- Court of Stars/The Nightfallen
+        [1651]      = 967,      -- Return to Karazhan/The Violet Eye
+        [1676]      = 2045,     -- Tomb of Sargeras/Armies of the Legionfall
+        [1677]      = 2045,     -- Cathedral of Eternal Night/Armies of Legionfall
+        [1712]      = 2165,     -- Antorus, The Burning Throne/Army of the Light
+        [1753]      = 2170,     -- The Seat of the Triumvirate/Augussian Reach
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
