@@ -127,7 +127,19 @@ function RepByZone:ZoneAndFactionList()
         [628]       = 1090,     -- Dalaran: The Underbelly/Kirin Tor
         [629]       = 1090,     -- Dalran: Aegwynn's Gallery/Kirin Tor
         [630]       = 1900,     -- Azsuna/Court of Farondis
+        [647]       = 1098,     -- Acherus (Death Knight Class Hall)/Knights of the Ebon Blade
+        [648]       = 1098,     -- Acherus (Death Knight Class Hall)/Knights of the Ebon Blade
+        [695]       = 1948,     -- Skyhold (Warrior Class Hall)/Valarjar
+        [702]       = A and 930 or H and 68, -- Netherlight Temple (Priest Class Hall)/Exodar or Undercity
+        [715]       = 609,      -- Emerald Dreamway/Cenarion Circle
+        [717]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
+        [718]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
+        [734]       = 627,      -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
+        [735]       = 627,      -- The Guardian's Library (Mage Class Hall)/Kirin Tor
+        [739]       = A and 69 or H and 1828, -- Trueshot Lodge (Hunter Class Hall) /Darnassus or Highmountain Tauren
+        [747]       = 609,      -- The Dreamgrove/Cenarion Circle
         [787]       = 609,      -- Moonglade/Cenarion Circle
+        [1474]      = 1135,     -- Heart of Azeroth (Shaman Class Hall)/The Earthen Ring
 
         --------- BfA ---------
         [863]       = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
@@ -587,11 +599,16 @@ function RepByZone:SubZonesAndFactions()
         [6771]      = 1341,     -- Celestial Tournament/The August Celestials
 
         --------- Legion ---------
-        [7679]      = 1098,     -- Archerus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
-        [7743]      = 1098,     -- Archerus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
+        [7638]      = 1106,     -- Sanctum of Light (Paladin Class Hall)/Argent Crusade
+        [7679]      = 1098,     -- Acherus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
+        [7743]      = 1098,     -- Acherus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
         [7787]      = 1894,     -- Vault of the Wardens/The Wardens
+        [7813]      = 1948,     -- Skyhold (Warrior)/Valarjar
         [7814]      = 1894,     -- Vault of the Wardens (Demon Hunter)/The Wardens
+        [7903]      = 1341,     -- Temple of Five Dawns (Monk)/The August Celestials
+        [7904]      = 1341,     -- Shrine of Five Dawns (Monk)/The August Celestials
         [8147]      = 1894,     -- Isle of the Watchers/The Wardens
+        [8284]      = A and 69 or H and 911, -- Illidari Redoubt/Darnassus or Silvermoon City
         [8370]      = 1894,     -- Watchers' Aerie/The Wardens
         [8371]      = 1894,     -- Wardens' Redoubt/The Wardens
 

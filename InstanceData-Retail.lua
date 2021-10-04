@@ -152,6 +152,7 @@ function RepByZone:InstancesAndFactionList()
         [1493]      = 1894,     -- Vault of the Wardens/The Wardens
         [1501]      = 1883,     -- Black Rook Hold/Dreamweavers
         [1516]      = 1859,     -- The Arcway/The Nightfallen
+        [1519]      = A and 69 or H and 911, -- The Fel Hammer (Demon Hunter Class Hall)/Darnassus or Silvermoon City
         [1520]      = 1883,     -- The Emerald Nightmare/Dreamweavers
         [1530]      = 1859,     -- The Nighthold/The Nightfallen
         [1544]      = 1090,     -- Volet Hold/Kirin Tor
