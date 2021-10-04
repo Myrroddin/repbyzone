@@ -144,6 +144,7 @@ function RepByZone:InstancesAndFactionList()
 
         ---------- Legion ----------
         [617]       = 1090,     -- Dalaran Arena/Kirin Tor
+        [1456]      = 1894,     -- Eye of Azshara/The Wardens
         
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel

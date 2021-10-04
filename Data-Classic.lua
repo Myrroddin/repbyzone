@@ -131,6 +131,7 @@ function RepByZone:SubZonesAndFactions()
 		[299] = 72, -- Menethil Bay/Stormwind
         [311] = 270, -- Ruins of Aboraz/Zandalar Tribe
         [313] = 349, -- Northfold Manor/Ravenholdt
+        [320] = 72, -- Refuge Pointe/Stormwind
         [327] = 21, -- Faldir's Cove/Booty Bay
         [328] = 21, -- The Drowned Reef/Booty Bay
         [350] = 69, -- Quel'Danil Lodge/Darnassus

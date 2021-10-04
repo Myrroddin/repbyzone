@@ -212,6 +212,7 @@ function RepByZone:SubZonesAndFactions()
 		[297]       = 81,       -- Jaguero Isle/Thunder Bluff
 		[299]       = 72,       -- Menethil Bay/Stormwind
         [313]       = 349,      -- Northfold Manor/Ravenholdt
+        [320]       = 72,       -- Refuge Pointe/Stormwind
         [321]       = 68,       -- Hammerfall/Undercity
         [324]       = 349,      -- Stromgarde Keep/Ravenholdt
         [327]       = 21,       -- Faldir's Cove/Booty Bay
@@ -607,6 +608,7 @@ function RepByZone:SubZonesAndFactions()
         [9693]      = 2387,     -- Seeker's Vista/Tortollan Seekers
         [9714]      = 2387,     -- Seeker's Expedition/Tortollan Seekers
         [9735]      = 1133,     -- Ar'gorok/Bilgewater Cartel
+        [9747]      = 72,       -- Warfront: The Battle for Stromgarde (Refuge Pointe)/Stormwind
         [9750]      = 68,       -- Hammerfall/Undercity
         [9755]      = 47,       -- Thandol Span/Ironforge
         [9756]      = 68,       -- Thoradin's Wall (Horde Warfront)/Undercity
