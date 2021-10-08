@@ -619,7 +619,7 @@ function RepByZone:SubZonesAndFactions()
         [7650]      = 1134,     -- Marl's Stead/Gilneas
         [7679]      = 1098,     -- Acherus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
         [7698]      = A and 1134 or H and 68, -- Dreadwake's Landing/Gilneas or Undercity
-        [7699]      = A 1134 or H and 68, -- Greywatch/Gilneas or Undercity
+        [7699]      = A and 1134 or H and 68, -- Greywatch/Gilneas or Undercity
         [7700]      = A and 1134 or H and 68, -- Ranger's Foothold/Gilneas or Undercity
         [7701]      = 1134,     -- Crowley's Overlook/Gilneas
         [7733]      = 47,       -- Nesingwary's Retreat/Ironforge
