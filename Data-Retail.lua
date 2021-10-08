@@ -127,8 +127,13 @@ function RepByZone:ZoneAndFactionList()
         [628]       = 1090,     -- Dalaran: The Underbelly/Kirin Tor
         [629]       = 1090,     -- Dalran: Aegwynn's Gallery/Kirin Tor
         [630]       = 1900,     -- Azsuna/Court of Farondis
+        [634]       = 1948,     -- Stormheim/Valarjar
+        [641]       = 1883,     -- Val'sharah/Dreamweavers
+        [646]       = 2045,     -- Broken Shore/Armies of Legionfall
         [647]       = 1098,     -- Acherus (Death Knight Class Hall)/Knights of the Ebon Blade
         [648]       = 1098,     -- Acherus (Death Knight Class Hall)/Knights of the Ebon Blade
+        [650]       = 1828,     -- Highmountain/Highmountain Tribe
+        [680]       = 1859,     -- Suramar/The Nightfallen
         [695]       = 1948,     -- Skyhold (Warrior Class Hall)/Valarjar
         [702]       = A and 930 or H and 68, -- Netherlight Temple (Priest Class Hall)/Exodar or Undercity
         [715]       = 609,      -- Emerald Dreamway/Cenarion Circle
@@ -136,12 +141,17 @@ function RepByZone:ZoneAndFactionList()
         [718]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
         [734]       = 627,      -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
         [735]       = 627,      -- The Guardian's Library (Mage Class Hall)/Kirin Tor
-        [739]       = A and 69 or H and 1828, -- Trueshot Lodge (Hunter Class Hall) /Darnassus or Highmountain Tauren
+        [739]       = A and 69 or H and 1828, -- Trueshot Lodge (Hunter Class Hall)/Darnassus or Highmountain Tauren
         [747]       = 609,      -- The Dreamgrove/Cenarion Circle
+        [750]       = 1828,     -- Thunder Totem/Highmountain Tribe
         [787]       = 609,      -- Moonglade/Cenarion Circle
+        [790]       = 1894,     -- Eye of Azshara/The Wardens
+        [830]       = 2170,     -- Krokuun/Argussian Reach
+        [882]       = 2170,     -- Eredath (formerly Mac'Aree)/Argussian Reach
         [1474]      = 1135,     -- Heart of Azeroth (Shaman Class Hall)/The Earthen Ring
 
         --------- BfA ---------
+        [862]       = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [863]       = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
         [864]       = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
         [895]       = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
@@ -599,18 +609,49 @@ function RepByZone:SubZonesAndFactions()
         [6771]      = 1341,     -- Celestial Tournament/The August Celestials
 
         --------- Legion ---------
+        [7342]      = 68,       -- Queen's Reprisal/Undercity
+        [7542]      = A and 1134 or H and 68, -- Weeping Bluffs/Gilneas or Undercity
+        [7555]      = A and 1134 or H and 68, -- Skyfire Triage Camp/Gilneas or Undercity
+        [7563]      = A and 1134 or H and 68, -- Cove of Nashal/Gilneas or Undercity
+        [7564]      = A and 1134 or H and 68, -- Forsaken Foothold/Gilneas or Undercity
         [7638]      = 1106,     -- Sanctum of Light (Paladin Class Hall)/Argent Crusade
+        [7642]      = 1134,     -- Bradensbrook/Gilneas
+        [7650]      = 1134,     -- Marl's Stead/Gilneas
         [7679]      = 1098,     -- Acherus: The Ebon Hold (Broken Isles)/Knights of the Ebon Blade
+        [7698]      = A and 1134 or H and 68, -- Dreadwake's Landing/Gilneas or Undercity
+        [7699]      = A 1134 or H and 68, -- Greywatch/Gilneas or Undercity
+        [7700]      = A and 1134 or H and 68, -- Ranger's Foothold/Gilneas or Undercity
+        [7701]      = 1134,     -- Crowley's Overlook/Gilneas
+        [7733]      = 47,       -- Nesingwary's Retreat/Ironforge
         [7743]      = 1098,     -- Acherus: The Ebon Hold (Icecrown)/Knights of the Ebon Blade
+        [7773]      = A and 1134 or H and 68, -- Greymane's Offensive/Gilneas or Undercity
+        [7778]      = 1134,     -- Heathrow Manor/Gilneas
+        [7779]      = 1134,     -- Radcliffe Landing/Gilneas
         [7787]      = 1894,     -- Vault of the Wardens/The Wardens
+        [7789]      = A and 1134 or H and 68, -- Bronzeleaf Thicket/Gilneas or Undercity
         [7813]      = 1948,     -- Skyhold (Warrior)/Valarjar
         [7814]      = 1894,     -- Vault of the Wardens (Demon Hunter)/The Wardens
+        [7849]      = A and 1134 or H and 68, -- Cullen's Post/Gilneas or Undercity
+        [7850]      = A and 1134 or H and 68, -- Lorna's Watch/Gilneas or Undercity
         [7903]      = 1341,     -- Temple of Five Dawns (Monk)/The August Celestials
         [7904]      = 1341,     -- Shrine of Five Dawns (Monk)/The August Celestials
+        [8051]      = A and 1134 or H and 68, -- Cordana's Apex/Gilneas or Undercity
+        [8078]      = A and 1134 or H and 68, -- Nightwatcher's Perch/Gilneas or Undercity
         [8147]      = 1894,     -- Isle of the Watchers/The Wardens
+        [8237]      = select(2, UnitClass("player")) == "SHAMAN" and 1135, -- Alluvanon's Delta/The Earthen Ring
+        [8270]      = 1975,     -- Margoss's Retreat/Conjurer Margoss
+        [8273]      = 1134,     -- Thorton's Cottage/Gilneas
         [8284]      = A and 69 or H and 911, -- Illidari Redoubt/Darnassus or Silvermoon City
+        [8300]      = A and 1134 or H and 68, -- Theodric's Lodge/Gilneas or Undercity
+        [8301]      = A and 1134 or H and 68, -- Greywatch Barracks/Gilneas or Undercity
+        [8302]      = A and 1134 or H and 68, -- The Oblivion/Gilneas or Undercity
+        [8304]      = A and 1134 or H and 68, -- Starstalker's Point/Gilneas or Undercity
+        [8320]      = A and 1134 or H and 68, -- Darkfollow's Spire/Gilneas or Undercity
+        [8324]      = A and 1134 or H and 68, -- Whisperwind's Citadel
+        [8328]      = A and 1134 or H and 68, -- Blackhawk's Bulwark/Gilneas or Undercity
         [8370]      = 1894,     -- Watchers' Aerie/The Wardens
         [8371]      = 1894,     -- Wardens' Redoubt/The Wardens
+        [8394]      = 1134,     -- Carlisle Cottage/Gilneas
 
         --------- BfA ---------
         [8925]      = 47,       -- Nesingwary's Trek/Ironforge
