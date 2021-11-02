@@ -1,5 +1,5 @@
 ## Interface-Retail: 90100
-## Interface-Classic: 11307
+## Interface-Classic: 11400
 ## Interface-BCC: 20502
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone

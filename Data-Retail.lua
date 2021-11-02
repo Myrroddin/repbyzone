@@ -494,7 +494,7 @@ function RepByZone:SubZonesAndFactions()
         [4253]      = 2159,     -- 7th Legion Front/7th Legion
         [4256]      = A and 1094 or H and 1124, -- Drak'mar Lake/The Silver Covenant or The Sunreavers
         [4261]      = 68,       -- Ghostblade Point/Undercity
-        [4281]      = 1098,     -- Archerus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
+        [4281]      = 1098,     -- Acherus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
         [4284]      = 47,       -- Nesingwary Base Camp/Ironforge
         [4286]      = 1105,     -- The Bones of Nozronn/The Oracles
         [4287]      = 1104,     -- Kartak's Hold/Frenzyheart Tribe
@@ -508,7 +508,7 @@ function RepByZone:SubZonesAndFactions()
         [4308]      = 1104,     -- Spearborn Encampment/Frenzyheart Tribe
         [4312]      = 1098,     -- Ebon Watch/Knights of the Ebon Blade
         [4369]      = 47,       -- Dorian's Outpost/Ironforge
-        [4342]      = 1098,     -- Archerus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
+        [4342]      = 1098,     -- Acherus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
         [4392]      = 1105,     -- The Stormwright's Shelf/The Oracles
         [4429]      = 1052,     -- Grom'arsh Crash-Site/Horde Expedition
         [4418]      = 21,       -- K3/Booty Bay
@@ -675,7 +675,7 @@ function RepByZone:SubZonesAndFactions()
         [10006]     = 2387,     -- House of Jol/Tortollan Seekers
         [10504]     = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
         [12905]     = 2386,     -- Chamber of Heart (scenario)/Champions of Azeroth
-        [13539]     = 1098,     -- Archerus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
+        [13539]     = 1098,     -- Acherus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
         [10565]     = covenantRepID, -- Oribos/Covenant
