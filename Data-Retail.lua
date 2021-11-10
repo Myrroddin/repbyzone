@@ -120,6 +120,14 @@ function RepByZone:ZoneAndFactionList()
         [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
 
         --------- WoD ---------
+        [579]       = 72,       -- Lunarfall Excavation 1/Stormwind
+        [580]       = 72,       -- Lunarfall Excavation 2/Stormwind
+        [581]       = 72,       -- Lunarfall Excavation 3/Stormwind
+        [582]       = 72,       -- Lunarfall/Stormwind
+        [585]       = 76,       -- Frostwall Mine 1/Orgrimmar
+        [586]       = 76,       -- Frostwall Mine 2/Orgrimmar
+        [587]       = 76,       -- Frostwall Mine 3/Orgrimmar
+        [590]       = 76,       -- Frostwall/Orgrimmar
 
         --------- Legion ---------
         [626]       = 349,      -- Dalaran: Hall of Shadows (Rogue Class Hall)/Ravenholdt
