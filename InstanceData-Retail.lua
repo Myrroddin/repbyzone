@@ -24,6 +24,7 @@ function RepByZone:InstancesAndFactionList()
         [968]       = A and 930 or H and 911, -- Eye of the Storm (rated)/Exodar or Silvermoon City
         [998]       = A and 1353 or H and 1352, -- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
         [1105]      = A and 1353 or H and 1352, -- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
+        [1191]      = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
         [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
         [1803]      = A and 72 or H and 68, -- Seething Shore/Stormwind or Undercity
         [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
@@ -141,6 +142,19 @@ function RepByZone:InstancesAndFactionList()
         [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
         [1136]      = A and 72 or H and 76, -- Siege of Orgrimmar/Stormwind or Orgrimmar
         [1148]      = self.racialRepID, -- Proving Grounds/racial rep
+
+        ---------- WoD ----------
+        [1175]      = 1711,     -- Bloodmaul Slag Mines/Steamwheedle Preservation Society
+        [1176]      = A and 1731 or H and 1445, -- Shadowmoon Burial Grounds/Council of Exarchs or Frostwolf Orcs
+        [1182]      = A and 1710 or H and 1708, -- Auchindoun/Sha'tari Defense or Laughing Skull Orcs
+        [1195]      = A and 1731 or H and 1445, -- Iron Docks/Council of Exarchs or Frostwolf Orcs
+        [1205]      = A and 72 or H and 76, -- Blackrock Foundry/Stormwind or Orgrimmar
+        [1208]      = A and 1731 or H and 1445, -- Grimrail Depot/Council of Exarchs or Frostwolf Orcs
+        [1209]      = 1515,     -- Skyreach/Arakkoa Outcasts
+        [1228]      = A and 72 or H and 76, -- Highmaul/Stormwind or Orgrimmar
+        [1279]      = A and 1710 or H and 1708, -- The Everbloom/Sha'tari Defense or Laughint Skull Orcs
+        [1358]      = 1711,     -- Upper Blackrock Spire/Steamwheedle Preservation Society
+        [1448]      = A and 72 or H and 76, -- Hellfire Citadel/Stormwind or Orgrimmar
 
         ---------- Legion ----------
         [617]       = 1090,     -- Dalaran Arena/Kirin Tor
