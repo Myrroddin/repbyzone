@@ -85,8 +85,21 @@ function RepByZone:GetOptions()
                             self:SwitchedZones()
                         end
                     },
+                    --@version-retail@
+                    watchWoDBodyGuards = {
+                        order = 50,
+                        name = L["Watch WoD garrison bodyguard faction."],
+                        desc = L["This prefers the bodyguard reputation over zone or subzone reputations for Warlords of Draenor content."],
+                        type = "toggle",
+                        get = function() return db.watchWoDBodyGuards end,
+                        set = function(info, value)
+                            db.watchWoDBodyGuards = value
+                            self:CheckBodyguard()
+                        end
+                    },
+                    --@end-version-retail@
                     defaultRep = {
-                        order = 100,
+                        order = 200,
                         name = L["Default watched faction"],
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",
