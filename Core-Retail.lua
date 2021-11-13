@@ -321,6 +321,30 @@ function RepByZone:CheckBodyguard()
     return bodyguardRep
 end
 
+-- Fancy trick to localize all floors of Torghast, Tower of the Damned
+local torghastName = C_Map.GetMapInfo(1762).name
+
+-- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
+function RepByZone:CheckSholazarBasin()
+    local whichID
+    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
+    local oraclesStanding = select(3, GetFactionInfoByID(1105))
+
+    if frenzyHeartStanding <= 3 then
+        whichID = 1105
+    elseif oraclesStanding <= 3 then
+        whichID = 1104
+    elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
+        whichID = db.watchedRepID or self.racialRepID
+    end
+
+    -- we need to cache the data because of updates, which don't apply to instances
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+    self:SwitchedZones()
+    return whichID
+end
+
 -------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
@@ -420,26 +444,6 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 	["Valley of Spirits"] = 530, -- Darkspear Trolls
 	["Valley of Wisdom"] = 81, -- Thunder Bluff
 }
-
--- Fancy trick to localize all floors of Torghast, Tower of the Damned
-local torghastName = C_Map.GetMapInfo(1762).name
-
--- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
-function RepByZone:CheckSholazarBasin()
-    local whichID
-    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
-    local oraclesStanding = select(3, GetFactionInfoByID(1105))
-
-    if frenzyHeartStanding <= 3 then
-        whichID = 1105
-    elseif oraclesStanding <= 3 then
-        whichID = 1104
-    elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
-        whichID = db.watchedRepID or self.racialRepID
-    end
-
-    return whichID
-end
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
