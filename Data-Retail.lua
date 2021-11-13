@@ -9,11 +9,9 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
-    if self.covenantRepID == nil then
-        self.covenantRepID = self:CovenantToFactionID()
-    end
-    local covenantRepID = self.covenantRepID
+    local covenantRepID = self:CovenantToFactionID()
     local sholazarRepID = self:CheckSholazarBasin()
+    local bodyguardRep = self:CheckBodyguard()
 
     local zonesAndFactions = {
         --------- Vanilla ----------
@@ -120,14 +118,14 @@ function RepByZone:ZoneAndFactionList()
         [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
 
         --------- WoD ---------
-        [579]       = 72,       -- Lunarfall Excavation 1/Stormwind
-        [580]       = 72,       -- Lunarfall Excavation 2/Stormwind
-        [581]       = 72,       -- Lunarfall Excavation 3/Stormwind
-        [582]       = 72,       -- Lunarfall/Stormwind
-        [585]       = 76,       -- Frostwall Mine 1/Orgrimmar
-        [586]       = 76,       -- Frostwall Mine 2/Orgrimmar
-        [587]       = 76,       -- Frostwall Mine 3/Orgrimmar
-        [590]       = 76,       -- Frostwall/Orgrimmar
+        [579]       = bodyguardRep or 72, -- Lunarfall Excavation 1/Stormwind
+        [580]       = bodyguardRep or 72, -- Lunarfall Excavation 2/Stormwind
+        [581]       = bodyguardRep or 72, -- Lunarfall Excavation 3/Stormwind
+        [582]       = bodyguardRep or 72, -- Lunarfall/Stormwind
+        [585]       = bodyguardRep or 76, -- Frostwall Mine 1/Orgrimmar
+        [586]       = bodyguardRep or 76, -- Frostwall Mine 2/Orgrimmar
+        [587]       = bodyguardRep or 76, -- Frostwall Mine 3/Orgrimmar
+        [590]       = bodyguardRep or 76, -- Frostwall/Orgrimmar
 
         --------- Legion ---------
         [626]       = 349,      -- Dalaran: Hall of Shadows (Rogue Class Hall)/Ravenholdt
@@ -214,13 +212,14 @@ function RepByZone:ZoneAndFactionList()
 end
 
 function RepByZone:SubZonesAndFactions()
-    local covenantRepID = self.covenantRepID
+    local covenantRepID = self:CovenantToFactionID()
+    local sholazarRepID = self:CheckSholazarBasin()
+    local bodyguardRep = self:CheckBodyguard()
 
     local subZonesAndFactions = {
 		-- areaID = factionID
         -- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
 
-        --------- Vanilla ---------
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
         [100]       = 47,       -- Nesingwary's Expedition/Ironforge

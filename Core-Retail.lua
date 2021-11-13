@@ -8,6 +8,8 @@ local isOnTaxi
 local instancesAndFactions
 local zonesAndFactions
 local subZonesAndFactions
+local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
+local H = UnitFactionGroup("player") == "Horde" and HORDE
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
@@ -22,8 +24,6 @@ function RepByZone:GetRacialRep()
     end
 
     local _, playerRace = UnitRace("player")
-    local H = UnitFactionGroup("player") == "Horde"
-    local A = UnitFactionGroup("player") == "Alliance"
     local whichID, whichName
 
     local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
@@ -103,6 +103,7 @@ local defaults = {
         verbose = true,
         watchOnTaxi = false,
         useClassRep = true,
+        watchWoDBodyGuards = true,
     }
 }
 
@@ -169,6 +170,11 @@ function RepByZone:OnEnable()
 
     -- See if the player belongs to a Covenant, picks one, or changes Covenants
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
+
+    -- Check if a WoD garrison bodyguard is assigned
+    self:RegisterEvent("GARRISON_FOLLOWER_ADDED", "CheckBodyguard")
+    self:RegisterEvent("GARRISON_FOLLOWER_REMOVED", "CheckBodyguard")
+    self:CheckBodyguard()
 end
 
 function RepByZone:OnDisable()
@@ -181,6 +187,8 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
     self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
     self:UnregisterEvent("COVENANT_CHOSEN")
+    self:UnregisterEvent("GARRISON_FOLLOWER_ADDED")
+    self:UnregisterEvent("GARRISON_FOLLOWER_REMOVED")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -217,6 +225,7 @@ function RepByZone:InCombat()
     end
 end
 
+-- Is the player on a taxi
 function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
 end
@@ -228,6 +237,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     self:SwitchedZones()
 end
 
+-- Covenant code
 local covenantReps = {
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
@@ -242,12 +252,14 @@ end
 
 function RepByZone:JoinedCovenant(event, covenantID)
     self.covenantRepID = self:CovenantToFactionID()
+    -- we need to cache the data because of updates, which don't apply to instances
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
     self:SwitchedZones()
 end
 
+-- Pandaren code
 function RepByZone:CheckPandaren(event, success)
-    local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
-    local H = UnitFactionGroup("player") == "Horde" and HORDE
     if success then
         A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         H = UnitFactionGroup("player") == "Horde" and HORDE
@@ -261,8 +273,52 @@ function RepByZone:CheckPandaren(event, success)
         end
     end
     if A or H then
+        -- we need to cache the data because of updates, which don't apply to instances
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactions()
+        self:SwitchedZones()
         self:UnregisterEvent(event)
     end
+end
+
+-- WoD garrison bodyguard code
+local garrFollowerIDToReputationID = {
+    -- garrison followerID = factionID
+    -- see full list of garrFollowerIDs: https://wowpedia.fandom.com/wiki/GarrFollowerID
+    [193]       = GetFactionInfoByID(1736),     -- Tormmok
+    [207]       = A and GetFactionInfoByID(1738) or H and GetFactionInfoByID(1740), -- Defender Illona or Aeda Brightdawn
+    [216]       = A and GetFactionInfoByID(1733) or H and GetFactionInfoByID(1739), -- Delvar Ironfist or Vivianne
+    [218]       = GetFactionInfoByID(1737),     -- Talonpriest Ishaal
+    [219]       = GetFactionInfoByID(1741),     -- Leorajh
+}
+
+-- WoD barracks buildingIDs
+local barracks_ids = {
+    [27]        = true,     -- level 2
+    [28]        = true,     -- level 3
+}
+
+function RepByZone:CheckBodyguard()
+    local bodyguardRep = nil
+    local buildings = C_Garrison.GetBuildings(LE_GARRISON_TYPE_6_0)
+    for i = 1, #buildings do
+        local building = buildings[i]
+        local building_id = building.buildingID
+        local plot_id = building.plotID
+        if barracks_ids[building_id] then
+            local name, _, _, _, _, garrFollowerID = C_Garrison.GetFollowerInfoForBuilding(plot_id)
+            if name then
+                bodyguardRep = db.watchWoDBodyGuards and garrFollowerIDToReputationID(garrFollowerID)
+            end
+            break
+        end
+    end
+
+    -- we need to cache the data because of updates, which don't apply to instances
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+    self:SwitchedZones()
+    return bodyguardRep
 end
 
 -------------------- Reputation code starts here --------------------
