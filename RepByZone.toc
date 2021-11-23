@@ -23,7 +23,12 @@
 ## X-WoWI-ID: 25407
 
 ## SavedVariables: RepByZoneDB
+#@version-retail@
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
+#@end-version-retail@
+#@non-version-retail@
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
+#@end-non-version-retail@
 
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
