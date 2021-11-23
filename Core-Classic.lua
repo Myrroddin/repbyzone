@@ -109,13 +109,15 @@ function RepByZone:OnInitialize()
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
+
+    local defaultRepID, defaultRepName = self:GetRacialRep()
+    db.watchedRepID = db.watchedRepID or defaultRepID
+    db.watchedRepName = db.watchedRepName or defaultRepName
 end
 
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
-    db.watchedRepID = db.watchedRepID or self:GetRacialRep()
-    db.watchedRepName = GetFactionInfoByID(db.watchedRepID)
     if self.racialRepID == nil then
         self:GetRacialRep()
     end
@@ -190,6 +192,7 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
+    self:UnregisterEvent(event)
     self:SwitchedZones()
 end
 
