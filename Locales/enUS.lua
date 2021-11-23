@@ -34,5 +34,5 @@ L["Valley of Wisdom"] = true
 L["Verbose"] = true
 L["Watch Subzones"] = true
 L["Watch WoD garrison bodyguard faction."] = true
-L["You have joined the faction %s, switching watched saved variable to %s."] = true
+L["You have joined the %s, switching watched saved variable to %s."] = true
 L["Your class reputation is %s"] = true

@@ -9,9 +9,8 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
-    local covenantRepID = self:CovenantToFactionID()
+    local covenantRepID = self.covenantRepID or self:CovenantToFactionID()
     local sholazarRepID = self:CheckSholazarBasin()
-    local bodyguardRep = self:CheckBodyguard()
 
     local zonesAndFactions = {
         --------- Vanilla ----------
@@ -118,14 +117,23 @@ function RepByZone:ZoneAndFactionList()
         [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
 
         --------- WoD ---------
-        [579]       = bodyguardRep or 72, -- Lunarfall Excavation 1/Stormwind
-        [580]       = bodyguardRep or 72, -- Lunarfall Excavation 2/Stormwind
-        [581]       = bodyguardRep or 72, -- Lunarfall Excavation 3/Stormwind
-        [582]       = bodyguardRep or 72, -- Lunarfall/Stormwind
-        [585]       = bodyguardRep or 76, -- Frostwall Mine 1/Orgrimmar
-        [586]       = bodyguardRep or 76, -- Frostwall Mine 2/Orgrimmar
-        [587]       = bodyguardRep or 76, -- Frostwall Mine 3/Orgrimmar
-        [590]       = bodyguardRep or 76, -- Frostwall/Orgrimmar
+        [525]       = 1445,     -- Frostfire Ridge/Frostwolf Orcs
+        [534]       = A and 1847 or H and 1848, -- Tanaan Jungle/Hand of the Prophet or Vol'jin's Headhunters
+        [535]       = A and 1731 or H and 1445, -- Talador/Council of Exarchs or Frostwolf Orcs
+        [539]       = 1731,     -- Shadowmoon Valley/Council of Exarchs
+        [542]       = 1515,     -- Spires of Arak/Arakkoa Outcasts
+        [543]       = A and 930 or H and 1708, -- Gorgrond/Exodar or Laughing Skull Orcs
+        [550]       = 1711,     -- Nagrand/Steamwheedle Preservation Society
+        [579]       = 72,       -- Lunarfall Excavation 1/Stormwind
+        [580]       = 72,       -- Lunarfall Excavation 2/Stormwind
+        [581]       = 72,       -- Lunarfall Excavation 3/Stormwind
+        [582]       = 72,       -- Lunarfall/Stormwind
+        [585]       = 76,       -- Frostwall Mine 1/Orgrimmar
+        [586]       = 76,       -- Frostwall Mine 2/Orgrimmar
+        [587]       = 76,       -- Frostwall Mine 3/Orgrimmar
+        [588]       = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
+        [590]       = 76,       -- Frostwall/Orgrimmar
+        [622]       = A and 1682 or H and 1681, -- Stormshield/Wrynn's Vanguard or Vol'jin's Spear
 
         --------- Legion ---------
         [626]       = 349,      -- Dalaran: Hall of Shadows (Rogue Class Hall)/Ravenholdt
@@ -212,9 +220,8 @@ function RepByZone:ZoneAndFactionList()
 end
 
 function RepByZone:SubZonesAndFactions()
-    local covenantRepID = self:CovenantToFactionID()
+    local covenantRepID = self.covenantRepID or self:CovenantToFactionID()
     local sholazarRepID = self:CheckSholazarBasin()
-    local bodyguardRep = self:CheckBodyguard()
 
     local subZonesAndFactions = {
 		-- areaID = factionID
@@ -613,7 +620,53 @@ function RepByZone:SubZonesAndFactions()
         [6644]      = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
         [6701]      = 54,       -- Beeble's Wreck/Gnomeregan
         [6702]      = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
+        [6762]      = 1710,     -- Shattrath City Center/Sha'tari Defense
         [6771]      = 1341,     -- Celestial Tournament/The August Celestials
+
+        ---------- WoD ----------
+        [6926]      = 1515,     -- Veil Shadar/Arakkoa Outcasts
+        [6933]      = 1515,     -- Terokkar Refuge/Arakkoa Outcasts
+        [6999]      = 946,      -- Admiral Taylor's Garrison/Honor Hold
+        [7032]      = 1710,     -- Garden of K'ure/Sha'tari Defense
+        [7060]      = 47,       -- Hemet's Happy Hunting Grounds/Ironforge
+        [7061]      = 930,      -- Yrel's Watch/Exodar
+        [7063]      = 81,       -- Riverside Post/Thunder Bluff
+        [7072]      = 889,      -- Ancestral Grounds/Warsong Outriders
+        [7074]      = 930,      -- Telaar/Exodar
+        [7081]      = 930,      -- Telaari Station/Exodar
+        [7139]      = 1135,     -- Elemental Plateau/The Earthen Ring
+        [7141]      = 1710,     -- Arch of Sha'tar/Sha'tari Defense
+        [7156]      = 889,      -- Anguish Point/Warsong Outriders
+        [7162]      = 1711,     -- Pinchwhistle Gearworks/Steamwheedle Preservation Society
+        [7163]      = 1711,     -- Pinchwhistle Point/Steamwheedle Preservation Society
+        [7164]      = 1711,     -- Wreck of the Mother Lode/Steamwheedle Preservation Society
+        [7197]      = 76,       -- Axefall/Orgrimmar
+        [7198]      = 72,       -- Southport/Stormwind
+        [7208]      = 946,      -- The Briny Barnacle/Honor Hold
+        [7222]      = 946,      -- Admiral Taylor's Farm/Honor Hold
+        [7266]      = 1711,     -- The Rusty Cylinder/Steamwheedle Preservation Society
+        [7269]      = 1710,     -- Spire of Light/Sha'tari Defense
+        [7295]      = 930,      -- Telaari Tankworks/Exodar
+        [7377]      = 2135,     -- Time-Lost Glade/Chromie
+        [7389]      = 1710,     -- Bladefury's Command/Sha'tari Defense
+        [7391]      = 1710,     -- The Path of Glory/Sha'tari Defense
+        [7392]      = 1731,     -- Pillars of Fate/Council of Exarchs
+        [7417]      = 1710,     -- Sha'tari Anchorage/Sha'tari Defense
+        [7418]      = 1710,     -- Shattrath Port Authority/Sha'tari Defense
+        [7419]      = 1710,     -- Beacon of Sha'tar/Sha'tari Defense
+        [7420]      = 1710,     -- Shattrath City/Sha'tari Defense
+        [7421]      = 1710,     -- Shattrath Commons/Sha'tari Defense
+        [7422]      = 1710,     -- Sha'tari Market District/Sha'tari Defense
+        [7433]      = 930,      -- Telaari Worksite/Exodar
+        [7453]      = 1710,     -- Sha'tar Way Station/Sha'tari Defense
+        [7454]      = 1710,     -- Sha'tari Skymesa/Sha'tari Defense
+        [7455]      = 1710,     -- Shattrath Residential District/Sha'tari Defense
+        [7480]      = 1710,     -- Shattrath Overlook/Sha'tari Defense
+        [7484]      = 72,       -- Southport Worksite/Stormwind
+        [7536]      = 1515,     -- Aktar's Post/Arakkoa Outcasts
+        [7641]      = 1850,     -- Fang'rila/The Saberstalkers
+        [7655]      = A and 1710 or H and 1708, -- Rangari Refuge/Sha'tari Defense or Laughing Skull Orcs
+        [7739]      = 1850,     -- Blackfang Challenge Arena/The Saberstalkers
 
         --------- Legion ---------
         [7342]      = 68,       -- Queen's Reprisal/Undercity

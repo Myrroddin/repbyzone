@@ -1,5 +1,5 @@
 ## Interface-Retail: 90105
-## Interface-Classic: 11400
+## Interface-Classic: 11401
 ## Interface-BCC: 20502
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
@@ -23,7 +23,7 @@
 ## X-WoWI-ID: 25407
 
 ## SavedVariables: RepByZoneDB
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
@@ -42,6 +42,10 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
+#@version-retail@
+Libs\LibSharedMedia-3.0\lib.xml
+Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+#@end-version-retail@
 
 Locales\enUS.lua
 Locales\deDE.lua

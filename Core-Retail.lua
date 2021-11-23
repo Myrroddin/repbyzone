@@ -10,6 +10,25 @@ local zonesAndFactions
 local subZonesAndFactions
 local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
+RepByZone.WoDFollowerZones = {
+    [525]   = true, -- Frostfire Ridge
+    [534]   = true, -- Tanaan Jungle
+    [535]   = true, -- Talador
+    [539]   = true, -- Shadowmoon Valley
+    [542]   = true, -- Spires of Arak
+    [543]   = true, -- Gorgrond
+    [550]   = true, -- Nagrand
+    [579]   = true, -- Lunarfall Excavation 1
+    [580]   = true, -- Lunarfall Excavation 2
+    [581]   = true, -- Lunarfall Excavation 3
+    [582]   = true, -- Lunarfall
+    [585]   = true, -- Frostwall Mine 1
+    [586]   = true, -- Frostwall Mine 2
+    [587]   = true, -- Frostwall Mine 3
+    [588]   = true, -- Ashran
+    [590]   = true, -- Frostwall
+    [622]   = true, -- Stormshield
+}
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
@@ -103,7 +122,9 @@ local defaults = {
         verbose = true,
         watchOnTaxi = false,
         useClassRep = true,
-        watchWoDBodyGuards = true,
+        watchWoDBodyGuards = {
+            ["**"] = true
+        }
     }
 }
 
@@ -132,18 +153,19 @@ function RepByZone:OnInitialize()
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
+
+    local defaultRepID, defaultRepName = self:GetRacialRep()
+    db.watchedRepID = db.watchedRepID or defaultRepID
+    db.watchedRepName = db.watchedRepName or defaultRepName
 end
 
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
     self.covenantRepID = self:CovenantToFactionID()
-    db.watchedRepID = db.watchedRepID or self:GetRacialRep()
-    db.watchedRepName = GetFactionInfoByID(db.watchedRepID)
     if self.racialRepID == nil then
         self:GetRacialRep()
     end
-
     -- Cache instance, zone, and subzone data
     instancesAndFactions = self:InstancesAndFactionList()
     zonesAndFactions = self:ZoneAndFactionList()
@@ -165,8 +187,9 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload")
 
     -- Pandaren do not start Alliance or Horde
-    self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
-    self:CheckPandaren()
+    if UnitFactionGroup("player") == nil then
+        self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "CheckPandaren")
+    end
 
     -- See if the player belongs to a Covenant, picks one, or changes Covenants
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
@@ -174,7 +197,6 @@ function RepByZone:OnEnable()
     -- Check if a WoD garrison bodyguard is assigned
     self:RegisterEvent("GARRISON_FOLLOWER_ADDED", "CheckBodyguard")
     self:RegisterEvent("GARRISON_FOLLOWER_REMOVED", "CheckBodyguard")
-    self:CheckBodyguard()
 end
 
 function RepByZone:OnDisable()
@@ -195,7 +217,6 @@ function RepByZone:OnDisable()
     instancesAndFactions = nil
     zonesAndFactions = nil
     subZonesAndFactions = nil
-    self.covenantRepID = nil
 end
 
 function RepByZone:SlashHandler()
@@ -234,6 +255,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     if self.covenantRepID == nil then
         self.covenantRepID = self:CovenantToFactionID()
     end
+    self:UnregisterEvent(event)
     self:SwitchedZones()
 end
 
@@ -251,10 +273,8 @@ function RepByZone:CovenantToFactionID()
 end
 
 function RepByZone:JoinedCovenant(event, covenantID)
+    self.covenantRepID = nil
     self.covenantRepID = self:CovenantToFactionID()
-    -- we need to cache the data because of updates, which don't apply to instances
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
     self:SwitchedZones()
 end
 
@@ -267,16 +287,12 @@ function RepByZone:CheckPandaren(event, success)
             self:GetRacialRep()
             if db.watchedRepID == 1216 then
                 db.watchedRepID, db.watchedRepName = self:GetRacialRep()
-                self:Print(L["You have joined the faction %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
+                self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
                 self:SwitchedZones()
             end
         end
     end
     if A or H then
-        -- we need to cache the data because of updates, which don't apply to instances
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
-        self:SwitchedZones()
         self:UnregisterEvent(event)
     end
 end
@@ -299,8 +315,8 @@ local barracks_ids = {
 }
 
 function RepByZone:CheckBodyguard()
-    local bodyguardRep = nil
-    local buildings = C_Garrison.GetBuildings(LE_GARRISON_TYPE_6_0)
+    local bodyguardRep
+    local buildings = C_Garrison.GetBuildings(Enum.GarrisonType.Type_6_0)
     for i = 1, #buildings do
         local building = buildings[i]
         local building_id = building.buildingID
@@ -308,21 +324,13 @@ function RepByZone:CheckBodyguard()
         if barracks_ids[building_id] then
             local name, _, _, _, _, garrFollowerID = C_Garrison.GetFollowerInfoForBuilding(plot_id)
             if name then
-                bodyguardRep = db.watchWoDBodyGuards and garrFollowerIDToReputationID(garrFollowerID)
+                bodyguardRep = garrFollowerIDToReputationID[garrFollowerID]
             end
             break
         end
     end
-
-    -- we need to cache the data because of updates, which don't apply to instances
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
-    self:SwitchedZones()
     return bodyguardRep
 end
-
--- Fancy trick to localize all floors of Torghast, Tower of the Damned
-local torghastName = C_Map.GetMapInfo(1762).name
 
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
 function RepByZone:CheckSholazarBasin()
@@ -331,17 +339,12 @@ function RepByZone:CheckSholazarBasin()
     local oraclesStanding = select(3, GetFactionInfoByID(1105))
 
     if frenzyHeartStanding <= 3 then
-        whichID = 1105
+        whichID = 1105 -- Frenzyheart hated, return Oracles
     elseif oraclesStanding <= 3 then
-        whichID = 1104
+        whichID = 1104 -- Oracles hated, return Frenzyheart
     elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
         whichID = db.watchedRepID or self.racialRepID
     end
-
-    -- we need to cache the data because of updates, which don't apply to instances
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
-    self:SwitchedZones()
     return whichID
 end
 
@@ -456,17 +459,19 @@ function RepByZone:SwitchedZones()
 
     local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
+    local UImapID = C_Map.GetBestMapForUnit("player")
+    local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
+    local bodyguardRep = self:CheckBodyguard()
+    local isWoDZone = #self.WoDFollowerZones > 0 and self.WoDFollowerZones[UImapID] or self.WoDFollowerZones[parentMapID]
 
-    -- Check for all floors of Torghast, Tower of the Damned
-    local isTorghast = strmatch(subZone, "^" .. torghastName .. ".*")
-    if isTorghast then
-        if self:SetWatchedFactionByFactionID(2432) then -- Ve'nari
-            return
+    if isWoDZone then
+        if bodyguardRep then
+            if self:SetWatchedFactionByFactionID(bodyguardRep) then
+                return
+            end
         end
-    end
-
-    if db.watchSubZones then
+    elseif db.watchSubZones then
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
@@ -494,9 +499,14 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
+    elseif isWoDZone then
+        if bodyguardRep then
+            if self:SetWatchedFactionByFactionID(bodyguardRep) then
+                return
+            end
+        end
     else
         -- Apply world zone data
-        local UImapID = C_Map.GetBestMapForUnit("player")
         for zoneID, factionID in pairs(zonesAndFactions) do
             if zoneID == UImapID then
                 if self:SetWatchedFactionByFactionID(factionID) then
