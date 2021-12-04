@@ -104,32 +104,20 @@ function RepByZone:GetOptions()
                             [542]       = C_Map.GetMapInfo(542).name, -- Spires of Arak
                             [543]       = C_Map.GetMapInfo(543).name, -- Gorgrond
                             [550]       = C_Map.GetMapInfo(550).name, -- Nagrand
-                            [579]       = C_Map.GetMapInfo(579).name .. " " .. LEVEL .. " " .. 1, -- Lunarfall Excavation 1
-                            [580]       = C_Map.GetMapInfo(580).name .. " " .. LEVEL .. " " .. 2, -- Lunarfall Excavation 2
-                            [581]       = C_Map.GetMapInfo(581).name .. " " .. LEVEL .. " " .. 3, -- Lunarfall Excavation 3
                             [582]       = C_Map.GetMapInfo(582).name, -- Lunarfall
-                            [585]       = C_Map.GetMapInfo(585).name .. " " .. LEVEL .. " " .. 1, -- Frostwall Mine 1
-                            [586]       = C_Map.GetMapInfo(586).name .. " " .. LEVEL .. " " .. 2, -- Frostwall Mine 2
-                            [587]       = C_Map.GetMapInfo(587).name .. " " .. LEVEL .. " " .. 3, -- Frostwall Mine 3
-                            [588]       = C_Map.GetMapInfo(588).name, -- Ashran
                             [590]       = C_Map.GetMapInfo(590).name, -- Frostwall
-                            [622]       = C_Map.GetMapInfo(622).name, -- Stormshield
                         },
                         get = function(info, index)
                             local value = db.watchWoDBodyGuards[index]
-                            if value then
-                                self.WoDFollowerZones[index] = value
-                            else
-                                self.WoDFollowerZones[index] = nil
-                            end
+                            self.WoDFollowerZones[index] = self.WoDFollowerZones[index] or value
                             return db.watchWoDBodyGuards[index] and value
                         end,
                         set = function(info, index, value)
                             db.watchWoDBodyGuards[index] = value
-                            if db.watchWoDBodyGuards[index] then
+                            if value then
                                 self.WoDFollowerZones[index] = value
                             else
-                                self.WoDFollowerZones[index] = nil
+                                self.WoDFollowerZones[index] = false
                             end
                             self:SwitchedZones()
                         end
@@ -154,6 +142,7 @@ function RepByZone:GetOptions()
                                 db.watchedRepName = NONE
                             else
                                 db.watchedRepName = GetFactionInfoByID(value)
+                                self:SwitchedZones()
                             end
                         end
                     }

@@ -18,16 +18,46 @@ RepByZone.WoDFollowerZones = {
     [542]   = true, -- Spires of Arak
     [543]   = true, -- Gorgrond
     [550]   = true, -- Nagrand
-    [579]   = true, -- Lunarfall Excavation 1
-    [580]   = true, -- Lunarfall Excavation 2
-    [581]   = true, -- Lunarfall Excavation 3
     [582]   = true, -- Lunarfall
-    [585]   = true, -- Frostwall Mine 1
-    [586]   = true, -- Frostwall Mine 2
-    [587]   = true, -- Frostwall Mine 3
-    [588]   = true, -- Ashran
     [590]   = true, -- Frostwall
-    [622]   = true, -- Stormshield
+}
+-- Table to localize subzones that Blizzard does not provide areaIDs
+local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+	-- ["Subzone"] = factionID
+    ["A Hero's Welcome"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
+    ["Aldor Rise"] = 932, -- The Aldor
+    ["Deeprun Tram"] = 72, -- Stormwind
+	["Dwarven District"] = 47, -- Ironforge
+    ["Scryer's Tier"] = 934, -- The Scryers
+    ["Shrine of Unending Light"] = 932, -- The Aldor
+    ["The Beer Garden"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
+    ["The Crimson Dawn"] = 1124, -- The Sunreavers
+    ["The Filthy Animal"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
+	["The Salty Sailor Tavern"] = 21, -- Booty Bay
+    ["The Seer's Library"] = 934, -- The Scryers
+    ["The Silver Blade"] = 1094, -- The Silver Covenant
+	["Tinker Town"] = 54, -- Gnomeregan Exiles
+	["Valley of Spirits"] = 530, -- Darkspear Trolls
+	["Valley of Wisdom"] = 81, -- Thunder Bluff
+}
+-- WoD garrison bodyguard code
+local bodyguardRep
+local followerQuests = {
+    -- questID = factionID
+    [36877] = 1736, -- Tormmok
+    [36899] = 1738, -- Defender Illona
+    [36902] = 1740, -- Aeda Brightdawn
+    [36989] = 1733, -- Delvar Ironfist
+    [36901] = 1739, -- Vivianne
+    [36900] = 1737, -- Talonpriest Ishaal
+    [36936] = 1741, -- Leorajh
+}
+-- Covenant code
+local covenantReps = {
+    [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
+    [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
+    [Enum.CovenantType.NightFae] = 2422, -- Night Fae
+    [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
 }
 
 -- Get the character's racial factionID and factionName
@@ -58,16 +88,40 @@ function RepByZone:GetRacialRep()
     or playerRace == "Worgen" and 1134 -- Gilneas
     or playerRace == "BloodElf" and 911 -- Silvermoon City
     or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
-    or playerRace == "HighmountainTauren" and 1828 or 81 -- Highmountain Tribe or Thunder Bluff
-    or playerRace == "VoidElf" and 2170 or 69 -- Argussian Reach or Danassus
-    or playerRace == "Mechagnome" and 2391 or 54 -- Rustbolt Resistance or Gnomeregan
-    or playerRace == "Vulpera" and 2158 or 76 -- Voldunai or Orgrimmar
-    or playerRace == "KulTiran" and 2160 or 72 -- Proudmoore Admiralty or Stormwind
-    or playerRace == "ZandalariTroll" and 2103 or 530 -- Zandalari Empire or Darkspear Trolls
-    or playerRace == "Nightborne" and 1859 or 911 -- The Nightfallen or Silvermoon City
-    or playerRace == "MagharOrc" and 941 or 76 -- The Mag'har or Orgrimmar
-    or playerRace == "DarkIronDwarf" and 59 or 47 -- Thorium Brotherhood or Ironforge
-    or playerRace == "LightforgedDraenei" and 2165 or 930 -- Army of the Light or Exodar
+    or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
+    or playerRace == "VoidElf" and 2170 -- Argussian Reach
+    or playerRace == "Mechagnome" and 2391 -- Rustbolt Resistance
+    or playerRace == "Vulpera" and 2158 -- Voldunai
+    or playerRace == "KulTiran" and 2160 -- Proudmoore Admiralty
+    or playerRace == "ZandalariTroll" and 2103 -- Zandalari Empire
+    or playerRace == "Nightborne" and 1859 -- The Nightfallen
+    or playerRace == "MagharOrc" and 941 -- The Mag'har
+    or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
+    or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
+
+    local fallbackRacialRepID = playerRace == "Dwarf" and 47 -- Ironforge
+    or playerRace == "Gnome" and 54 -- Gnomeregan
+    or playerRace == "Human" and 72 -- Stormwind
+    or playerRace == "NightElf" and 69 -- Darnassus
+    or playerRace == "Orc" and 76 -- Orgrimmar
+    or playerRace == "Tauren" and 81 -- Thunder Bluff
+    or playerRace == "Troll" and 530 -- Darkspear Trolls
+    or playerRace == "Scourge" and 68 -- Undercity
+    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
+    or playerRace == "Draenei" and 930 -- Exodar
+    or playerRace == "Worgen" and 1134 -- Gilneas
+    or playerRace == "BloodElf" and 911 -- Silvermoon City
+    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+    or playerRace == "HighmountainTauren" and 81 -- Thunder Bluff
+    or playerRace == "VoidElf" and 69 -- Darnassus
+    or playerRace == "Mechagnome" and 54 -- Gnomeregan
+    or playerRace ==  "Vulpera" and 76 -- Orgrimmar
+    or playerRace == "KulTian" and 72 -- Stormwind
+    or playerRace == "ZandalariTroll" and 530 -- Darkspear Trolls
+    or playerRace == "Nightborne" and 911 -- Silvermoon City
+    or playerRace == "MagharOrc" and 76 -- Orgrimmar
+    or playerRace == "DarkIronDwarf" and 47 -- Ironforge
+    or playerRace == "LightforgedDraenei" and 930 -- Exodar
 
     -- Classes have factions
     local _, classFileName = UnitClass("player")
@@ -79,34 +133,50 @@ function RepByZone:GetRacialRep()
     or classFileName == "MONK" and 1341 -- The August Celestials
 
     self:OpenAllFactionHeaders()
+
     -- Check if the player has discovered the race faction
     local function CheckRace()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == racialRepID then
-                    whichID, whichName = factionID, name
+                    return factionID, name
                 end
             end
         end
     end
-    CheckRace()
+    whichID, whichName = CheckRace()
 
     -- Check if the player has discoverd the class faction
-    if useClassRep then
+    local function CheckClassRep()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == classRepID then
-                    whichID, whichName = factionID, name
+                    return factionID, name
                 end
             end
         end
-        -- Either no class faction or player hasn't discovered it yet
-        if not whichID then
-            CheckRace()
+    end
+    if useClassRep then
+        whichID, whichName = CheckClassRep()
+    end
+
+    -- If allied race reps are not known, use fallback
+    local function CheckFallbackRace()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == fallbackRacialRepID then
+                    return factionID, name
+                end
+            end
         end
     end
+    if not whichID then
+        whichID, whichName = CheckFallbackRace()
+    end
+
     self:CloseAllFactionHeaders()
 
     self.racialRepID = useClassRep and classRepID or racialRepID
@@ -120,7 +190,7 @@ local defaults = {
         enabled = true,
         watchSubZones = true,
         verbose = true,
-        watchOnTaxi = false,
+        watchOnTaxi = true,
         useClassRep = true,
         watchWoDBodyGuards = {
             ["**"] = true
@@ -128,6 +198,7 @@ local defaults = {
     }
 }
 
+-- Ace3 code
 function RepByZone:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
@@ -163,10 +234,9 @@ function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
     self.covenantRepID = self:CovenantToFactionID()
-    if self.racialRepID == nil then
-        self:GetRacialRep()
-    end
-    -- Cache instance, zone, and subzone data
+    self:GetRacialRep()
+
+    -- Cache instance, zone, and subzone data; factionIDs may not be available earlier in OnInitialize()?
     instancesAndFactions = self:InstancesAndFactionList()
     zonesAndFactions = self:ZoneAndFactionList()
     subZonesAndFactions = self:SubZonesAndFactions()
@@ -195,8 +265,8 @@ function RepByZone:OnEnable()
     self:RegisterEvent("COVENANT_CHOSEN", "JoinedCovenant")
 
     -- Check if a WoD garrison bodyguard is assigned
-    self:RegisterEvent("GARRISON_FOLLOWER_ADDED", "CheckBodyguard")
-    self:RegisterEvent("GARRISON_FOLLOWER_REMOVED", "CheckBodyguard")
+    self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "CheckBodyguard")
+    self:RegisterEvent("GOSSIP_CLOSED", "CheckBodyguard")
 end
 
 function RepByZone:OnDisable()
@@ -209,8 +279,8 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
     self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
     self:UnregisterEvent("COVENANT_CHOSEN")
-    self:UnregisterEvent("GARRISON_FOLLOWER_ADDED")
-    self:UnregisterEvent("GARRISON_FOLLOWER_REMOVED")
+    self:UnregisterEvent("CHAT_MSG_MONSTER_SAY")
+    self:UnregisterEvent("GOSSIP_CLOSED")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -231,6 +301,7 @@ function RepByZone:SlashHandler()
     end
 end
 
+-- The user has reset the DB, or created a new one
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
     db.watchedRepID, db.watchedRepName = self:GetRacialRep()
@@ -251,30 +322,29 @@ function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
 end
 
+-- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    if self.covenantRepID == nil then
-        self.covenantRepID = self:CovenantToFactionID()
-    end
+    self.covenantRepID = self:CovenantToFactionID()
+    self:CheckBodyguard()
+    self.sholazarRepID = self:CheckSholazarBasin()
     self:UnregisterEvent(event)
     self:SwitchedZones()
 end
 
--- Covenant code
-local covenantReps = {
-    [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
-    [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
-    [Enum.CovenantType.NightFae] = 2422, -- Night Fae
-    [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
-}
-
+-- What Covenant does the player belong to, if any
 function RepByZone:CovenantToFactionID()
     local id = C_Covenants.GetActiveCovenantID()
     return covenantReps[id]
 end
 
 function RepByZone:JoinedCovenant(event, covenantID)
-    self.covenantRepID = nil
     self.covenantRepID = self:CovenantToFactionID()
+    -- Rebuild cache, as zone to faction mapping has changed
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+    CitySubZonesAndFactions = CitySubZonesAndFactions
+
     self:SwitchedZones()
 end
 
@@ -284,6 +354,12 @@ function RepByZone:CheckPandaren(event, success)
         A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         H = UnitFactionGroup("player") == "Horde" and HORDE
         if UnitFactionGroup("player") ~= nil then
+            -- Rebuild cache, as zone to faction mapping has changed
+            instancesAndFactions = self:InstancesAndFactionList()
+            zonesAndFactions = self:ZoneAndFactionList()
+            subZonesAndFactions = self:SubZonesAndFactions()
+            CitySubZonesAndFactions = CitySubZonesAndFactions
+
             self:GetRacialRep()
             if db.watchedRepID == 1216 then
                 db.watchedRepID, db.watchedRepName = self:GetRacialRep()
@@ -297,39 +373,18 @@ function RepByZone:CheckPandaren(event, success)
     end
 end
 
--- WoD garrison bodyguard code
-local garrFollowerIDToReputationID = {
-    -- garrison followerID = factionID
-    -- see full list of garrFollowerIDs: https://wowpedia.fandom.com/wiki/GarrFollowerID
-    [193]       = GetFactionInfoByID(1736),     -- Tormmok
-    [207]       = A and GetFactionInfoByID(1738) or H and GetFactionInfoByID(1740), -- Defender Illona or Aeda Brightdawn
-    [216]       = A and GetFactionInfoByID(1733) or H and GetFactionInfoByID(1739), -- Delvar Ironfist or Vivianne
-    [218]       = GetFactionInfoByID(1737),     -- Talonpriest Ishaal
-    [219]       = GetFactionInfoByID(1741),     -- Leorajh
-}
-
--- WoD barracks buildingIDs
-local barracks_ids = {
-    [27]        = true,     -- level 2
-    [28]        = true,     -- level 3
-}
-
 function RepByZone:CheckBodyguard()
-    local bodyguardRep
-    local buildings = C_Garrison.GetBuildings(Enum.GarrisonType.Type_6_0)
-    for i = 1, #buildings do
-        local building = buildings[i]
-        local building_id = building.buildingID
-        local plot_id = building.plotID
-        if barracks_ids[building_id] then
-            local name, _, _, _, _, garrFollowerID = C_Garrison.GetFollowerInfoForBuilding(plot_id)
-            if name then
-                bodyguardRep = garrFollowerIDToReputationID[garrFollowerID]
-            end
+    local newBodyguardRep
+    for questID, factionID in pairs(followerQuests) do
+        if C_QuestLog.IsQuestFlaggedCompleted(questID) then
+            newBodyguardRep = factionID
             break
         end
     end
-    return bodyguardRep
+    if newBodyguardRep ~= bodyguardRep then
+        bodyguardRep = newBodyguardRep
+        self:SwitchedZones()
+    end
 end
 
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
@@ -345,6 +400,7 @@ function RepByZone:CheckSholazarBasin()
     elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
         whichID = db.watchedRepID or self.racialRepID
     end
+
     return whichID
 end
 
@@ -426,28 +482,6 @@ function RepByZone:SetWatchedFactionByFactionID(id)
 end
 
 -------------------- Watched faction code starts here --------------------
--- Table to localize subzones that Blizzard does not provide areaIDs
-local H = UnitFactionGroup("player") == "Horde"
-local A = UnitFactionGroup("player") == "Alliance"
-local CitySubZonesAndFactions = CitySubZonesAndFactions or {
-	-- ["Subzone"] = factionID
-    ["A Hero's Welcome"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
-    ["Aldor Rise"] = 932, -- The Aldor
-    ["Deeprun Tram"] = 72, -- Stormwind
-	["Dwarven District"] = 47, -- Ironforge
-    ["Scryer's Tier"] = 934, -- The Scryers
-    ["Shrine of Unending Light"] = 932, -- The Aldor
-    ["The Beer Garden"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
-    ["The Crimson Dawn"] = 1124, -- The Sunreavers
-    ["The Filthy Animal"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
-	["The Salty Sailor Tavern"] = 21, -- Booty Bay
-    ["The Seer's Library"] = 934, -- The Scryers
-    ["The Silver Blade"] = 1094, -- The Silver Covenant
-	["Tinker Town"] = 54, -- Gnomeregan Exiles
-	["Valley of Spirits"] = 530, -- Darkspear Trolls
-	["Valley of Wisdom"] = 81, -- Thunder Bluff
-}
-
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
     if isOnTaxi then
@@ -462,14 +496,23 @@ function RepByZone:SwitchedZones()
     local UImapID = C_Map.GetBestMapForUnit("player")
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
-    local bodyguardRep = self:CheckBodyguard()
-    local isWoDZone = #self.WoDFollowerZones > 0 and self.WoDFollowerZones[UImapID] or self.WoDFollowerZones[parentMapID]
+    local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
+    local sholazarRepID = self:CheckSholazarBasin()
 
-    if isWoDZone then
-        if bodyguardRep then
-            if self:SetWatchedFactionByFactionID(bodyguardRep) then
-                return
-            end
+    if self.sholazarRepID ~= sholazarRepID then
+        -- Rebuild cache, as zone to faction mapping has changed
+        instancesAndFactions = self:InstancesAndFactionList()
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactions()
+        CitySubZonesAndFactions = CitySubZonesAndFactions
+    
+        self.sholazarRepID = sholazarRepID
+    end
+
+    if isWoDZone and bodyguardRep then
+        -- Override in WoD zones only if a bodyguard exists
+        if self:SetWatchedFactionByFactionID(bodyguardRep) then
+            return
         end
     elseif db.watchSubZones then
         -- Blizzard provided areaIDs
@@ -499,11 +542,10 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
-    elseif isWoDZone then
-        if bodyguardRep then
-            if self:SetWatchedFactionByFactionID(bodyguardRep) then
-                return
-            end
+    elseif isWoDZone and bodyguardRep then
+        -- Override in WoD zones only if a bodyguard exists
+        if self:SetWatchedFactionByFactionID(bodyguardRep) then
+            return
         end
     else
         -- Apply world zone data

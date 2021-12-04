@@ -38,34 +38,39 @@ function RepByZone:GetRacialRep()
     or classFileName == "DRUID" and 609 -- Cenarion Circle
 
     self:OpenAllFactionHeaders()
+
     -- Check if the player has discovered the race faction
     local function CheckRace()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == racialRepID then
-                    whichID, whichName = factionID, name
+                    return factionID, name
                 end
             end
         end
     end
-    CheckRace()
+    whichID, whichName = CheckRace()
 
     -- Check if the player has discoverd the class faction
-    if useClassRep then
+    local function CheckClassRep()
         for i = 1, GetNumFactions() do
             local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
             if name and not isHeader then
                 if factionID == classRepID then
-                    whichID, whichName = factionID, name
+                    return factionID, name
                 end
             end
         end
-        -- Either no class faction or player hasn't discovered it yet
-        if not whichID then
-            CheckRace()
-        end
     end
+    if useClassRep then
+        whichID, whichName = CheckClassRep()
+    end
+
+    if not whichID then
+        whichID, whichName = CheckRace()
+    end
+
     self:CloseAllFactionHeaders()
 
     self.racialRepID = useClassRep and classRepID or racialRepID
@@ -79,7 +84,7 @@ local defaults = {
         enabled = true,
         watchSubZones = true,
         verbose = true,
-        watchOnTaxi = false,
+        watchOnTaxi = true,
         useClassRep = true,
     }
 }
@@ -118,11 +123,9 @@ end
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
-    if self.racialRepID == nil then
-        self:GetRacialRep()
-    end
+    self:GetRacialRep()
 
-    -- Cache instance, zone, and subzone data
+    -- Cache instance, zone, and subzone data; factionIDs may not be available earlier in OnInitialize()?
     instancesAndFactions = self:InstancesAndFactionList()
     zonesAndFactions = self:ZoneAndFactionList()
     subZonesAndFactions = self:SubZonesAndFactions()
