@@ -9,7 +9,7 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
-    local covenantRepID = self.covenantRepID or self:CovenantToFactionID()
+    local covenantRepID = self:CovenantToFactionID()
     local sholazarRepID = self:CheckSholazarBasin()
 
     local zonesAndFactions = {
@@ -220,7 +220,7 @@ function RepByZone:ZoneAndFactionList()
 end
 
 function RepByZone:SubZonesAndFactions()
-    local covenantRepID = self.covenantRepID or self:CovenantToFactionID()
+    local covenantRepID = self:CovenantToFactionID()
     local sholazarRepID = self:CheckSholazarBasin()
 
     local subZonesAndFactions = {

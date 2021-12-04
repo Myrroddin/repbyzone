@@ -40,6 +40,8 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 	["Valley of Spirits"] = 530, -- Darkspear Trolls
 	["Valley of Wisdom"] = 81, -- Thunder Bluff
 }
+-- Sholazar Basin code
+local sholazarRepID
 -- WoD garrison bodyguard code
 local bodyguardRep
 local followerQuests = {
@@ -53,12 +55,20 @@ local followerQuests = {
     [36936] = 1741, -- Leorajh
 }
 -- Covenant code
+local covenantRepID
 local covenantReps = {
     [Enum.CovenantType.Kyrian] = 2407, -- The Ascended
     [Enum.CovenantType.Venthyr] = 2413, -- Court of Harvesters
     [Enum.CovenantType.NightFae] = 2422, -- Night Fae
     [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
 }
+
+-- Possibly repeated code, use local function
+local function CacheDataTables()
+    instancesAndFactions = RepByZone:InstancesAndFactionList()
+    zonesAndFactions = RepByZone:ZoneAndFactionList()
+    subZonesAndFactions = RepByZone:SubZonesAndFactions()
+end
 
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
@@ -233,13 +243,7 @@ end
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
-    self.covenantRepID = self:CovenantToFactionID()
-    self:GetRacialRep()
-
-    -- Cache instance, zone, and subzone data; factionIDs may not be available earlier in OnInitialize()?
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
+    CacheDataTables()
 
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
@@ -267,6 +271,9 @@ function RepByZone:OnEnable()
     -- Check if a WoD garrison bodyguard is assigned
     self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "CheckBodyguard")
     self:RegisterEvent("GOSSIP_CLOSED", "CheckBodyguard")
+
+    -- Check Sholazar Basin factions
+    self:RegisterEvent("UPDATE_FACTION", "CheckSholazarBasin")
 end
 
 function RepByZone:OnDisable()
@@ -281,6 +288,7 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("COVENANT_CHOSEN")
     self:UnregisterEvent("CHAT_MSG_MONSTER_SAY")
     self:UnregisterEvent("GOSSIP_CLOSED")
+    self:UnregisterEvent("UPDATE_FACTION")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -324,9 +332,10 @@ end
 
 -- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    self.covenantRepID = self:CovenantToFactionID()
-    self:CheckBodyguard()
-    self.sholazarRepID = self:CheckSholazarBasin()
+    covenantRepID = self:CovenantToFactionID()
+    bodyguardRep = self:CheckBodyguard()
+    sholazarRepID = self:CheckSholazarBasin()
+    self:GetRacialRep()
     self:UnregisterEvent(event)
     self:SwitchedZones()
 end
@@ -337,15 +346,12 @@ function RepByZone:CovenantToFactionID()
     return covenantReps[id]
 end
 
-function RepByZone:JoinedCovenant(event, covenantID)
-    self.covenantRepID = self:CovenantToFactionID()
-    -- Rebuild cache, as zone to faction mapping has changed
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
-    CitySubZonesAndFactions = CitySubZonesAndFactions
-
-    self:SwitchedZones()
+function RepByZone:JoinedCovenant(event, ...)
+    local newCovenantID = C_Covenants.GetActiveCovenantID()
+    if newCovenantID ~= covenantRepID then
+        CacheDataTables()
+        self:SwitchedZones()
+    end
 end
 
 -- Pandaren code
@@ -354,11 +360,7 @@ function RepByZone:CheckPandaren(event, success)
         A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
         H = UnitFactionGroup("player") == "Horde" and HORDE
         if UnitFactionGroup("player") ~= nil then
-            -- Rebuild cache, as zone to faction mapping has changed
-            instancesAndFactions = self:InstancesAndFactionList()
-            zonesAndFactions = self:ZoneAndFactionList()
-            subZonesAndFactions = self:SubZonesAndFactions()
-            CitySubZonesAndFactions = CitySubZonesAndFactions
+            CacheDataTables()
 
             self:GetRacialRep()
             if db.watchedRepID == 1216 then
@@ -373,6 +375,7 @@ function RepByZone:CheckPandaren(event, success)
     end
 end
 
+-- WoD bodyguard code
 function RepByZone:CheckBodyguard()
     local newBodyguardRep
     for questID, factionID in pairs(followerQuests) do
@@ -389,19 +392,24 @@ end
 
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
 function RepByZone:CheckSholazarBasin()
-    local whichID
+    local newSholazarRepID
     local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
     local oraclesStanding = select(3, GetFactionInfoByID(1105))
 
     if frenzyHeartStanding <= 3 then
-        whichID = 1105 -- Frenzyheart hated, return Oracles
+        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
     elseif oraclesStanding <= 3 then
-        whichID = 1104 -- Oracles hated, return Frenzyheart
+        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
     elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
-        whichID = db.watchedRepID or self.racialRepID
+        newSholazarRepID = db.watchedRepID or self.racialRepID
     end
 
-    return whichID
+    if newSholazarRepID ~= sholazarRepID then
+        CacheDataTables()
+        self:SwitchedZones()
+    end
+
+    return sholazarRepID
 end
 
 -------------------- Reputation code starts here --------------------
@@ -497,17 +505,6 @@ function RepByZone:SwitchedZones()
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
-    local sholazarRepID = self:CheckSholazarBasin()
-
-    if self.sholazarRepID ~= sholazarRepID then
-        -- Rebuild cache, as zone to faction mapping has changed
-        instancesAndFactions = self:InstancesAndFactionList()
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
-        CitySubZonesAndFactions = CitySubZonesAndFactions
-    
-        self.sholazarRepID = sholazarRepID
-    end
 
     if isWoDZone and bodyguardRep then
         -- Override in WoD zones only if a bodyguard exists
