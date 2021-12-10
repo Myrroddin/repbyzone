@@ -9,9 +9,6 @@ function RepByZone:ZoneAndFactionList()
     -- see https://wow.gamepedia.com/UiMapID for the list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
 
-    local covenantRepID = self:CovenantToFactionID()
-    local sholazarRepID = self:CheckSholazarBasin()
-
     local zonesAndFactions = {
         --------- Vanilla ----------
         [1]         = 46,       -- Durotar/Orgrimmar
@@ -87,7 +84,7 @@ function RepByZone:ZoneAndFactionList()
         [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
         [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
         [118]       = 1098,     -- Icecrown/Knights of the Ebon Blade
-        [119]       = sholazarRepID, -- See Core-Retail.lua's CheckSholazarBasin()
+        [119]       = self.sholazarRepID, -- See Core-Retail.lua's CheckSholazarBasin()
         [120]       = 1119,     -- The Storm Peaks/The Sons of Hodir
         [121]       = 1106,     -- Zul'Drak/Argent Crusade
         [123]       = A and 1050 or H and 1052, -- Wintergrasp/Valiance Expedition or Horde Expedition
@@ -190,10 +187,10 @@ function RepByZone:ZoneAndFactionList()
         [1569]      = 2407,     -- Bastion/The Ascended
         [1603]      = 2465,     -- Ardenweald/The Wild Hunt
         [1648]      = 2432,     -- The Maw/Ve'nari
-        [1670]      = covenantRepID, -- Ring of Fates/Covenant
-        [1671]      = covenantRepID, -- Ring of Transference/Covenant
-        [1672]      = covenantRepID, -- The Broker's Den/Covenant
-        [1673]      = covenantRepID, -- The Crucible/Covenant
+        [1670]      = self.covenantRepID, -- Ring of Fates/Covenant
+        [1671]      = self.covenantRepID, -- Ring of Transference/Covenant
+        [1672]      = self.covenantRepID, -- The Broker's Den/Covenant
+        [1673]      = self.covenantRepID, -- The Crucible/Covenant
         [1688]      = 2413,     -- Revendreth/Court of Havesters
         [1689]      = 2410,     -- Maldraxxus/The Undying Army
         [1701]      = 2465,     -- Heart of the Forest/The Wild Hunt
@@ -220,9 +217,6 @@ function RepByZone:ZoneAndFactionList()
 end
 
 function RepByZone:SubZonesAndFactions()
-    local covenantRepID = self:CovenantToFactionID()
-    local sholazarRepID = self:CheckSholazarBasin()
-
     local subZonesAndFactions = {
 		-- areaID = factionID
         -- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
@@ -516,7 +510,6 @@ function RepByZone:SubZonesAndFactions()
         [4291]      = 1105,     -- Rainspeaker Canopy/The Oracles
         [4292]      = 1104,     -- Frenzyheart Hill/Frenzyheart Tribe
         [4297]      = 1105,     -- Mosswalker Village/The Oracles
-        [4302]      = sholazarRepID, -- The Skyreach Pillar
         [4303]      = 1104,     -- Hardknuckle Clearing/Frenzyheart Tribe
         [4306]      = 1105,     -- Mistwhisper Village/The Oracles
         [4308]      = 1104,     -- Spearborn Encampment/Frenzyheart Tribe
@@ -738,16 +731,16 @@ function RepByZone:SubZonesAndFactions()
         [13539]     = 1098,     -- Acherus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
-        [10565]     = covenantRepID, -- Oribos/Covenant
+        [10565]     = self.covenantRepID, -- Oribos/Covenant
         [10979]     = 2413,     -- Darkhaven/Court of Harvesters
         [10995]     = 2439,     -- Halls of Atonement/The Avowed
-        [11533]     = covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
-        [12876]     = covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
-        [13209]     = covenantRepID, -- Netherhollow (Oribos)/Covenant
-        [13367]     = covenantRepID == 3 and 2422 or 2465, -- Queen's Conservatory/Night Fae or The Wild Hunt
+        [11533]     = self.covenantRepID == 3 and 2422 or 2465, -- Tirna Noch/Night Fae or The Wild Hunt
+        [12876]     = self.covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
+        [13209]     = self.covenantRepID, -- Netherhollow (Oribos)/Covenant
+        [13367]     = self.covenantRepID == 3 and 2422 or 2465, -- Queen's Conservatory/Night Fae or The Wild Hunt
         [13414]     = 2413,     -- The Sinposium/Court of Harvesters
-        [13498]     = covenantRepID, -- Ring of Transference (Oribos)/Covenant
-        [13499]     = covenantRepID, -- Ring of Fates (Oribos)/Covenant
+        [13498]     = self.covenantRepID, -- Ring of Transference (Oribos)/Covenant
+        [13499]     = self.covenantRepID, -- Ring of Fates (Oribos)/Covenant
         [13515]     = 2407,     -- Seat of the Archon: Font of Fealty/The Ascended
         [13625]     = 2472,     -- Keeper's Respite/The Archivists' Codex
         [13652]     = 2472,     -- Reliquarty of Rememberance/The Archivists' Codex

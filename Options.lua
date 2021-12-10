@@ -109,16 +109,12 @@ function RepByZone:GetOptions()
                         },
                         get = function(info, index)
                             local value = db.watchWoDBodyGuards[index]
-                            self.WoDFollowerZones[index] = self.WoDFollowerZones[index] or value
+                            self.WoDFollowerZones[index] = value
                             return db.watchWoDBodyGuards[index] and value
                         end,
                         set = function(info, index, value)
                             db.watchWoDBodyGuards[index] = value
-                            if value then
-                                self.WoDFollowerZones[index] = value
-                            else
-                                self.WoDFollowerZones[index] = false
-                            end
+                            self.WoDFollowerZones[index] = value
                             self:SwitchedZones()
                         end
                     },
