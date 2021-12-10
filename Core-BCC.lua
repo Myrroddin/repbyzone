@@ -128,9 +128,9 @@ function RepByZone:OnEnable()
     self:GetRacialRep()
 
     -- Cache instance, zone, and subzone data; factionIDs may not be available earlier in OnInitialize()?
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
+    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
 
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
@@ -159,10 +159,6 @@ function RepByZone:OnDisable()
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
-    isOnTaxi = nil
-    instancesAndFactions = nil
-    zonesAndFactions = nil
-    subZonesAndFactions = nil
 end
 
 function RepByZone:SlashHandler()
