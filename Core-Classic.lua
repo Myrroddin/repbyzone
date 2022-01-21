@@ -191,7 +191,11 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    self:UnregisterEvent(event)
+    if isInitialLogin then
+        instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+        zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+        subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+    end
     self:SwitchedZones()
 end
 

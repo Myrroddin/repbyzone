@@ -327,7 +327,6 @@ end
 
 -- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    self:UnregisterEvent(event)
     if isInitialLogin then
         self:GetCovenantRep()
         self:GetBodyguardRep()
@@ -338,8 +337,8 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
         instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
         zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
         subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
-        self:SwitchedZones()
     end
+    self:SwitchedZones()
 end
 
 -- What Covenant does the player belong to, if any

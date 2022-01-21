@@ -121,12 +121,6 @@ function RepByZone:ZoneAndFactionList()
         [542]       = 1515,     -- Spires of Arak/Arakkoa Outcasts
         [543]       = A and 930 or H and 1708, -- Gorgrond/Exodar or Laughing Skull Orcs
         [550]       = 1711,     -- Nagrand/Steamwheedle Preservation Society
-        [579]       = 72,       -- Lunarfall Excavation 1/Stormwind
-        [580]       = 72,       -- Lunarfall Excavation 2/Stormwind
-        [581]       = 72,       -- Lunarfall Excavation 3/Stormwind
-        [582]       = 72,       -- Lunarfall/Stormwind
-        [585]       = 76,       -- Frostwall Mine 1/Orgrimmar
-        [586]       = 76,       -- Frostwall Mine 2/Orgrimmar
         [587]       = 76,       -- Frostwall Mine 3/Orgrimmar
         [588]       = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
         [590]       = 76,       -- Frostwall/Orgrimmar
