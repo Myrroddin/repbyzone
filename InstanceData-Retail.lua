@@ -110,6 +110,24 @@ function RepByZone:InstancesAndFactionList()
 
         ---------- Cataclysm ----------
         [369]       = 72,       -- Deeprun Tram/Stormwind
+        [568]       = A and 72 or H and 911, -- Zul'Aman/Stormwind or Silvermoon City
+        [643]       = A and 2401 or H and 2373, -- Throne of the Tides/Waveblade Ankoan or The Unshackled
+        [644]       = 2164,     -- Halls of Origination/Champions of Azeroth
+        [645]       = 1158,     -- Blackrock Caverns/Guardians of Hyjal
+        [657]       = 1173,     -- The Vortex Pinnacle/Ramkahen
+        [669]       = 1158,     -- Blackwing Descent/Guardians of Hyjal
+        [670]       = A and 1174 or H and 1172, -- Grim Batol/Wildhammer Clan or Dragonmaw Clan
+        [671]       = A and 1174 or H and 1172, -- The Bastion of Twilight/Wildhammer Clan or Dragonmaw Clan
+        [720]       = 1204,     -- Firelands/Avengers of Hyjal
+        [725]       = 1135,     -- The Stonecore/The Earthen Ring
+        [754]       = 1173,     -- Throne of the Four Winds/Ramkahen
+        [755]       = 1173,     -- Lost City of the Tol'vir/Ramkahen
+        [757]       = A and 1177 or H and 1178, -- Baradin Hold/Bardin's Warders or Hellscream's Reach
+        [859]       = A and 72 or H and 76, -- Zul'Gurub/Stormwind or Orgrimmar
+        [938]       = 910,      -- End Time/Brood of Nozdormu
+        [939]       = 989,      -- Well of Eternity/Keepers of Time
+        [940]       = 1091,     -- Hour of Twilight/The Wyrmrest Accord
+        [967]       = 1091,     -- Dragon Soul/The Wyrmrest Accord
         [974]       = 909,      -- Darkmoon Island/Darkmoon Faire
         [1113]      = 909,      -- Transport: Darkmoon Carousel/Darkmoon Faire
 
