@@ -29,6 +29,7 @@ L["The Silver Blade"] = true
 L["This prefers the bodyguard reputation over zone or subzone reputations for Warlords of Draenor content."] = true
 L["Tinker Town"] = true
 L["Toggle RepByZone on or off."] = true
+L["Undiscovered zone faction or unknown default watched faction, watching %s until discovered."] = true
 L["Valley of Spirits"] = true
 L["Valley of Wisdom"] = true
 L["Verbose"] = true

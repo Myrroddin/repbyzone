@@ -8,7 +8,6 @@ local isOnTaxi
 local instancesAndFactions
 local zonesAndFactions
 local subZonesAndFactions
-local isEnabledFlag = false -- Used to reduce enable/disable and login spam
 local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
 
@@ -240,7 +239,6 @@ function RepByZone:OnEnable()
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
-    isEnabledFlag = db.isEnabled
 
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
@@ -287,7 +285,6 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("GOSSIP_CLOSED")
     self:UnregisterEvent("UPDATE_FACTION")
 
-    isEnabledFlag = db.isEnabled
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
 end
@@ -327,17 +324,16 @@ end
 
 -- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    if isInitialLogin then
-        self:GetCovenantRep()
-        self:GetBodyguardRep()
-        self:GetSholazarBasinRep()
-        self:GetPandarenRep()
-        self:GetRacialRep()
+    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
 
-        instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-        zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-        subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
-    end
+    self:GetCovenantRep()
+    self:GetBodyguardRep()
+    self:GetSholazarBasinRep()
+    self:GetPandarenRep()
+    self:GetRacialRep()
+        
     self:SwitchedZones()
 end
 
@@ -354,9 +350,7 @@ function RepByZone:GetCovenantRep(event, ...)
         instancesAndFactions = self:InstancesAndFactionList()
         zonesAndFactions = self:ZoneAndFactionList()
         subZonesAndFactions = self:SubZonesAndFactions()
-        if not isEnabledFlag then
-            self:SwitchedZones()
-        end
+        self:SwitchedZones()
     end
 end
 
@@ -370,9 +364,7 @@ function RepByZone:GetPandarenRep(event, success)
         if db.watchedRepID or self.racialRepID == 1216 then
             db.watchedRepID, db.watchedRepName = self:GetRacialRep()
             self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
-            if not isEnabledFlag then
-                self:SwitchedZones()
-            end
+            self:SwitchedZones()
         end
     end
 end
@@ -388,9 +380,7 @@ function RepByZone:GetBodyguardRep()
     end
     if newBodyguardRep ~= bodyguardRep then
         bodyguardRep = newBodyguardRep
-        if not isEnabledFlag then
-            self:SwitchedZones()
-        end
+        self:SwitchedZones()
     end
 end
 
@@ -411,9 +401,7 @@ function RepByZone:GetSholazarBasinRep()
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
         zonesAndFactions = self:ZoneAndFactionList()
-        if not isEnabledFlag then
-            self:SwitchedZones()
-        end
+        self:SwitchedZones()
     end
 end
 
@@ -504,66 +492,60 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
+    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or db.watchedRepID
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local UImapID = C_Map.GetBestMapForUnit("player")
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
 
-    if isWoDZone and bodyguardRep then
-        -- Override in WoD zones only if a bodyguard exists
-        if self:SetWatchedFactionByFactionID(bodyguardRep) then
-            return
-        end
-    elseif db.watchSubZones then
-        -- Blizzard provided areaIDs
-        for areaID, factionID in pairs(subZonesAndFactions) do
-            if C_Map.GetAreaInfo(areaID) == subZone then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-        -- Our localized missing Blizzard areaIDs
-        for areaName, factionID in pairs(CitySubZonesAndFactions) do
-            if L[areaName] == subZone then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-    end
-
     if inInstance then
-        -- Apply instance data
         for instanceID, factionID in pairs(instancesAndFactions) do
             if instanceID == inInstance then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
+                faction = factionID
+                break
             end
-        end
-    elseif isWoDZone and bodyguardRep then
-        -- Override in WoD zones only if a bodyguard exists
-        if self:SetWatchedFactionByFactionID(bodyguardRep) then
-            return
         end
     else
         -- Apply world zone data
         for zoneID, factionID in pairs(zonesAndFactions) do
             if zoneID == UImapID then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
+                faction = factionID
+                break
             end
         end
     end
 
-    -- If no data is found, use default watched faction or race/class faction
-    faction = db.watchedRepID or self.racialRepID
-    if not self:SetWatchedFactionByFactionID(faction) then
-        -- Player does not want a default watched faction
+    if db.watchSubZones then
+        -- Blizzard provided areaIDs
+        for areaID, factionID in pairs(subZonesAndFactions) do
+            if C_Map.GetAreaInfo(areaID) == subZone then
+                faction = factionID
+                break
+            end
+        end
+        -- Our localized missing Blizzard areaIDs
+        for areaName, factionID in pairs(CitySubZonesAndFactions) do
+            if L[areaName] == subZone then
+                faction = factionID
+                break
+            end
+        end
+    end
+
+    if isWoDZone and bodyguardRep then
+        -- Override in WoD zones only if a bodyguard exists
+        faction = bodyguardRep
+    end
+
+    if self:SetWatchedFactionByFactionID(faction) then
+        return
+    elseif db.watchedRepID == "0-none" then
         SetWatchedFactionIndex(0) -- Clear watched faction
+    elseif not self:SetWatchedFactionByFactionID(faction) then
+        self:Print(L["Undiscovered zone faction or unknown default watched faction, watching %s until discovered."]:format(A and GetFactionInfoByID(72) or H and GetFactionInfoByID(76)))
+        if self:SetWatchedFactionByFactionID(A and 72 or H and 76) then
+            return
+        end
     end
 end

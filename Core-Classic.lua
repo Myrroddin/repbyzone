@@ -191,11 +191,9 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    if isInitialLogin then
-        instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-        zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-        subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
-    end
+    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
     self:SwitchedZones()
 end
 
@@ -297,54 +295,52 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction -- Predefine the variable for later use like tabards and bodyguards. Still need it now, however
+    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or db.watchedRepID
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+
+    if inInstance then
+        for instanceID, factionID in pairs(instancesAndFactions) do
+            if instanceID == inInstance then
+                faction = factionID
+                break
+            end
+        end
+    else
+        -- Apply world zone data
+        for zoneID, factionID in pairs(zonesAndFactions) do
+            if zoneID == UImapID then
+                faction = factionID
+                break
+            end
+        end
+    end
 
     if db.watchSubZones then
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
+                faction = factionID
+                break
             end
         end
         -- Our localized missing Blizzard areaIDs
         for areaName, factionID in pairs(CitySubZonesAndFactions) do
             if L[areaName] == subZone then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
+                faction = factionID
+                break
             end
         end
     end
 
-    if inInstance then
-        -- Apply instance data
-        for instanceID, factionID in pairs(instancesAndFactions) do
-            if instanceID == inInstance then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-    else
-        -- Apply world zone data
-        local UImapID = C_Map.GetBestMapForUnit("player")
-        for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
-                if self:SetWatchedFactionByFactionID(factionID) then
-                    return
-                end
-            end
-        end
-    end
-
-    -- If no data is found, use default watched faction or race/class faction
-    faction = db.watchedRepID or self.racialRepID
-    if not self:SetWatchedFactionByFactionID(faction) then
-        -- Player does not want a default watched faction
+    if self:SetWatchedFactionByFactionID(faction) then
+        return
+    elseif db.watchedRepID == "0-none" then
         SetWatchedFactionIndex(0) -- Clear watched faction
+    elseif not self:SetWatchedFactionByFactionID(faction) then
+        self:Print(L["Undiscovered zone faction or unknown default watched faction, watching %s until discovered."]:format(A and GetFactionInfoByID(72) or H and GetFactionInfoByID(76)))
+        if self:SetWatchedFactionByFactionID(A and 72 or H and 76) then
+            return
+        end
     end
 end
