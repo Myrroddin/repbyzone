@@ -18,6 +18,7 @@ function RepByZone:InstancesAndFactionList()
         [628]       = A and 1050 or H and 1085, -- Isle of Conquest/Valiance Expedition or Warsong Offensive
         [726]       = A and 1174 or H and 1172, -- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
         [727]       = A and 72 or H and 1133, -- Silvershard Mines/Stormwind or Bilgewater Cartel
+        [732]       = A and 1177 or H and 1178, -- Tol Barad/Baradin's Warders or Hellscream's Reach
         [761]       = A and 1134 or H and 68, -- The Battle for Gilneas/Gilneas or Undercity
         [968]       = A and 930 or H and 911, -- Eye of the Storm (rated)/Exodar or Silvermoon City
         [998]       = A and 1353 or H and 1352, -- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
@@ -111,7 +112,7 @@ function RepByZone:InstancesAndFactionList()
         ---------- Cataclysm ----------
         [369]       = 72,       -- Deeprun Tram/Stormwind
         [568]       = A and 72 or H and 911, -- Zul'Aman/Stormwind or Silvermoon City
-        [643]       = A and 2401 or H and 2373, -- Throne of the Tides/Waveblade Ankoan or The Unshackled
+        [643]       = 1135,     -- Throne of the Tides/The Earthen Ring
         [644]       = 2164,     -- Halls of Origination/Champions of Azeroth
         [645]       = 1158,     -- Blackrock Caverns/Guardians of Hyjal
         [657]       = 1173,     -- The Vortex Pinnacle/Ramkahen

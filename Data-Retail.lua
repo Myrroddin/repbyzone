@@ -96,6 +96,27 @@ function RepByZone:ZoneAndFactionList()
         [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
 
         --------- Cataclysm ---------
+        [174]       = 1133,     -- The Lost Isles/Bilgewater Cartel
+        [179]       = 1134,     -- Gilneas/Gilneas
+        [194]       = 1133,     -- Kezan/Bilgewater Cartel
+        [198]       = 1158,     -- Mount Hyjal/Guardians of Hyjal
+        [199]       = A and 72 or H and 76, -- Southern Barrens/Stormwind or Orgrimmar
+        [201]       = 1135,     -- Kelp'thar Forest/The Earthen Ring
+        [202]       = 1134,     -- Gilneas City/Gilneas
+        [203]       = 1135,     -- Vashj'ir/The Earthen Ring
+        [204]       = 1135,     -- Abyssal Depths/The Earthen Ring
+        [205]       = 1135,     -- Shimmering Expanse/The Earthen Ring
+        [207]       = 1135,     -- Deephom/The Earthen Ring
+        [210]       = A and 72 or H and 76, -- The Cape of Stranglethorn/Stormwind or Orgrimmar
+        [217]       = A and 1134 or H and 68, -- Ruins of Gilneas/Gilneas or Undercity
+        [218]       = 1134,     -- Ruins of Gilneas City/Gilneas
+        [224]       = A and 72 or H and 76, -- Stranglethorn Vale/Stormwind or Orgrimmar
+        [241]       = A and 1174 or H and 1172, -- Twilight Highlands/Wildhammer Clan or Dragonmaw Clan
+        [244]       = A and 1177 or H and 1178, -- Tol Barad/Baradin's Warders or Hellscream's Reach
+        [245]       = A and 1177 or H and 1178, -- Tol Barad Peninsula/Baradin's Warders or Hellscream's Reach
+        [249]       = 1173,     -- Uldum/Ramkahen
+        [276]       = 1135,     -- The Maelstrom/The Earthen Ring
+        [738]       = 1204,     -- Firelands/Avengers of Hyjal
 
         --------- MoP ---------
         [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
@@ -121,6 +142,12 @@ function RepByZone:ZoneAndFactionList()
         [542]       = 1515,     -- Spires of Arak/Arakkoa Outcasts
         [543]       = A and 930 or H and 1708, -- Gorgrond/Exodar or Laughing Skull Orcs
         [550]       = 1711,     -- Nagrand/Steamwheedle Preservation Society
+        [579]       = 72,       -- Lunarfall Excavation 1/Stormwind
+        [580]       = 72,       -- Lunarfall Excavation 2/Stormwind
+        [581]       = 72,       -- Lunarfall Excavation 3/Stormwind
+        [582]       = 72,       -- Lunarfall/Stormwind
+        [585]       = 76,       -- Frostwall Mine 1/Orgimmar
+        [586]       = 76,       -- Frostwall Mine 2/Orgimmar
         [587]       = 76,       -- Frostwall Mine 3/Orgrimmar
         [588]       = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
         [590]       = 76,       -- Frostwall/Orgrimmar
@@ -144,6 +171,7 @@ function RepByZone:ZoneAndFactionList()
         [715]       = 609,      -- Emerald Dreamway/Cenarion Circle
         [717]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
         [718]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
+        [726]       = 1135,     -- The Maelstrom/The Earthen Ring
         [734]       = 627,      -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
         [735]       = 627,      -- The Guardian's Library (Mage Class Hall)/Kirin Tor
         [739]       = A and 69 or H and 1828, -- Trueshot Lodge (Hunter Class Hall)/Darnassus or Highmountain Tauren
@@ -217,6 +245,7 @@ function RepByZone:SubZonesAndFactions()
 
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
+        [43]        = 87,       -- Wild Shore/Bloodsail Buccaneers
         [100]       = 47,       -- Nesingwary's Expedition/Ironforge
         [133]       = 54,       -- New Tinkertown/Gnomeregan
 		[150]       = 72,       -- Menethil Harbor/Stormwind
@@ -280,8 +309,11 @@ function RepByZone:SubZonesAndFactions()
         [1678]      = 72,       -- Sofera's Naze/Stormwind
         [1679]      = A and 730 or H and 729, -- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
         [1680]      = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
-		[1739]      = 87,       -- Bloodsail Compound/Bloodsail Buccaneers
+		[1739]      = 1133,     -- Hardwrench Hideaway/Bilgewater Cartel
         [1741]      = 87,       -- Gurubashi Arena/Bloodsail Buccaneers
+        [1757]      = 87,       -- The Crimson Veil/Bloodsail Buccaneers
+        [1758]      = 87,       -- The Riptide/Bloodsail Buccaneers
+        [1759]      = 87,       -- The Damsel's Luck/Bloodsail Buccaneers
         [1761]      = 579,      -- Deadwood Village/Timbermaw Hold
         [1762]      = 579,      -- Felpaw Village/Timbermaw Hold
         [1769]      = 579,      -- Timbermaw Hold/Timbermaw Hold
@@ -294,6 +326,7 @@ function RepByZone:SubZonesAndFactions()
         [2079]      = A and 54 or H and 68, -- Alcaz Island/Gnomeregan or Undercity
 		[2097]      = H and 81 or A and 69, -- Darkcloud Pinnacle/Thunder Bluff or Darnassus
 		[2157]      = H and 81 or A and 47, -- Bael'dun Keep/Thunder Bluff or Ironforge
+        [2177]      = 87,       -- Battle Ring/Bloodsail Buccaneers
 		[2240]      = A and 54 or H and 1133, -- Mirage Raceway/Gnomeregan or Bilgewater Cartel
         [2241]      = 589,      -- Frostsaber Rock/Wintersaber Trainers
         [2242]      = 69,       -- The Hidden Grove/Darnassus
@@ -550,6 +583,57 @@ function RepByZone:SubZonesAndFactions()
         [4740]      = A and 1094 or H and 1124, -- The Silver Enclave/The Silver Covenant or The Sunreavers
         [4760]      = A and 1094 or H and 1124, -- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
         [5561]      = 1090,     -- The Nexus Entrance/Kirin Tor
+
+        --------- Cataclysm ---------
+        [3707]      = 72,       -- Alliance Base/Stormwind
+        [3708]      = 76,       -- Horde Encampment/Orgrimmar
+        [3709]      = 69,       -- Night Elf Village/Darnassus
+        [4779]      = 76,       -- Horde Base Camp/Orgrimmar
+        [4846]      = 81,       -- Camp Una'fe/Thunder Bluff
+        [4851]      = 81,       -- Ruins of Taurajo/Thunder Bluff
+        [4856]      = A and 47 or H and 81, -- Bael Modan/Ironforge or Thunder Bluff
+        [4857]      = 1135,     -- Firestone Point/The Earthen Ring
+        [4860]      = 81,       -- Overgrown Camp/Thunder Bluff
+        [4872]      = A and 47 or H and 81, -- Bael'dun Keep/Ironforge or Thunder Bluff
+        [4912]      = 76,       -- Warchief's Lookout/Orgrimmar
+        [4946]      = A and 47 or H and 81, -- Bael Modan Excavation/Ironforge or Thunder Bluff
+        [4947]      = 47,       -- Twinbraid's Patrol/Ironforge
+        [4948]      = A and 47 or H and 1133, -- Frazzlecraz Motherlode/Ironforge or Bilgewater Cartel
+        [4949]      = 81,       -- Spearhead/Thunder Bluff
+        [4969]      = 72,       -- Tranquil Wash/Stormwind
+        [4970]      = 76,       -- Legion's Rest/Orgrimmar
+        [4975]      = 76,       -- Tenebrous Cavern/Orgrimmar
+        [4976]      = 72,       -- Darkbreak Cove/Stormwind
+        [4986]      = 81,       -- Vendetta Point/Thunder Bluff
+        [5050]      = 1204,     -- Firelands Hatchery (The Hatchery)/Avengers of Hyjal
+        [5064]      = 1204,     -- Firelands Forgeworks (The Anvil of Flame)/Avengers of Hyjal
+        [5067]      = 1204,     -- The Inner Spire/Avengers of Hyjal
+        [5099]      = 1204,     -- The Crucible of Flame (The Crucible)/Avengers of Hyjal
+        [5137]      = 1133,     -- The Krazzworks/Bilgewater Cartel
+        [5140]      = A and 72 or H and 1133, -- Highbank/Stormwind or Bilgewater Cartel
+        [5155]      = 1091,     -- Vermillion Redoubt/The Wyrmrest Accord
+        [5248]      = 72,       -- Voldrin's Hold/Stormwind
+        [5249]      = 76,       -- Stygian Bounty/Orgrimmar
+        [5293]      = 1171,     -- Crumbling Depths/Therazane
+        [5294]      = 1171,     -- Shuddering Spires/Therazane
+        [5295]      = 1171,     -- The Pale Roost/Therazane
+        [5296]      = 1171,     -- Therazane's Throne/Therazane
+        [5297]      = 1171,     -- Halcyon Egress/Therazane
+        [5298]      = 1171,     -- Twilight Precipice/Therazane
+        [5299]      = 1171,     -- Lorthuna's Gate/Therazane
+        [5300]      = 1171,     -- Verlok Stand/Therazane
+        [5302]      = 1171,     -- Crimson Expanse/Therazane
+        [5338]      = 1171,     -- Fungal Deep/Therazane
+        [5408]      = 1068,     -- Explorer's League Digsite/Explorer's League
+        [5437]      = 1135,     -- Ring of the Elements/The Earthen Ring
+        [5438]      = 1135,     -- The Maw of Madness/The Earthen Ring
+        [5439]      = 1135,     -- Ruins of Drakgor/The Earthen Ring
+        [5461]      = A and 72 or H and 1133, -- Dragonmaw Pass/Stormwind or Bilgewater Cartel
+        [5462]      = A and 72 or H and 1133, -- Wyrms' Bend/Stormwind or Bilgewater Cartel
+        [5470]      = A and 72 or H and 1133, -- Victor's Point/Stormwind or Bilgewater Cartel
+        [5595]      = 1091,     -- Obsidian Forest/The Wyrmrest Accord
+        [5660]      = 1091,     -- Obsidian Lair/The Wyrmrest Accord
+        [5664]      = 1135,     -- Iso'rath/The Earthen Ring
 
         --------- MoP ---------
         [4081]      = 81,       -- The Dawnchaser/Thunder Bluff
