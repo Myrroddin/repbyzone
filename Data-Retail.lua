@@ -91,7 +91,7 @@ function RepByZone:ZoneAndFactionList()
         [124]       = 1098,     -- Plaguelands: The Scarlet Enclave (DK starting zone)/Knights of the Ebon Blade
         [125]       = 1090,     -- Dalaran City/Kirin Tor
         [126]       = 1090,     -- Dalaran City (The Underbelly)/Kirin Tor
-        [127]       = 1090,     -- Crystalsong Forest
+        [127]       = 1090,     -- Crystalsong Forest/Kirin Tor
         [170]       = 1106,     -- Hrothgar's Landing/Argent Crusade
         [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
 
@@ -544,15 +544,18 @@ function RepByZone:SubZonesAndFactions()
         [4369]      = 47,       -- Dorian's Outpost/Ironforge
         [4342]      = 1098,     -- Acherus: The Ebon Hold(Death Knight start)/Knights of the Ebon Blade
         [4392]      = 1105,     -- The Stormwright's Shelf/The Oracles
-        [4429]      = 1052,     -- Grom'arsh Crash-Site/Horde Expedition
+        [4429]      = 1085,     -- Grom'arsh Crash-Site/Warsong Offensive
         [4418]      = 21,       -- K3/Booty Bay
-        [4428]      = 1068,     -- Frosthold/Explorers' League
+        [4428]      = 1126,     -- Frosthold/The Frostborn
         [4441]      = 1064,     -- Camp Tunka'lo/The Taunka
         [4442]      = 1068,     -- Brann's Base-Camp/Explorers' League
         [4458]      = 21,       -- Sparksocket Minefield/Booty Bay
         [4459]      = 21,       -- Ricket's Folly/Booty Bay
         [4479]      = A and 1094 or H and 1124, -- Winter's Breath Lake/The Silver Covenant or The Sunreavers
+        [4485]      = 1126,     -- The Inventor's Library/The Frostborn
+        [4487]      = 1085,     -- Frostfloe Deep/Warsong Offensive
         [4501]      = 1106,     -- The Argent Vanguard/Argent Crusade
+        [4502]      = 1126,     -- Mimir's Workshop/The Frostborn
         [4503]      = A and 1094 or H and 1124, -- Ironwall Dam/The Silver Covenant or The Sunreavers
         [4504]      = 1106,     -- Valley of Echoes/Argent Crusade
         [4505]      = 1106,     -- The Breach/Argent Crusade
@@ -562,6 +565,7 @@ function RepByZone:SubZonesAndFactions()
         [4512]      = A and 1037 or H and 1052, -- Orgrim's Hammer/Alliance Vanguard or Horde Expedition
         [4516]      = 1106,     -- Ironwall Rampart/Argent Crusade
         [4522]      = 1156,     -- Icecrown Citadel/The Ashen Verdict
+        [4536]      = A and 1068 or H and 1085, -- Frosthowl Cavern/Explorers' League or Warsong Offensive
         [4541]      = 1106,     -- Vanguard Infirmary/Argent Crusade
         [4558]      = A and 1094 or H and 1124, -- Sunreaver's Command/The Silver Covenant or The Sunreavers
         [4559]      = A and 1094 or H and 1124, -- Windrunner's Overlook/The Silver Covenant or The Sunreavers
