@@ -295,7 +295,7 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or db.watchedRepID
+    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
 
@@ -337,10 +337,5 @@ function RepByZone:SwitchedZones()
         return
     elseif db.watchedRepID == "0-none" then
         SetWatchedFactionIndex(0) -- Clear watched faction
-    elseif not self:SetWatchedFactionByFactionID(faction) then
-        self:Print(L["Undiscovered zone faction or unknown default watched faction, watching %s until discovered."]:format(A and GetFactionInfoByID(72) or H and GetFactionInfoByID(76)))
-        if self:SetWatchedFactionByFactionID(A and 72 or H and 76) then
-            return
-        end
     end
 end
