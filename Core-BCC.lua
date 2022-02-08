@@ -294,6 +294,9 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
+    local UImapID = C_Map.GetBestMapForUnit("player")
+    if not UImapID then return end -- Possible zoning issues, exit out unless we have valid map data
+    
     if isOnTaxi then
         if not db.watchOnTaxi then
             -- On taxi but don't switch

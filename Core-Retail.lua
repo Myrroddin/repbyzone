@@ -485,6 +485,9 @@ end
 -------------------- Watched faction code starts here --------------------
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
+    local UImapID = C_Map.GetBestMapForUnit("player")
+    if not UImapID then return end -- Possible zoning issues, exit out unless we have valid map data
+
     if isOnTaxi then
         if not db.watchOnTaxi then
             -- On taxi but don't switch
@@ -494,7 +497,6 @@ function RepByZone:SwitchedZones()
 
     local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
-    local UImapID = C_Map.GetBestMapForUnit("player")
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
