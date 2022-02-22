@@ -232,6 +232,7 @@ function RepByZone:ZoneAndFactionList()
         [1911]      = 2432,     -- Torghast: Tower of the Damned/Ve'nari
         [1960]      = 2432,     -- The Maw/Ve'nari
         [1961]      = 2470,     -- Korthia/Death's Advance
+        [1970]      = 2478,     -- Zereth Mortis/The Enlightened
         [1971]      = 1948,     -- Skyhold/Valarjar
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
     }
