@@ -27,3 +27,5 @@ ignore:
     - pkgmeta-retail.yml
     - Options-Vanilla.lua
     - Options-TBC.lua
+    - RepByZone_Vanilla.toc
+    - RepByZone_TBC.toc
