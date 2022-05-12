@@ -172,8 +172,8 @@ function RepByZone:ZoneAndFactionList()
         [717]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
         [718]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
         [726]       = 1135,     -- The Maelstrom/The Earthen Ring
-        [734]       = 627,      -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
-        [735]       = 627,      -- The Guardian's Library (Mage Class Hall)/Kirin Tor
+        [734]       = 1090,     -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
+        [735]       = 1090,     -- The Guardian's Library (Mage Class Hall)/Kirin Tor
         [739]       = A and 69 or H and 1828, -- Trueshot Lodge (Hunter Class Hall)/Darnassus or Highmountain Tauren
         [747]       = 609,      -- The Dreamgrove/Cenarion Circle
         [750]       = 1828,     -- Thunder Totem/Highmountain Tribe
@@ -769,6 +769,7 @@ function RepByZone:SubZonesAndFactions()
         [7814]      = 1894,     -- Vault of the Wardens (Demon Hunter)/The Wardens
         [7849]      = A and 1134 or H and 68, -- Cullen's Post/Gilneas or Undercity
         [7850]      = A and 1134 or H and 68, -- Lorna's Watch/Gilneas or Undercity
+        [7879]      = 1090,     -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
         [7903]      = 1341,     -- Temple of Five Dawns (Monk)/The August Celestials
         [7904]      = 1341,     -- Shrine of Five Dawns (Monk)/The August Celestials
         [8051]      = A and 1134 or H and 68, -- Cordana's Apex/Gilneas or Undercity
