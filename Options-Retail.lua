@@ -1,8 +1,6 @@
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
---@version-retail@
 local media = LibStub("LibSharedMedia-3.0")
---@end-version-retail@
 
 function RepByZone:GetOptions()
     local db = self.db.profile
@@ -88,7 +86,6 @@ function RepByZone:GetOptions()
                             self:GetRacialRep()
                         end
                     },
-                    --@version-retail@
                     watchWoDBodyGuards = {
                         order = 100,
                         name = L["Watch WoD garrison bodyguard faction."],
@@ -118,7 +115,6 @@ function RepByZone:GetOptions()
                             self:SwitchedZones()
                         end
                     },
-                    --@end-version-retail@
                     defaultRep = {
                         order = 200,
                         name = L["Default watched faction"],
