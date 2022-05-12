@@ -18,9 +18,11 @@ ignore:
     - Libs/LibStub/tests
     - Data-Retail.lua
     - InstanceData-Retail.lua
-    - Data-BCC.lua
+    - Data-TBC.lua
     - Core-Retail.lua
-    - Core-BCC.lua
-    - pkgmeta-classic.yml
-    - pkgmeta-bcc.yml
+    - Core-TBC.lua
+    - pkgmeta-vanilla.yml
+    - pkgmeta-tbc.yml
     - pgkmeta-retail.yml
+    - Options-TBC.lua
+    - Options-Retail.lua

@@ -43,14 +43,14 @@ jobs:
       - name: Package and release for Classic
         uses: BigWigsMods/packager@master
         with:
-          args: -g classic -m pkgmeta-classic.yml
+          args: -m pkgmeta-vanilla.yml
       
       # another example where we supply additional arguments, this example is specifically to release
       # for the TBC version of the game
       - name: Package and release for TBC
         uses: BigWigsMods/packager@master
         with:
-          args: -g bcc -m pkgmeta-bcc.yml
+          args: -m pkgmeta-tbc.yml
       
       # for the Retail version of the game
       - name: Package and release

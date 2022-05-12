@@ -18,10 +18,12 @@ externals:
 
 ignore:
     - Libs/LibStub/tests
-    - Data-Classic.lua
-    - Core-Classic.lua
-    - Data-BCC.lua
-    - Core-BCC.lua
-    - pkgmeta-classic.yml
-    - pkgmeta-bcc.yml
+    - Data-Vanilla.lua
+    - Core-Vanilla.lua
+    - Data-TBC.lua
+    - Core-TBC.lua
+    - pkgmeta-vanilla.yml
+    - pkgmeta-tbc.yml
     - pkgmeta-retail.yml
+    - Options-Vanilla.lua
+    - Options-TBC.lua
