@@ -32,27 +32,27 @@ jobs:
 
       # we first have to clone the AddOn project, this is a required step
       - name: Clone project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           # you can specify how much of the commit history you want to fetch,
           # which is useful for controlling the length of the automated changelog
           fetch-depth: 50
       # for the Retail version of the game
       - name: Package and release
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v2
         with:
           args: -m pkgmeta-retail.yml
           
       # another example where we supply additional arguments, this example is specifically to release
       # for the Classic version of the game
       - name: Package and release for Classic
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v2
         with:
           args: -m pkgmeta-vanilla.yml
       
       # another example where we supply additional arguments, this example is specifically to release
       # for the TBC version of the game
       - name: Package and release for TBC
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v2
         with:
           args: -m pkgmeta-tbc.yml
