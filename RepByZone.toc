@@ -76,7 +76,7 @@ Locales\koKR.lua
 # Core-TBC.lua
 # Data-TBC.lua
 # Options-TBC.lua
-# #@eend-version-bcc@
+# #@end-version-bcc@
 #@end-non-debug@
 
 #@version-retail@
