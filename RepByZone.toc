@@ -1,4 +1,6 @@
 ## Interface: 90200
+## Interface-Classic: 11403
+## Interface-BCC: 20504
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -22,7 +24,12 @@
 ## X-Wago-ID: q96dZlGO
 
 ## SavedVariables: RepByZoneDB
+#@version-retail@
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
+#@end-version-retail@
+#@non-version-retail@
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
+#@end-non-version-retail@
 
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
@@ -41,8 +48,10 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
+#@version-retail@
 Libs\LibSharedMedia-3.0\lib.xml
 Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+#@end-version-retail@
 
 Locales\enUS.lua
 Locales\deDE.lua
@@ -56,7 +65,21 @@ Locales\esES.lua
 Locales\esMX.lua
 Locales\koKR.lua
 
+#@version-classic@
+Core-Vanilla.lua
+Data-Vanilla.lua
+Options-Vanilla.lua
+#@end-version-classic@
+
+#@version-bcc@
+Core-TBC.lua
+Data-TBC.lua
+Options-TBC.lua
+#@eend-version-bcc@
+
+#@version-retail@
 Core-Retail.lua
 Data-Retail.lua
 InstanceData-Retail.lua
 Options-Retail.lua
+#@end-version-retail@
