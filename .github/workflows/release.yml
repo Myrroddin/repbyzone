@@ -7,8 +7,8 @@ name: Package and release
 # other branches or even pullrequests.
 on:
   push:
-    branches: # uncomment this line to make alpha builds
-      - master # uncomment this line to make alpha builds
+    # branches: # uncomment this line to make alpha builds
+      # - master # uncomment this line to make alpha builds
     tags:
       - '**'
 

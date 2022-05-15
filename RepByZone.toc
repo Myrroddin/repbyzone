@@ -65,17 +65,19 @@ Locales\esES.lua
 Locales\esMX.lua
 Locales\koKR.lua
 
-#@version-classic@
-Core-Vanilla.lua
-Data-Vanilla.lua
-Options-Vanilla.lua
-#@end-version-classic@
+#@non-debug@
+# #@version-classic@
+# Core-Vanilla.lua
+# Data-Vanilla.lua
+# Options-Vanilla.lua
+# #@end-version-classic@
 
-#@version-bcc@
-Core-TBC.lua
-Data-TBC.lua
-Options-TBC.lua
-#@eend-version-bcc@
+# #@version-bcc@
+# Core-TBC.lua
+# Data-TBC.lua
+# Options-TBC.lua
+# #@eend-version-bcc@
+#@end-non-debug@
 
 #@version-retail@
 Core-Retail.lua
