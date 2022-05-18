@@ -71,7 +71,7 @@ function RepByZone:InstancesAndFactionList()
         -- See https://wow.gamepedia.com/InstanceID for the list of instanceIDs
 
         --------- Dungeons ----------
-        [33]        = 68, -- Shadowfang Keep/Undercity
+        [33]        = A and 72  or H and 68, -- Shadowfang Keep/Undercity
         [34]        = 72, -- The Stockades/Stormwind
         [36]        = 72, -- The Deadmines/Stormwind
         [43]        = 81, -- Wailing Caverns/Thunder Bluff
