@@ -86,6 +86,16 @@ function RepByZone:GetOptions()
                             self:GetRacialRep()
                         end
                     },
+                    useFactionTabards = {
+                        order = 50,
+                        name = L["Faction Tabards Reputation"],
+                        desc = L["Instead of older instance reputation, watch the equipped faction tabard instead."],
+                        type = "toggle",
+                        get = function () return db.useFactionTabards end,
+                        set = function (info, value)
+                            db.useFactionTabards = value
+                        end
+                    },
                     watchWoDBodyGuards = {
                         order = 100,
                         name = L["Watch WoD garrison bodyguard faction."],

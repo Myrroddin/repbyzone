@@ -195,6 +195,7 @@ local defaults = {
         verbose = true,
         watchOnTaxi = true,
         useClassRep = true,
+        useFactionTabards = true,
         watchWoDBodyGuards = {
             ["**"] = true
         }

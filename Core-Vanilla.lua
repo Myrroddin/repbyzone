@@ -9,6 +9,17 @@ local instancesAndFactions
 local zonesAndFactions
 local subZonesAndFactions
 
+-- Table to localize subzones that Blizzard does not provide areaIDs
+local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+	-- ["Subzone"] = factionID
+    ["Deeprun Tram"] = 72, -- Stormwind
+	["Dwarven District"] = 47, -- Ironforge
+	["The Salty Sailor Tavern"] = 21, -- Booty Bay
+	["Tinker Town"] = 54, -- Gnomeregan Exiles
+	["Valley of Spirits"] = 530, -- Darkspear Trolls
+	["Valley of Wisdom"] = 81, -- Thunder Bluff
+}
+
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
      -- Catch possible errors during initialization
@@ -275,17 +286,6 @@ function RepByZone:SetWatchedFactionByFactionID(id)
 end
 
 -------------------- Watched faction code starts here --------------------
--- Table to localize subzones that Blizzard does not provide areaIDs
-local CitySubZonesAndFactions = CitySubZonesAndFactions or {
-	-- ["Subzone"] = factionID
-    ["Deeprun Tram"] = 72, -- Stormwind
-	["Dwarven District"] = 47, -- Ironforge
-	["The Salty Sailor Tavern"] = 21, -- Booty Bay
-	["Tinker Town"] = 54, -- Gnomeregan Exiles
-	["Valley of Spirits"] = 530, -- Darkspear Trolls
-	["Valley of Wisdom"] = 81, -- Thunder Bluff
-}
-
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
     local UImapID = C_Map.GetBestMapForUnit("player")
