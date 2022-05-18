@@ -51,7 +51,7 @@ function RepByZone:ZoneAndFactionList()
         [1416]      = A and 72 or H and 76, -- Alterac Mountains/Stormwind or Orgrimmar
         [1418]      = A and 47 or H and 76, -- Badlands/Ironforge or Orgrimmar
         [1428]      = A and 47 or H and 530, -- Burning Steppes/Ironforge or Darkspear Trolls
-        [1438]      = A and 72 or H and 76, -- Stranglethorn Vale/Stormwind or Orgrimmar
+        [1434]      = A and 72 or H and 76, -- Stranglethorn Vale/Stormwind or Orgrimmar
         [1435]      = A and 72 or H and 76, -- Swamp of Sorrows/Stormwind or Orgrimmar
         [1441]      = A and 69 or H and 81, -- Thousand Needles/Darnassus or Thunder Bluff
         [1442]      = A and 69 or H and 81, -- Stonetalon Mountains/Darnassus or Thunder Bluff

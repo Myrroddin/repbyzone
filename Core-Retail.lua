@@ -31,6 +31,26 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 	["Valley of Wisdom"] = 81, -- Thunder Bluff
 }
 
+-- Faction tabard code
+local isFactionDungeon
+local faction_tabards = {
+    -- Alliance
+    [45574] = true, -- Stormwind City
+    [45577] = true, -- Ironforge
+    [45578] = true, -- Gnomeregan
+    [42279] = true, -- Darnassus
+    [45580] = true, -- Exodar
+    [83079] = true, -- Tushui
+
+    -- Horde
+    [45581] = true, -- Orgrimmar
+    [45582] = true, -- Darkspear
+    [45583] = true, -- Undercity
+    [45584] = true, -- Thunder Bluff
+    [45585] = true, -- Silvermoon City
+    [83080] = true, -- Huojin
+}
+
 -- WoD garrison bodyguard code
 local bodyguardRep
 local followerQuests = {
