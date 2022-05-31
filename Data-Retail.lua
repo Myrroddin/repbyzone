@@ -659,6 +659,7 @@ function RepByZone:SubZonesAndFactions()
         [6118]      = 1341,     -- The Scrollkeeper's Sanctum/The August Celestials
         [6119]      = 1341,     -- Terrace of the Twin Dragons/The August Celestials
         [6120]      = 1341,     -- The Heart of Jade/The August Celestials
+        [6143]      = 1341,     -- Mogu'shan Palace1/The August Celestials
         [6155]      = 1341,     -- Cradle of Chi-Ji/The August Celestials
         [6160]      = 1341,     -- Angkhal Pavilion/The August Celestials
         [6161]      = 1341,     -- Pedestal of Hope/The August Celestials
@@ -666,8 +667,6 @@ function RepByZone:SubZonesAndFactions()
         [6174]      = 1341,     -- Temple of the White Tiger/The August Celestials
         [6182]      = 1341,     -- Mogu'shan Palace2/The August Celestials
         [6213]      = 1341,     -- Niuzao Temple/The August Celestials
-        [6143]      = 1341,     -- Mogu'shan Palace1/The August Celestials
-        [6174]      = 1341,     -- Temple of the White Tiger/The August Celestials
         [6295]      = 1345,     -- Seat of Knowledge/The Lorewalkers
         [6368]      = 1302,     -- Soggy's Gamble/The Anglers
         [6371]      = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive

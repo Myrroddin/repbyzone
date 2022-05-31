@@ -32,23 +32,24 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 }
 
 -- Faction tabard code
-local isFactionDungeon
-local faction_tabards = {
+local tabardID
+local faction_tabard_auraIDs = {
+    -- [auraID] = {factionID}
     -- Alliance
-    [45574] = true, -- Stormwind City
-    [45577] = true, -- Ironforge
-    [45578] = true, -- Gnomeregan
-    [42279] = true, -- Darnassus
-    [45580] = true, -- Exodar
-    [83079] = true, -- Tushui
+    [93795]     = {72},     -- Stormwind City
+    [93805]     = {47},     -- Ironforge
+    [93821]     = {54},     -- Gnomeregan
+    [93806]     = {69},     -- Darnassus
+    [93811]     = {930},    -- Exodar
+    [126434]    = {1353},   -- Tushui Pandaren
 
     -- Horde
-    [45581] = true, -- Orgrimmar
-    [45582] = true, -- Darkspear
-    [45583] = true, -- Undercity
-    [45584] = true, -- Thunder Bluff
-    [45585] = true, -- Silvermoon City
-    [83080] = true, -- Huojin
+    [93825]     = {76},     -- Orgrimmar
+    [93827]     = {530},    -- Darkspear
+    [94462]     = {68},     -- Undercity
+    [94463]     = {81},     -- Thunder Bluff
+    [93828]     = {911},    -- Silvermoon City
+    [126436]    = {1352},   -- Huojin Pandaren
 }
 
 -- WoD garrison bodyguard code
@@ -290,6 +291,10 @@ function RepByZone:OnEnable()
 
     -- Check Sholazar Basin factions
     self:RegisterEvent("UPDATE_FACTION", "GetSholazarBasinRep")
+
+    -- Check if a faction tabard is equipped or changed
+    self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetTabardID")
+    self:RegisterEvent("UNIT_AURA", "GetTabardBuffData")
 end
 
 function RepByZone:OnDisable()
@@ -305,6 +310,8 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("CHAT_MSG_MONSTER_SAY")
     self:UnregisterEvent("GOSSIP_CLOSED")
     self:UnregisterEvent("UPDATE_FACTION")
+    self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+    self:UnregisterEvent("UNIT_AURA")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -354,6 +361,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     self:GetSholazarBasinRep()
     self:GetPandarenRep()
     self:GetRacialRep()
+    self:GetTabardID()
         
     self:SwitchedZones()
 end
@@ -424,6 +432,37 @@ function RepByZone:GetSholazarBasinRep()
         zonesAndFactions = self:ZoneAndFactionList()
         self:SwitchedZones()
     end
+end
+
+-- Tabard code
+function RepByZone:GetTabardID(event, unit)
+    if unit == "player" then
+        local newID = GetInventoryItemID(unit, INVSLOT_TABARD)
+        if newID ~= tabardID then
+            tabardID = newID
+            self:SwitchedZones()
+        end
+    end
+end
+
+function RepByZone:GetTabardBuffData()
+    if not db.useFactionTabards then
+        return nil
+    end
+
+    AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
+        if maxCount and maxCount <= 0 then
+            return nil
+        end
+
+        local buffID = select(10, ...)
+        local factionID
+        local data = faction_tabard_auraIDs[buffID]
+        if data then
+            factionID = data[1] -- TODO: verify which dungeons can benefit from tabards
+            return factionID
+        end
+    end)
 end
 
 -------------------- Reputation code starts here --------------------
@@ -516,17 +555,24 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
+    local faction
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
+    local _, isDungeon, difficultyID = GetInstanceInfo()
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
 
+    if isDungeon == "party" and tabardID then
+        faction = self:GetTabardBuffData()
+    end
+
     if inInstance then
-        for instanceID, factionID in pairs(instancesAndFactions) do
-            if instanceID == inInstance then
-                faction = factionID
-                break
+        if not faction then
+            for instanceID, factionID in pairs(instancesAndFactions) do
+                if instanceID == inInstance then
+                    faction = factionID
+                    break
+                end
             end
         end
     else
@@ -559,6 +605,10 @@ function RepByZone:SwitchedZones()
     if isWoDZone and bodyguardRep then
         -- Override in WoD zones only if a bodyguard exists
         faction = bodyguardRep
+    end
+
+    if not faction then
+        faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     if self:SetWatchedFactionByFactionID(faction) then

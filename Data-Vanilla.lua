@@ -59,7 +59,6 @@ function RepByZone:ZoneAndFactionList()
         [1445]      = A and 72 or H and 76, -- Dustwallow Marsh/Stormwind or Orgrimmar
         [1447]      = A and 69 or H and 76, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
-
     }
     return zonesAndFactions
 end
