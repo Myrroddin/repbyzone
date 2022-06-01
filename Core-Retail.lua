@@ -447,12 +447,12 @@ end
 
 function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
-        return nil
+        return false
     end
 
     AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
         if maxCount and maxCount <= 0 then
-            return nil
+            return false
         end
 
         local buffID = select(10, ...)
@@ -562,7 +562,7 @@ function RepByZone:SwitchedZones()
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
 
-    if isDungeon == "party" and tabardID then
+    if isDungeon == "party" and tabardID ~= nil then
         faction = self:GetTabardBuffData()
     end
 
