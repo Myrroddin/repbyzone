@@ -193,7 +193,7 @@ function RepByZone:ZoneAndFactionList()
         [1161]      = A and 2160 or H and 2157, -- Borealus/Proudmore Admiralty or The Honorbound
         [1165]      = A and 2159 or H and 2378, -- Dazar'alor/7th Legion or Zandalari Empire
         [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
-        [1355]      = A and 2401 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
+        [1355]      = A and 2400 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
         [1462]      = 2391,     -- Mechagon Island/Rustbolt Resistance
         [1527]      = 2417,     -- Uldum/Uldum Accord
         [1530]      = 2415,     -- Vale of Eternal Blossoms/Rajani
