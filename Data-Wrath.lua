@@ -130,6 +130,11 @@ function RepByZone:InstancesAndFactionList()
         [602]       = A and 1050 or H and 1067, -- Halls of Lightning/Valiance Expedition or The Hand of Vengeance
         [604]       = A and 1050 or H and 1067, -- Gundrak/Valiance Expedition or The Hand of Vengeance
         [608]       = 1090,     -- The Violet Hold/Kirin Tor
+        [619]       = A and 1050 or H and 1067, -- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
+        [632]       = 1156,     -- Forge of Souls/The Ashen Verdict
+        [650]       = 1106,     -- Trial of the Champion/Argent Crusade
+        [658]       = 1156,     -- Pit of Saron/The Ashen Verdict
+        [668]       = 1156,     -- Halls of Reflection/The Ashen Verdict
         [1001]      = 529, -- Scarlet Halls/Argent Dawn
         [1004]      = 529, -- Scarlet Monastary/Argent Dawn
         [1007]      = 529, -- Scholomance/Argent Dawn
@@ -158,6 +163,12 @@ function RepByZone:InstancesAndFactionList()
         [565]       = 1038,     -- Gruul's Lair/Ogri'la
         [580]       = 1077,     -- Sunwell Plateau/Shattered Sun Offensive
         [603]       = 1119,     -- Ulduar/The Sons of Hodir
+        [615]       = 1091,     -- The Obsidian Sanctum/The Wyrmrest Accord
+        [616]       = 1091,     -- The Eye of Eternity/The Wyrmrest Accord
+        [624]       = A and 1037 or H and 1052, -- Vault of Archavon/Alliance Vanguard or Horde Expedition
+        [631]       = 1156,     -- Icecrown Citadel/The Ashen Verdict
+        [649]       = 1106,     -- Trial of the Crusader/Argent Crusade
+        [724]       = 1091,     -- The Ruby Sanctum/The Wyrmrest Accord
     }
     return instancesAndFactions
 end
