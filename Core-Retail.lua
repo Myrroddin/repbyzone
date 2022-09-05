@@ -563,12 +563,10 @@ function RepByZone:SwitchedZones()
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
 
-    if isDungeon == "party" and tabardID ~= nil then
-        faction = self:GetTabardBuffData()
-    end
-
     if inInstance then
-        faction = self:GetTabardBuffData()
+        if isDungeon == "party" then
+            faction = self:GetTabardBuffData()
+        end
         if not faction then
             for instanceID, factionID in pairs(instancesAndFactions) do
                 if instanceID == inInstance then
