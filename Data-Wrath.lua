@@ -75,6 +75,23 @@ function RepByZone:ZoneAndFactionList()
         [1954]      = 911,      -- Silvermoon City/Silvermoon City
         [1955]      = 935,      -- Shattrath City/The Sha'tar
         [1957]      = 1077,     -- Isle of Quel'Danas/Shattered Sun Offensive
+
+        --------- WotLK ---------
+        [114]       = A and 1050 or H and 1085, -- Borean Tundra/Valiance Expedition or Warsong Offensive
+        [115]       = 1091,     -- Dragonblight/The Wyrmrest Accord
+        [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
+        [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
+        [118]       = 1098,     -- Icecrown/Knights of the Ebon Blade
+        [119]       = self.sholazarRepID, -- See Core-Wrath.lua's CheckSholazarBasin()
+        [120]       = 1119,     -- The Storm Peaks/The Sons of Hodir
+        [121]       = 1106,     -- Zul'Drak/Argent Crusade
+        [123]       = A and 1050 or H and 1052, -- Wintergrasp/Valiance Expedition or Horde Expedition
+        [124]       = 1098,     -- Plaguelands: The Scarlet Enclave (DK starting zone)/Knights of the Ebon Blade
+        [125]       = 1090,     -- Dalaran City/Kirin Tor
+        [126]       = 1090,     -- Dalaran City (The Underbelly)/Kirin Tor
+        [127]       = 1090,     -- Crystalsong Forest/Kirin Tor
+        [170]       = 1106,     -- Hrothgar's Landing/Argent Crusade
+        [1360]      = 1098,     -- Icecrown Citadel (The Frozen Throne)/Knights of the Ebon Blade
     }
     return zonesAndFactions
 end

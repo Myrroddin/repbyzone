@@ -161,6 +161,9 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
+     -- Check Sholazar Basin factions
+     self:RegisterEvent("UPDATE_FACTION", "GetSholazarBasinRep")
+
     -- Set watched faction when the player first loads into the game
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload")
 end
@@ -173,6 +176,7 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("PLAYER_CONTROL_LOST")
     self:UnregisterEvent("PLAYER_CONTROL_GAINED")
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    self:UnregisterEvent("UPDATE_FACTION")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
@@ -213,10 +217,35 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+
+    self:GetRacialRep()
+    self:GetSholazarBasinRep()
+
     self:SwitchedZones()
 end
 
 -------------------- Reputation code starts here --------------------
+-- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
+function RepByZone:GetSholazarBasinRep()
+    local newSholazarRepID
+    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
+    local oraclesStanding = select(3, GetFactionInfoByID(1105))
+
+    if frenzyHeartStanding <= 3 then
+        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
+    elseif oraclesStanding <= 3 then
+        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
+    elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
+        newSholazarRepID = db.watchedRepID or self.racialRepID
+    end
+
+    if newSholazarRepID ~= self.sholazarRepID then
+        self.sholazarRepID = newSholazarRepID
+        zonesAndFactions = self:ZoneAndFactionList()
+        self:SwitchedZones()
+    end
+end
+
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
