@@ -126,6 +126,7 @@ function RepByZone:InstancesAndFactionList()
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
         [529]       = A and 509 or H and 510, -- Arathi Basin/The Leage of Arathor or The Defilers
+        [566]       = A and 930 or H and 911, -- Eye of the Storm/Exodar or Silvermoon City
         [589]       = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
 
         ---------- Raids -----------
