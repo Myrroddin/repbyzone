@@ -1,6 +1,7 @@
 ## Interface: 90207
 ## Interface-Classic: 11403
 ## Interface-BCC: 20504
+## Interface-Wrath: 30400
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -31,7 +32,7 @@
 # ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
 #@end-non-version-retail@
 
-## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES
+## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES, esMX
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
 ## X-Category: Quests & Leveling, Action Bars, Combat, Roleplay
 ## X-Website: https://www.curseforge.com/wow/addons/repbyzone
@@ -77,6 +78,12 @@ Locales\koKR.lua
 # Data-TBC.lua
 # Options-TBC.lua
 # #@end-version-bcc@
+
+# #@version-wrath@
+# Core-Wrath.lua
+# Data-Wrath.lua
+# Options-Wrath.lua
+# #@end-version-wrath@
 #@end-non-debug@
 
 #@version-retail@
