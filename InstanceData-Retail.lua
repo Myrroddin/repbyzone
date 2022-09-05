@@ -96,7 +96,8 @@ function RepByZone:InstancesAndFactionList()
         [603]       = 1119,     -- Ulduar/The Sons of Hodir
         [604]       = A and 1050 or H and 1067, -- Gundrak/Valiance Expedition or The Hand of Vengeance
         [608]       = 1090,     -- The Violet Hold/Kirin Tor
-        [615]       = 1091,     -- The Eye of Eternity/The Wyrmrest Accord
+        [615]       = 1091,     -- The Obsidian Sanctum/The Wyrmrest Accord
+        [616]       = 1091,     -- The Eye of Eternity/The Wyrmrest Accord
         [618]       = 1374,     -- The Ring of Valor/Brawl'gar Arena
         [619]       = A and 1050 or H and 1067, -- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
         [624]       = A and 1037 or H and 1052, -- Vault of Archavon/Alliance Vanguard or Horde Expedition

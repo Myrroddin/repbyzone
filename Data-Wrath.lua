@@ -118,7 +118,18 @@ function RepByZone:InstancesAndFactionList()
         [557]       = 933,      -- Mana-Tombs/The Consortium
         [558]       = 1011,     -- Auchenai Crypts/Lower City
         [560]       = 989,      -- Old Hillsbrad Foothills/Keepers of Time
+        [574]       = A and 1050 or H and 1067, -- Utgarde Keep/Valiance Expedition or The Hand of Vengeance
+        [575]       = A and 1050 or H and 1067, -- Utgarde Pinnacle/Valiance Expedition or The Hand of Vengeance
+        [576]       = 1090,     -- The Nexus/Kirin Tor
+        [578]       = 1091,     -- The Oculus/The Wyrmrest Accord
         [585]       = 1077,     -- Magister's Terrace/Shattered Sun Offensive
+        [595]       = 989,      -- The Culling of Stratholme/Keepers of Time
+        [599]       = A and 1050 or H and 1067, -- Halls of Stone/Valiance Expedition or The Hand of Vengeance
+        [600]       = A and 1050 or H and 1067, -- Drak'Tharon Keep/Valiance Expedition or The Hand of Vengeance
+        [601]       = A and 1050 or H and 1067, -- Azjol-Nerub/Valiance Expedition or The Hand of Vengeance
+        [602]       = A and 1050 or H and 1067, -- Halls of Lightning/Valiance Expedition or The Hand of Vengeance
+        [604]       = A and 1050 or H and 1067, -- Gundrak/Valiance Expedition or The Hand of Vengeance
+        [608]       = 1090,     -- The Violet Hold/Kirin Tor
         [1001]      = 529, -- Scarlet Halls/Argent Dawn
         [1004]      = 529, -- Scarlet Monastary/Argent Dawn
         [1007]      = 529, -- Scholomance/Argent Dawn
@@ -126,7 +137,10 @@ function RepByZone:InstancesAndFactionList()
         ----------- Battlegrounds ----------
         [30]        = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
         [529]       = A and 509 or H and 510, -- Arathi Basin/The Leage of Arathor or The Defilers
+        [566]       = A and 930 or H and 911, -- Eye of the Storm/Exodar or Silvermoon City
         [589]       = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
+        [607]       = A and 1050 or H and 1085, -- Strand of the Ancients/Valiance Expedition or Warsong Offensive
+        [628]       = A and 1050 or H and 1085, -- Isle of Conquest/Valiance Expedition or Warsong Offensive
 
         ---------- Raids -----------
         [249]       = A and 72 or H and 76, -- Onyxia's Lair/Stormwind or Orgrimmar
@@ -143,6 +157,7 @@ function RepByZone:InstancesAndFactionList()
         [564]       = 1012,     -- Black Temple/Ashtongue Deathsworn
         [565]       = 1038,     -- Gruul's Lair/Ogri'la
         [580]       = 1077,     -- Sunwell Plateau/Shattered Sun Offensive
+        [603]       = 1119,     -- Ulduar/The Sons of Hodir
     }
     return instancesAndFactions
 end
