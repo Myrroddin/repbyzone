@@ -211,6 +211,9 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+
+    self:GetRacialRep()
+    
     self:SwitchedZones()
 end
 
