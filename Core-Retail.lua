@@ -447,12 +447,12 @@ end
 
 function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
-        return false
+        return nil
     end
 
     AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
         if maxCount and maxCount <= 0 then
-            return false
+            return nil
         end
 
         local buffID = select(10, ...)
@@ -463,6 +463,7 @@ function RepByZone:GetTabardBuffData()
             return factionID
         end
     end)
+    return nil
 end
 
 -------------------- Reputation code starts here --------------------
@@ -567,6 +568,7 @@ function RepByZone:SwitchedZones()
     end
 
     if inInstance then
+        faction = self:GetTabardBuffData()
         if not faction then
             for instanceID, factionID in pairs(instancesAndFactions) do
                 if instanceID == inInstance then
