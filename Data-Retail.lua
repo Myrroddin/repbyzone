@@ -235,6 +235,12 @@ function RepByZone:ZoneAndFactionList()
         [1970]      = 2478,     -- Zereth Mortis/The Enlightened
         [1971]      = 1948,     -- Skyhold/Valarjar
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
+
+        --------- Dragonflight ---------
+        [2022]      = 2507,     -- The Waking Shores/Dragonflight Expedition
+        [2023]      = 2503,     -- Ohn'ahran Plains/Maruuk Centaur
+        [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr
+        [2025]      = 2510,     -- Thaldraszus/	Valdrakken Accord
     }
     return zonesAndFactions
 end
