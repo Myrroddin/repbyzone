@@ -248,6 +248,17 @@ function RepByZone:InstancesAndFactionList()
         [2450]      = self.covenantRepID, -- Sanctum of Domination/Covenant
         [2453]      = self.covenantRepID, -- Torgast/Covenant
         [2481]      = 2478,     -- Sepulcher of the First Ones/The Enlightened
+
+        ---------- Dragonflight ----------
+        [2451]      = 2507,     -- Uldaman: Legacy of Tyr/Dragonscale Expedition
+        [2515]      = 2511,     -- The Azure Vault/Iskaara Tuskarr
+        [2516]      = 2520,     -- The Nokhud Offensive/Clan Nokhud
+        [2519]      = 2507,     -- Neltharus/Dragonscale Expedition
+        [2520]      = 2511,     -- Brackenhide Hollow/Iskaara Tuskarr
+        [2521]      = 2507,     -- Ruby Life Pools/Dragonscale Expedition
+        [2522]      = 2507,     -- Vault of the Incarnates/Dragonscale Expedition
+        [2526]      = 2510,     -- Algeth'ar Academy/Valdrakken Accord
+        [2527]      = 2510,     -- Halls of Infusion/Valdrakken Accord
     }
     return instancesAndFactions
 end

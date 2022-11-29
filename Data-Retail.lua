@@ -237,10 +237,10 @@ function RepByZone:ZoneAndFactionList()
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
 
         --------- Dragonflight ---------
-        [2022]      = 2507,     -- The Waking Shores/Dragonflight Expedition
+        [2022]      = 2507,     -- The Waking Shores/Dragonscale Expedition
         [2023]      = 2503,     -- Ohn'ahran Plains/Maruuk Centaur
         [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr
-        [2025]      = 2510,     -- Thaldraszus/	Valdrakken Accord
+        [2025]      = 2510,     -- Thaldraszus/Valdrakken Accord
     }
     return zonesAndFactions
 end
@@ -248,7 +248,7 @@ end
 function RepByZone:SubZonesAndFactions()
     local subZonesAndFactions = {
 		-- areaID = factionID
-        -- see https://wow.tools/dbc/?dbc=areatable&build=9.0.2.36949#page=1
+        -- see https://wow.tools/dbc/?dbc=areatable&build=10.0.2.46801#page=1
 
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
@@ -843,6 +843,7 @@ function RepByZone:SubZonesAndFactions()
         [13692]     = 2472,     -- Chamber of Wisdom/The Archivists' Codex
 
         --------- Dragonflight ---------
+        [13587]     = 2526,     -- Winterpelt Hollow/Winterpelt Furbolg
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
     }
