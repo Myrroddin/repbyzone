@@ -841,6 +841,10 @@ function RepByZone:SubZonesAndFactions()
         [13652]     = 2472,     -- Reliquarty of Rememberance/The Archivists' Codex
         [13691]     = 2472,     -- Chamber of Knowledge/The Archivists' Codex
         [13692]     = 2472,     -- Chamber of Wisdom/The Archivists' Codex
+
+        --------- Dragonflight ---------
+        [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
     }
     return subZonesAndFactions
 end
