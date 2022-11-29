@@ -1,6 +1,5 @@
 ## Interface: 100002
 ## Interface-Classic: 11403
-## Interface-BCC: 20504
 ## Interface-Wrath: 30400
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
@@ -72,12 +71,6 @@ Locales\koKR.lua
 # Data-Vanilla.lua
 # Options-Vanilla.lua
 # #@end-version-classic@
-
-# #@version-bcc@
-# Core-TBC.lua
-# Data-TBC.lua
-# Options-TBC.lua
-# #@end-version-bcc@
 
 # #@version-wrath@
 # Core-Wrath.lua
