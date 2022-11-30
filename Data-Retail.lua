@@ -237,7 +237,7 @@ function RepByZone:ZoneAndFactionList()
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
 
         --------- Dragonflight ---------
-        [2022]      = 2507,     -- The Waking Shores/Dragonscale Expedition
+        [2022]      = 2510,     -- The Waking Shores/Valdrakken Accord
         [2023]      = 2503,     -- Ohn'ahran Plains/Maruuk Centaur
         [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr
         [2025]      = 2510,     -- Thaldraszus/Valdrakken Accord
@@ -844,7 +844,14 @@ function RepByZone:SubZonesAndFactions()
 
         --------- Dragonflight ---------
         [13587]     = 2526,     -- Winterpelt Hollow/Winterpelt Furbolg
+        [13725]     = 2507,     -- Life Vault Ruins/Dragonscale Expedition
+        [13729]     = 2507,     -- Crumbling Life Archway/Dragonscale Expedition
+        [13732]     = 2507,     -- Dragonscale Basecamp/Dragonscale Expedition
+        [13733]     = 2507,     -- Wild Preserve/Dragonscale Expedition
+        [13739]     = 2517,     -- Obsidian Bulwark/Wrathion
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [13939]     = 2507,     -- Wingrest Embassy/Dragonscale Expedition
+        [13941]     = 2517,     -- Obsidian Throne/Wrathion
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
     }
     return subZonesAndFactions
