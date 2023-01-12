@@ -1,0 +1,12 @@
+{
+    "Lua.diagnostics.disable": [
+        "param-type-mismatch"
+    ],
+    "Lua.diagnostics.globals": [
+        "NONE",
+        "FACTION_INACTIVE",
+        "ENABLE",
+        "JUST_OR",
+        "DISABLE"
+    ]
+}
