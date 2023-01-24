@@ -850,10 +850,13 @@ function RepByZone:SubZonesAndFactions()
         [13733]     = 2507,     -- Wild Preserve/Dragonscale Expedition
         [13739]     = 2517,     -- Obsidian Bulwark/Wrathion
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [13837]     = 2511,     -- Iskaara/Iskaara Tuskarr
+        [13861]     = 2507,     -- Bluefeather Cliffs/Dragonscale Expedition
         [13862]     = 2510,     -- Valdrakken/Valdrakken Accord
         [13939]     = 2507,     -- Wingrest Embassy/Dragonscale Expedition
         [13941]     = 2517,     -- Obsidian Throne/Wrathion
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
+        [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
         [14509]     = 2544,     -- The Artisan's Market/Artisan's Consortium
         [14530]     = 2510,     -- Valdrakken Treasury Hoard/Valdrakken Accord
     }
