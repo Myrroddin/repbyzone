@@ -248,7 +248,7 @@ end
 function RepByZone:SubZonesAndFactions()
     local subZonesAndFactions = {
 		-- areaID = factionID
-        -- see https://wow.tools/dbc/?dbc=areatable&build=10.0.2.46801#page=1
+        -- see https://wow.tools/dbc/?dbc=areatable&build=10.0.5.47660#page=1
 
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
@@ -860,6 +860,8 @@ function RepByZone:SubZonesAndFactions()
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
         [14079]     = 2510,     -- Lilac Ramble/Valdrakken Accord
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
+        [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
+        [14449]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
         [14493]     = 2510,     -- Valdrakken: Azure Archives Annex/Valdrakken Accord
         [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave
         [14509]     = 2544,     -- The Artisan's Market/Artisan's Consortium
