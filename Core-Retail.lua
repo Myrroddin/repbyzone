@@ -556,18 +556,22 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction
+    local faction, hasTabard
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local _, isDungeon, difficultyID = GetInstanceInfo()
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
 
+    
+    if inInstance and isDungeon == "party" then
+        faction = self:GetTabardBuffData()
+        hasTabard = faction
+    end
+
     if inInstance then
-        if isDungeon == "party" then
-            faction = self:GetTabardBuffData()
-        end
         if not faction then
+            -- Player is not wearing a tabard or is not in a 5 person dungeon
             for instanceID, factionID in pairs(instancesAndFactions) do
                 if instanceID == inInstance then
                     faction = factionID
@@ -593,12 +597,18 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
+
         -- Our localized missing Blizzard areaIDs
         for areaName, factionID in pairs(CitySubZonesAndFactions) do
             if L[areaName] == subZone then
                 faction = factionID
                 break
             end
+        end
+        
+        -- Check if the player has a tabard in a dungeon; if yes, override. Remember: hasTabard is a factionID or nil
+        if hasTabard then
+            faction = hasTabard
         end
     end
 
