@@ -852,6 +852,8 @@ function RepByZone:SubZonesAndFactions()
         [13766]     = 2517,     -- Nelthazan Ruins/Dragonscale Expedition
         [13767]     = 2507,     -- Emberwatch/Dragonscale Expedition
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [13825]     = 1090,     -- Azure Archives/Kirin Tor
+        [13834]     = 1090,     -- Camp Antonidas/Kirin Tor
         [13837]     = 2511,     -- Iskaara/Iskaara Tuskarr
         [13861]     = 2507,     -- Bluefeather Cliffs/Dragonscale Expedition
         [13862]     = 2510,     -- Valdrakken/Valdrakken Accord
@@ -860,10 +862,12 @@ function RepByZone:SubZonesAndFactions()
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
         [14079]     = 2510,     -- Lilac Ramble/Valdrakken Accord
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
+        [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
         [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
         [14449]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
         [14493]     = 2510,     -- Valdrakken: Azure Archives Annex/Valdrakken Accord
         [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave
+        [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave
         [14509]     = 2544,     -- The Artisan's Market/Artisan's Consortium
         [14530]     = 2510,     -- Valdrakken Treasury Hoard/Valdrakken Accord
     }

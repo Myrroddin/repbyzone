@@ -25,10 +25,12 @@ function RepByZone:InstancesAndFactionList()
         [1105]      = A and 1353 or H and 1352, -- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
         [1191]      = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
         [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
-        [1803]      = A and 72 or H and 68, -- Seething Shore/Stormwind or Undercity
+        [1803]      = A and 2160 or H and 2157, -- Seething Shore/Proudmore Admiralty or The Honorbound
+        [2106]      = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
         [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
         [2118]      = A and 1037 or H and 1052, -- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
         [2177]      = A and 509 or H and 510, -- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
+        [2245]      = A and 1353 or H and 1352, -- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
 
         ---------- Vanilla ----------
         [33]        = A and 1134 or H and 68, -- Shadowfang Keep/Gilneas or Undercity
