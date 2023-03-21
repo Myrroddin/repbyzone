@@ -855,12 +855,17 @@ function RepByZone:SubZonesAndFactions()
         [13825]     = 1090,     -- Azure Archives/Kirin Tor
         [13834]     = 1090,     -- Camp Antonidas/Kirin Tor
         [13837]     = 2511,     -- Iskaara/Iskaara Tuskarr
+        [13859]     = 2507,     -- Camp Nowhere/Dragonscale Expedition
         [13861]     = 2507,     -- Bluefeather Cliffs/Dragonscale Expedition
         [13862]     = 2510,     -- Valdrakken/Valdrakken Accord
+        [13895]     = 2507,     -- Theron's Watch/Dragonscale Expedition
+        [13934]     = 1090,     -- Rhonin's Shield
         [13939]     = 2507,     -- Wingrest Embassy/Dragonscale Expedition
         [13941]     = 2517,     -- Obsidian Throne/Wrathion
+        [14017]     = 2510,     -- Vakthros Summit/Valdrakken Accord
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
         [14079]     = 2510,     -- Lilac Ramble/Valdrakken Accord
+        [14089]     = 2510,     -- Vakthros/Valdrakken Accord
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
         [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
         [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
