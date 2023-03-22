@@ -241,6 +241,7 @@ function RepByZone:ZoneAndFactionList()
         [2023]      = 2503,     -- Ohn'ahran Plains/Maruuk Centaur
         [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr
         [2025]      = 2510,     -- Thaldraszus/Valdrakken Accord
+        [2107]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
     }
     return zonesAndFactions
 end
@@ -852,6 +853,9 @@ function RepByZone:SubZonesAndFactions()
         [13766]     = 2517,     -- Nelthazan Ruins/Dragonscale Expedition
         [13767]     = 2507,     -- Emberwatch/Dragonscale Expedition
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [13817]     = 989,      -- Shifting Sands/Keepers of Time
+        [13818]     = 898,      -- Temporal Conflux/Keepers of Time
+        [13822]     = 989,      -- The Flowing Forest/Keeers of Time
         [13825]     = 1090,     -- Azure Archives/Kirin Tor
         [13834]     = 1090,     -- Camp Antonidas/Kirin Tor
         [13837]     = 2511,     -- Iskaara/Iskaara Tuskarr
