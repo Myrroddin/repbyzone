@@ -147,7 +147,7 @@ function RepByZone:GetRacialRep()
     or playerRace == "MagharOrc" and 76 -- Orgrimmar
     or playerRace == "DarkIronDwarf" and 47 -- Ironforge
     or playerRace == "LightforgedDraenei" and 930 -- Exodar
-    or playerRace == "Dracthyr" and A and 72 or H and 76
+    or playerRace == "Dracthyr" and A and 72 or H and 76 -- Stormwind or Orgrimmar
 
     -- Classes have factions
     local _, classFileName = UnitClass("player")
