@@ -246,6 +246,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
 
     self:GetRacialRep()
     self:GetSholazarBasinRep()
+    self:GetTabardID()
     self:SwitchedZones()
 end
 
