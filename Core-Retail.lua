@@ -122,6 +122,7 @@ function RepByZone:GetRacialRep()
     or playerRace == "MagharOrc" and 941 -- The Mag'har
     or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
     or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
+    or playerRace == "Dracthyr" and 2510 -- Valdrakken Accord
 
     local fallbackRacialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
@@ -146,6 +147,7 @@ function RepByZone:GetRacialRep()
     or playerRace == "MagharOrc" and 76 -- Orgrimmar
     or playerRace == "DarkIronDwarf" and 47 -- Ironforge
     or playerRace == "LightforgedDraenei" and 930 -- Exodar
+    or playerRace == "Dracthyr" and A and 72 or H and 76
 
     -- Classes have factions
     local _, classFileName = UnitClass("player")
