@@ -362,7 +362,6 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     self:GetPandarenRep()
     self:GetRacialRep()
     self:GetTabardID()
-        
     self:SwitchedZones()
 end
 
@@ -449,6 +448,7 @@ function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
         return nil
     end
+    local maxCount
 
     AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
         if maxCount and maxCount <= 0 then
@@ -470,37 +470,37 @@ end
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
-    local i = 1
-	while i <= GetNumFactions() do
-		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(i)
-		if isHeader then
-			repsCollapsed[name] = isCollapsed
-			if name == FACTION_INACTIVE then
-				if not isCollapsed then
-					CollapseFactionHeader(i)
-				end
-				break
-			elseif isCollapsed then
-				ExpandFactionHeader(i)
-			end
-		end
-		i = i + 1
+    local numFactions = GetNumFactions()
+    local factionIndex = 1
+
+	while factionIndex <= numFactions do
+		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
+		if isHeader and isCollapsed then
+            repsCollapsed[name] = repsCollapsed[name] or isCollapsed
+            ExpandFactionHeader(factionIndex)
+            numFactions = GetNumFactions()
+        end
+        factionIndex = factionIndex + 1
 	end
 end
 
 -- Close all faction headers
 function RepByZone:CloseAllFactionHeaders()
-    local i = 1
-	while i <= GetNumFactions() do
-		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(i)
+    local numFactions = GetNumFactions()
+    local factionIndex = 1
+
+	while factionIndex <= numFactions do
+		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 		if isHeader then
 			if isCollapsed and not repsCollapsed[name] then
-				ExpandFactionHeader(i)
+				ExpandFactionHeader(factionIndex)
+                numFactions = GetNumFactions()
 			elseif repsCollapsed[name] and not isCollapsed then
-				CollapseFactionHeader(i)
+				CollapseFactionHeader(factionIndex)
+                numFactions = GetNumFactions()
 			end
 		end
-		i = i + 1
+        factionIndex = factionIndex + 1
 	end
 	wipe(repsCollapsed)
 end
@@ -510,38 +510,18 @@ function RepByZone:GetAllFactions()
     self:OpenAllFactionHeaders()
     local factionList = {}
 
-    for i = 1, GetNumFactions() do
-        local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-        if not isHeader then
-            factionList[factionID] = name
+    for factionIndex = 1, GetNumFactions() do
+        local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(factionIndex)
+        if name then
+            if not isHeader and name ~= FACTION_INACTIVE then
+                factionList[factionID] = name
+            end
         end
     end
     factionList["0-none"] = NONE
 
     self:CloseAllFactionHeaders()
     return factionList
-end
-
--- Blizzard sets watched faction by index, not by factionID so create our own API
--- to do: check if https://wowpedia.fandom.com/wiki/API_C_Reputation.SetWatchedFaction works for all game versions
-function RepByZone:SetWatchedFactionByFactionID(id)
-    if type(id) ~= "number" then return end
-
-    self:OpenAllFactionHeaders()
-    for i = 1, GetNumFactions() do
-        local name, _, standingID, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)
-        if id == factionID then
-            if not isWatched then
-                SetWatchedFactionIndex(i)
-                if db.verbose then
-                    self:Print(L["Now watching %s"]:format(name))
-                end
-            end
-            self:CloseAllFactionHeaders()
-            return name, id
-        end
-    end
-    self:CloseAllFactionHeaders()
 end
 
 -------------------- Watched faction code starts here --------------------
@@ -563,6 +543,7 @@ function RepByZone:SwitchedZones()
     local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
+    local factionName, isWatched
 
     
     if inInstance and isDungeon == "party" then
@@ -622,9 +603,16 @@ function RepByZone:SwitchedZones()
         faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
-    if self:SetWatchedFactionByFactionID(faction) then
-        return
+    -- Set the watched factionID
+    if faction then
+        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(faction)
+    end
+    if factionName and not isWatched then
+        C_Reputation.SetWatchedFaction(faction)
+        if db.verbose then
+            self:Print(L["Now watching %s"]:format(factionName))
+        end
     elseif db.watchedRepID == "0-none" then
-        SetWatchedFactionIndex(0) -- Clear watched faction
+        C_Reputation.SetWatchedFaction(0) -- Clear watched faction
     end
 end
