@@ -523,6 +523,7 @@ function RepByZone:GetAllFactions()
 end
 
 -- Blizzard sets watched faction by index, not by factionID so create our own API
+-- to do: check if https://wowpedia.fandom.com/wiki/API_C_Reputation.SetWatchedFaction works for all game versions
 function RepByZone:SetWatchedFactionByFactionID(id)
     if type(id) ~= "number" then return end
 

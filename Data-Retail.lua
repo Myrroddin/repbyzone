@@ -873,7 +873,7 @@ function RepByZone:SubZonesAndFactions()
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
         [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
         [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
-        [14449]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
+        [14489]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
         [14493]     = 2510,     -- Valdrakken: Azure Archives Annex/Valdrakken Accord
         [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave
         [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave
