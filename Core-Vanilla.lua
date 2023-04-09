@@ -281,10 +281,9 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
+    local faction, _, factionName, isWatched
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
-    local _, factionName, isWatched
 
     if inInstance then
         for instanceID, factionID in pairs(instancesAndFactions) do
@@ -318,6 +317,10 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
+    end
+
+    if not faction then
+        faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     -- Set the watched factionID

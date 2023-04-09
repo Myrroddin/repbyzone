@@ -85,6 +85,17 @@ function RepByZone:GetOptions()
                             self:GetRacialRep()
                         end
                     },
+                    useFactionTabards = {
+                        order = 50,
+                        name = L["Faction Tabards Reputation"],
+                        desc = L["Instead of older instance reputation, watch the equipped faction tabard instead."],
+                        type = "toggle",
+                        get = function () return db.useFactionTabards end,
+                        set = function (info, value)
+                            db.useFactionTabards = value
+                            self:SwitchedZones()
+                        end
+                    },
                     defaultRep = {
                         order = 200,
                         name = L["Default watched faction"],
