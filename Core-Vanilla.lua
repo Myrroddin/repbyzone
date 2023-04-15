@@ -281,14 +281,14 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local faction, _, factionName, isWatched
+    local watchedFactionID, _, factionName, isWatched
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
 
     if inInstance then
         for instanceID, factionID in pairs(instancesAndFactions) do
             if instanceID == inInstance then
-                faction = factionID
+                watchedFactionID = factionID
                 break
             end
         end
@@ -296,7 +296,7 @@ function RepByZone:SwitchedZones()
         -- Apply world zone data
         for zoneID, factionID in pairs(zonesAndFactions) do
             if zoneID == UImapID then
-                faction = factionID
+                watchedFactionID = factionID
                 break
             end
         end
@@ -306,34 +306,34 @@ function RepByZone:SwitchedZones()
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
-                faction = factionID
+                watchedFactionID = factionID
                 break
             end
         end
         -- Our localized missing Blizzard areaIDs
         for areaName, factionID in pairs(CitySubZonesAndFactions) do
             if L[areaName] == subZone then
-                faction = factionID
+                watchedFactionID = factionID
                 break
             end
         end
     end
 
-    if not faction then
-        faction = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
+    if not watchedFactionID then
+        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     -- Set the watched factionID
-    if type(faction) == "number" then
-        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(faction)
+    if type(watchedFactionID) == "number" then
+        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
 
         if factionName and not isWatched then
-            C_Reputation.SetWatchedFaction(faction)
+            C_Reputation.SetWatchedFaction(watchedFactionID)
             if db.verbose then
                 self:Print(L["Now watching %s"]:format(factionName))
             end
         end
-    elseif type(faction) ~= "number" then
+    elseif type(watchedFactionID) ~= "number" then
         C_Reputation.SetWatchedFaction(0) -- Clear watched faction
     end
 end
