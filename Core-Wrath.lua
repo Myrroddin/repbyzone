@@ -434,15 +434,16 @@ function RepByZone:SwitchedZones()
     end
 
     -- Set the watched factionID
-    if faction then
+    if type(faction) == "number" then
         factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(faction)
-    end
-    if factionName and not isWatched then
-        C_Reputation.SetWatchedFaction(faction)
-        if db.verbose then
-            self:Print(L["Now watching %s"]:format(factionName))
+
+        if factionName and not isWatched then
+            C_Reputation.SetWatchedFaction(faction)
+            if db.verbose then
+                self:Print(L["Now watching %s"]:format(factionName))
+            end
+        elseif db.watchedRepID == "0-none" then
+            C_Reputation.SetWatchedFaction(0) -- Clear watched faction
         end
-    elseif db.watchedRepID == "0-none" then
-        C_Reputation.SetWatchedFaction(0) -- Clear watched faction
     end
 end
