@@ -1,6 +1,5 @@
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
-local media = LibStub("LibSharedMedia-3.0")
 
 function RepByZone:GetOptions()
     local db = self.db.profile

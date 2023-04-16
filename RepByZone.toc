@@ -24,12 +24,7 @@
 ## X-Wago-ID: q96dZlGO
 
 ## SavedVariables: RepByZoneDB
-#@version-retail@
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
-#@end-version-retail@
-#@non-version-retail@
-# ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
-#@end-non-version-retail@
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
 
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES, esMX
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
@@ -48,10 +43,6 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\LibAboutPanel-2.0\lib.xml
-#@version-retail@
-Libs\LibSharedMedia-3.0\lib.xml
-Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
-#@end-version-retail@
 
 Locales\enUS.lua
 Locales\deDE.lua
