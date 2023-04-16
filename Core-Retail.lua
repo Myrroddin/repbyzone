@@ -326,7 +326,8 @@ end
 
 function RepByZone:SlashHandler()
     -- Check if player is in combat, exit out and close options panels if that's the case
-    self:InCombat()
+    local isInCombat = self:InCombat()
+    if isInCombat then return end
 
     -- Close option panel if opened, otherwise open option panel
     if Dialog.OpenFrames["RepByZone"] then
@@ -348,7 +349,7 @@ function RepByZone:InCombat()
         if Dialog.OpenFrames["RepByZone"] then
             Dialog:Close("RepByZone")
         end
-        return
+        return true
     end
 end
 
