@@ -277,6 +277,9 @@ function RepByZone:OnEnable()
     self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
 
+    -- If player is in combat, close options panel and exit out of command line
+    self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat") -- This event should not be unregistered if RBZ is disabled
+
     -- If the player loses or gains control of the character, it is one of the signs of taxi use
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
