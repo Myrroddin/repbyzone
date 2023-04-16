@@ -207,7 +207,7 @@ function RepByZone:GetRacialRep()
 
     self.racialRepID = useClassRep and classRepID or racialRepID
     self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
-    if self.racialRepID == nil or whichID == nil then
+    if self.racialRepID == nil and whichID == nil then
         self.racialRepID, self.racialRepName = "0-none", NONE
         whichID, whichName = self.racialRepID, self.racialRepName
     end
