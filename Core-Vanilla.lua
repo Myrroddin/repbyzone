@@ -85,7 +85,12 @@ function RepByZone:GetRacialRep()
     self:CloseAllFactionHeaders()
 
     self.racialRepID = useClassRep and classRepID or racialRepID
-    self.racialRepName = GetFactionInfoByID(self.racialRepID)
+    self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
+    if self.racialRepID == nil or whichID == nil then
+        self.racialRepID, self.racialRepName = "0-none", NONE
+        whichID, whichName = self.racialRepID, self.racialRepName
+    end
+
     return whichID, whichName
 end
 

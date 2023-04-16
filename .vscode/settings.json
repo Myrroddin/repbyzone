@@ -8,6 +8,7 @@
         "ENABLE",
         "JUST_OR",
         "DISABLE",
-        "FACTION"
+        "FACTION",
+        "NO"
     ]
 }

@@ -100,10 +100,12 @@ function RepByZone:GetOptions()
                         end,
                         set = function(info, value)
                             db.watchedRepID = value
-                            if db.watchedRepID == "0-none" then
+                            if type(value) == "number" then
+                                db.watchedRepName = GetFactionInfoByID(value)
+                            elseif type(value) == "string" then
                                 db.watchedRepName = NONE
                             else
-                                db.watchedRepName = GetFactionInfoByID(value)
+                                db.watchedRepID, db.watchedRepName = self:GetRacialRep()
                             end
                             self:SwitchedZones()
                         end
