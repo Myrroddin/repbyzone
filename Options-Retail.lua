@@ -43,11 +43,11 @@ function RepByZone:GetOptions()
                             if value then
                                 self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
                                 self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
-                                self:SwitchedZones()
                             else
                                 self:UnregisterEvent("ZONE_CHANGED")
                                 self:UnregisterEvent("ZONE_CHANGED_INDOORS")
                             end
+                            self:SwitchedZones()
                         end
                     },
                     verbose = {
@@ -144,8 +144,8 @@ function RepByZone:GetOptions()
                                 db.watchedRepName = NONE
                             else
                                 db.watchedRepName = GetFactionInfoByID(value)
-                                self:SwitchedZones()
                             end
+                            self:SwitchedZones()
                         end
                     }
                 }
