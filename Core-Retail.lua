@@ -260,6 +260,9 @@ function RepByZone:OnInitialize()
     local defaultRepID, defaultRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or defaultRepID
     db.watchedRepName = db.watchedRepName or defaultRepName
+
+    -- If player is in combat, close options panel and exit out of command line
+    self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat") -- This event should not be unregistered if RBZ is disabled
 end
 
 function RepByZone:OnEnable()
@@ -273,9 +276,6 @@ function RepByZone:OnEnable()
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
     self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
-
-    -- If player is in combat, close options panel and exit out of command line
-    self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
 
     -- If the player loses or gains control of the character, it is one of the signs of taxi use
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
