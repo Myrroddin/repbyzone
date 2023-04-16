@@ -239,6 +239,7 @@ function RepByZone:InCombat()
         end
         return true
     end
+    return false
 end
 
 function RepByZone:CheckTaxi()

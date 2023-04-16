@@ -351,6 +351,7 @@ function RepByZone:InCombat()
         end
         return true
     end
+    return false
 end
 
 -- Is the player on a taxi
