@@ -25,6 +25,7 @@ L["Switch watched faction while you are on a taxi."] = true
 L["The Beer Garden"] = true
 L["The Crimson Dawn"] = true
 L["The Filthy Animal"] = true
+L["The Roasted Ram"] = true
 L["The Salty Sailor Tavern"] = true
 L["The Seer's Library"] = true
 L["The Silver Blade"] = true

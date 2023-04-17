@@ -845,6 +845,8 @@ function RepByZone:SubZonesAndFactions()
 
         --------- Dragonflight ---------
         [13587]     = 2526,     -- Winterpelt Hollow/Winterpelt Furbolg
+        [13710]     = 2511,     -- Uktulut Backwater/Iskaara Tuskarr
+        [13717]     = 2517,     -- Obsidian Citadel/Wrathion
         [13725]     = 2507,     -- Life Vault Ruins/Dragonscale Expedition
         [13729]     = 2507,     -- Crumbling Life Archway/Dragonscale Expedition
         [13732]     = 2507,     -- Dragonscale Basecamp/Dragonscale Expedition
@@ -874,9 +876,11 @@ function RepByZone:SubZonesAndFactions()
         [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
         [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
         [14489]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
+        [14490]     = 2510,     -- Valdrakken: The Victorious Visage/Valdrakken Accord
         [14493]     = 2510,     -- Valdrakken: Azure Archives Annex/Valdrakken Accord
-        [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave
-        [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave
+        [14497]     = 2510,     -- Valdrakken: Cascade's Edge/Valdrakken Accord
+        [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave/Valdrakken Accord
+        [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave/Valdrakken Accord
         [14509]     = 2544,     -- The Artisan's Market/Artisan's Consortium
         [14530]     = 2510,     -- Valdrakken Treasury Hoard/Valdrakken Accord
     }
