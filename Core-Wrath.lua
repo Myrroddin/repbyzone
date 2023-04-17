@@ -397,6 +397,7 @@ function RepByZone:SwitchedZones()
         hasTabard = watchedFactionID
     end
 
+    -- Apply instance data
     if inInstance then
         if not watchedFactionID then
             -- Player is not wearing a tabard or is not in a 5 person dungeon
@@ -407,13 +408,13 @@ function RepByZone:SwitchedZones()
                 end
             end
         end
-    else
-        -- Apply world zone data
-        for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
-                watchedFactionID = factionID
-                break
-            end
+    end
+
+    -- Apply world zone data
+    for zoneID, factionID in pairs(zonesAndFactions) do
+        if zoneID == UImapID then
+            watchedFactionID = factionID
+            break
         end
     end
 

@@ -295,6 +295,7 @@ function RepByZone:SwitchedZones()
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
 
+    -- Apply instance data
     if inInstance then
         for instanceID, factionID in pairs(instancesAndFactions) do
             if instanceID == inInstance then
@@ -302,13 +303,13 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
-    else
-        -- Apply world zone data
-        for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
-                watchedFactionID = factionID
-                break
-            end
+    end
+
+    -- Apply world zone data
+    for zoneID, factionID in pairs(zonesAndFactions) do
+        if zoneID == UImapID then
+            watchedFactionID = factionID
+            break
         end
     end
 
