@@ -411,10 +411,12 @@ function RepByZone:SwitchedZones()
     end
 
     -- Apply world zone data
-    for zoneID, factionID in pairs(zonesAndFactions) do
-        if zoneID == UImapID then
-            watchedFactionID = factionID
-            break
+    if not watchedFactionID then
+        for zoneID, factionID in pairs(zonesAndFactions) do
+            if zoneID == UImapID then
+                watchedFactionID = factionID
+                break
+            end
         end
     end
 
