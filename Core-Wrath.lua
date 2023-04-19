@@ -277,7 +277,6 @@ function RepByZone:GetSholazarBasinRep()
 
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
-        zonesAndFactions = self:ZoneAndFactionList()
         self:SwitchedZones()
     end
 end
