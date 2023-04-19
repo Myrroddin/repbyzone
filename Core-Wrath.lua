@@ -421,6 +421,11 @@ function RepByZone:SwitchedZones()
     end
 
     if db.watchSubZones then
+        -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
+        if hasTabard then
+            return
+        end
+        
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
@@ -434,11 +439,6 @@ function RepByZone:SwitchedZones()
                 watchedFactionID = factionID
                 break
             end
-        end
-
-        -- Check if the player has a tabard in a dungeon; if yes, override. Remember: hasTabard is a factionID or nil
-        if hasTabard then
-            watchedFactionID = hasTabard
         end
     end
 

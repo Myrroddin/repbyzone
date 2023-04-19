@@ -828,14 +828,14 @@ function RepByZone:SubZonesAndFactions()
         [12796]     = 2462,     -- The Stitchyard/Stitchmasters
         [12876]     = self.covenantRepID == 4 and 2410 or 2410, -- Seat of the Primus/The Undying Army
         [12901]     = 2462,     -- Etheric Vault/Stitchmasters
-        [13209]     = self.covenantRepID, -- Netherhollow (Oribos)/Covenant
+        [13209]     = self.covenantRepID, -- Oribos: Netherhollow/Covenant
         [13346]     = 2462,     -- Body Banks/Stitchmasters
         [13347]     = 2462,     -- Thread House/Stitchmasters
         [13348]     = 2462,     -- Amputory/Stitchmasters
         [13367]     = self.covenantRepID == 3 and 2422 or 2465, -- Queen's Conservatory/Night Fae or The Wild Hunt
         [13414]     = 2413,     -- The Sinposium/Court of Harvesters
-        [13498]     = self.covenantRepID, -- Ring of Transference (Oribos)/Covenant
-        [13499]     = self.covenantRepID, -- Ring of Fates (Oribos)/Covenant
+        [13498]     = self.covenantRepID, -- Oribos: Ring of Transference/Covenant
+        [13499]     = self.covenantRepID, -- Oribos: Ring of Fates/Covenant
         [13515]     = 2407,     -- Seat of the Archon: Font of Fealty/The Ascended
         [13555]     = 2462,     -- Sixfold Recluse/Stitchmasters
         [13625]     = 2472,     -- Keeper's Respite/The Archivists' Codex
@@ -881,7 +881,7 @@ function RepByZone:SubZonesAndFactions()
         [14497]     = 2510,     -- Valdrakken: Cascade's Edge/Valdrakken Accord
         [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave/Valdrakken Accord
         [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave/Valdrakken Accord
-        [14509]     = 2544,     -- The Artisan's Market/Artisan's Consortium
+        [14509]     = 2544,     -- Valdrakken: The Artisan's Market/Artisan's Consortium
         [14530]     = 2510,     -- Valdrakken Treasury Hoard/Valdrakken Accord
     }
     return subZonesAndFactions
