@@ -441,7 +441,6 @@ function RepByZone:GetSholazarBasinRep()
 
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
-        zonesAndFactions = self:ZoneAndFactionList()
         self:SwitchedZones()
     end
 end
@@ -591,7 +590,7 @@ function RepByZone:SwitchedZones()
         if hasTabard then
             return
         end
-        
+
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
