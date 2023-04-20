@@ -611,6 +611,12 @@ function RepByZone:SwitchedZones()
             return
         end
 
+        if isWoDZone and bodyguardRep then
+            -- Override in WoD zones only if a bodyguard exists
+            watchedFactionID = bodyguardRep
+            return
+        end
+
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
@@ -626,11 +632,6 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
-    end
-
-    if isWoDZone and bodyguardRep then
-        -- Override in WoD zones only if a bodyguard exists
-        watchedFactionID = bodyguardRep
     end
 
     -- Set the watched factionID
