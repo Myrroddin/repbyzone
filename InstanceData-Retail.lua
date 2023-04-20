@@ -261,6 +261,7 @@ function RepByZone:InstancesAndFactionList()
         [2522]      = 2507,     -- Vault of the Incarnates/Dragonscale Expedition
         [2526]      = 2510,     -- Algeth'ar Academy/Valdrakken Accord
         [2527]      = 2510,     -- Halls of Infusion/Valdrakken Accord
+        [2556]      = 1859,     -- Scenario: Emerald Dramway/The Nightfallen
     }
     return instancesAndFactions
 end
