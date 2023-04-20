@@ -300,8 +300,8 @@ function RepByZone:OnEnable()
     self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "GetBodyguardRep")
     self:RegisterEvent("GOSSIP_CLOSED", "GetBodyguardRep")
 
-    -- Check Sholazar Basin factions
-    self:RegisterEvent("UPDATE_FACTION", "GetSholazarBasinRep")
+    -- Check Sholazar Basin and Wrathion/Sabellian factions
+    self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
     -- Check if a faction tabard is equipped or changed
     self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetTabardID")
@@ -371,7 +371,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
 
     self:GetCovenantRep()
     self:GetBodyguardRep()
-    self:GetSholazarBasinRep()
+    self:GetMultiRepIDsForZones()
     self:GetPandarenRep()
     self:GetRacialRep()
     self:GetTabardID()
@@ -388,9 +388,6 @@ function RepByZone:GetCovenantRep(event, ...)
     local newCovenantRepID = self:CovenantToFactionID()
     if newCovenantRepID ~= self.covenantRepID then
         self.covenantRepID = newCovenantRepID
-        instancesAndFactions = self:InstancesAndFactionList()
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
         self:SwitchedZones()
     end
 end
@@ -400,7 +397,6 @@ function RepByZone:GetPandarenRep(event, success)
     A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
     H = UnitFactionGroup("player") == "Horde" and HORDE
     if A or H then
-        zonesAndFactions = self:ZoneAndFactionList()
         self:UnregisterEvent(event)
         if db.watchedRepID or self.racialRepID == 1216 then
             db.watchedRepID, db.watchedRepName = self:GetRacialRep()
@@ -425,8 +421,9 @@ function RepByZone:GetBodyguardRep()
     end
 end
 
--- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
-function RepByZone:GetSholazarBasinRep()
+-- Sholazar Basin has three possible zone factions; some DF subzones have two; retun factionID based on player's quest progress
+function RepByZone:GetMultiRepIDsForZones()
+    -- Sholazar Basin
     local newSholazarRepID
     local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
     local oraclesStanding = select(3, GetFactionInfoByID(1105))
@@ -441,8 +438,26 @@ function RepByZone:GetSholazarBasinRep()
 
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
-        self:SwitchedZones()
     end
+
+    -- Wrathion or Sabellian in Dragonflight
+    local newDragonFlightRepID
+    local sabellionBarValue = select(6, GetFactionInfoByID(2518))
+    local wrathionBarValue = select(6, GetFactionInfoByID(2517))
+
+    if sabellionBarValue >= wrathionBarValue then
+        newDragonFlightRepID = 2518 -- Sabellian is higher
+    elseif wrathionBarValue >= sabellionBarValue then
+        newDragonFlightRepID = 2517 -- Wrathion is higher
+    elseif sabellionBarValue == 0 and wrathionBarValue == 0 then
+        newDragonFlightRepID = 2510 -- use Valdrakken Accord as a backup
+    end
+
+    if newDragonFlightRepID ~= self.dragonflightRepID then
+        self.dragonflightRepID = newDragonFlightRepID
+    end
+
+    self:SwitchedZones()
 end
 
 -- Tabard code
