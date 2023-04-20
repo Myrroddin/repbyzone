@@ -611,6 +611,7 @@ function RepByZone:SwitchedZones()
             return
         end
 
+        -- Don't loop through subzones if the player is watching a bodyguard rep
         if isWoDZone and bodyguardRep then
             -- Override in WoD zones only if a bodyguard exists
             watchedFactionID = bodyguardRep
@@ -631,6 +632,12 @@ function RepByZone:SwitchedZones()
                 watchedFactionID = factionID
                 break
             end
+        end
+    else
+        -- Apply WoD data if the user disables watching subzones
+        if isWoDZone and bodyguardRep then
+            -- Override in WoD zones only if a bodyguard exists
+            watchedFactionID = bodyguardRep
         end
     end
 
