@@ -255,7 +255,7 @@ function RepByZone:InstancesAndFactionList()
         [2451]      = 2507,     -- Uldaman: Legacy of Tyr/Dragonscale Expedition
         [2515]      = 2511,     -- The Azure Vault/Iskaara Tuskarr
         [2516]      = 2520,     -- The Nokhud Offensive/Clan Nokhud
-        [2519]      = 2510,     -- Neltharus/Valdrakken Accord
+        [2519]      = self.dragonflightRepID, -- Neltharus/Sabellion or Wrathion
         [2520]      = 2511,     -- Brackenhide Hollow/Iskaara Tuskarr
         [2521]      = 2510,     -- Ruby Life Pools/Valdrakken Accord
         [2522]      = 2507,     -- Vault of the Incarnates/Dragonscale Expedition
