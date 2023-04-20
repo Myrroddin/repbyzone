@@ -418,6 +418,11 @@ function RepByZone:SwitchedZones()
             end
         end
     end
+    
+    -- For zones that have no data or the player has not discovered the reputation
+    if not watchedFactionID then
+        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
+    end
 
     if db.watchSubZones then
         -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
@@ -439,10 +444,6 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
-    end
-
-    if not watchedFactionID then
-        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     -- Set the watched factionID

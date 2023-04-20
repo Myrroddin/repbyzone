@@ -315,6 +315,11 @@ function RepByZone:SwitchedZones()
         end
     end
 
+    -- For zones that have no data or the player has not discovered the reputation
+    if not watchedFactionID then
+        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
+    end
+
     if db.watchSubZones then
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
@@ -330,10 +335,6 @@ function RepByZone:SwitchedZones()
                 break
             end
         end
-    end
-
-    if not watchedFactionID then
-        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     -- Set the watched factionID
