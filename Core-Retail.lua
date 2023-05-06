@@ -54,7 +54,7 @@ local faction_tabard_auraIDs = {
 }
 
 -- WoD garrison bodyguard code
-local bodyguardRep
+local bodyguardRepID
 local followerQuests = {
     -- questID = factionID
     [36877] = 1736, -- Tormmok
@@ -297,8 +297,8 @@ function RepByZone:OnEnable()
     self:RegisterEvent("COVENANT_CHOSEN", "GetCovenantRep")
 
     -- Check if a WoD garrison bodyguard is assigned
-    self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "GetBodyguardRep")
-    self:RegisterEvent("GOSSIP_CLOSED", "GetBodyguardRep")
+    self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "GetbodyguardRepID")
+    self:RegisterEvent("GOSSIP_CLOSED", "GetbodyguardRepID")
 
     -- Check Sholazar Basin and Wrathion/Sabellian factions
     self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
@@ -370,7 +370,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
 
     self:GetCovenantRep()
-    self:GetBodyguardRep()
+    self:GetbodyguardRepID()
     self:GetMultiRepIDsForZones()
     self:GetPandarenRep()
     self:GetRacialRep()
@@ -407,16 +407,16 @@ function RepByZone:GetPandarenRep(event, success)
 end
 
 -- WoD bodyguard code
-function RepByZone:GetBodyguardRep()
-    local newBodyguardRep
+function RepByZone:GetbodyguardRepID()
+    local newBodyguardRepID
     for questID, factionID in pairs(followerQuests) do
         if C_QuestLog.IsQuestFlaggedCompleted(questID) then
-            newBodyguardRep = factionID
+            newBodyguardRepID = factionID
             break
         end
     end
-    if newBodyguardRep ~= bodyguardRep then
-        bodyguardRep = newBodyguardRep
+    if newBodyguardRepID ~= bodyguardRepID then
+        bodyguardRepID = newBodyguardRepID
         self:SwitchedZones()
     end
 end
@@ -438,26 +438,28 @@ function RepByZone:GetMultiRepIDsForZones()
 
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
+        self:SwitchedZones()
     end
 
     -- Wrathion or Sabellian in Dragonflight
     local newDragonFlightRepID
-    local sabellionBarValue = select(6, GetFactionInfoByID(2518))
-    local wrathionBarValue = select(6, GetFactionInfoByID(2517))
+    local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
+    local wrathionCurrentRepAmount = wrathionFriendshipInfo.maxRep % wrathionFriendshipInfo.nextThreshold or 0
+    local sabellionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
+    local sabellionCurrentRepAmount = sabellionFriendshipInfo.maxRep % sabellionFriendshipInfo.nextThreshold or 0
 
-    if sabellionBarValue >= wrathionBarValue then
-        newDragonFlightRepID = 2518 -- Sabellian is higher
-    elseif wrathionBarValue >= sabellionBarValue then
+    if wrathionCurrentRepAmount >= 0 and wrathionCurrentRepAmount >= sabellionCurrentRepAmount then
         newDragonFlightRepID = 2517 -- Wrathion is higher
-    elseif sabellionBarValue == 0 and wrathionBarValue == 0 then
+    elseif sabellionCurrentRepAmount >= 0 and sabellionCurrentRepAmount >= wrathionCurrentRepAmount then
+        newDragonFlightRepID = 2518 --Sabellian is higher
+    elseif wrathionCurrentRepAmount == 0 and sabellionCurrentRepAmount == 0 then
         newDragonFlightRepID = 2510 -- use Valdrakken Accord as a backup
     end
 
     if newDragonFlightRepID ~= self.dragonflightRepID then
         self.dragonflightRepID = newDragonFlightRepID
+        self:SwitchedZones()
     end
-
-    self:SwitchedZones()
 end
 
 -- Tabard code
@@ -554,8 +556,8 @@ end
 -------------------- Watched faction code starts here --------------------
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    local UImapID = C_Map.GetBestMapForUnit("player")
-    if not UImapID then return end -- Possible zoning issues, exit out unless we have valid map data
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
 
     if isOnTaxi then
         if not db.watchOnTaxi then
@@ -566,20 +568,28 @@ function RepByZone:SwitchedZones()
 
     local watchedFactionID, hasTabard
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
-    local _, isDungeon, difficultyID = GetInstanceInfo()
-    local parentMapID = C_Map.GetMapInfo(UImapID).parentMapID
+    local _, instanceType = GetInstanceInfo()
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
-    local isWoDZone = self.WoDFollowerZones[UImapID] or (self.WoDFollowerZones[UImapID] == nil and self.WoDFollowerZones[parentMapID])
+    local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
     local factionName, isWatched
+    local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     
-    if inInstance and isDungeon == "party" then
+    if inInstance and instanceType == "party" then
         watchedFactionID = self:GetTabardBuffData()
         hasTabard = watchedFactionID
     end
 
+    if isWoDZone and bodyguardRepID then
+        -- Override in WoD zones only if a bodyguard exists
+        watchedFactionID = bodyguardRepID
+    end
+
     -- Apply instance data
     if inInstance then
-        if not watchedFactionID then
+        if hasTabard then
+            return
+        else
             -- Player is not wearing a tabard or is not in a 5 person dungeon
             for instanceID, factionID in pairs(instancesAndFactions) do
                 if instanceID == inInstance then
@@ -590,36 +600,24 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    if isWoDZone and bodyguardRep then
-        -- Override in WoD zones only if a bodyguard exists
-        watchedFactionID = bodyguardRep
-    end
-
     -- Apply world zone data
-    if not watchedFactionID then
+    if (isWoDZone and bodyguardRepID) or inInstance then
+        return
+    else
         for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
+            if zoneID == uiMapID then
                 watchedFactionID = factionID
                 break
             end
         end
     end
 
-    -- For zones that have no data or the player has not discovered the reputation
-    if not watchedFactionID then
-        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
-    end
-
     if db.watchSubZones then
         -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
-        if hasTabard then
-            return
-        end
+        if hasTabard then return end
 
         -- Don't loop through subzones if the player is watching a bodyguard rep
-        if isWoDZone and bodyguardRep then
-            return
-        end
+        if isWoDZone and bodyguardRepID then return end
 
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
@@ -638,10 +636,11 @@ function RepByZone:SwitchedZones()
         end
     end
 
+    watchedFactionID = watchedFactionID or backupRepID
+
     -- Set the watched factionID
     if type(watchedFactionID) == "number" then
         factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
-
         if factionName and not isWatched then
             C_Reputation.SetWatchedFaction(watchedFactionID)
             if db.verbose then

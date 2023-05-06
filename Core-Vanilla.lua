@@ -281,8 +281,8 @@ end
 -------------------- Watched faction code starts here --------------------
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    local UImapID = C_Map.GetBestMapForUnit("player")
-    if not UImapID then return end -- Possible zoning issues, exit out unless we have valid map data
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
     
     if isOnTaxi then
         if not db.watchOnTaxi then
@@ -294,6 +294,7 @@ function RepByZone:SwitchedZones()
     local watchedFactionID, _, factionName, isWatched
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+    local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
     -- Apply instance data
     if inInstance then
@@ -306,18 +307,15 @@ function RepByZone:SwitchedZones()
     end
 
     -- Apply world zone data
-    if not watchedFactionID then
+    if inInstance then
+        return
+    else
         for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
+            if zoneID == uiMapID then
                 watchedFactionID = factionID
                 break
             end
         end
-    end
-
-    -- For zones that have no data or the player has not discovered the reputation
-    if not watchedFactionID then
-        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
     end
 
     if db.watchSubZones then
@@ -336,6 +334,8 @@ function RepByZone:SwitchedZones()
             end
         end
     end
+
+    watchedFactionID = watchedFactionID or backupRepID
 
     -- Set the watched factionID
     if type(watchedFactionID) == "number" then

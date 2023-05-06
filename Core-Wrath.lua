@@ -375,8 +375,8 @@ end
 -------------------- Watched faction code starts here --------------------
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    local UImapID = C_Map.GetBestMapForUnit("player")
-    if not UImapID then return end -- Possible zoning issues, exit out unless we have valid map data
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
     
     if isOnTaxi then
         if not db.watchOnTaxi then
@@ -387,9 +387,10 @@ function RepByZone:SwitchedZones()
 
     local watchedFactionID, hasTabard
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
-    local _, isDungeon, difficultyID = GetInstanceInfo()
+    local _, isDungeon = GetInstanceInfo()
     local subZone = GetMinimapZoneText()
     local factionName, isWatched
+    local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
     if inInstance and isDungeon == "party" then
         watchedFactionID = self:GetTabardBuffData()
@@ -398,7 +399,9 @@ function RepByZone:SwitchedZones()
 
     -- Apply instance data
     if inInstance then
-        if not watchedFactionID then
+        if hasTabard then
+            return
+        else
             -- Player is not wearing a tabard or is not in a 5 person dungeon
             for instanceID, factionID in pairs(instancesAndFactions) do
                 if instanceID == inInstance then
@@ -410,25 +413,20 @@ function RepByZone:SwitchedZones()
     end
 
     -- Apply world zone data
-    if not watchedFactionID then
+    if inInstance then
+        return
+    else
         for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == UImapID then
+            if zoneID == uiMapID then
                 watchedFactionID = factionID
                 break
             end
         end
     end
-    
-    -- For zones that have no data or the player has not discovered the reputation
-    if not watchedFactionID then
-        watchedFactionID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
-    end
 
     if db.watchSubZones then
         -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
-        if hasTabard then
-            return
-        end
+        if hasTabard then return end
         
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
@@ -445,6 +443,8 @@ function RepByZone:SwitchedZones()
             end
         end
     end
+
+    watchedFactionID = watchedFactionID or backupRepID
 
     -- Set the watched factionID
     if type(watchedFactionID) == "number" then

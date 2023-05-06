@@ -883,6 +883,7 @@ function RepByZone:SubZonesAndFactions()
         [14490]     = 2510,     -- Valdrakken: The Victorious Visage/Valdrakken Accord
         [14493]     = 2510,     -- Valdrakken: Azure Archives Annex/Valdrakken Accord
         [14497]     = 2510,     -- Valdrakken: Cascade's Edge/Valdrakken Accord
+        [14499]     = 2510,     -- Valdrakken: Gladiator's Refuge/Valdrakken Accord
         [14504]     = 2510,     -- Valdrakken: The Sapphire Enclave/Valdrakken Accord
         [14506]     = 2510,     -- Valdrakken: The Obsidian Enclave/Valdrakken Accord
         [14509]     = 2544,     -- Valdrakken: The Artisan's Market/Artisan's Consortium
