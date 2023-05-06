@@ -250,7 +250,7 @@ end
 function RepByZone:SubZonesAndFactions()
     local subZonesAndFactions = {
 		-- areaID = factionID
-        -- see https://wow.tools/dbc/?dbc=areatable&build=10.0.5.47660#page=1
+        -- see https://wow.tools/dbc/?dbc=areatable&build=10.0.5.47660#page=1 or https://wago.tools/db2/AreaTable?page=1
 
         [35]        = 21,       -- Booty Bay/Booty Bay
         [36]        = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
