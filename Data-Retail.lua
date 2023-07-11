@@ -860,6 +860,7 @@ function RepByZone:SubZonesAndFactions()
         [13818]     = 898,      -- Temporal Conflux/Keepers of Time
         [13822]     = 989,      -- The Flowing Forest/Keeers of Time
         [13825]     = 1090,     -- Azure Archives/Kirin Tor
+        [13833]     = 2507,     -- Shiverweb Vale/Dragonscale Expedition
         [13834]     = 1090,     -- Camp Antonidas/Kirin Tor
         [13835]     = 2550,     -- Cobalt Assembly/Cobalt Assembly
         [13837]     = 2511,     -- Iskaara/Iskaara Tuskarr
@@ -867,6 +868,8 @@ function RepByZone:SubZonesAndFactions()
         [13859]     = 2507,     -- Camp Nowhere/Dragonscale Expedition
         [13861]     = 2507,     -- Bluefeather Cliffs/Dragonscale Expedition
         [13862]     = 2510,     -- Valdrakken/Valdrakken Accord
+        [13886]     = 2507,     -- Whaler's Nook/Dragonscale Expedition
+        [13888]     = 2507,     -- Three-Falls Lookout/Dragonscale Expedition
         [13895]     = 2507,     -- Theron's Watch/Dragonscale Expedition
         [13934]     = 1090,     -- Rhonin's Shield/Kirin Tor
         [13939]     = 2507,     -- Wingrest Embassy/Dragonscale Expedition
@@ -878,6 +881,7 @@ function RepByZone:SubZonesAndFactions()
         [14155]     = 2511,     -- Morqut Islet/Iskaara Tuskarr
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
         [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
+        [14432]     = 2507,     -- The Missing Hinge Inn/Dragonscale Expedition
         [14437]     = 2550,     -- Training Grounds/Cobalt Assembly
         [14438]     = 2544,     -- Khadin's Cave/Artisan's Consortium
         [14489]     = 2510,     -- Valdrakken: The Seat of the Aspects/Valdrakken Accord
