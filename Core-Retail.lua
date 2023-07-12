@@ -432,7 +432,7 @@ function RepByZone:GetMultiRepIDsForZones()
         newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
     elseif oraclesStanding <= 3 then
         newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
-    elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
+    elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
         newSholazarRepID = db.watchedRepID or self.racialRepID
     end
 
@@ -444,16 +444,29 @@ function RepByZone:GetMultiRepIDsForZones()
     -- Wrathion or Sabellian in Dragonflight
     local newDragonFlightRepID
     local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
-    local wrathionCurrentRepAmount = wrathionFriendshipInfo.maxRep % wrathionFriendshipInfo.nextThreshold or 0
     local sabellionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
-    local sabellionCurrentRepAmount = sabellionFriendshipInfo.maxRep % sabellionFriendshipInfo.nextThreshold or 0
 
-    if wrathionCurrentRepAmount >= 0 and wrathionCurrentRepAmount >= sabellionCurrentRepAmount then
+    local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
+    local sabellionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+
+    local wrathionCurrentRepAmount = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep % wrathionFriendshipInfo.nextThreshold or 0
+    local sabellionCurrentRepAmount = sabellionFriendshipInfo and sabellionFriendshipInfo.maxRep % sabellionFriendshipInfo.nextThreshold or 0
+
+    if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellionRankInfo and sabellionRankInfo.currentLevel) then
         newDragonFlightRepID = 2517 -- Wrathion is higher
-    elseif sabellionCurrentRepAmount >= 0 and sabellionCurrentRepAmount >= wrathionCurrentRepAmount then
-        newDragonFlightRepID = 2518 --Sabellian is higher
-    elseif wrathionCurrentRepAmount == 0 and sabellionCurrentRepAmount == 0 then
-        newDragonFlightRepID = 2510 -- use Valdrakken Accord as a backup
+    elseif (sabellionRankInfo and sabellionRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
+        newDragonFlightRepID = 2518 -- Sabellian is higher
+    elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellionRankInfo and sabellionRankInfo.currentLevel) then
+        -- they are the same rank or the factions are unknown, verify
+        if (wrathionCurrentRepAmount and wrathionCurrentRepAmount >= 1) > (sabellionCurrentRepAmount and sabellionCurrentRepAmount >= 1) then
+            newDragonFlightRepID = 2517 -- Wrathion is higher
+        elseif (sabellionCurrentRepAmount and sabellionCurrentRepAmount >= 1) > (wrathionCurrentRepAmount and wrathionCurrentRepAmount >= 1) then
+            newDragonFlightRepID = 2518 -- Sabellian is higher
+        else
+            newDragonFlightRepID = 2510 -- they are equal or unknown, use Valdrakken Accord as a backup
+        end
+    elseif (not wrathionFriendshipInfo) or (not sabellionFriendshipInfo) then
+        newDragonFlightRepID = 2510 -- they are unknown, use Valdrakken Accord as a backup
     end
 
     if newDragonFlightRepID ~= self.dragonflightRepID then
