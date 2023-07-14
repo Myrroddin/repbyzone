@@ -9,6 +9,8 @@
         "JUST_OR",
         "DISABLE",
         "FACTION",
-        "NO"
+        "NO",
+        "ITEM_QUALITY_COLORS",
+        "TalkingHeadFrame"
     ]
 }
