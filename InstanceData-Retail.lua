@@ -197,7 +197,7 @@ function RepByZone:InstancesAndFactionList()
         [1677]      = 2045,     -- Cathedral of Eternal Night/Armies of Legionfall
         [1712]      = 2165,     -- Antorus, The Burning Throne/Army of the Light
         [1753]      = 2170,     -- The Seat of the Triumvirate/Argussian Reach
-        
+
         ---------- BfA ----------
         [1594]      = 1133,     -- The Motherloade!!/Bilgewater Cartel
         [1754]      = 2160,     -- Freehold/Proudmoore Admiralty
