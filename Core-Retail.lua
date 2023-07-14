@@ -238,7 +238,7 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
-    
+
     self:SetEnabledState(db.enabled)
 
     local options = self:GetOptions() -- Options.lua
@@ -417,9 +417,12 @@ function RepByZone:GetPandarenRep(event, success)
     A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
     H = UnitFactionGroup("player") == "Horde" and HORDE
     if A or H then
+        -- update data
         self:UnregisterEvent(event)
         if db.watchedRepID or self.racialRepID == 1216 then
             db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+            self.racialRepID, self.GetRacialRep = self:GetRacialRep()
+            zonesAndFactions = self:ZoneAndFactionList()
             self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
             self:SwitchedZones()
         end

@@ -121,6 +121,7 @@ function RepByZone:ZoneAndFactionList()
         --------- MoP ---------
         [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
         [376]       = 1272,     -- Valley of the Four Winds/The Tillers
+        [378]       = A and 1353 or H and 1352 or 1216, -- The Wandering Isle/Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
         [379]       = 1270,     -- Kun-Lai Summit/Shado-Pan
         [388]       = 1270,     -- Towlong Steppes/Shado-Pan
         [390]       = 1269,     -- Vale of Eternal Blossoms/Golden Lotus
@@ -168,6 +169,7 @@ function RepByZone:ZoneAndFactionList()
         [680]       = 1859,     -- Suramar/The Nightfallen
         [695]       = 1948,     -- Skyhold (Warrior Class Hall)/Valarjar
         [702]       = A and 930 or H and 68, -- Netherlight Temple (Priest Class Hall)/Exodar or Undercity
+        [709]       = 1341,     -- The Wandering Isle (Monk Class Hall)/The August Celestials
         [715]       = 609,      -- Emerald Dreamway/Cenarion Circle
         [717]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
         [718]       = A and 72 or H and 76, -- Dreadscar Rift (Warlock Class Hall)/Stormwind or Orgrimmar
