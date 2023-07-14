@@ -111,7 +111,7 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
-    
+
     self:SetEnabledState(db.enabled)
 
     local options = self:GetOptions() -- Options.lua
@@ -220,11 +220,12 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
+    self:GetRacialRep()
+
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
 
-    self:GetRacialRep()
     self:SwitchedZones()
 end
 
@@ -291,7 +292,7 @@ end
 function RepByZone:SwitchedZones()
     local uiMapID = C_Map.GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
-    
+
     if isOnTaxi then
         if not db.watchOnTaxi then
             -- On taxi but don't switch

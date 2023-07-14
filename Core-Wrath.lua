@@ -139,7 +139,7 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
     db = self.db.profile
-    
+
     self:SetEnabledState(db.enabled)
 
     local options = self:GetOptions() -- Options.lua
@@ -171,6 +171,8 @@ function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
     self:GetRacialRep()
+    self:GetSholazarBasinRep()
+    self:GetTabardID()
 
     -- Cache instance, zone, and subzone data; factionIDs may not be available earlier in OnInitialize()?
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
@@ -258,13 +260,14 @@ function RepByZone:CheckTaxi()
 end
 
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
+    self:GetRacialRep()
+    self:GetSholazarBasinRep()
+    self:GetTabardID()
+
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
 
-    self:GetRacialRep()
-    self:GetSholazarBasinRep()
-    self:GetTabardID()
     self:SwitchedZones()
 end
 
@@ -285,6 +288,10 @@ function RepByZone:GetSholazarBasinRep()
 
     if newSholazarRepID ~= self.sholazarRepID then
         self.sholazarRepID = newSholazarRepID
+
+        -- update both zones and subzones
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactions()
         self:SwitchedZones()
     end
 end
@@ -385,7 +392,7 @@ end
 function RepByZone:SwitchedZones()
     local uiMapID = C_Map.GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
-    
+
     if isOnTaxi then
         if not db.watchOnTaxi then
             -- On taxi but don't switch
@@ -435,7 +442,7 @@ function RepByZone:SwitchedZones()
     if db.watchSubZones then
         -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
         if hasTabard then return end
-        
+
         -- Blizzard provided areaIDs
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
