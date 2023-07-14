@@ -388,8 +388,9 @@ function RepByZone:GetCovenantRep(event, ...)
     local newCovenantRepID = self:CovenantToFactionID()
     if newCovenantRepID ~= self.covenantRepID then
         self.covenantRepID = newCovenantRepID
-        
+
         -- update both zones and subzones
+        instancesAndFactions = self:InstancesAndFactionList()
         zonesAndFactions = self:ZoneAndFactionList()
         subZonesAndFactions = self:SubZonesAndFactions()
         self:SwitchedZones()
@@ -484,6 +485,7 @@ function RepByZone:GetMultiRepIDsForZones()
         self.dragonflightRepID = newDragonFlightRepID
 
         -- update both zones and subzones
+        instancesAndFactions = self:InstancesAndFactionList()
         zonesAndFactions = self:ZoneAndFactionList()
         subZonesAndFactions = self:SubZonesAndFactions()
         self:SwitchedZones()
