@@ -244,6 +244,8 @@ function RepByZone:ZoneAndFactionList()
         [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr
         [2025]      = 2510,     -- Thaldraszus/Valdrakken Accord
         [2107]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
+        [2118]      = A and 2524 or H and 2523, -- The Forbidden Reach (?)/Obsidian Warders or Dark Talons
+        [2131]      = A and 2524 or H and 2523, -- The Forbidden Reach (?)/Obsidian Warders or Dark Talons
         [2133]      = 2564,     -- Zaralek Cavern/Loamm Niffen
     }
     return zonesAndFactions
