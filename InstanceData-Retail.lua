@@ -262,6 +262,7 @@ function RepByZone:InstancesAndFactionList()
         [2526]      = 2510,     -- Algeth'ar Academy/Valdrakken Accord
         [2527]      = 2510,     -- Halls of Infusion/Valdrakken Accord
         [2556]      = 1859,     -- Scenario: Emerald Dramway/The Nightfallen
+        [2979]      = 989,      -- Dawn of the Infinite/Keepers of Time
     }
     return instancesAndFactions
 end

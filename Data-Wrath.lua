@@ -283,7 +283,7 @@ function RepByZone:SubZonesAndFactions()
         [3598]      = 69,       -- Wyrmscar Island/Darnassus
         [3623]      = 933,      -- Aeris Landing/The Consortium
         [3673]      = 47,       -- Nesingwary Safari/Ironforge
-        [3828]      = A and 930 or H and 911, -- Halaa/Exodar or Silvermoon City
+        [3628]      = A and 930 or H and 911, -- Halaa/Exodar or Silvermoon City
         [3630]      = 933,      -- Oshu'gun/The Consortium
         [3631]      = 933,      -- Spirit Fields/The Consortium
         [3644]      = 930,      -- Telredor/Exodar

@@ -425,7 +425,7 @@ function RepByZone:SubZonesAndFactions()
         [3623]      = 933,      -- Aeris Landing/The Consortium
         [3636]      = 1135,     -- Elemental Plateau/The Earthen Ring
         [3673]      = 47,       -- Nesingwary Safari/Ironforge
-        [3828]      = A and 930 or H and 911, -- Halaa/Exodar or Silvermoon City
+        [3628]      = A and 930 or H and 911, -- Halaa/Exodar or Silvermoon City
         [3630]      = 933,      -- Oshu'gun/The Consortium
         [3631]      = 933,      -- Spirit Fields/The Consortium
         [3644]      = 930,      -- Telredor/Exodar
@@ -857,7 +857,7 @@ function RepByZone:SubZonesAndFactions()
         [13767]     = 2507,     -- Emberwatch/Dragonscale Expedition
         [13782]     = 2520,     -- Nokhudon Hold/Clan Nokhud
         [13817]     = 989,      -- Shifting Sands/Keepers of Time
-        [13818]     = 898,      -- Temporal Conflux/Keepers of Time
+        [13818]     = 989,      -- Temporal Conflux/Keepers of Time
         [13822]     = 989,      -- The Flowing Forest/Keeers of Time
         [13825]     = 1090,     -- Azure Archives/Kirin Tor
         [13833]     = 2507,     -- Shiverweb Vale/Dragonscale Expedition
