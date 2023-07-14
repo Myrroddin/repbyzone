@@ -229,9 +229,17 @@ function RepByZone:SlashHandler()
     end
 end
 
+-- The user has reset the DB, or created a new one
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
     db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
+
+    -- update both zones and subzones
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+    self:SwitchedZones()
 end
 
 ------------------- Event handlers starts here --------------------

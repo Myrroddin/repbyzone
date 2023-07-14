@@ -269,6 +269,13 @@ end
 function RepByZone:OnEnable()
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
+    self:GetCovenantRep()
+    self:GetbodyguardRepID()
+    self:GetMultiRepIDsForZones()
+    self:GetPandarenRep()
+    self:GetRacialRep()
+    self:GetTabardID()
+
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
@@ -345,6 +352,13 @@ end
 function RepByZone:RefreshConfig(event, database, ...)
     db = self.db.profile
     db.watchedRepID, db.watchedRepName = self:GetRacialRep()
+    self.racialRepID, self.racialRepName = self:GetRacialRep()
+
+    -- update both zones and subzones
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactions()
+    self:SwitchedZones()
 end
 
 ------------------- Event handlers starts here --------------------
@@ -365,16 +379,17 @@ end
 
 -- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
-
     self:GetCovenantRep()
     self:GetbodyguardRepID()
     self:GetMultiRepIDsForZones()
     self:GetPandarenRep()
     self:GetRacialRep()
     self:GetTabardID()
+
+    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+
     self:SwitchedZones()
 end
 
@@ -461,7 +476,7 @@ function RepByZone:GetMultiRepIDsForZones()
 
     local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
     local sabellionMaxRep = sabellionFriendshipInfo and sabellionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
-    
+
     local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
     local sabellionNextThreshold = sabellionFriendshipInfo and sabellionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
 
@@ -604,7 +619,7 @@ function RepByZone:SwitchedZones()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
     local factionName, isWatched
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
-    
+
     if inInstance and instanceType == "party" then
         watchedFactionID = self:GetTabardBuffData()
         hasTabard = watchedFactionID
