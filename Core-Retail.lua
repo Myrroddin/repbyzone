@@ -388,6 +388,10 @@ function RepByZone:GetCovenantRep(event, ...)
     local newCovenantRepID = self:CovenantToFactionID()
     if newCovenantRepID ~= self.covenantRepID then
         self.covenantRepID = newCovenantRepID
+        
+        -- update both zones and subzones
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactions()
         self:SwitchedZones()
     end
 end
