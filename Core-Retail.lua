@@ -278,7 +278,7 @@ function RepByZone:OnEnable()
 
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
 
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
@@ -357,7 +357,7 @@ function RepByZone:RefreshConfig(event, database, ...)
     -- update both zones and subzones
     instancesAndFactions = self:InstancesAndFactionList()
     zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactions()
+    subZonesAndFactions = self:SubZonesAndFactionsList()
     self:SwitchedZones()
 end
 
@@ -388,7 +388,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
 
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactions()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
 
     self:SwitchedZones()
 end
@@ -407,7 +407,7 @@ function RepByZone:GetCovenantRep(event, ...)
         -- update both zones and subzones
         instancesAndFactions = self:InstancesAndFactionList()
         zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
         self:SwitchedZones()
     end
 end
@@ -461,7 +461,7 @@ function RepByZone:GetMultiRepIDsForZones()
 
         -- update both zones and subzones
         zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
         self:SwitchedZones()
     end
 
@@ -502,7 +502,7 @@ function RepByZone:GetMultiRepIDsForZones()
         -- update both zones and subzones
         instancesAndFactions = self:InstancesAndFactionList()
         zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactions()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
         self:SwitchedZones()
     end
 end

@@ -190,7 +190,7 @@ function RepByZone:InstancesAndFactionList()
     return instancesAndFactions
 end
 
-function RepByZone:SubZonesAndFactions()
+function RepByZone:SubZonesAndFactionsList()
     local subZonesAndFactions = {
 		-- areaID = factionID
 		-- see https://wow.tools/dbc/?dbc=areatable&build=1.13.3.32887#search=&page=1
