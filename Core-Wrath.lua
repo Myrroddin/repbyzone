@@ -311,21 +311,15 @@ function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
         return nil
     end
-    local maxCount
 
-    AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
-        if maxCount and maxCount <= 0 then
-            return nil
-        end
+    local buffID = select(10, UnitAura("player"))
+    local factionID
+    local data = faction_tabard_auraIDs[buffID]
+    if data then
+        factionID = data[1] -- TODO: verify which dungeons can benefit from tabards
+        return factionID
+    end
 
-        local buffID = select(10, ...)
-        local factionID
-        local data = faction_tabard_auraIDs[buffID]
-        if data then
-            factionID = data[1] -- TODO: verify which dungeons can benefit from tabards
-            return factionID
-        end
-    end)
     return nil
 end
 
