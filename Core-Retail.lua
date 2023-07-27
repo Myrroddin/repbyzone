@@ -123,7 +123,7 @@ function RepByZone:GetRacialRep()
     or playerRace == "MagharOrc" and 941 -- The Mag'har
     or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
     or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
-    or playerRace == "Dracthyr" and 2510 -- Valdrakken Accord
+    or playerRace == "Dracthyr" and (A and 2524 or H and 2523) -- Obsidian Warders or Dark Talons
 
     local fallbackRacialRepID = playerRace == "Dwarf" and 47 -- Ironforge
     or playerRace == "Gnome" and 54 -- Gnomeregan
