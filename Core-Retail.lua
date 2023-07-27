@@ -35,22 +35,22 @@ local CitySubZonesAndFactions = CitySubZonesAndFactions or {
 -- Faction tabard code
 local tabardID
 local faction_tabard_auraIDs = {
-    -- [auraID] = {factionID}
+    -- [auraID] = factionID
     -- Alliance
-    [93795]     = {72},     -- Stormwind City
-    [93805]     = {47},     -- Ironforge
-    [93821]     = {54},     -- Gnomeregan
-    [93806]     = {69},     -- Darnassus
-    [93811]     = {930},    -- Exodar
-    [126434]    = {1353},   -- Tushui Pandaren
+    [93795]     = 72,       -- Stormwind City
+    [93805]     = 47,       -- Ironforge
+    [93821]     = 54,       -- Gnomeregan
+    [93806]     = 69,       -- Darnassus
+    [93811]     = 930,      -- Exodar
+    [126434]    = 1353,     -- Tushui Pandaren
 
     -- Horde
-    [93825]     = {76},     -- Orgrimmar
-    [93827]     = {530},    -- Darkspear
-    [94462]     = {68},     -- Undercity
-    [94463]     = {81},     -- Thunder Bluff
-    [93828]     = {911},    -- Silvermoon City
-    [126436]    = {1352},   -- Huojin Pandaren
+    [93825]     = 76,       -- Orgrimmar
+    [93827]     = 530,      -- Darkspear
+    [94462]     = 68,       -- Undercity
+    [94463]     = 81,       -- Thunder Bluff
+    [93828]     = 911,      -- Silvermoon City
+    [126436]    = 1352,     -- Huojin Pandaren
 }
 
 -- WoD garrison bodyguard code
@@ -274,7 +274,7 @@ function RepByZone:OnEnable()
     self:GetMultiRepIDsForZones()
     self:GetPandarenRep()
     self:GetRacialRep()
-    self:GetTabardID()
+    self:GetTabardBuffData()
 
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
@@ -311,7 +311,6 @@ function RepByZone:OnEnable()
     self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
     -- Check if a faction tabard is equipped or changed
-    self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetTabardID")
     self:RegisterEvent("UNIT_AURA", "GetTabardBuffData")
 end
 
@@ -328,11 +327,11 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("CHAT_MSG_MONSTER_SAY")
     self:UnregisterEvent("GOSSIP_CLOSED")
     self:UnregisterEvent("UPDATE_FACTION")
-    self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
     self:UnregisterEvent("UNIT_AURA")
 
     -- Wipe variables when RBZ is disabled
     isOnTaxi = nil
+    tabardID = nil
 end
 
 function RepByZone:SlashHandler()
@@ -384,7 +383,7 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
     self:GetMultiRepIDsForZones()
     self:GetPandarenRep()
     self:GetRacialRep()
-    self:GetTabardID()
+    self:GetTabardBuffData()
 
     instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
     zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
@@ -511,36 +510,34 @@ function RepByZone:GetMultiRepIDsForZones()
 end
 
 -- Tabard code
-function RepByZone:GetTabardID(event, unit)
-    if unit == "player" then
-        local newID = GetInventoryItemID(unit, INVSLOT_TABARD)
-        if newID ~= tabardID then
-            tabardID = newID
-            self:SwitchedZones()
-        end
-    end
-end
-
 function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
-        return nil
+        tabardID = nil
+        return
     end
-    local maxCount
+    if not IsEquippedItemType(INVTYPE_TABARD) then
+        tabardID = nil
+        return
+    end
 
-    AuraUtil.ForEachAura("player", "HELPFUL", maxCount, function(...)
-        if maxCount and maxCount <= 0 then
-            return nil
-        end
+    local newTabardFactionID, buffID
 
-        local buffID = select(10, ...)
-        local factionID
-        local data = faction_tabard_auraIDs[buffID]
-        if data then
-            factionID = data[1] -- TODO: verify which dungeons can benefit from tabards
-            return factionID
+    local function BuffIterator(...)
+        buffID = select(10, ...)
+        for spellID, tabardFactionID in pairs(faction_tabard_auraIDs) do
+            if buffID == spellID then
+                newTabardFactionID = tabardFactionID
+                return true
+            end
         end
-    end)
-    return nil
+    end
+
+    AuraUtil.ForEachAura("player", "PLAYER|HELPFUL", nil, BuffIterator)
+
+    if newTabardFactionID ~= tabardID then
+        tabardID = newTabardFactionID
+        self:SwitchedZones()
+    end
 end
 
 -------------------- Reputation code starts here --------------------
@@ -614,17 +611,16 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local watchedFactionID, hasTabard
+    local watchedFactionID, hasTabard, factionName, isWatched
     local inInstance = IsInInstance() and select(8, GetInstanceInfo())
     local _, instanceType = GetInstanceInfo()
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
-    local factionName, isWatched
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
     if inInstance and instanceType == "party" then
-        watchedFactionID = self:GetTabardBuffData()
+        watchedFactionID = tabardID
         hasTabard = watchedFactionID
     end
 

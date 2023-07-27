@@ -11,6 +11,8 @@
         "FACTION",
         "NO",
         "ITEM_QUALITY_COLORS",
-        "TalkingHeadFrame"
+        "TalkingHeadFrame",
+        "INVTYPE_TABARD",
+        "Add"
     ]
 }
