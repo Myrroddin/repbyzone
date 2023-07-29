@@ -12,7 +12,7 @@ local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
 
 -- Table to localize subzones that Blizzard does not provide areaIDs
-local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+local CitySubZonesAndFactions = {
 	-- ["Subzone"] = factionID
     ["A Hero's Welcome"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
     ["Aldor Rise"] = 932, -- The Aldor
@@ -56,25 +56,25 @@ local faction_tabard_auraIDs = {
 -- WoD garrison bodyguard code
 local bodyguardRepID
 local followerQuests = {
-    -- questID = factionID
-    [36877] = 1736, -- Tormmok
-    [36899] = 1738, -- Defender Illona
-    [36902] = 1740, -- Aeda Brightdawn
-    [36989] = 1733, -- Delvar Ironfist
-    [36901] = 1739, -- Vivianne
-    [36900] = 1737, -- Talonpriest Ishaal
-    [36936] = 1741, -- Leorajh
+    -- [questID] = factionID
+    [36877]     = 1736,     -- Tormmok
+    [36899]     = 1738,     -- Defender Illona
+    [36902]     = 1740,     -- Aeda Brightdawn
+    [36989]     = 1733,     -- Delvar Ironfist
+    [36901]     = 1739,     -- Vivianne
+    [36900]     = 1737,     -- Talonpriest Ishaal
+    [36936]     = 1741,     -- Leorajh
 }
 RepByZone.WoDFollowerZones = {
-    [525]   = true, -- Frostfire Ridge
-    [534]   = true, -- Tanaan Jungle
-    [535]   = true, -- Talador
-    [539]   = true, -- Shadowmoon Valley
-    [542]   = true, -- Spires of Arak
-    [543]   = true, -- Gorgrond
-    [550]   = true, -- Nagrand
-    [582]   = true, -- Lunarfall
-    [590]   = true, -- Frostwall
+    [525]       = true,     -- Frostfire Ridge
+    [534]       = true,     -- Tanaan Jungle
+    [535]       = true,     -- Talador
+    [539]       = true,     -- Shadowmoon Valley
+    [542]       = true,     -- Spires of Arak
+    [543]       = true,     -- Gorgrond
+    [550]       = true,     -- Nagrand
+    [582]       = true,     -- Lunarfall
+    [590]       = true,     -- Frostwall
 }
 
 -- Covenant code
@@ -532,7 +532,7 @@ function RepByZone:GetTabardBuffData()
         end
     end
 
-    AuraUtil.ForEachAura("player", "PLAYER|HELPFUL", nil, BuffIterator)
+    AuraUtil.ForEachAura("player", "HELPFUL", nil, BuffIterator)
 
     if newTabardFactionID ~= tabardID then
         tabardID = newTabardFactionID
@@ -619,9 +619,15 @@ function RepByZone:SwitchedZones()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
+    self:GetTabardBuffData() -- Populate tabardID
+
     if inInstance and instanceType == "party" then
         watchedFactionID = tabardID
         hasTabard = watchedFactionID
+    else
+        tabardID = nil
+        watchedFactionID = nil
+        hasTabard = nil
     end
 
     if isWoDZone and bodyguardRepID then
