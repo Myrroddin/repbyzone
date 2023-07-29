@@ -532,7 +532,7 @@ function RepByZone:GetTabardBuffData()
         end
     end
 
-    AuraUtil.ForEachAura("player", "HELPFUL", nil, BuffIterator)
+    AuraUtil.ForEachAura("player", "PLAYER|HELPFUL", nil, BuffIterator)
 
     if newTabardFactionID ~= tabardID then
         tabardID = newTabardFactionID

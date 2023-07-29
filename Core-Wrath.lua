@@ -10,7 +10,7 @@ local zonesAndFactions
 local subZonesAndFactions
 
 -- Table to localize subzones that Blizzard does not provide areaIDs
-local CitySubZonesAndFactions = CitySubZonesAndFactions or {
+local CitySubZonesAndFactions = {
 	-- ["Subzone"] = factionID
 	["Aldor Rise"] = 932, -- The Aldor
     ["Deeprun Tram"] = 72, -- Stormwind
