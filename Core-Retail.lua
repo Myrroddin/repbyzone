@@ -378,18 +378,34 @@ end
 
 -- Handled during first login
 function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
-    self:GetCovenantRep()
-    self:GetbodyguardRepID()
-    self:GetMultiRepIDsForZones()
-    self:GetPandarenRep()
-    self:GetRacialRep()
-    self:GetTabardBuffData()
+    if isInitialLogin or isReloadingUi then
+        self:GetCovenantRep()
+        self:GetbodyguardRepID()
+        self:GetMultiRepIDsForZones()
+        self:GetPandarenRep()
+        self:GetRacialRep()
+        self:GetTabardBuffData()
 
-    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
-
-    self:SwitchedZones()
+        instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+        zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+        subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
+    else
+        -- Entering an instance, check if tabardID and 5 person dungeon are valid. I'm not sure why this is necessary. Silly Blizzard is silly
+        local inInstance, instanceType = IsInInstance()
+        if inInstance and instanceType == "party" then
+            if tabardID then
+                local factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(tabardID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(tabardID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
+                    end
+                end
+            else
+                self:SwitchedZones()
+            end
+        end
+    end
 end
 
 -- What Covenant does the player belong to, if any
@@ -513,10 +529,12 @@ end
 function RepByZone:GetTabardBuffData()
     if not db.useFactionTabards then
         tabardID = nil
+        self:SwitchedZones()
         return
     end
     if not IsEquippedItemType(INVTYPE_TABARD) then
         tabardID = nil
+        self:SwitchedZones()
         return
     end
 
@@ -537,6 +555,7 @@ function RepByZone:GetTabardBuffData()
     if newTabardFactionID ~= tabardID then
         tabardID = newTabardFactionID
         self:SwitchedZones()
+        self:LoginReload()
     end
 end
 
@@ -611,43 +630,33 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    local watchedFactionID, hasTabard, factionName, isWatched
-    local inInstance = IsInInstance() and select(8, GetInstanceInfo())
-    local _, instanceType = GetInstanceInfo()
+    local _, watchedFactionID, hasTabard, factionName, isWatched
+    local inInstance, instanceType = IsInInstance()
+    local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
-    self:GetTabardBuffData() -- Populate tabardID
-
+    -- Apply instance reputations
     if inInstance and instanceType == "party" then
-        watchedFactionID = tabardID
-        hasTabard = watchedFactionID
-    else
-        tabardID = nil
-        watchedFactionID = nil
-        hasTabard = nil
-    end
-
-    if isWoDZone and bodyguardRepID then
-        -- Override in WoD zones only if a bodyguard exists
-        watchedFactionID = bodyguardRepID
-    end
-
-    -- Apply instance data
-    if inInstance then
-        if hasTabard then
-            return
-        else
-            -- Player is not wearing a tabard or is not in a 5 person dungeon
-            for instanceID, factionID in pairs(instancesAndFactions) do
-                if instanceID == inInstance then
-                    watchedFactionID = factionID
-                    break
-                end
+        if tabardID then
+            watchedFactionID = tabardID
+            hasTabard = watchedFactionID
+        end
+    elseif inInstance and not hasTabard then
+        -- Player is not wearing a tabard in a 5 person dungeon but still in an instance, which could be a 5 person dungeon
+        for instanceID, factionID in pairs(instancesAndFactions) do
+            if instanceID == whichInstanceID then
+                watchedFactionID = factionID
+                break
             end
         end
+    end
+
+    -- Override in WoD zones only if a bodyguard exists
+    if isWoDZone and bodyguardRepID then
+        watchedFactionID = bodyguardRepID
     end
 
     -- Apply world zone data
