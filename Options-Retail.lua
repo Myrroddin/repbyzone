@@ -94,8 +94,6 @@ function RepByZone:GetOptions()
                         set = function (info, value)
                             db.useFactionTabards = value
                             self:GetTabardBuffData()
-                            self:SwitchedZones()
-                            self:LoginReload()
                         end
                     },
                     watchWoDBodyGuards = {

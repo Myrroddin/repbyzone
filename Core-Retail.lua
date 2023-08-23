@@ -384,7 +384,6 @@ function RepByZone:LoginReload(event, isInitialLogin, isReloadingUi)
         self:GetMultiRepIDsForZones()
         self:GetPandarenRep()
         self:GetRacialRep()
-        self:GetTabardBuffData()
 
         instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
         zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
@@ -527,17 +526,6 @@ end
 
 -- Tabard code
 function RepByZone:GetTabardBuffData()
-    if not db.useFactionTabards then
-        tabardID = nil
-        self:SwitchedZones()
-        return
-    end
-    if not IsEquippedItemType(INVTYPE_TABARD) then
-        tabardID = nil
-        self:SwitchedZones()
-        return
-    end
-
     local newTabardFactionID, buffID
 
     local function BuffIterator(...)
@@ -554,9 +542,17 @@ function RepByZone:GetTabardBuffData()
 
     if newTabardFactionID ~= tabardID then
         tabardID = newTabardFactionID
-        self:SwitchedZones()
-        self:LoginReload()
     end
+
+    if not db.useFactionTabards then
+        tabardID = nil
+    end
+
+    if not IsEquippedItemType(INVTYPE_TABARD) then
+        tabardID = nil
+    end
+
+    self:LoginReload()
 end
 
 -------------------- Reputation code starts here --------------------
