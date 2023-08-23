@@ -22,6 +22,7 @@
 ## X-Curse-Project-ID: 348072
 ## X-WoWI-ID: 25407
 ## X-Wago-ID: q96dZlGO
+## IconTexture: Interface\AddOns\RepByZone\Icon\RBZ_icon
 
 ## SavedVariables: RepByZoneDB
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
