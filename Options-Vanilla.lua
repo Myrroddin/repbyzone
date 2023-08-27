@@ -31,6 +31,7 @@ function RepByZone:GetOptions()
                 order = 20,
                 name = L["Reputation Settings"],
                 type = "group",
+                disabled = function() return not db.enabled end,
                 args = {
                     watchSubZones = {
                         order = 10,
