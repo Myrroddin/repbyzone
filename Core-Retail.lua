@@ -293,7 +293,7 @@ function RepByZone:OnEnable()
     -- Check if a faction tabard is equipped or changed
     self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
 
-    -- We zoning into an instance
+    -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
 
     self:SwitchedZones()
