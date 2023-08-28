@@ -84,6 +84,7 @@ function RepByZone:GetOptions()
                         set = function(info, value)
                             db.useClassRep = value
                             self:GetRacialRep()
+                            self:SwitchedZones()
                         end
                     },
                     defaultRep = {

@@ -295,7 +295,6 @@ function RepByZone:GetEquippedTabard(_, unit)
     end
 end
 
--------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
