@@ -84,6 +84,7 @@ function RepByZone:GetOptions()
                         set = function(info, value)
                             db.useClassRep = value
                             self:GetRacialRep()
+                            self:SwitchedZones()
                         end
                     },
                     useFactionTabards = {
@@ -94,8 +95,7 @@ function RepByZone:GetOptions()
                         get = function () return db.useFactionTabards end,
                         set = function (info, value)
                             db.useFactionTabards = value
-                            -- self:GetTabardBuffData()
-                            self:GetFactionIDFromTabardID()
+                            self:SwitchedZones()
                         end
                     },
                     watchWoDBodyGuards = {

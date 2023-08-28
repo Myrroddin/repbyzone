@@ -52,26 +52,6 @@ local tabard_itemIDs_to_factionIDs = {
     [45585]     = 911,      -- Silvermoon City
     [83080]     = 1352,     -- Huojin Pandaren
 }
---[[
-local faction_tabard_auraIDs = {
-    -- [auraID] = factionID
-    -- Alliance
-    [93795]     = 72,       -- Stormwind City
-    [93805]     = 47,       -- Ironforge
-    [93821]     = 54,       -- Gnomeregan
-    [93806]     = 69,       -- Darnassus
-    [93811]     = 930,      -- Exodar
-    [126434]    = 1353,     -- Tushui Pandaren
-
-    -- Horde
-    [93825]     = 76,       -- Orgrimmar
-    [93827]     = 530,      -- Darkspear
-    [94462]     = 68,       -- Undercity
-    [94463]     = 81,       -- Thunder Bluff
-    [93828]     = 911,      -- Silvermoon City
-    [126436]    = 1352,     -- Huojin Pandaren
-}
-]]--
 
 -- WoD garrison bodyguard code
 local bodyguardRepID
@@ -280,7 +260,9 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoginReload")
+
+    -- Set up variables on load
+    self:SetUpVariables()
 end
 
 function RepByZone:OnEnable()
@@ -309,7 +291,12 @@ function RepByZone:OnEnable()
     self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
     -- Check if a faction tabard is equipped or changed
-    self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetFactionIDFromTabardID")
+    self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
+
+    -- We zoning into an instance
+    self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
+
+    self:SwitchedZones()
 end
 
 function RepByZone:OnDisable()
@@ -325,6 +312,7 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("GOSSIP_CLOSED")
     self:UnregisterEvent("UPDATE_FACTION")
     self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function RepByZone:SlashHandler()
@@ -340,59 +328,41 @@ function RepByZone:SlashHandler()
     end
 end
 
--- First login or entering an instance
-function RepByZone:LoginReload(_, isInitialLogin, isReloadingUi)
-    if isReloadingUi then return end
-    local defaultRepID, defaultRepName
-    local inInstance, instanceType = IsInInstance()
-
-    if isInitialLogin then
-        -- Populate variables
-        isOnTaxi = UnitOnTaxi("player")
-        self:GetCovenantRep()
-        self:GetbodyguardRepID()
-        self:GetMultiRepIDsForZones()
-        self:GetPandarenRep()
-        defaultRepID, defaultRepName = self:GetRacialRep()
-        db.watchedRepID = db.watchedRepID or defaultRepID
-        db.watchedRepName = db.watchedRepName or defaultRepName
-        self:GetFactionIDFromTabardID()
-
-        instancesAndFactions = self:InstancesAndFactionList()
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-    end
-
-    if db.enabled then
-        if db.useFactionTabards then
-            -- Entering an instance, check if tabardID and 5 person dungeon are valid
-            if inInstance and instanceType == "party" then
-                if type(tabardID) == "number" then
-                    local factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(tabardID)
-                    if factionName and not isWatched then
-                        C_Reputation.SetWatchedFaction(tabardID)
-                        if db.verbose then
-                            self:Print(L["Now watching %s"]:format(factionName))
-                        end
-                    end
-                else
-                    -- tabardID is not a number
-                    self:SwitchedZones()
-                end
-            else
-                -- We aren't in an instance or the instanceType is not party
-                self:SwitchedZones()
-            end
-        end
-    end
-end
-
 -- The user has reset the DB or created a new profile
 function RepByZone:RefreshConfig()
     db = self.db.profile
     db.watchedRepID, db.watchedRepName = nil, nil
 
-    self:LoginReload(_, true, false) -- Trigger isInitialLogin
+    self:SetUpVariables()
+end
+
+-- Initialize tables and variables, or reset them if the user resets the profile
+function RepByZone:SetUpVariables()
+    local defaultRepID, defaultRepName
+
+    -- Populate variables
+    isOnTaxi = UnitOnTaxi("player")
+    self:GetCovenantRep()
+    self:GetbodyguardRepID()
+    self:GetMultiRepIDsForZones()
+    self:GetEquippedTabard()
+    -- Pandaren do not start Alliance or Horde
+    if UnitFactionGroup("player") == nil then
+        self:GetPandarenRep()
+    end
+
+    -- Initialize or verify part of the database
+    defaultRepID, defaultRepName = self:GetRacialRep()
+    db.watchedRepID = db.watchedRepID or defaultRepID
+    db.watchedRepName = db.watchedRepName or defaultRepName
+
+    -- Populate tables
+    instancesAndFactions = self:InstancesAndFactionList()
+    zonesAndFactions = self:ZoneAndFactionList()
+    subZonesAndFactions = self:SubZonesAndFactionsList()
+
+    -- Setup or reset is done, update watched faction
+    self:SwitchedZones()
 end
 
 ------------------- Event handlers starts here --------------------
@@ -531,60 +501,15 @@ function RepByZone:GetMultiRepIDsForZones()
 end
 
 -- Tabard code
-function RepByZone:GetFactionIDFromTabardID(_, unit)
+function RepByZone:GetEquippedTabard(_, unit)
     if unit ~= "player" then return end
-    local inInstance, instanceType = IsInInstance()
+    local newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
 
-    if not db.useFactionTabards then
-        tabardID = nil
-    end
-
-    if db.enabled then
-        if IsEquippedItemType(INVTYPE_TABARD) and db.useFactionTabards then
-            if inInstance and instanceType == "party" then
-                for itemID, factionID in pairs(tabard_itemIDs_to_factionIDs) do
-                    if IsEquippedItem(itemID) then
-                        tabardID = factionID
-                        break
-                    end
-                end
-            end
-        end
-
+    if newTabardID ~= tabardID then
+        tabardID = newTabardID
         self:SwitchedZones()
     end
 end
---[[
-function RepByZone:GetTabardBuffData()
-    local newTabardFactionID, buffID
-
-    local function BuffIterator(...)
-        buffID = select(10, ...)
-        for spellID, tabardFactionID in pairs(faction_tabard_auraIDs) do
-            if buffID == spellID then
-                newTabardFactionID = tabardFactionID
-                return true
-            end
-        end
-    end
-
-    AuraUtil.ForEachAura("player", "PLAYER|HELPFUL", nil, BuffIterator)
-
-    if newTabardFactionID ~= tabardID then
-        tabardID = newTabardFactionID
-    end
-
-    if not db.useFactionTabards then
-        tabardID = nil
-    end
-
-    if not IsEquippedItemType(INVTYPE_TABARD) then
-        tabardID = nil
-    end
-
-    self:LoginReload()
-end
-]]--
 
 -------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
@@ -645,8 +570,19 @@ function RepByZone:GetAllFactions()
 end
 
 -------------------- Watched faction code starts here --------------------
+-- Entering an instance
+function RepByZone:EnteringInstance(_, ...)
+    local isInitialLogin, isReloadingUI = ...
+
+    if not isInitialLogin and not isReloadingUI then
+        self:SwitchedZones()
+    end
+end
+
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
+    if not db.enabled then return end -- Exit if the addon is disabled
+
     local uiMapID = C_Map.GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
 
@@ -657,8 +593,15 @@ function RepByZone:SwitchedZones()
         end
     end
 
+    -- Sometimes the tables are empty, so make sure they have data
+    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
+
+    -- Set up variables
     local _, watchedFactionID, factionName, isWatched
-    local inInstance = IsInInstance()
+    local hasDungeonTabard = false
+    local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
@@ -666,16 +609,51 @@ function RepByZone:SwitchedZones()
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
     -- Apply instance reputations
-    if inInstance and type(tabardID) ~= "number" then
+    if instanceType == "party" then
+        hasDungeonTabard = false
+        if db.useFactionTabards then
+            if tabardID then
+                for tabard, factionID in pairs(tabard_itemIDs_to_factionIDs) do
+                    if tabard == tabardID then
+                        watchedFactionID = factionID
+                        hasDungeonTabard = true
+                        -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                        if factionName and not isWatched then
+                            C_Reputation.SetWatchedFaction(factionID)
+                            if db.verbose then
+                                self:Print(L["Now watching %s"]:format(factionName))
+                            end
+                        end
+                        break
+                    end
+                end
+            end
+        else
+            -- We aren't watching faction tabards
+            hasDungeonTabard = false
+        end
+    else
+        -- We aren't in a party
+        hasDungeonTabard = false
+    end
+
+    -- We aren't in an instance that supports tabards or we aren't watching tabards in the dungeon
+    if inInstance and not hasDungeonTabard then
         for instanceID, factionID in pairs(instancesAndFactions) do
             if instanceID == whichInstanceID then
                 watchedFactionID = factionID
+                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(factionID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
+                    end
+                end
                 break
             end
         end
-    elseif inInstance and type(tabardID) == "number" then
-        -- tabardID will be a number in party dungeons when the player has a faction tabard equipped
-        watchedFactionID = tabardID
     end
 
     -- Override in WoD zones only if a bodyguard exists
@@ -697,7 +675,7 @@ function RepByZone:SwitchedZones()
 
     if db.watchSubZones then
         -- Check if the player has a tabard in a dungeon; if yes, don't loop through subzone data
-        if type(tabardID) == "number" then return end
+        if instanceType == "party" and hasDungeonTabard then return end
 
         -- Don't loop through subzones if the player is watching a bodyguard rep
         if isWoDZone and bodyguardRepID then return end
