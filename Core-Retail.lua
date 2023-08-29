@@ -611,6 +611,11 @@ function RepByZone:SwitchedZones()
     -- Apply instance reputations
     if instanceType == "party" then
         hasDungeonTabard = false
+        -- Dragonflight dungeons do not benefit from tabaards. TODO: check Shadowlands dungeons
+        if whichInstanceID >= 2451 then
+            return
+        end
+        -- Process faction tabards
         if db.useFactionTabards then
             if tabardID then
                 for tabard, factionID in pairs(tabard_itemIDs_to_factionIDs) do

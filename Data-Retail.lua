@@ -882,6 +882,7 @@ function RepByZone:SubZonesAndFactionsList()
         [14054]     = 2520,     -- The Nokhud Approach/Clan Nokhud
         [14079]     = 2510,     -- Lilac Ramble/Valdrakken Accord
         [14089]     = 2510,     -- Vakthros/Valdrakken Accord
+        [14096]     = 2510,     -- Valdrakken: Little Scles Daycare
         [14155]     = 2511,     -- Morqut Islet/Iskaara Tuskarr
         [14429]     = 2511,     -- The Filled Bowl/Iskaara Tuskarr
         [14430]     = 1090,     -- Camp Antonidas: Mage's Rest/Kirin Tor
