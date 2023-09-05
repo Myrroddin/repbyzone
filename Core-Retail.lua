@@ -268,8 +268,10 @@ end
 function RepByZone:OnEnable()
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
-    self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
-    self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
+    if db.watchSubZones then
+        self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
+        self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
+    end
 
     -- If the player loses or gains control of the character, it is one of the signs of taxi use
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
