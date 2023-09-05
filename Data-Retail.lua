@@ -245,11 +245,11 @@ function RepByZone:ZoneAndFactionList()
         [2025]      = 2510,     -- Thaldraszus/Valdrakken Accord
         [2107]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
         [2112]      = 2510,     -- Valdrakken/Valdrakken Accord
-        [2118]      = A and 2524 or H and 2523, -- The Forbidden Reach (?)/Obsidian Warders or Dark Talons
-        [2131]      = A and 2524 or H and 2523, -- The Forbidden Reach (?)/Obsidian Warders or Dark Talons
+        [2118]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
+        [2131]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
         [2133]      = 2564,     -- Zaralek Cavern/Loamm Niffen
         [2134]      = 2510,     -- Valdrakken/Valdrakken Accord
-        [2151]      = A and 2524 or H and 2523, -- The Forbidden Reach (?)/Obsidian Warders or Dark Talons
+        [2151]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
         [2175]      = 2564,     -- Zaralek Cavern/Loamm Niffen
     }
     return zonesAndFactions
