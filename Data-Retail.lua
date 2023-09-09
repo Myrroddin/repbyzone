@@ -30,7 +30,7 @@ function RepByZone:ZoneAndFactionList()
         [32]        = 59,       -- Searing Gorge/Thorium Brotherhood
         [36]        = A and 72 or H and 76, -- Burning Steppes/Stormwind or Orgrimmar
         [37]        = 72,       -- Elwynn Forest/Stormwind
-        [41]        = 1090,     -- Dalaran/Kirin Tor
+        [41]        = 1090,     -- Dalaran Crater/Kirin Tor
         [42]        = 967,      -- Deadwind Pass/The Violet Eye
         [47]        = A and 72 or H and 68, -- Duskwood/Stormwind or Undercity
         [48]        = 47,       -- Loch Modan/Ironforge
@@ -211,10 +211,10 @@ function RepByZone:ZoneAndFactionList()
         [1569]      = 2407,     -- Bastion/The Ascended
         [1603]      = 2465,     -- Ardenweald/The Wild Hunt
         [1648]      = 2432,     -- The Maw/Ve'nari
-        [1670]      = self.covenantRepID, -- Ring of Fates/Covenant
-        [1671]      = self.covenantRepID, -- Ring of Transference/Covenant
-        [1672]      = self.covenantRepID, -- The Broker's Den/Covenant
-        [1673]      = self.covenantRepID, -- The Crucible/Covenant
+        [1670]      = self.covenantRepID, -- Oribos: Ring of Fates/Covenant
+        [1671]      = self.covenantRepID, -- Oribos: Ring of Transference/Covenant
+        [1672]      = self.covenantRepID, -- Oribos: The Broker's Den/Covenant
+        [1673]      = self.covenantRepID, -- Oribos: The Crucible/Covenant
         [1688]      = 2413,     -- Revendreth/Court of Havesters
         [1689]      = 2410,     -- Maldraxxus/The Undying Army
         [1701]      = 2465,     -- Heart of the Forest/The Wild Hunt

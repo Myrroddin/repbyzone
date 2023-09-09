@@ -3,9 +3,35 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
 
+-- Blizzard has a habit of adding instanceIDs for new content using lower integers. These dungeons do not support tabards
+local tabardExemptDungeons = {
+    ---------- Shadowlands ----------
+    [2284] = true, -- Sanguine Depths
+    [2285] = true, -- Spires of Ascension
+    [2286] = true, -- The Necrotic Wake
+    [2287] = true, -- Halls of Atonement
+    [2289] = true, -- Plaguefall
+    [2290] = true, -- Mists of Tirna Scithe
+    [2291] = true, -- De Other Side
+    [2293] = true, -- Theater of Pain
+    [2441] = true, -- Tazavesh, The Veiled Market
+
+    ---------- Dragonflight ----------
+    [2451] = true, -- Uldaman: Legacy of Tyr
+    [2515] = true, -- The Azure Vault
+    [2516] = true, -- The Nokhud Offensive
+    [2520] = true, -- Brackenhide Hollow
+    [2521] = true, -- Ruby Life Pools
+    [2526] = true, -- Algeth'ar Academy
+    [2527] = true, -- Halls of Infusion
+    [2979] = true, -- Dawn of the Infinite
+}
+RepByZone.tabardExemptDungeons = tabardExemptDungeons
+
+-- Return instance data to Core-Retail.lua
 function RepByZone:InstancesAndFactionList()
     local instancesAndFactions = {
-        -- instanceID = factionID
+        -- [instanceID] = factionID
         -- If an instanceID is not listed, that instance has no associated factionID
         -- See https://wow.gamepedia.com/InstanceID or https://wago.tools/db2/JournalInstance for the list of instanceIDs
 
