@@ -43,84 +43,6 @@ local tabard_itemIDs_to_factionIDs = {
     [45585]     = 911,      -- Silvermoon City
 }
 
--- Get the character's racial factionID and factionName
-function RepByZone:GetRacialRep()
-    -- Catch possible errors during initialization
-    local useClassRep
-    if self.db == nil then
-        useClassRep = true
-    elseif self.db.profile.useClassRep == nil then
-        useClassRep = true
-    else
-        useClassRep = self.db.profile.useClassRep
-    end
-    local whichID, whichName
-
-    local _, playerRace = UnitRace("player")
-    local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
-    or playerRace == "Gnome" and 54 -- Gnomeregan
-    or playerRace == "Human" and 72 -- Stormwind
-    or playerRace == "NightElf" and 69 -- Darnassus
-    or playerRace == "Orc" and 76 -- Orgrimmar
-    or playerRace == "Tauren" and 81 -- Thunder Bluff
-    or playerRace == "Troll" and 530 -- Darkspear Trolls
-    or playerRace == "Scourge" and 68 -- Undercity
-    or playerRace == "Draenei" and 930 -- Exodar
-    or playerRace == "BloodElf" and 911 -- Silvermoon City
-
-    -- Classes have factions
-    local _, classFileName = UnitClass("player")
-    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
-    or classFileName == "DRUID" and 609 -- Cenarion Circle
-    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
-    or classFileName == "MAGE" and 1090 -- Kirin Tor
-
-    self:OpenAllFactionHeaders()
-
-    -- Check if the player has discovered the race faction
-    local function CheckRace()
-        for i = 1, GetNumFactions() do
-            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-            if name and not isHeader then
-                if factionID == racialRepID then
-                    return factionID, name
-                end
-            end
-        end
-    end
-    whichID, whichName = CheckRace()
-
-    -- Check if the player has discoverd the class faction
-    local function CheckClassRep()
-        for i = 1, GetNumFactions() do
-            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-            if name and not isHeader then
-                if factionID == classRepID then
-                    return factionID, name
-                end
-            end
-        end
-    end
-    if useClassRep then
-        whichID, whichName = CheckClassRep()
-    end
-
-    if not whichID then
-        whichID, whichName = CheckRace()
-    end
-
-    self:CloseAllFactionHeaders()
-
-    self.racialRepID = useClassRep and classRepID or racialRepID
-    self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
-    if self.racialRepID == nil and whichID == nil then
-        self.racialRepID, self.racialRepName = "0-none", NONE
-        whichID, whichName = self.racialRepID, self.racialRepName
-    end
-
-    return whichID, whichName
-end
-
 -- Return a table of defaul SV values
 local defaults = {
     profile = {
@@ -359,6 +281,84 @@ function RepByZone:GetAllFactions()
 end
 
 -------------------- Watched faction code starts here --------------------
+-- Get the character's racial factionID and factionName
+function RepByZone:GetRacialRep()
+    -- Catch possible errors during initialization
+    local useClassRep
+    if self.db == nil then
+        useClassRep = true
+    elseif self.db.profile.useClassRep == nil then
+        useClassRep = true
+    else
+        useClassRep = self.db.profile.useClassRep
+    end
+    local whichID, whichName
+
+    local _, playerRace = UnitRace("player")
+    local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
+    or playerRace == "Gnome" and 54 -- Gnomeregan
+    or playerRace == "Human" and 72 -- Stormwind
+    or playerRace == "NightElf" and 69 -- Darnassus
+    or playerRace == "Orc" and 76 -- Orgrimmar
+    or playerRace == "Tauren" and 81 -- Thunder Bluff
+    or playerRace == "Troll" and 530 -- Darkspear Trolls
+    or playerRace == "Scourge" and 68 -- Undercity
+    or playerRace == "Draenei" and 930 -- Exodar
+    or playerRace == "BloodElf" and 911 -- Silvermoon City
+
+    -- Classes have factions
+    local _, classFileName = UnitClass("player")
+    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    or classFileName == "DRUID" and 609 -- Cenarion Circle
+    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
+    or classFileName == "MAGE" and 1090 -- Kirin Tor
+
+    self:OpenAllFactionHeaders()
+
+    -- Check if the player has discovered the race faction
+    local function CheckRace()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == racialRepID then
+                    return factionID, name
+                end
+            end
+        end
+    end
+    whichID, whichName = CheckRace()
+
+    -- Check if the player has discoverd the class faction
+    local function CheckClassRep()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == classRepID then
+                    return factionID, name
+                end
+            end
+        end
+    end
+    if useClassRep then
+        whichID, whichName = CheckClassRep()
+    end
+
+    if not whichID then
+        whichID, whichName = CheckRace()
+    end
+
+    self:CloseAllFactionHeaders()
+
+    self.racialRepID = useClassRep and classRepID or racialRepID
+    self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
+    if self.racialRepID == nil and whichID == nil then
+        self.racialRepID, self.racialRepName = "0-none", NONE
+        whichID, whichName = self.racialRepID, self.racialRepName
+    end
+
+    return whichID, whichName
+end
+
 -- Entering an instance
 function RepByZone:EnteringInstance(_, ...)
     local isInitialLogin, isReloadingUI = ...

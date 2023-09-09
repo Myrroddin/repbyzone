@@ -85,137 +85,6 @@ local covenantReps = {
     [Enum.CovenantType.Necrolord] = 2410, -- The Undying Army
 }
 
--- Get the character's racial factionID and factionName
-function RepByZone:GetRacialRep()
-    -- Catch possible errors during initialization
-    local useClassRep
-    if self.db == nil then
-        useClassRep = true
-    elseif self.db.profile.useClassRep == nil then
-        useClassRep = true
-    else
-        useClassRep = self.db.profile.useClassRep
-    end
-
-    local _, playerRace = UnitRace("player")
-    local whichID, whichName
-
-    local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
-    or playerRace == "Gnome" and 54 -- Gnomeregan
-    or playerRace == "Human" and 72 -- Stormwind
-    or playerRace == "NightElf" and 69 -- Darnassus
-    or playerRace == "Orc" and 76 -- Orgrimmar
-    or playerRace == "Tauren" and 81 -- Thunder Bluff
-    or playerRace == "Troll" and 530 -- Darkspear Trolls
-    or playerRace == "Scourge" and 68 -- Undercity
-    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
-    or playerRace == "Draenei" and 930 -- Exodar
-    or playerRace == "Worgen" and 1134 -- Gilneas
-    or playerRace == "BloodElf" and 911 -- Silvermoon City
-    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
-    or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
-    or playerRace == "VoidElf" and 2170 -- Argussian Reach
-    or playerRace == "Mechagnome" and 2391 -- Rustbolt Resistance
-    or playerRace == "Vulpera" and 2158 -- Voldunai
-    or playerRace == "KulTiran" and 2160 -- Proudmoore Admiralty
-    or playerRace == "ZandalariTroll" and 2103 -- Zandalari Empire
-    or playerRace == "Nightborne" and 1859 -- The Nightfallen
-    or playerRace == "MagharOrc" and 941 -- The Mag'har
-    or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
-    or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
-    or playerRace == "Dracthyr" and (A and 2524 or H and 2523) -- Obsidian Warders or Dark Talons
-
-    local fallbackRacialRepID = playerRace == "Dwarf" and 47 -- Ironforge
-    or playerRace == "Gnome" and 54 -- Gnomeregan
-    or playerRace == "Human" and 72 -- Stormwind
-    or playerRace == "NightElf" and 69 -- Darnassus
-    or playerRace == "Orc" and 76 -- Orgrimmar
-    or playerRace == "Tauren" and 81 -- Thunder Bluff
-    or playerRace == "Troll" and 530 -- Darkspear Trolls
-    or playerRace == "Scourge" and 68 -- Undercity
-    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
-    or playerRace == "Draenei" and 930 -- Exodar
-    or playerRace == "Worgen" and 1134 -- Gilneas
-    or playerRace == "BloodElf" and 911 -- Silvermoon City
-    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
-    or playerRace == "HighmountainTauren" and 81 -- Thunder Bluff
-    or playerRace == "VoidElf" and 69 -- Darnassus
-    or playerRace == "Mechagnome" and 54 -- Gnomeregan
-    or playerRace ==  "Vulpera" and 76 -- Orgrimmar
-    or playerRace == "KulTian" and 72 -- Stormwind
-    or playerRace == "ZandalariTroll" and 530 -- Darkspear Trolls
-    or playerRace == "Nightborne" and 911 -- Silvermoon City
-    or playerRace == "MagharOrc" and 76 -- Orgrimmar
-    or playerRace == "DarkIronDwarf" and 47 -- Ironforge
-    or playerRace == "LightforgedDraenei" and 930 -- Exodar
-    or playerRace == "Dracthyr" and A and 72 or H and 76 -- Stormwind or Orgrimmar
-
-    -- Classes have factions
-    local _, classFileName = UnitClass("player")
-    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
-    or classFileName == "DRUID" and 609 -- Cenarion Circle
-    or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
-    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
-    or classFileName == "MAGE" and 1090 -- Kirin Tor
-    or classFileName == "MONK" and 1341 -- The August Celestials
-
-    self:OpenAllFactionHeaders()
-
-    -- Check if the player has discovered the race faction
-    local function CheckRaceRep()
-        for i = 1, GetNumFactions() do
-            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-            if name and not isHeader then
-                if factionID == racialRepID then
-                    return factionID, name
-                end
-            end
-        end
-    end
-    whichID, whichName = CheckRaceRep()
-
-    -- Check if the player has discoverd the class faction
-    local function CheckClassRep()
-        for i = 1, GetNumFactions() do
-            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-            if name and not isHeader then
-                if factionID == classRepID then
-                    return factionID, name
-                end
-            end
-        end
-    end
-    if useClassRep then
-        whichID, whichName = CheckClassRep()
-    end
-
-    -- If allied race reps are not known, use fallback
-    local function CheckFallbackRaceRep()
-        for i = 1, GetNumFactions() do
-            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-            if name and not isHeader then
-                if factionID == fallbackRacialRepID then
-                    return factionID, name
-                end
-            end
-        end
-    end
-    if not whichID then
-        whichID, whichName = CheckFallbackRaceRep()
-    end
-
-    self:CloseAllFactionHeaders()
-
-    self.racialRepID = useClassRep and classRepID or racialRepID
-    self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
-    if self.racialRepID == nil and whichID == nil then
-        self.racialRepID, self.racialRepName = "0-none", NONE
-        whichID, whichName = self.racialRepID, self.racialRepName
-    end
-
-    return whichID, whichName
-end
-
 -- Return a table of defaul SV values
 local defaults = {
     profile = {
@@ -576,6 +445,137 @@ function RepByZone:GetAllFactions()
 end
 
 -------------------- Watched faction code starts here --------------------
+-- Get the character's racial factionID and factionName
+function RepByZone:GetRacialRep()
+    -- Catch possible errors during initialization
+    local useClassRep
+    if self.db == nil then
+        useClassRep = true
+    elseif self.db.profile.useClassRep == nil then
+        useClassRep = true
+    else
+        useClassRep = self.db.profile.useClassRep
+    end
+
+    local _, playerRace = UnitRace("player")
+    local whichID, whichName
+
+    local racialRepID = playerRace == "Dwarf" and 47 -- Ironforge
+    or playerRace == "Gnome" and 54 -- Gnomeregan
+    or playerRace == "Human" and 72 -- Stormwind
+    or playerRace == "NightElf" and 69 -- Darnassus
+    or playerRace == "Orc" and 76 -- Orgrimmar
+    or playerRace == "Tauren" and 81 -- Thunder Bluff
+    or playerRace == "Troll" and 530 -- Darkspear Trolls
+    or playerRace == "Scourge" and 68 -- Undercity
+    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
+    or playerRace == "Draenei" and 930 -- Exodar
+    or playerRace == "Worgen" and 1134 -- Gilneas
+    or playerRace == "BloodElf" and 911 -- Silvermoon City
+    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+    or playerRace == "HighmountainTauren" and 1828 -- Highmountain Tribe
+    or playerRace == "VoidElf" and 2170 -- Argussian Reach
+    or playerRace == "Mechagnome" and 2391 -- Rustbolt Resistance
+    or playerRace == "Vulpera" and 2158 -- Voldunai
+    or playerRace == "KulTiran" and 2160 -- Proudmoore Admiralty
+    or playerRace == "ZandalariTroll" and 2103 -- Zandalari Empire
+    or playerRace == "Nightborne" and 1859 -- The Nightfallen
+    or playerRace == "MagharOrc" and 941 -- The Mag'har
+    or playerRace == "DarkIronDwarf" and 59 -- Thorium Brotherhood
+    or playerRace == "LightforgedDraenei" and 2165 -- Army of the Light
+    or playerRace == "Dracthyr" and (A and 2524 or H and 2523) -- Obsidian Warders or Dark Talons
+
+    local fallbackRacialRepID = playerRace == "Dwarf" and 47 -- Ironforge
+    or playerRace == "Gnome" and 54 -- Gnomeregan
+    or playerRace == "Human" and 72 -- Stormwind
+    or playerRace == "NightElf" and 69 -- Darnassus
+    or playerRace == "Orc" and 76 -- Orgrimmar
+    or playerRace == "Tauren" and 81 -- Thunder Bluff
+    or playerRace == "Troll" and 530 -- Darkspear Trolls
+    or playerRace == "Scourge" and 68 -- Undercity
+    or playerRace == "Goblin" and 1133 -- Bilgewater Cartel
+    or playerRace == "Draenei" and 930 -- Exodar
+    or playerRace == "Worgen" and 1134 -- Gilneas
+    or playerRace == "BloodElf" and 911 -- Silvermoon City
+    or playerRace == "Pandaren" and (A and 1353 or H and 1352 or 1216) -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+    or playerRace == "HighmountainTauren" and 81 -- Thunder Bluff
+    or playerRace == "VoidElf" and 69 -- Darnassus
+    or playerRace == "Mechagnome" and 54 -- Gnomeregan
+    or playerRace ==  "Vulpera" and 76 -- Orgrimmar
+    or playerRace == "KulTian" and 72 -- Stormwind
+    or playerRace == "ZandalariTroll" and 530 -- Darkspear Trolls
+    or playerRace == "Nightborne" and 911 -- Silvermoon City
+    or playerRace == "MagharOrc" and 76 -- Orgrimmar
+    or playerRace == "DarkIronDwarf" and 47 -- Ironforge
+    or playerRace == "LightforgedDraenei" and 930 -- Exodar
+    or playerRace == "Dracthyr" and A and 72 or H and 76 -- Stormwind or Orgrimmar
+
+    -- Classes have factions
+    local _, classFileName = UnitClass("player")
+    local classRepID = classFileName == "ROGUE" and 349 -- Ravenholdt
+    or classFileName == "DRUID" and 609 -- Cenarion Circle
+    or classFileName == "SHAMAN" and 1135 -- The Earthen Ring
+    or classFileName == "DEATHKNIGHT" and 1098 -- Knights of the Ebon Blade
+    or classFileName == "MAGE" and 1090 -- Kirin Tor
+    or classFileName == "MONK" and 1341 -- The August Celestials
+
+    self:OpenAllFactionHeaders()
+
+    -- Check if the player has discovered the race faction
+    local function CheckRaceRep()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == racialRepID then
+                    return factionID, name
+                end
+            end
+        end
+    end
+    whichID, whichName = CheckRaceRep()
+
+    -- Check if the player has discoverd the class faction
+    local function CheckClassRep()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == classRepID then
+                    return factionID, name
+                end
+            end
+        end
+    end
+    if useClassRep then
+        whichID, whichName = CheckClassRep()
+    end
+
+    -- If allied race reps are not known, use fallback
+    local function CheckFallbackRaceRep()
+        for i = 1, GetNumFactions() do
+            local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+            if name and not isHeader then
+                if factionID == fallbackRacialRepID then
+                    return factionID, name
+                end
+            end
+        end
+    end
+    if not whichID then
+        whichID, whichName = CheckFallbackRaceRep()
+    end
+
+    self:CloseAllFactionHeaders()
+
+    self.racialRepID = useClassRep and classRepID or racialRepID
+    self.racialRepName = type(self.racialRepID) == "number" and GetFactionInfoByID(self.racialRepID)
+    if self.racialRepID == nil and whichID == nil then
+        self.racialRepID, self.racialRepName = "0-none", NONE
+        whichID, whichName = self.racialRepID, self.racialRepName
+    end
+
+    return whichID, whichName
+end
+
 -- Entering an instance
 function RepByZone:EnteringInstance(_, ...)
     local isInitialLogin, isReloadingUI = ...
