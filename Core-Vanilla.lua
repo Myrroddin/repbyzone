@@ -133,9 +133,6 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-
-    -- Set up variables on load
-    self:SetUpVariables()
 end
 
 function RepByZone:OnEnable()
@@ -153,7 +150,8 @@ function RepByZone:OnEnable()
     -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
 
-    self:SwitchedZones()
+    -- Set up variables
+    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnDisable()
@@ -184,11 +182,11 @@ function RepByZone:RefreshConfig()
     db = self.db.profile
     db.watchedRepID, db.watchedRepName = nil, nil
 
-    self:SetUpVariables()
+    self:SetUpVariables(true) -- true == new or reset profile
 end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
-function RepByZone:SetUpVariables()
+function RepByZone:SetUpVariables(newOrResetProfile)
     local defaultRepID, defaultRepName
 
     -- Populate variables
@@ -200,12 +198,29 @@ function RepByZone:SetUpVariables()
     db.watchedRepName = db.watchedRepName or defaultRepName
 
     -- Populate tables
-    instancesAndFactions = self:InstancesAndFactionList()
-    zonesAndFactions = self:ZoneAndFactionList()
-    subZonesAndFactions = self:SubZonesAndFactionsList()
+    if newOrResetProfile then
+        instancesAndFactions = self:InstancesAndFactionList()
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
+    else
+        instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
+        zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
+        subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
+    end
 
-    -- Setup or reset is done, update watched faction
+    -- Setup or reset is done, update watched reputation
     self:SwitchedZones()
+end
+
+------------------- Event handlers starts here --------------------
+function RepByZone:InCombat()
+    if UnitAffectingCombat("player") then
+        if Dialog.OpenFrames["RepByZone"] then
+            Dialog:Close("RepByZone")
+        end
+        return true
+    end
+    return false
 end
 
 ------------------- Event handlers starts here --------------------
@@ -305,15 +320,9 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    -- Sometimes the tables are empty, so make sure they have data
-    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
-
     -- Set up variables
     local _, watchedFactionID, factionName, isWatched
     local inInstance = IsInInstance()
-    local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
@@ -336,12 +345,20 @@ function RepByZone:SwitchedZones()
     end
 
     -- Apply world zone data
-    if inInstance then
+    if inInstance or watchedFactionID then
         return
     else
         for zoneID, factionID in pairs(zonesAndFactions) do
             if zoneID == uiMapID then
                 watchedFactionID = factionID
+                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(factionID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
+                    end
+                end
                 break
             end
         end
@@ -355,6 +372,14 @@ function RepByZone:SwitchedZones()
         for areaID, factionID in pairs(subZonesAndFactions) do
             if C_Map.GetAreaInfo(areaID) == subZone then
                 watchedFactionID = factionID
+                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(factionID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
+                    end
+                end
                 break
             end
         end
@@ -362,24 +387,32 @@ function RepByZone:SwitchedZones()
         for areaName, factionID in pairs(CitySubZonesAndFactions) do
             if L[areaName] == subZone then
                 watchedFactionID = factionID
+                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(factionID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
+                    end
+                end
                 break
             end
         end
     end
 
-    watchedFactionID = watchedFactionID or backupRepID
-
-    -- Set the watched factionID
-    if type(watchedFactionID) == "number" then
-        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
-
-        if factionName and not isWatched then
-            C_Reputation.SetWatchedFaction(watchedFactionID)
-            if db.verbose then
-                self:Print(L["Now watching %s"]:format(factionName))
+    -- Set the watched reputation to backupRepID
+    if type(watchedFactionID) ~= "number" then
+        if type(backupRepID) == "number" then
+            factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(backupRepID)
+            if factionName and not isWatched then
+                C_Reputation.SetWatchedFaction(backupRepID)
+                if db.verbose then
+                    self:Print(L["Now watching %s"]:format(factionName))
+                end
             end
+        else
+            -- There is no faction to watch, clear the reputation bar
+            C_Reputation.SetWatchedFaction(0)
         end
-    elseif type(watchedFactionID) ~= "number" then
-        C_Reputation.SetWatchedFaction(0) -- Clear watched faction
     end
 end
