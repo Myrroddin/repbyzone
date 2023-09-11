@@ -190,6 +190,12 @@ end
 -------------------- Reputation code starts here --------------------
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
 function RepByZone:GetSholazarBasinRep()
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+
+    -- If the player is not in Sholazar Basin then exit out
+    if uiMapID ~= 119 or parentMapID ~= 119 then return end
+
     local newSholazarRepID
     local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
     local oraclesStanding = select(3, GetFactionInfoByID(1105))
