@@ -1,3 +1,11 @@
+-- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
+local _G = _G
+local LibStub = _G.LibStub
+local select = _G.select
+local UnitClass = _G.UnitClass
+local UnitFactionGroup = _G.UnitFactionGroup
+
+------------------- Get addon reference --------------------
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"

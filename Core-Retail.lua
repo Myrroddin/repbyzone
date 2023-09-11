@@ -347,7 +347,7 @@ function RepByZone:GetMultiRepIDsForZones()
     local uiMapID = C_Map.GetBestMapForUnit("player")
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
 
-    -- If the player is not in Sholazar Basin or Walking Shore then exit out
+    -- If the player is not in Sholazar Basin or Waking Shore then exit out
     if (uiMapID ~= 119 or parentMapID ~= 119) or (uiMapID ~= 2022 or parentMapID ~= 2022) then return end
 
     -- Sholazar Basin
@@ -652,8 +652,8 @@ function RepByZone:SwitchedZones()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
-    -- Apply instance reputations
-    if instanceType == "party" then
+    -- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
+    if inInstance and instanceType == "party" then
         hasDungeonTabard = false
         -- Certain dungeons do not benefit from tabards
         if self.tabardExemptDungeons[whichInstanceID] then
