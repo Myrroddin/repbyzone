@@ -345,6 +345,7 @@ end
 -- Sholazar Basin has three possible zone factions; some DF subzones have two; retun factionID based on player's quest progress
 function RepByZone:GetMultiRepIDsForZones()
     local uiMapID = C_Map.GetBestMapForUnit("player")
+    if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
 
     -- If the player is not in Sholazar Basin or Waking Shore then exit out
