@@ -193,6 +193,8 @@ function RepByZone:ZoneAndFactionList()
         [896]       = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
         [942]       = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound
         [1161]      = A and 2160 or H and 2157, -- Borealus/Proudmore Admiralty or The Honorbound
+        [1163]      = A and 2159 or H and 2378, -- Dazar'alor: The Great Seal/7th Legion or Zandalari Empire
+        [1164]      = A and 2159 or H and 2378, -- Dazar'alor: Hall of Chroniclers/7th Legion or Zandalari Empire
         [1165]      = A and 2159 or H and 2378, -- Dazar'alor/7th Legion or Zandalari Empire
         [1193]      = A and 2159 or H and 2378, -- Zuldazar/7th Legion or Zandalari Empire
         [1355]      = A and 2400 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
