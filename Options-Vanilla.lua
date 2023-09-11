@@ -4,6 +4,7 @@ local DISABLE = _G.DISABLE
 local ENABLE = _G.ENABLE
 local GetFactionInfoByID = _G.GetFactionInfoByID
 local JUST_OR = _G.JUST_OR
+local LibStub = _G.LibStub
 local NONE = _G.NONE
 local type = _G.type
 
