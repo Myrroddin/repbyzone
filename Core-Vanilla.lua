@@ -1,3 +1,26 @@
+-- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
+local _G = _G
+local C_Map = _G.C_Map
+local C_Reputation = _G.C_Reputation
+local CollapseFactionHeader = _G.CollapseFactionHeader
+local ExpandFactionHeader = _G.ExpandFactionHeader
+local FACTION_INACTIVE = _G.FACTION_INACTIVE
+local GetFactionInfo = _G.GetFactionInfo
+local GetFactionInfoByID = _G.GetFactionInfoByID
+local GetMinimapZoneText = _G.GetMinimapZoneText
+local GetNumFactions = _G.GetNumFactions
+local IsInInstance = _G.IsInInstance
+local LibStub = _G.LibStub
+local NONE = _G.NONE
+local pairs = _G.pairs
+local type = _G.type
+local UnitAffectingCombat = _G.UnitAffectingCombat
+local UnitClass = _G.UnitClass
+local UnitOnTaxi = _G.UnitOnTaxi
+local UnitRace = _G.UnitRace
+local wipe = _G.table.wipe
+
+------------------- Create the addon --------------------
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "LibAboutPanel-2.0", "AceConsole-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local Dialog = LibStub("AceConfigDialog-3.0")

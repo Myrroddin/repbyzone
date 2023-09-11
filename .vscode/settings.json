@@ -17,6 +17,7 @@
         "WorldMapFrame",
         "DEFAULT_CHAT_FRAME",
         "ChatFrame3",
-        "tostringall"
+        "tostringall",
+        "ALL"
     ]
 }
