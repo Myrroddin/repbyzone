@@ -311,67 +311,77 @@ end
 
 -- Sholazar Basin has three possible zone factions; some DF subzones have two; retun factionID based on player's quest progress
 function RepByZone:GetMultiRepIDsForZones()
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+
+    -- If the player is not in Sholazar Basin or Walking Shore then exit out
+    if (uiMapID ~= 119 or parentMapID ~= 119) or (uiMapID ~= 2022 or parentMapID ~= 2022) then return end
+
     -- Sholazar Basin
-    local newSholazarRepID
-    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
-    local oraclesStanding = select(3, GetFactionInfoByID(1105))
+    if uiMapID == 119 or parentMapID == 119 then
+        local newSholazarRepID
+        local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
+        local oraclesStanding = select(3, GetFactionInfoByID(1105))
 
-    if frenzyHeartStanding <= 3 then
-        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
-    elseif oraclesStanding <= 3 then
-        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
-    elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-        newSholazarRepID = db.watchedRepID or self.racialRepID
-    end
+        if frenzyHeartStanding <= 3 then
+            newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
+        elseif oraclesStanding <= 3 then
+            newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
+        elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
+            newSholazarRepID = db.watchedRepID or self.racialRepID
+        end
 
-    if newSholazarRepID ~= self.sholazarRepID then
-        self.sholazarRepID = newSholazarRepID
+        if newSholazarRepID ~= self.sholazarRepID then
+            self.sholazarRepID = newSholazarRepID
 
-        -- update both zones and subzones
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-        self:SwitchedZones()
-    end
-
-    -- Wrathion or Sabellian in Dragonflight
-    local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
-    self.dragonflightRepID = 2510 -- start with Valdrakken Accord
-    local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
-    local sabellionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
-
-    local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
-    local sabellionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
-
-    local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
-    local sabellionMaxRep = sabellionFriendshipInfo and sabellionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
-
-    local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
-    local sabellionNextThreshold = sabellionFriendshipInfo and sabellionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
-
-    local wrathionCurrentRepAmount = wrathionMaxRep % wrathionNextThreshold
-    local sabellionCurrentRepAmount = sabellionMaxRep % sabellionNextThreshold
-
-    if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellionRankInfo and sabellionRankInfo.currentLevel) then
-        newDragonFlightRepID = 2517 -- Wrathion is higher
-    elseif (sabellionRankInfo and sabellionRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
-        newDragonFlightRepID = 2518 -- Sabellian is higher
-    elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellionRankInfo and sabellionRankInfo.currentLevel) then
-        -- they are the same rank or the factions are unknown, verify
-        if wrathionCurrentRepAmount > sabellionCurrentRepAmount then
-            newDragonFlightRepID = 2517 -- Wrathion is higher
-        elseif sabellionCurrentRepAmount > wrathionCurrentRepAmount then
-            newDragonFlightRepID = 2518 -- Sabellian is higher
+            -- update both zones and subzones
+            zonesAndFactions = self:ZoneAndFactionList()
+            subZonesAndFactions = self:SubZonesAndFactionsList()
+            self:SwitchedZones()
         end
     end
 
-    if newDragonFlightRepID ~= self.dragonflightRepID then
-        self.dragonflightRepID = newDragonFlightRepID
+    -- Wrathion or Sabellian in Dragonflight
+    if uiMapID == 2022 or parentMapID == 2022 then
+        local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
+        self.dragonflightRepID = 2510 -- start with Valdrakken Accord
+        local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
+        local sabellionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
 
-        -- update both zones and subzones
-        instancesAndFactions = self:InstancesAndFactionList()
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-        self:SwitchedZones()
+        local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
+        local sabellionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+
+        local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+        local sabellionMaxRep = sabellionFriendshipInfo and sabellionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+
+        local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
+        local sabellionNextThreshold = sabellionFriendshipInfo and sabellionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
+
+        local wrathionCurrentRepAmount = wrathionMaxRep % wrathionNextThreshold
+        local sabellionCurrentRepAmount = sabellionMaxRep % sabellionNextThreshold
+
+        if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellionRankInfo and sabellionRankInfo.currentLevel) then
+            newDragonFlightRepID = 2517 -- Wrathion is higher
+        elseif (sabellionRankInfo and sabellionRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
+            newDragonFlightRepID = 2518 -- Sabellian is higher
+        elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellionRankInfo and sabellionRankInfo.currentLevel) then
+            -- they are the same rank or the factions are unknown, verify
+            if wrathionCurrentRepAmount > sabellionCurrentRepAmount then
+                newDragonFlightRepID = 2517 -- Wrathion is higher
+            elseif sabellionCurrentRepAmount > wrathionCurrentRepAmount then
+                newDragonFlightRepID = 2518 -- Sabellian is higher
+            end
+        end
+
+        if newDragonFlightRepID ~= self.dragonflightRepID then
+            self.dragonflightRepID = newDragonFlightRepID
+
+            -- update both zones and subzones
+            instancesAndFactions = self:InstancesAndFactionList()
+            zonesAndFactions = self:ZoneAndFactionList()
+            subZonesAndFactions = self:SubZonesAndFactionsList()
+            self:SwitchedZones()
+        end
     end
 end
 
