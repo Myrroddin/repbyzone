@@ -15,7 +15,10 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 function RepByZone:GetOptions()
     local db = self.db.profile
-    self:GetRacialRep()
+    local defaultRepID, defaultRepName
+    defaultRepID, defaultRepName = self:GetRacialRep()
+    db.watchedRepID = db.watchedRepID or defaultRepID
+    db.watchedRepName = db.watchedRepName or defaultRepName
     local options = {
         name = "RepByZone",
         handler = RepByZone,
