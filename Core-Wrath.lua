@@ -249,10 +249,20 @@ end
 -- Tabard code
 function RepByZone:GetEquippedTabard(_, unit)
     if unit ~= "player" then return end
-    local newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
+    local newTabardID, newTabardRep
+    newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
 
-    if newTabardID ~= tabardID then
-        tabardID = newTabardID
+    if newTabardID then
+        for tabard, factionID in pairs(tabard_itemIDs_to_factionIDs) do
+            if tabard == newTabardID then
+                newTabardRep = factionID
+                break
+            end
+        end
+    end
+
+    if newTabardRep ~= tabardID then
+        tabardID = newTabardRep
         self:SwitchedZones()
     end
 end
@@ -425,23 +435,18 @@ function RepByZone:SwitchedZones()
     local backupRepID = (db.watchedRepID == nil and self.racialRepID ~= nil) or (self.racialRepID == nil and db.watchedRepID ~= nil)
 
     -- Apply instance reputations
-    if instanceType == "party" then
+    if inInstance and instanceType == "party" then
         hasDungeonTabard = false
         if db.useFactionTabards then
             if tabardID then
-                for tabard, factionID in pairs(tabard_itemIDs_to_factionIDs) do
-                    if tabard == tabardID then
-                        watchedFactionID = factionID
-                        hasDungeonTabard = true
-                        -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
-                        factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
-                        if factionName and not isWatched then
-                            C_Reputation.SetWatchedFaction(factionID)
-                            if db.verbose then
-                                self:Print(L["Now watching %s"]:format(factionName))
-                            end
-                        end
-                        break
+                watchedFactionID = tabardID
+                hasDungeonTabard = true
+                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(tabardID)
+                if factionName and not isWatched then
+                    C_Reputation.SetWatchedFaction(tabardID)
+                    if db.verbose then
+                        self:Print(L["Now watching %s"]:format(factionName))
                     end
                 end
             end
