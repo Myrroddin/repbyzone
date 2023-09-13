@@ -18,6 +18,18 @@
         "DEFAULT_CHAT_FRAME",
         "ChatFrame3",
         "tostringall",
-        "ALL"
+        "ALL",
+        "_G",
+        "Enum",
+        "error",
+        "setmetatable",
+        "rawget",
+        "next",
+        "select",
+        "pairs",
+        "type",
+        "tostring",
+        "assert",
+        "tonumber"
     ]
 }
