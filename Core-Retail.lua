@@ -247,7 +247,9 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     self:GetCovenantRep()
     self:GetbodyguardRepID()
     self:GetMultiRepIDsForZones()
-    self:GetEquippedTabard()
+    if db.useFactionTabards then
+        self:GetEquippedTabard()
+    end
     -- Pandaren do not start Alliance or Horde
     if UnitFactionGroup("player") == nil then
         self:GetPandarenRep()

@@ -110,7 +110,13 @@ function RepByZone:GetOptions()
                         get = function () return db.useFactionTabards end,
                         set = function (info, value)
                             db.useFactionTabards = value
-                            self:SwitchedZones()
+                            if value then
+                                self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
+                                self:GetEquippedTabard()
+                            else
+                                self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+                                self:SwitchedZones()
+                            end
                         end
                     },
                     watchWoDBodyGuards = {

@@ -177,7 +177,9 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     -- Populate variables
     isOnTaxi = UnitOnTaxi("player")
     self:GetSholazarBasinRep()
-    self:GetEquippedTabard()
+    if db.useFactionTabards then
+        self:GetEquippedTabard()
+    end
 
     -- Initialize or verify part of the database
     defaultRepID, defaultRepName = self:GetRacialRep()
