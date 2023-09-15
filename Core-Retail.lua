@@ -726,26 +726,6 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    -- Apply world zone data
-    if (isWoDZone and bodyguardRepID) or inInstance or watchedFactionID then
-        return
-    else
-        for zoneID, factionID in pairs(zonesAndFactions) do
-            if zoneID == uiMapID then
-                watchedFactionID = factionID
-                -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
-                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
-                if factionName and not isWatched then
-                    C_Reputation.SetWatchedFaction(factionID)
-                    if db.verbose then
-                        self:Print(L["Now watching %s"]:format(factionName))
-                    end
-                end
-                break
-            end
-        end
-    end
-
     -- Process subzones
     if db.watchSubZones then
         -- Don't loop through subzones if the player is watching a bodyguard rep
@@ -754,9 +734,9 @@ function RepByZone:SwitchedZones()
         -- Battlegrounds and warfronts are the only instances with subzones
         if inInstance and instanceType ~= "pvp" then return end
 
-        -- Blizzard provided areaIDs
-        for areaName, factionID in pairs(subZonesAndFactions) do
-            if areaName == subZone then
+        -- Our localized missing Blizzard areaIDs
+        for areaName, factionID in pairs(CitySubZonesAndFactions) do
+            if L[areaName] == subZone then
                 watchedFactionID = factionID
                 -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
                 factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
@@ -770,9 +750,31 @@ function RepByZone:SwitchedZones()
             end
         end
 
-        -- Our localized missing Blizzard areaIDs
-        for areaName, factionID in pairs(CitySubZonesAndFactions) do
-            if L[areaName] == subZone then
+        -- Blizzard provided areaIDs
+        if not watchedFactionID then
+            for areaName, factionID in pairs(subZonesAndFactions) do
+                if areaName == subZone then
+                    watchedFactionID = factionID
+                    -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
+                    factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
+                    if factionName and not isWatched then
+                        C_Reputation.SetWatchedFaction(factionID)
+                        if db.verbose then
+                            self:Print(L["Now watching %s"]:format(factionName))
+                        end
+                    end
+                    break
+                end
+            end
+        end
+    end
+
+    -- Apply world zone data
+    if (isWoDZone and bodyguardRepID) or inInstance or watchedFactionID then
+        return
+    else
+        for zoneID, factionID in pairs(zonesAndFactions) do
+            if zoneID == uiMapID then
                 watchedFactionID = factionID
                 -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
                 factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)
