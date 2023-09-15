@@ -392,8 +392,8 @@ function RepByZone:SwitchedZones()
         if inInstance then return end
 
         -- Blizzard provided areaIDs
-        for areaID, factionID in pairs(subZonesAndFactions) do
-            if C_Map.GetAreaInfo(areaID) == subZone then
+        for areaName, factionID in pairs(subZonesAndFactions) do
+            if areaName == subZone then
                 watchedFactionID = factionID
                 -- I'm not sure why setting the watched faction here is necessary, but it doesn't work without this code
                 factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(factionID)

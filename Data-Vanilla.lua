@@ -2,6 +2,7 @@
 local _G = _G
 local LibStub = _G.LibStub
 local UnitFactionGroup = _G.UnitFactionGroup
+local C_Map = _G.C_Map
 
 ------------------- Get addon reference --------------------
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
@@ -10,7 +11,7 @@ local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
 
 function RepByZone:ZoneAndFactionList()
-    -- UImapID = factionID
+    -- [UImapID] = factionID
     -- If an UImapID is not listed, that zone has no associated factionID
     -- see https://wow.gamepedia.com/UiMapID/Classic for the Classic list of UImapIDs
     -- see https://wow.gamepedia.com/FactionID for the list of factionIDs
@@ -71,7 +72,7 @@ end
 
 function RepByZone:InstancesAndFactionList()
     local instancesAndFactions = {
-        -- instanceID = factionID
+        -- [instanceID] = factionID
         -- If an instanceID is not listed, that instance has no associated factionID
         -- See https://wow.gamepedia.com/InstanceID for the list of instanceIDs
 
@@ -116,81 +117,81 @@ end
 
 function RepByZone:SubZonesAndFactionsList()
     local subZonesAndFactions = {
-		-- areaID = factionID
-		-- see https://wow.tools/dbc/?dbc=areatable&build=1.13.3.32887#search=&page=1
+		-- [C_Map.GetAreaInfo(areaID)] = factionID
+		-- see https://wow.tools/dbc/?dbc=areatable&build=1.14.3.47658#page=1
 
-        [35] = 21, -- Booty Bay/Booty Bay
-        [36] = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
-        [100] = 47, -- Nesingwary's Expedition/Ironforge
-        [122] = 270, -- Zuuldaia Ruins/Zandalar Tribe
-        [125] = 270, -- Kal'ai Ruins/Zandalar Tribe
-        [128] = 270, -- Ziata'jai Ruins/Zandalar Tribe
-        [133] = 54, -- Gnomeregan/Gnomeregan Exiles
-		[150] = 72, -- Menethil Harbor/Stormwind
-        [193] = A and 72 or H and 68, -- Ruins of Andorhal/Stormwind or Undercity
-        [196] = 72, -- Uthor's Tomb/Stormwind
-		[197] = 72, -- Sorrow Hill/Stormwind
-        [280] = 349, -- Strahnbrad/Ravenholdt
-        [288] = 72, -- Azurelode Mine/Stormwind
-		[297] = 81, -- Jaguero Isle/Thunder Bluff
-		[299] = 72, -- Menethil Bay/Stormwind
-        [311] = 270, -- Ruins of Aboraz/Zandalar Tribe
-        [313] = 349, -- Northfold Manor/Ravenholdt
-        [320] = 72, -- Refuge Pointe/Stormwind
-        [327] = 21, -- Faldir's Cove/Booty Bay
-        [328] = 21, -- The Drowned Reef/Booty Bay
-        [350] = 69, -- Quel'Danil Lodge/Darnassus
-		[359] = H and 81 or A and 47, -- Bael Modan/Thunder Bluff or Ironforge
-        [367] = 530, -- Sen'jen Village/Darkspear Trolls
-        [368] = 530, -- Echo Isles/Darkspear Trolls
-        [392] = 470, -- Ratchet/Ratchet
-        [393] = 530, -- Darkspear Strand/Darkspear Trolls
-        [439] = A and 54 or H and 76, -- The Shimmering Flats/Gnomeregan Exiles or Orgrimmar
-        [477] = 270, -- Ruins of Jubuwal/Zandalar Tribe
-        [484] = H and 81 or A and 69, -- Freewind Post/Thunder Bluff or Darnassus
-		[596] = 470, -- Kodo Graveyard/Ratchet
-        [604] = 93, -- Magram Village/Magram Clan Centaur
-        [606] = 92, -- Gelkis Village/Gelkis Clan Centaur
-        [702] = 69, -- Rut'theran Village/Darnassus
-        [813] = 529, -- The Bulwark/Argent Dawn
-        [880] = 471, -- Thandol Span (Arathi Highlands)/Wildhammer Clan
-        [881] = 47, -- Thandol Span (Wetlands)/Ironforge
-        [896] = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
-        [1016] = 69, -- Direforge Hill/Darnassus
-        [1025] = 69, -- The Green Belt/Darnassus
-        [1057] = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
-        [1216] = 579, -- Timbermaw Hold/Timbermaw Hold
-        [1446] = 59, -- Thorium Point/Thorium Brotherhood
-        [1677] = A and 730 or H and 729, -- Gavin's Naze/Stormpike Guard or Frostwolf Clan
-        [1679] = A and 730 or H and 729, -- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
-        [1680] = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
-		[1658] = A and 609, -- Cenarion Enclave/Cenarion Circle
-        [1678] = 72, -- Sofera's Naze/Stormwind
-		[1739] = 87, -- Bloodsail Compound/Bloodsail Buccaneers
-        [1741] = 87, -- Gurubashi Arena/Bloodsail Buccaneers
-        [1761] = 579, -- Deadwood Village/Timbermaw Hold
-        [1762] = 579, -- Felpaw Village/Timbermaw Hold
-        [1857] = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
-		[1977] = 309, -- Zul'Gurub/Zandalar Tribe
-		[2097] = H and 81 or A and 69, -- Darkcloud Pinnacle/Thunder Bluff or Darnassus
-		[2157] = H and 81 or A and 47, -- Bael'dun Keep/Thunder Bluff or Ironforge
-		[2240] = A and 54 or H and 76, -- Mirage Raceway/Gnomeregan Exiles or Orgrimmar
-        [2241] = A and 589, -- Frostsaber Rock/Wintersaber Trainers
-        [2243] = 579, -- Timbermaw Post/Timbermaw Hold
-        [2244] = 579, -- Winterfall Village/Timbermaw Hold
-        [2246] = 579, -- Frostfire Hot Springs/Timbermaw Hold
-        [2257] = 72, -- Deeprun Tram/Stormwind
-        [2405] = 529, -- Ethel Rethor/Argent Dawn
-        [2406] = 69, -- Ranazjar Isle/Darnassus
-        [2407] = 470, -- Kormek's Hut/Ratchet
-        [2408] = 530, -- Shadowprey Village/Darkspear Trolls
-        [2597] = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
-        [2617] = 470, -- Scrabblescrew's Camp/Ratchet
-        [2897] = 530, -- Zoram'gar Outpost/Darkspear Trolls
-		[3197] = 72, -- Chillwind Camp/Stormwind
-        [3357] = 270, -- Yojamba Isle/Zandalar Tribe
-        [3456] = 529, -- Naxxramas/Argent Dawn
-        [3486] = 349, -- Ravenholdt Manor/Ravenholdt
+        [C_Map.GetAreaInfo(35)]     = 21,       -- Booty Bay/Booty Bay
+        [C_Map.GetAreaInfo(36)]     = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(100)]    = 47,       -- Nesingwary's Expedition/Ironforge
+        [C_Map.GetAreaInfo(122)]    = 270,      -- Zuuldaia Ruins/Zandalar Tribe
+        [C_Map.GetAreaInfo(125)]    = 270,      -- Kal'ai Ruins/Zandalar Tribe
+        [C_Map.GetAreaInfo(128)]    = 270,      -- Ziata'jai Ruins/Zandalar Tribe
+        [C_Map.GetAreaInfo(133)]    = 54,       -- Gnomeregan/Gnomeregan Exiles
+		[C_Map.GetAreaInfo(150)]    = 72,       -- Menethil Harbor/Stormwind
+        [C_Map.GetAreaInfo(193)]    = A and 72 or H and 68, -- Ruins of Andorhal/Stormwind or Undercity
+        [C_Map.GetAreaInfo(196)]    = 72,       -- Uthor's Tomb/Stormwind
+		[C_Map.GetAreaInfo(197)]    = 72,       -- Sorrow Hill/Stormwind
+        [C_Map.GetAreaInfo(280)]    = 349,      -- Strahnbrad/Ravenholdt
+        [C_Map.GetAreaInfo(288)]    = 72,       -- Azurelode Mine/Stormwind
+		[C_Map.GetAreaInfo(297)]    = 81,       -- Jaguero Isle/Thunder Bluff
+		[C_Map.GetAreaInfo(299)]    = 72,       -- Menethil Bay/Stormwind
+        [C_Map.GetAreaInfo(311)]    = 270,      -- Ruins of Aboraz/Zandalar Tribe
+        [C_Map.GetAreaInfo(313)]    = 349,      -- Northfold Manor/Ravenholdt
+        [C_Map.GetAreaInfo(320)]    = 72,       -- Refuge Pointe/Stormwind
+        [C_Map.GetAreaInfo(327)]    = 21,       -- Faldir's Cove/Booty Bay
+        [C_Map.GetAreaInfo(328)]    = 21,       -- The Drowned Reef/Booty Bay
+        [C_Map.GetAreaInfo(350)]    = 69,       -- Quel'Danil Lodge/Darnassus
+		[C_Map.GetAreaInfo(359)]    = A and 47 or H and 81, -- Bael Modan/Ironforge or Thunder Bluff
+        [C_Map.GetAreaInfo(367)]    = 530,      -- Sen'jen Village/Darkspear Trolls
+        [C_Map.GetAreaInfo(368)]    = 530,      -- Echo Isles/Darkspear Trolls
+        [C_Map.GetAreaInfo(392)]    = 470,      -- Ratchet/Ratchet
+        [C_Map.GetAreaInfo(393)]    = 530,      -- Darkspear Strand/Darkspear Trolls
+        [C_Map.GetAreaInfo(439)]    = A and 54 or H and 76, -- The Shimmering Flats/Gnomeregan Exiles or Orgrimmar
+        [C_Map.GetAreaInfo(477)]    = 270,      -- Ruins of Jubuwal/Zandalar Tribe
+        [C_Map.GetAreaInfo(484)]    = A and 69 or H and 81, -- Freewind Post/Darnassus or Thunder Bluff
+		[C_Map.GetAreaInfo(596)]    = 470,      -- Kodo Graveyard/Ratchet
+        [C_Map.GetAreaInfo(604)]    = 93,       -- Magram Village/Magram Clan Centaur
+        [C_Map.GetAreaInfo(606)]    = 92,       -- Gelkis Village/Gelkis Clan Centaur
+        [C_Map.GetAreaInfo(702)]    = 69,       -- Rut'theran Village/Darnassus
+        [C_Map.GetAreaInfo(813)]    = 529,      -- The Bulwark/Argent Dawn
+        [C_Map.GetAreaInfo(880)]    = 471,      -- Thandol Span (Arathi Highlands)/Wildhammer Clan
+        [C_Map.GetAreaInfo(881)]    = 47,       -- Thandol Span (Wetlands)/Ironforge
+        [C_Map.GetAreaInfo(896)]    = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(1016)]   = 69,       -- Direforge Hill/Darnassus
+        [C_Map.GetAreaInfo(1025)]   = 69,       -- The Green Belt/Darnassus
+        [C_Map.GetAreaInfo(1057)]   = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
+        [C_Map.GetAreaInfo(1216)]   = 579,      -- Timbermaw Hold/Timbermaw Hold
+        [C_Map.GetAreaInfo(1446)]   = 59,       -- Thorium Point/Thorium Brotherhood
+		[C_Map.GetAreaInfo(1658)]   = 609,      -- Cenarion Enclave/Cenarion Circle
+        [C_Map.GetAreaInfo(1677)]   = A and 730 or H and 729, -- Gavin's Naze/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(1679)]   = A and 730 or H and 729, -- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(1680)]   = A and 730 or H and 729, -- The Headland/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(1678)]   = 72,       -- Sofera's Naze/Stormwind
+		[C_Map.GetAreaInfo(1739)]   = 87,       -- Bloodsail Compound/Bloodsail Buccaneers
+        [C_Map.GetAreaInfo(1741)]   = 87,       -- Gurubashi Arena/Bloodsail Buccaneers
+        [C_Map.GetAreaInfo(1761)]   = 579,      -- Deadwood Village/Timbermaw Hold
+        [C_Map.GetAreaInfo(1762)]   = 579,      -- Felpaw Village/Timbermaw Hold
+        [C_Map.GetAreaInfo(1857)]   = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
+		[C_Map.GetAreaInfo(1977)]   = 309,      -- Zul'Gurub/Zandalar Tribe
+		[C_Map.GetAreaInfo(2097)]   = A and 69 or H and 81, -- Darkcloud Pinnacle/Darnassus or Thunder Bluff
+		[C_Map.GetAreaInfo(2157)]   = A and 47 or H and 81, -- Bael'dun Keep/Ironforge or Thunder Bluff
+		[C_Map.GetAreaInfo(2240)]   = A and 54 or H and 76, -- Mirage Raceway/Gnomeregan Exiles or Orgrimmar
+        [C_Map.GetAreaInfo(2241)]   = 589,      -- Frostsaber Rock/Wintersaber Trainers
+        [C_Map.GetAreaInfo(2243)]   = 579,      -- Timbermaw Post/Timbermaw Hold
+        [C_Map.GetAreaInfo(2244)]   = 579,      -- Winterfall Village/Timbermaw Hold
+        [C_Map.GetAreaInfo(2246)]   = 579,      -- Frostfire Hot Springs/Timbermaw Hold
+        [C_Map.GetAreaInfo(2257)]   = 72,       -- Deeprun Tram/Stormwind
+        [C_Map.GetAreaInfo(2405)]   = 529,      -- Ethel Rethor/Argent Dawn
+        [C_Map.GetAreaInfo(2406)]   = 69,       -- Ranazjar Isle/Darnassus
+        [C_Map.GetAreaInfo(2407)]   = 470,      -- Kormek's Hut/Ratchet
+        [C_Map.GetAreaInfo(2408)]   = 530,      -- Shadowprey Village/Darkspear Trolls
+        [C_Map.GetAreaInfo(2597)]   = A and 730 or H and 729, -- Alterac Valley/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(2617)]   = 470,      -- Scrabblescrew's Camp/Ratchet
+        [C_Map.GetAreaInfo(2897)]   = 530,      -- Zoram'gar Outpost/Darkspear Trolls
+		[C_Map.GetAreaInfo(3197)]   = 72,       -- Chillwind Camp/Stormwind
+        [C_Map.GetAreaInfo(3357)]   = 270,      -- Yojamba Isle/Zandalar Tribe
+        [C_Map.GetAreaInfo(3456)]   = 529,      -- Naxxramas/Argent Dawn
+        [C_Map.GetAreaInfo(3486)]   = 349,      -- Ravenholdt Manor/Ravenholdt
     }
     return subZonesAndFactions
 end
