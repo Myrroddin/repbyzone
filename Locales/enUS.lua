@@ -7,7 +7,6 @@ local L = LibStub("AceLocale-3.0"):NewLocale("RepByZone", "enUS", true, flag)
 
 L["A Hero's Welcome"] = true
 L["Aldor Rise"] = true
-L["Deeprun Tram"] = true
 L["Default watched faction"] = true
 L["Defaults to your racial faction per character."] = true
 L["Dwarven District"] = true

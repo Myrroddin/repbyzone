@@ -321,6 +321,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(880)]        = 1174,     -- Thandol Span (Arathi Highlands)/Wildhammer Clan
         [C_Map.GetAreaInfo(881)]        = 47,       -- Thandol Span (Wetlands)/Ironforge
         [C_Map.GetAreaInfo(896)]        = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(978)]        = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(987)]        = 1133,     -- Land's End Beach/Bilgewater Cartel
         [C_Map.GetAreaInfo(989)]        = 1173,     -- Ruins of Uldum/Ramkahen
         [C_Map.GetAreaInfo(990)]        = 1173,     -- Valley of the Watchers/Ramkahen
@@ -363,6 +364,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(2248)]       = 47,       -- Dun Mandarr/Ironforge
         [C_Map.GetAreaInfo(2253)]       = 69,       -- Starfall Village/Darnassus
         [C_Map.GetAreaInfo(2257)]       = 72,       -- Deeprun Tram/Stormwind
+        [C_Map.GetAreaInfo(2276)]   = 69,       -- Quel'Lithien Lodge/Darnassus
         [C_Map.GetAreaInfo(2300)]       = 989,      -- Caverns of Time/Keepers of Time
         [C_Map.GetAreaInfo(2379)]       = 72,       -- Azurelode Mine/Stormwind
         [C_Map.GetAreaInfo(2404)]       = 69,       -- Tethris Aran/Darnassus
@@ -402,6 +404,9 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(5083)]       = 911,      -- Sunveil Excursion/Silvermoon City
         [C_Map.GetAreaInfo(5117)]       = 1133,     -- Nozzlepot's Outpost/Bilgewater Cartel
         [C_Map.GetAreaInfo(5121)]       = 68,       -- Galen's Fall/Undercity
+        [C_Map.GetAreaInfo(5150)]       = 47,       -- Dwarven District/Ironforge
+        [C_Map.GetAreaInfo(5169)]       = 530,      -- Valley of Spirits/Darkspear Trolls
+        [C_Map.GetAreaInfo(5171)]       = 81,       -- Valley of Wisdom/Thunder Bluff
         [C_Map.GetAreaInfo(5305)]       = 69,       -- Greenwarden's Grove/Darnassus
         [C_Map.GetAreaInfo(5317)]       = 530,      -- Bambala/Darkspear Trolls
         [C_Map.GetAreaInfo(5367)]       = 942,      -- The Mender's Stead/Cenarion Circle
@@ -424,6 +429,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(5687)]       = 1134,     -- Darnassus: The Howling Oak/Gilneas
         [C_Map.GetAreaInfo(5705)]       = A and 47 or H and 530, -- Snowden Chalet/Ironforge or Darkspear Trolls
         [C_Map.GetAreaInfo(5706)]       = 369,      -- The Steam Pools/Gadgetzan
+        [C_Map.GetAreaInfo(8615)]       = 21,       -- The Salty Sailor Tavern/Booty Bay
 
         --------- TBC ---------
         [C_Map.GetAreaInfo(3482)]       = 922,      -- The Dead Scar (Eversong Woods)/Tranquillien
@@ -514,6 +520,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(3987)]       = 1073,     -- The Isle of Spears/The Kalu'ak
         [C_Map.GetAreaInfo(3988)]       = 1073,     -- Kamagua/The Kalu'ak
         [C_Map.GetAreaInfo(3990)]       = 1073,     -- Scalawag Point/The Kalu'ak
+        [C_Map.GetAreaInfo(3996)]       = 1068,     -- Baelgun's Excavation Site/Explorer's League
         [C_Map.GetAreaInfo(3997)]       = 1068,     -- Explorers' League Outpost/Explorers' League
         [C_Map.GetAreaInfo(3999)]       = 1068,     -- Steel Gate/Explorers' League
         [C_Map.GetAreaInfo(4018)]       = 1064,     -- Camp Winterhoof/The Taunka
@@ -816,6 +823,7 @@ function RepByZone:SubZonesAndFactionsList()
 
         --------- BfA ---------
         [C_Map.GetAreaInfo(8925)]       = 47,       -- Nesingwary's Trek/Ironforge
+        [C_Map.GetAreaInfo(9007)]       = 1068,     -- Explorer's League Campsite/Explorer's League
         [C_Map.GetAreaInfo(9310)]       = 2386,     -- The Wound/Champions of Azeroth
         [C_Map.GetAreaInfo(9329)]       = 2387,     -- Seeker's Outpost/Tortollan Seekers
         [C_Map.GetAreaInfo(9470)]       = 2395,     -- Mildenhall Brewery/Honeyback Hive

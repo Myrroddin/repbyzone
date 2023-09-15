@@ -35,7 +35,6 @@ local subZonesAndFactions
 -- Table to localize subzones that Blizzard does not provide areaIDs
 local CitySubZonesAndFactions = {
 	-- ["Subzone"] = factionID
-    ["Deeprun Tram"] = 72, -- Stormwind
 	["Dwarven District"] = 47, -- Ironforge
 	["The Salty Sailor Tavern"] = 21, -- Booty Bay
 	["Tinker Town"] = 54, -- Gnomeregan Exiles

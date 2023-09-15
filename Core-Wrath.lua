@@ -40,7 +40,6 @@ local subZonesAndFactions
 local CitySubZonesAndFactions = {
 	-- ["Subzone"] = factionID
 	["Aldor Rise"] = 932, -- The Aldor
-    ["Deeprun Tram"] = 72, -- Stormwind
 	["Dwarven District"] = 47, -- Ironforge
     ["Scryer's Tier"] = 934, -- The Scryers
     ["Shrine of Unending Light"] = 932, -- The Aldor

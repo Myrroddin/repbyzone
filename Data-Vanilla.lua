@@ -120,6 +120,7 @@ function RepByZone:SubZonesAndFactionsList()
 		-- [C_Map.GetAreaInfo(areaID)] = factionID
 		-- see https://wow.tools/dbc/?dbc=areatable&build=1.14.3.47658#page=1
 
+        [C_Map.GetAreaInfo(19)]     = 270,      -- Zul'Gurub/Zandalar Tribe
         [C_Map.GetAreaInfo(35)]     = 21,       -- Booty Bay/Booty Bay
         [C_Map.GetAreaInfo(36)]     = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
         [C_Map.GetAreaInfo(100)]    = 47,       -- Nesingwary's Expedition/Ironforge
@@ -157,6 +158,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(880)]    = 471,      -- Thandol Span (Arathi Highlands)/Wildhammer Clan
         [C_Map.GetAreaInfo(881)]    = 47,       -- Thandol Span (Wetlands)/Ironforge
         [C_Map.GetAreaInfo(896)]    = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(978)]    = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(1016)]   = 69,       -- Direforge Hill/Darnassus
         [C_Map.GetAreaInfo(1025)]   = 69,       -- The Green Belt/Darnassus
         [C_Map.GetAreaInfo(1057)]   = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
@@ -181,6 +183,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(2244)]   = 579,      -- Winterfall Village/Timbermaw Hold
         [C_Map.GetAreaInfo(2246)]   = 579,      -- Frostfire Hot Springs/Timbermaw Hold
         [C_Map.GetAreaInfo(2257)]   = 72,       -- Deeprun Tram/Stormwind
+        [C_Map.GetAreaInfo(2276)]   = 69,       -- Quel'Lithien Lodge/Darnassus
         [C_Map.GetAreaInfo(2405)]   = 529,      -- Ethel Rethor/Argent Dawn
         [C_Map.GetAreaInfo(2406)]   = 69,       -- Ranazjar Isle/Darnassus
         [C_Map.GetAreaInfo(2407)]   = 470,      -- Kormek's Hut/Ratchet

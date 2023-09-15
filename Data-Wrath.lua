@@ -204,6 +204,7 @@ function RepByZone:SubZonesAndFactionsList()
 		-- see https://wow.tools/dbc/?dbc=areatable&build=1.13.3.32887#search=&page=1 or https://wago.tools/db2/AreaTable?page=1&build=3.4.3.51278
 
         --------- Vanilla ---------
+        [C_Map.GetAreaInfo(19)]     = 270,      -- Zul'Gurub/Zandalar Tribe
         [C_Map.GetAreaInfo(35)]     = 21,       -- Booty Bay/Booty Bay
         [C_Map.GetAreaInfo(36)]     = A and 730 or H and 729, -- Alterac Mountains/Stormpike Guard or Frostwolf Clan
         [C_Map.GetAreaInfo(100)]    = 47,       -- Nesingwary's Expedition/Ironforge
@@ -240,6 +241,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(813)]    = 529,      -- The Bulwark/Argent Dawn
         [C_Map.GetAreaInfo(881)]    = 47,       -- Thandol Span (Wetlands)/Ironforge
         [C_Map.GetAreaInfo(896)]    = A and 730 or H and 729, -- Purgation Isle/Stormpike Guard or Frostwolf Clan
+        [C_Map.GetAreaInfo(978)]    = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(1016)]   = 69,       -- Direforge Hill/Darnassus
         [C_Map.GetAreaInfo(1025)]   = 69,       -- The Green Belt/Darnassus
         [C_Map.GetAreaInfo(1057)]   = A and 47 or H and 68, -- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
@@ -264,6 +266,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(2244)]   = 579,      -- Winterfall Village/Timbermaw Hold
         [C_Map.GetAreaInfo(2246)]   = 579,      -- Frostfire Hot Springs/Timbermaw Hold
         [C_Map.GetAreaInfo(2257)]   = 72,       -- Deeprun Tram/Stormwind
+        [C_Map.GetAreaInfo(2276)]   = 69,       -- Quel'Lithien Lodge/Darnassus
         [C_Map.GetAreaInfo(2405)]   = 529,      -- Ethel Rethor/Argent Dawn
         [C_Map.GetAreaInfo(2406)]   = 69,       -- Ranazjar Isle/Darnassus
         [C_Map.GetAreaInfo(2407)]   = 470,      -- Kormek's Hut/Ratchet
@@ -359,6 +362,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(3987)]   = 1073,     -- The Isle of Spears/The Kalu'ak
         [C_Map.GetAreaInfo(3988)]   = 1073,     -- Kamagua/The Kalu'ak
         [C_Map.GetAreaInfo(3990)]   = 1073,     -- Scalawag Point/The Kalu'ak
+        [C_Map.GetAreaInfo(3996)]   = 1068,     -- Baelgun's Excavation Site/Explorer's League
         [C_Map.GetAreaInfo(3997)]   = 1068,     -- Explorers' League Outpost/Explorers' League
         [C_Map.GetAreaInfo(3999)]   = 1068,     -- Steel Gate/Explorers' League
         [C_Map.GetAreaInfo(4018)]   = 1064,     -- Camp Winterhoof/The Taunka

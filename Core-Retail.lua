@@ -48,21 +48,14 @@ local H = UnitFactionGroup("player") == "Horde" and HORDE
 local CitySubZonesAndFactions = {
 	-- ["Subzone"] = factionID
     ["A Hero's Welcome"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
-    ["Aldor Rise"] = 932, -- The Aldor
-    ["Deeprun Tram"] = 72, -- Stormwind
-	["Dwarven District"] = 47, -- Ironforge
-    ["Scryer's Tier"] = 934, -- The Scryers
     ["Shrine of Unending Light"] = 932, -- The Aldor
     ["The Beer Garden"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
     ["The Crimson Dawn"] = 1124, -- The Sunreavers
     ["The Filthy Animal"] = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
     ["The Roasted Ram"] = 2510, -- Valdrakken Accord
-	["The Salty Sailor Tavern"] = 21, -- Booty Bay
     ["The Seer's Library"] = 934, -- The Scryers
     ["The Silver Blade"] = 1094, -- The Silver Covenant
-	["Tinker Town"] = 54, -- Gnomeregan Exiles
-	["Valley of Spirits"] = 530, -- Darkspear Trolls
-	["Valley of Wisdom"] = 81, -- Thunder Bluff
+	["Tinker Town"] = 54, -- Gnomeregan
 }
 
 -- Faction tabard code
