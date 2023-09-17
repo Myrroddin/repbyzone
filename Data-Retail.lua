@@ -1,9 +1,8 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local _G = _G
-local C_Map = _G.C_Map
-local LibStub = _G.LibStub
-local UnitClassBase = _G.UnitClassBase
-local UnitFactionGroup = _G.UnitFactionGroup
+local C_Map = C_Map
+local LibStub = LibStub
+local UnitClassBase = UnitClassBase
+local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
@@ -364,7 +363,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(2248)]       = 47,       -- Dun Mandarr/Ironforge
         [C_Map.GetAreaInfo(2253)]       = 69,       -- Starfall Village/Darnassus
         [C_Map.GetAreaInfo(2257)]       = 72,       -- Deeprun Tram/Stormwind
-        [C_Map.GetAreaInfo(2276)]   = 69,       -- Quel'Lithien Lodge/Darnassus
+        [C_Map.GetAreaInfo(2276)]       = 69,       -- Quel'Lithien Lodge/Darnassus
         [C_Map.GetAreaInfo(2300)]       = 989,      -- Caverns of Time/Keepers of Time
         [C_Map.GetAreaInfo(2379)]       = 72,       -- Azurelode Mine/Stormwind
         [C_Map.GetAreaInfo(2404)]       = 69,       -- Tethris Aran/Darnassus
