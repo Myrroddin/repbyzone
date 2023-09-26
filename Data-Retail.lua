@@ -9,6 +9,7 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
+local playerClass = UnitClassBase("player")
 
 function RepByZone:ZoneAndFactionList()
     -- [UImapID] = factionID
@@ -303,7 +304,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(368)]        = 530,      -- Echo Isles/Darkspear Trolls
         [C_Map.GetAreaInfo(392)]        = 470,      -- Ratchet/Ratchet
         [C_Map.GetAreaInfo(393)]        = 530,      -- Darkspear Strand/Darkspear Trolls
-        [C_Map.GetAreaInfo(401)]        = H and UnitClassBase("player") == "SHAMAN" and 1135, -- The Tidus Stair/The Earthen Ring (only for Horde shamans)
+        [C_Map.GetAreaInfo(401)]        = H and playerClass == "SHAMAN" and 1135, -- The Tidus Stair/The Earthen Ring (only for Horde shamans)
         [C_Map.GetAreaInfo(439)]        = A and 54 or H and 76, -- The Shimmering Flats/Gnomeregan or Orgrimmar
         [C_Map.GetAreaInfo(484)]        = A and 69 or H and 81, -- Freewind Post/Darnassus or Thunder Bluff
         [C_Map.GetAreaInfo(501)]        = 369,      -- Beezil's Wreck/Gadgetzan
@@ -442,7 +443,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(3573)]       = 72,       -- Odesyus' Landing/Stormwind
         [C_Map.GetAreaInfo(3590)]       = 69,       -- Wrathscale Lair/Darnassus
         [C_Map.GetAreaInfo(3591)]       = 69,       -- Ruins of Loreth'Aran/Darnassus
-        [C_Map.GetAreaInfo(3596)]       = A and UnitClassBase("player") == "SHAMAN" and 1135, -- The Hidden Reef/The Earthen Ring (only for Alliance shamans)
+        [C_Map.GetAreaInfo(3596)]       = A and playerClass == "SHAMAN" and 1135, -- The Hidden Reef/The Earthen Ring (only for Alliance shamans)
         [C_Map.GetAreaInfo(3598)]       = 69,       -- Wyrmscar Island/Darnassus
         [C_Map.GetAreaInfo(3615)]       = 1135,     -- Throne of the Elements/The Earthen Ring
         [C_Map.GetAreaInfo(3623)]       = 933,      -- Aeris Landing/The Consortium

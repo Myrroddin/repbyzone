@@ -30,6 +30,11 @@
         "type",
         "tostring",
         "assert",
-        "tonumber"
+        "tonumber",
+        "StaticPopupDialogs",
+        "ORDER_HALL_ZONE_SUPPORT",
+        "ERR_SKILL_UP_SI",
+        "ERR_SPELL_UNLEARNED_S",
+        "QuestEventListener"
     ]
 }

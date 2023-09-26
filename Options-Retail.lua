@@ -83,26 +83,8 @@ function RepByZone:GetOptions()
                             db.watchOnTaxi = value
                         end
                     },
-                    useClassRep = {
-                        order = 40,
-                        name = L["Override some default racial reps with class reps."],
-                        desc = function()
-                            if self.racialRepName == nil then
-                                self:GetRacialRep()
-                            end
-                            return (L["Your class reputation is %s"]):format(self.racialRepName)
-                        end,
-                        type = "toggle",
-                        width = "double",
-                        get = function() return db.useClassRep end,
-                        set = function(info, value)
-                            db.useClassRep = value
-                            self:GetRacialRep()
-                            self:SwitchedZones()
-                        end
-                    },
                     useFactionTabards = {
-                        order = 50,
+                        order = 40,
                         name = L["Faction Tabards Reputation"],
                         desc = L["Instead of older instance reputation, watch the equipped faction tabard instead."],
                         type = "toggle",
@@ -117,6 +99,23 @@ function RepByZone:GetOptions()
                                 self:SwitchedZones()
                             end
                         end
+                    },
+                    delayGetFactionInfoByID = {
+                        order = 90,
+                        name = L["Delay Setting the Watched Faction"],
+                        desc = L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."],
+                        type = "range",
+                        width = 1.5,
+                        get = function() return db.delayGetFactionInfoByID end,
+                        set = function(info, value)
+                            db.delayGetFactionInfoByID = value
+                        end,
+                        bigStep = 0.25,
+                        min = 0.10,
+                        max = 1.0,
+                        softMin = 0.10,
+                        softMax = 1.0,
+                        step = 0.05
                     },
                     watchWoDBodyGuards = {
                         order = 100,

@@ -82,23 +82,22 @@ function RepByZone:GetOptions()
                             db.watchOnTaxi = value
                         end
                     },
-                    useClassRep = {
-                        order = 40,
-                        name = L["Override some default racial reps with class reps."],
-                        desc = function()
-                            if self.racialRepName == nil then
-                                self:GetRacialRep()
-                            end
-                            return (L["Your class reputation is %s"]):format(self.racialRepName)
-                        end,
-                        type = "toggle",
-                        width = "double",
-                        get = function() return db.useClassRep end,
+                    delayGetFactionInfoByID = {
+                        order = 90,
+                        name = L["Delay Setting the Watched Faction"],
+                        desc = L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."],
+                        type = "range",
+                        width = 1.5,
+                        get = function() return db.delayGetFactionInfoByID end,
                         set = function(info, value)
-                            db.useClassRep = value
-                            self:GetRacialRep()
-                            self:SwitchedZones()
-                        end
+                            db.delayGetFactionInfoByID = value
+                        end,
+                        bigStep = 0.25,
+                        min = 0.10,
+                        max = 1.0,
+                        softMin = 0.10,
+                        softMax = 1.0,
+                        step = 0.05
                     },
                     defaultRep = {
                         order = 200,

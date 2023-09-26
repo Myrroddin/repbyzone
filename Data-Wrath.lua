@@ -353,9 +353,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(3976)]   = 1031,     -- Veil Ala'rak/Sha'tari Skyguard
         [C_Map.GetAreaInfo(3977)]   = 1031,     -- Upper Veil Shil'ak/Sha'tari Skyguard
         [C_Map.GetAreaInfo(3978)]   = 1031,     -- Lower Veil Shil'ak/Sha'tari Skyguard
-        [C_Map.GetAreaInfo(5554)]   = 935,      -- The Mechanar Entrance/The Sha'tar
-        [C_Map.GetAreaInfo(5555)]   = 935,      -- The Botanica Entrance/The Sha'tar
-        [C_Map.GetAreaInfo(5556)]   = 935,      -- The Arcatraz Entrance/The Sha'tar
 
         --------- WotLK ---------
         [C_Map.GetAreaInfo(3987)]   = 1073,     -- The Isle of Spears/The Kalu'ak
@@ -460,7 +457,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(4677)]   = A and 1094 or H and 1124, -- Silver Covenant Pavilion (Outside)/The Silver Covenant or The Sunreavers
         [C_Map.GetAreaInfo(4740)]   = A and 1094 or H and 1124, -- The Silver Enclave/The Silver Covenant or The Sunreavers
         [C_Map.GetAreaInfo(4760)]   = A and 1094 or H and 1124, -- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
-        [C_Map.GetAreaInfo(5561)]   = 1090,     -- The Nexus Entrance/Kirin Tor
     }
     return subZonesAndFactions
 end
