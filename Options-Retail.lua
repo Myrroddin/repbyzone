@@ -88,6 +88,7 @@ function RepByZone:GetOptions()
                         name = L["Faction Tabards Reputation"],
                         desc = L["Instead of older instance reputation, watch the equipped faction tabard instead."],
                         type = "toggle",
+                        width = 1.5,
                         get = function () return db.useFactionTabards end,
                         set = function (info, value)
                             db.useFactionTabards = value
