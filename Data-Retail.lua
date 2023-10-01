@@ -292,6 +292,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[C_Map.GetAreaInfo(297)]        = 81,       -- Jaguero Isle/Thunder Bluff
 		[C_Map.GetAreaInfo(299)]        = 72,       -- Menethil Bay/Stormwind
         [C_Map.GetAreaInfo(313)]        = 349,      -- Northfold Manor/Ravenholdt
+        [C_Map.GetAreaInfo(315)]        = 72,       -- Dabyrie's Farmstead/Stormwind
         [C_Map.GetAreaInfo(320)]        = 72,       -- Refuge Pointe/Stormwind
         [C_Map.GetAreaInfo(321)]        = 68,       -- Hammerfall/Undercity
         [C_Map.GetAreaInfo(324)]        = 349,      -- Stromgarde Keep/Ravenholdt

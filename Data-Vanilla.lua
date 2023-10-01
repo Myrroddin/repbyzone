@@ -137,7 +137,9 @@ function RepByZone:SubZonesAndFactionsList()
 		[C_Map.GetAreaInfo(299)]    = 72,       -- Menethil Bay/Stormwind
         [C_Map.GetAreaInfo(311)]    = 270,      -- Ruins of Aboraz/Zandalar Tribe
         [C_Map.GetAreaInfo(313)]    = 349,      -- Northfold Manor/Ravenholdt
+        [C_Map.GetAreaInfo(315)]    = 72,       -- Dabyrie's Farmstead/Stormwind
         [C_Map.GetAreaInfo(320)]    = 72,       -- Refuge Pointe/Stormwind
+        [C_Map.GetAreaInfo(321)]    = 68,       -- Hammerfall/Undercity
         [C_Map.GetAreaInfo(327)]    = 21,       -- Faldir's Cove/Booty Bay
         [C_Map.GetAreaInfo(328)]    = 21,       -- The Drowned Reef/Booty Bay
         [C_Map.GetAreaInfo(350)]    = 69,       -- Quel'Danil Lodge/Darnassus
