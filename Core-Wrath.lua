@@ -367,18 +367,17 @@ function RepByZone:SwitchedZones()
 
     -- Set up variables
     local _, watchedFactionID, factionName, isWatched
-    local hasDungeonTabard = false
+    local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
 
-    -- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
+    -- Apply instance reputations
     if inInstance and instanceType == "party" then
         hasDungeonTabard = false
         -- Process faction tabards
         if db.useFactionTabards then
             if tabardID then
-                watchedFactionID = tabardID
                 hasDungeonTabard = true
             end
         else
@@ -390,30 +389,20 @@ function RepByZone:SwitchedZones()
         hasDungeonTabard = false
     end
 
-    -- We aren't in an instance that supports tabards or we aren't watching tabards in the dungeon
-    if inInstance and not hasDungeonTabard then
-        watchedFactionID = instancesAndFactions[whichInstanceID]
-    end
-
     -- Process subzones
     if db.watchSubZones then
-        -- Wrath has no subzones that are different in instances
-        if inInstance then return end
-
-        -- Get our subzone data
-        watchedFactionID = citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]
-    end
-
-    -- Get world zone data or the character's default watched faction. For some unknown reason, watchedFactionID loses data from instances at this stage in the code, refresh
-    if watchedFactionID == nil then
-        if inInstance and hasDungeonTabard then
-            watchedFactionID = tabardID
-        elseif inInstance then
-            watchedFactionID = instancesAndFactions[whichInstanceID] or db.defaultRepID
-        else
-            watchedFactionID = zonesAndFactions[uiMapID] or db.defaultRepID
+        lookUpSubZones = true
+        -- Wrath instances do not have different subzone data
+        if inInstance then
+            lookUpSubZones = false
         end
     end
+
+    watchedFactionID = (hasDungeonTabard and tabardID)
+    or (inInstance and instancesAndFactions[whichInstanceID])
+    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+    or (zonesAndFactions[uiMapID])
+    or (db.defaultRepID)
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()

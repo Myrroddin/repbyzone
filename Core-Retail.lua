@@ -560,7 +560,7 @@ function RepByZone:SwitchedZones(event)
 
     -- Set up variables
     local _, watchedFactionID, factionName, isWatched
-    local hasDungeonTabard = false
+    local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
@@ -577,7 +577,6 @@ function RepByZone:SwitchedZones(event)
         -- Process faction tabards
         if db.useFactionTabards then
             if tabardID then
-                watchedFactionID = tabardID
                 hasDungeonTabard = true
             end
         else
@@ -589,42 +588,26 @@ function RepByZone:SwitchedZones(event)
         hasDungeonTabard = false
     end
 
-    -- We aren't in an instance that supports tabards or we aren't watching tabards in the dungeon
-    if inInstance and not hasDungeonTabard then
-        watchedFactionID = instancesAndFactions[whichInstanceID]
-    end
-
-    -- Override in WoD zones only if a bodyguard exists
-    if isWoDZone and bodyguardRepID then
-        watchedFactionID = bodyguardRepID
-    end
-
     -- Process subzones
     if db.watchSubZones then
+        lookUpSubZones = true
         -- Battlegrounds and warfronts are the only instances with subzones
-        if inInstance and instanceType ~= "pvp" then return end
+        if inInstance and instanceType ~= "pvp" then
+            lookUpSubZones = false
+        end
 
         -- Don't loop through subzones if the player is watching a bodyguard rep
         if isWoDZone and bodyguardRepID then
-            watchedFactionID = bodyguardRepID
-        else
-            -- Get our subzone data
-            watchedFactionID = citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]
+            lookUpSubZones = false
         end
     end
 
-    -- Get world zone data or the character's default watched faction. For some unknown reason, watchedFactionID loses data from bodyguards and instances at this stage in the code, refresh
-    if watchedFactionID == nil then
-        if isWoDZone and bodyguardRepID then
-            watchedFactionID = bodyguardRepID
-        elseif inInstance and hasDungeonTabard then
-            watchedFactionID = tabardID
-        elseif inInstance then
-            watchedFactionID = instancesAndFactions[whichInstanceID] or db.defaultRepID
-        else
-            watchedFactionID = zonesAndFactions[uiMapID] or db.defaultRepID
-        end
-    end
+    watchedFactionID = (isWoDZone and bodyguardRepID)
+    or (hasDungeonTabard and tabardID)
+    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+    or (inInstance and instancesAndFactions[whichInstanceID])
+    or (zonesAndFactions[uiMapID])
+    or (db.defaultRepID)
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()

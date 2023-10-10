@@ -292,44 +292,41 @@ function RepByZone:SwitchedZones()
     local inInstance = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+    local lookUpSubZones = false
 
     -- Apply instance data
     if inInstance then
-        watchedFactionID = instancesAndFactions[whichInstanceID]
+        lookUpSubZones = false
     end
 
     -- Process subzones
     if db.watchSubZones then
+        lookUpSubZones = true
         -- Classic has no subzones that are different in instances
-        if inInstance then return end
-
-        -- Get our subzone data
-        watchedFactionID = citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]
-    end
-
-    -- Get world zone data or the character's default watched faction. For some unknown reason, watchedFactionID loses data from instances at this stage in the code, refresh
-    if watchedFactionID == nil then
         if inInstance then
-            watchedFactionID = instancesAndFactions[whichInstanceID] or db.defaultRepID
-        else
-            watchedFactionID = zonesAndFactions[uiMapID] or db.defaultRepID
+            lookUpSubZones = false
         end
     end
 
+    watchedFactionID = (inInstance and instancesAndFactions[whichInstanceID])
+    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+    or (zonesAndFactions[uiMapID])
+    or (db.defaultRepID)
+
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-        C_Timer.After(db.delayGetFactionInfoByID, function()
-            if type(watchedFactionID) == "number" then
-                -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.defaultRepID is a number
-                factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
-                if factionName and not isWatched then
-                    C_Reputation.SetWatchedFaction(watchedFactionID)
-                    if db.verbose then
-                        self:Print(L["Now watching %s"]:format(factionName))
-                    end
+    C_Timer.After(db.delayGetFactionInfoByID, function()
+        if type(watchedFactionID) == "number" then
+            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.defaultRepID is a number
+            factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
+            if factionName and not isWatched then
+                C_Reputation.SetWatchedFaction(watchedFactionID)
+                if db.verbose then
+                    self:Print(L["Now watching %s"]:format(factionName))
                 end
-            else
-                -- watchedFactionID is not valid because there is no factionID for the instance/zone/subzone/tabard or db.defaultRepID is not a number
-                C_Reputation.SetWatchedFaction(0)
             end
-        end)
+        else
+            -- watchedFactionID is not valid because there is no factionID for the instance/zone/subzone/tabard or db.defaultRepID is not a number
+            C_Reputation.SetWatchedFaction(0)
+        end
+    end)
 end
