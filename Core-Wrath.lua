@@ -15,6 +15,7 @@ local IsInInstance = IsInInstance
 local LibStub = LibStub
 local NONE = NONE
 local select = select
+local tonumber = tonumber
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -399,14 +400,14 @@ function RepByZone:SwitchedZones()
     end
 
     watchedFactionID = (hasDungeonTabard and tabardID)
-    or (inInstance and instancesAndFactions[whichInstanceID])
-    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or (zonesAndFactions[uiMapID])
-    or (db.defaultRepID)
+    or not watchedFactionID and (inInstance and instancesAndFactions[whichInstanceID])
+    or not watchedFactionID and (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+    or not watchedFactionID and (zonesAndFactions[uiMapID])
+    or not watchedFactionID and (tonumber(db.defaultRepID)) -- If db.defaultRepID is a number, then set watchedFactionID to it; if db.defaultRepID == "0-none" then set watchedFactionID to 0
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()
-        if type(watchedFactionID) == "number" then
+        if type(watchedFactionID) == "number" and watchedFactionID > 0 then
             -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.defaultRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
@@ -416,7 +417,7 @@ function RepByZone:SwitchedZones()
                 end
             end
         else
-            -- watchedFactionID is not valid because there is no factionID for the instance/zone/subzone/tabard or db.defaultRepID is not a number
+            -- There is nothing in the database and db.defaultRepID == "0-none"; blank the bar
             C_Reputation.SetWatchedFaction(0)
         end
     end)

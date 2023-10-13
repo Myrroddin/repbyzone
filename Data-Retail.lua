@@ -799,6 +799,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(7789)]       = A and 1134 or H and 68, -- Bronzeleaf Thicket/Gilneas or Undercity
         [C_Map.GetAreaInfo(7813)]       = 1948,     -- Skyhold (Warrior)/Valarjar
         [C_Map.GetAreaInfo(7814)]       = 1894,     -- Vault of the Wardens (Demon Hunter)/The Wardens
+        [C_Map.GetAreaInfo(7836)]       = 1828,     -- Mucksnout Den/Highmountain Tribe
         [C_Map.GetAreaInfo(7849)]       = A and 1134 or H and 68, -- Cullen's Post/Gilneas or Undercity
         [C_Map.GetAreaInfo(7850)]       = A and 1134 or H and 68, -- Lorna's Watch/Gilneas or Undercity
         [C_Map.GetAreaInfo(7879)]       = 1090,     -- Hall of the Guardian (Mage Class Hall)/Kirin Tor
