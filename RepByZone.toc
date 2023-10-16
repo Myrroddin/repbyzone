@@ -1,6 +1,6 @@
 ## Interface: 100107
 ## Interface-Classic: 11404
-## Interface-Wrath: 30402
+## Interface-Wrath: 30403
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
