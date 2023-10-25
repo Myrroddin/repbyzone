@@ -305,7 +305,7 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    watchedFactionID = (inInstance and instancesAndFactions[whichInstanceID])
+    watchedFactionID = not lookUpSubZones and (inInstance and instancesAndFactions[whichInstanceID])
     or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
     or not inInstance and (zonesAndFactions[uiMapID])
     or (zonesAndFactions[uiMapID] == nil and tonumber(db.defaultRepID)) -- If db.defaultRepID is a number, then set watchedFactionID to it; if db.defaultRepID == "0-none" then set watchedFactionID to 0

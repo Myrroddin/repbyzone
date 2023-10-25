@@ -372,6 +372,7 @@ function RepByZone:SwitchedZones()
     -- Apply instance reputations
     if inInstance and instanceType == "party" then
         hasDungeonTabard = false
+        lookUpSubZones = false
         -- Process faction tabards
         if db.useFactionTabards then
             if tabardID then

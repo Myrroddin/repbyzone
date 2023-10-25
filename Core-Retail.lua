@@ -567,6 +567,7 @@ function RepByZone:SwitchedZones(event)
     -- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
     if inInstance and instanceType == "party" then
         hasDungeonTabard = false
+        lookUpSubZones = false
         -- Certain dungeons do not benefit from tabards
         if self.tabardExemptDungeons[whichInstanceID] then
             return
