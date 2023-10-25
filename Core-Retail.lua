@@ -526,12 +526,8 @@ function RepByZone:GetRacialRep()
 end
 
 -- Entering an instance
-function RepByZone:EnteringInstance(_, ...)
-    local isInitialLogin, isReloadingUI = ...
-
-    if not isInitialLogin and not isReloadingUI then
-        self:SwitchedZones()
-    end
+function RepByZone:EnteringInstance()
+    self:SwitchedZones()
 end
 
 -- Player switched zones, subzones, or instances, set watched faction
@@ -603,12 +599,12 @@ function RepByZone:SwitchedZones(event)
         end
     end
 
-    watchedFactionID = (isWoDZone and bodyguardRepID)
-    or not watchedFactionID and (hasDungeonTabard and tabardID)
-    or not watchedFactionID and (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or not watchedFactionID and (inInstance and instancesAndFactions[whichInstanceID])
-    or not watchedFactionID and (zonesAndFactions[uiMapID])
-    or not watchedFactionID and (tonumber(db.defaultRepID)) -- If db.defaultRepID is a number, then set watchedFactionID to it; if db.defaultRepID == "0-none" then set watchedFactionID to 0
+    watchedFactionID = not lookUpSubZones and (isWoDZone and bodyguardRepID)
+    or not lookUpSubZones and (hasDungeonTabard and tabardID)
+    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+    or not lookUpSubZones and (inInstance and instancesAndFactions[whichInstanceID])
+    or not inInstance and (zonesAndFactions[uiMapID])
+    or (zonesAndFactions[uiMapID] == nil and tonumber(db.defaultRepID)) -- If db.defaultRepID is a number, then set watchedFactionID to it; if db.defaultRepID == "0-none" then set watchedFactionID to 0
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()

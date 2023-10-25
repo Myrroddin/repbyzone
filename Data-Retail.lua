@@ -316,6 +316,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(606)]        = 92,       -- Gelkis Village/Gelkis Clan Centaur
         [C_Map.GetAreaInfo(608)]        = 69,       -- Nijel's Point/Darnassus
         [C_Map.GetAreaInfo(609)]        = 93,       -- Kolkar Village/Magram Clan Centaur
+        [C_Map.GetAreaInfo(657)]        = 930,      -- The Harborage/Exodar
         [C_Map.GetAreaInfo(702)]        = 69,       -- Rut'theran Village/Darnassus
         [C_Map.GetAreaInfo(721)]        = 54,       -- Gnomeregan/Gnomeregan
         [C_Map.GetAreaInfo(813)]        = 1106,     -- The Bulwark/Argent Crusade
