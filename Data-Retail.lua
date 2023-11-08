@@ -249,6 +249,7 @@ function RepByZone:ZoneAndFactionList()
         [2005]      = 2465,     -- Ardenweald/The Wild Hunt
 
         --------- Dragonflight ---------
+        [1475]      = 2574,     -- The Emerald Dream/Dream Wardens
         [2022]      = 2510,     -- The Waking Shores/Valdrakken Accord
         [2023]      = 2503,     -- Ohn'ahran Plains/Maruuk Centaur
         [2024]      = 2511,     -- The Azure Span/Iskaara Tuskarr

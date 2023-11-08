@@ -283,6 +283,7 @@ function RepByZone:InstancesAndFactionList()
         [2481]      = 2478,     -- Sepulcher of the First Ones/The Enlightened
 
         ---------- Dragonflight ----------
+        [1207]      = 2574,     -- Amirdrassil, the Dream's Hope/Dream Wardens
         [2451]      = 2507,     -- Uldaman: Legacy of Tyr/Dragonscale Expedition
         [2515]      = 2511,     -- The Azure Vault/Iskaara Tuskarr
         [2516]      = 2520,     -- The Nokhud Offensive/Clan Nokhud
