@@ -261,7 +261,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[C_Map.GetAreaInfo(1977)]   = 309,      -- Zul'Gurub/Zandalar Tribe
 		[C_Map.GetAreaInfo(2097)]   = A and 69 or H and 81, -- Darkcloud Pinnacle/Darnassus or Thunder Bluff
 		[C_Map.GetAreaInfo(2157)]   = A and 47 or H and 81, -- Bael'dun Keep/Ironforge or Thunder Bluff
-		[C_Map.GetAreaInfo(2240)]   = A and 54 or H and 76, -- Mirage Raceway/Gnomeregan Exiles or Orgrimmar
+		[C_Map.GetAreaInfo(2240)]   = 21,       -- Mirage Raceway/Booty Bay
         [C_Map.GetAreaInfo(2241)]   = 589,      -- Frostsaber Rock/Wintersaber Trainers
         [C_Map.GetAreaInfo(2243)]   = 579,      -- Timbermaw Post/Timbermaw Hold
         [C_Map.GetAreaInfo(2244)]   = 579,      -- Winterfall Village/Timbermaw Hold
