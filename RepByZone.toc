@@ -1,5 +1,5 @@
 ## Interface: 100200
-## Interface-Classic: 11405
+## Interface-Classic: 11500
 ## Interface-Wrath: 30403
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
