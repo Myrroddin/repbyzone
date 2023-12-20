@@ -13,7 +13,9 @@ externals:
     Libs/AceConsole-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConsole-3.0
     Libs/AceGUI-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceGUI-3.0
     Libs/AceConfig-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
-    Libs/LibAboutPanel-2.0: https://github.com/Myrroddin/libaboutpanel-2.0
+    Libs/LibAboutPanel-2.0:
+        url: https://github.com/Myrroddin/libaboutpanel-2.0
+        curse-slug: libaboutpanel-2-0
 
 ignore:
     - Libs/LibStub/tests

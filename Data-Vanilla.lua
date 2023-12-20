@@ -137,7 +137,9 @@ function RepByZone:SubZonesAndFactionsList()
 		[C_Map.GetAreaInfo(299)]    = 72,       -- Menethil Bay/Stormwind
         [C_Map.GetAreaInfo(311)]    = 270,      -- Ruins of Aboraz/Zandalar Tribe
         [C_Map.GetAreaInfo(313)]    = 349,      -- Northfold Manor/Ravenholdt
+        [C_Map.GetAreaInfo(314)]    = A and 72 or H and 68, -- Go'Shek Farm/Stormwind or Undercity
         [C_Map.GetAreaInfo(315)]    = 72,       -- Dabyrie's Farmstead/Stormwind
+        [C_Map.GetAreaInfo(317)]    = A and 471 or H and 530, -- Witherbark Village/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(320)]    = 72,       -- Refuge Pointe/Stormwind
         [C_Map.GetAreaInfo(321)]    = 68,       -- Hammerfall/Undercity
         [C_Map.GetAreaInfo(327)]    = 21,       -- Faldir's Cove/Booty Bay
@@ -175,6 +177,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(1761)]   = 579,      -- Deadwood Village/Timbermaw Hold
         [C_Map.GetAreaInfo(1762)]   = 579,      -- Felpaw Village/Timbermaw Hold
         [C_Map.GetAreaInfo(1857)]   = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
+        [C_Map.GetAreaInfo(1858)]   = A and 471 or H and 530, -- Boulder'gor/Wildhammer Clan or Darkspear Trolls
 		[C_Map.GetAreaInfo(1977)]   = 309,      -- Zul'Gurub/Zandalar Tribe
 		[C_Map.GetAreaInfo(2097)]   = A and 69 or H and 81, -- Darkcloud Pinnacle/Darnassus or Thunder Bluff
 		[C_Map.GetAreaInfo(2157)]   = A and 47 or H and 81, -- Bael'dun Keep/Ironforge or Thunder Bluff
