@@ -294,6 +294,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[C_Map.GetAreaInfo(299)]        = 72,       -- Menethil Bay/Stormwind
         [C_Map.GetAreaInfo(313)]        = 349,      -- Northfold Manor/Ravenholdt
         [C_Map.GetAreaInfo(315)]        = 72,       -- Dabyrie's Farmstead/Stormwind
+        [C_Map.GetAreaInfo(317)]        = A and 1174 or H and 530, -- Witherbark Village/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(320)]        = 72,       -- Refuge Pointe/Stormwind
         [C_Map.GetAreaInfo(321)]        = 68,       -- Hammerfall/Undercity
         [C_Map.GetAreaInfo(324)]        = 349,      -- Stromgarde Keep/Ravenholdt
@@ -350,6 +351,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(1769)]       = 579,      -- Timbermaw Hold/Timbermaw Hold
         [C_Map.GetAreaInfo(1778)]       = 369,      -- Sorrowmurk/Gadgetzan
         [C_Map.GetAreaInfo(1797)]       = 1133,     -- Stagalbog/Bilgewater Cartel
+        [C_Map.GetAreaInfo(1837)]       = A and 1174 or H and 530, -- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(1857)]       = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
 		[C_Map.GetAreaInfo(1858)]       = 1174,     -- Boulder'gor/Wildhammer Clan
         [C_Map.GetAreaInfo(1941)]       = 989,      -- Caverns of Time/Keepers of Time
