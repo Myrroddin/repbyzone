@@ -176,6 +176,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(1741)]   = 87,       -- Gurubashi Arena/Bloodsail Buccaneers
         [C_Map.GetAreaInfo(1761)]   = 579,      -- Deadwood Village/Timbermaw Hold
         [C_Map.GetAreaInfo(1762)]   = 579,      -- Felpaw Village/Timbermaw Hold
+        [C_Map.GetAreaInfo(1837)]   = A and 471 or H and 530, -- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
         [C_Map.GetAreaInfo(1857)]   = A and 47 or H and 68, -- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
         [C_Map.GetAreaInfo(1858)]   = A and 471 or H and 530, -- Boulder'gor/Wildhammer Clan or Darkspear Trolls
 		[C_Map.GetAreaInfo(1977)]   = 309,      -- Zul'Gurub/Zandalar Tribe
