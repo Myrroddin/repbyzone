@@ -18,7 +18,7 @@
 ## X-Author-Server: Lightbringer
 ## X-Author-Faction: Alliance
 ## X-Author-Guild: Crimson Embers
-## X-Copyright: Copyright (c) 2023 Paul Vandersypen. All Rights Reserved
+## X-Copyright: Copyright (c) 2024 Paul Vandersypen. All Rights Reserved
 ## X-Curse-Project-ID: 348072
 ## X-WoWI-ID: 25407
 ## X-Wago-ID: q96dZlGO
