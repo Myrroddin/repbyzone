@@ -262,6 +262,7 @@ function RepByZone:ZoneAndFactionList()
         [2134]      = 2510,     -- Valdrakken/Valdrakken Accord
         [2151]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
         [2175]      = 2564,     -- Zaralek Cavern/Loamm Niffen
+        [2268]      = 2574,     -- Amirdrassil/Dream Wardens
     }
     return zonesAndFactions
 end
@@ -887,6 +888,8 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(13766)]      = 2517,     -- Nelthazan Ruins/Dragonscale Expedition
         [C_Map.GetAreaInfo(13767)]      = 2507,     -- Emberwatch/Dragonscale Expedition
         [C_Map.GetAreaInfo(13782)]      = 2520,     -- Nokhudon Hold/Clan Nokhud
+        [C_Map.GetAreaInfo(13801)]      = 2510,     -- Tyrhold/Valdrakken Accord
+        [C_Map.GetAreaInfo(13802)]      = 2510,     -- Tyrhold Reservoir/Valdrakken Accord
         [C_Map.GetAreaInfo(13817)]      = 989,      -- Shifting Sands/Keepers of Time
         [C_Map.GetAreaInfo(13818)]      = 989,      -- Temporal Conflux/Keepers of Time
         [C_Map.GetAreaInfo(13822)]      = 989,      -- The Flowing Forest/Keeers of Time
