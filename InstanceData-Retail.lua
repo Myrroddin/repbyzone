@@ -257,7 +257,7 @@ function RepByZone:InstancesAndFactionList()
         [2096]      = 2162,     -- Crucible of Storms/Storm's Wake
         [2097]      = 2391,     -- Operation: Mechagon/Rustbolt Resistance
         [2105]      = 69,       -- Warfront: Darkshore (Alliance)/Darnassus
-        [2111]      = 68,     -- Warfront: Darkshore (Horde)/Undercity
+        [2111]      = 68,       -- Warfront: Darkshore (Horde)/Undercity
         [2124]      = A and 2160 or H and 76, -- Crestfall/Proudmoore Admiralty or Orgrimmar
         [2147]      = 1098,     -- Icecrown Citadel (8.1)/Knights of the Ebon Blade
         [2164]      = A and 2401 or H and 2373, -- The Eternal Palace/Waveblade Ankoan or The Unshackled

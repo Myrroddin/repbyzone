@@ -29,8 +29,8 @@ function RepByZone:ZoneAndFactionList()
         [17]        = A and 72 or H and 76, -- Blasted Lands/Stormwind or Orgrimmar
         [18]        = 68,       -- Tirisfal Glades/Undercity
         [21]        = A and 1134 or H and 68, -- Silverpine Forest/Gilneas or Undercity
-        [22]        = 1106,      -- Western Plaguelands/Argent Crusade
-        [23]        = 1106,      -- Eastern Plaguelands/Argent Crusade
+        [22]        = 1106,     -- Western Plaguelands/Argent Crusade
+        [23]        = 1106,     -- Eastern Plaguelands/Argent Crusade
         [25]        = 68,       -- Hillsbrad Foothills/Undercity
         [26]        = A and 1174 or H and 530, -- Hinterlands/Wildhammer Clan or Darkspear Trolls
         [27]        = 47,       -- Dun Morogh/Ironforge
@@ -262,6 +262,7 @@ function RepByZone:ZoneAndFactionList()
         [2134]      = 2510,     -- Valdrakken/Valdrakken Accord
         [2151]      = A and 2524 or H and 2523, -- The Forbidden Reach/Obsidian Warders or Dark Talons
         [2175]      = 2564,     -- Zaralek Cavern/Loamm Niffen
+        [2200]      = 2574,     -- Emerald Dream/Dream Wardens
         [2268]      = 2574,     -- Amirdrassil/Dream Wardens
     }
     return zonesAndFactions
@@ -909,6 +910,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(13939)]      = 2507,     -- Wingrest Embassy/Dragonscale Expedition
         [C_Map.GetAreaInfo(13941)]      = self.dragonflightRepID, -- Obsidian Throne/Wrathion or Sabellian
         [C_Map.GetAreaInfo(14017)]      = 2510,     -- Vakthros Summit/Valdrakken Accord
+        [C_Map.GetAreaInfo(14020)]      = 2510,     -- Lundedane/Valdrakken Accord
         [C_Map.GetAreaInfo(14079)]      = 2510,     -- Lilac Ramble/Valdrakken Accord
         [C_Map.GetAreaInfo(14089)]      = 2510,     -- Vakthros/Valdrakken Accord
         [C_Map.GetAreaInfo(14096)]      = 2510,     -- Valdrakken: Little Scles Daycare
