@@ -881,6 +881,7 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(13587)]      = 2526,     -- Winterpelt Hollow/Winterpelt Furbolg
         [C_Map.GetAreaInfo(13710)]      = 2511,     -- Uktulut Backwater/Iskaara Tuskarr
         [C_Map.GetAreaInfo(13717)]      = self.dragonflightRepID, -- Obsidian Citadel/Wrathion or Sabellian
+        [C_Map.GetAreaInfo(13720)]      = self.dragonflightRepID, -- Dragonbane Keep/Wrathion of Sabellian
         [C_Map.GetAreaInfo(13725)]      = 2507,     -- Life Vault Ruins/Dragonscale Expedition
         [C_Map.GetAreaInfo(13729)]      = 2507,     -- Crumbling Life Archway/Dragonscale Expedition
         [C_Map.GetAreaInfo(13732)]      = 2507,     -- Dragonscale Basecamp/Dragonscale Expedition

@@ -402,29 +402,29 @@ function RepByZone:GetMultiRepIDsForZones()
         local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
         self.dragonflightRepID = 2510 -- start with Valdrakken Accord
         local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
-        local sabellionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
+        local sabellianFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
 
         local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
-        local sabellionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+        local sabellianRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
 
         local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
-        local sabellionMaxRep = sabellionFriendshipInfo and sabellionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+        local sabellianMaxRep = sabellianFriendshipInfo and sabellianFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
 
         local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
-        local sabellionNextThreshold = sabellionFriendshipInfo and sabellionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
+        local sabellianNextThreshold = sabellianFriendshipInfo and sabellianFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
 
         local wrathionCurrentRepAmount = wrathionMaxRep % wrathionNextThreshold
-        local sabellionCurrentRepAmount = sabellionMaxRep % sabellionNextThreshold
+        local sabellianCurrentRepAmount = sabellianMaxRep % sabellianNextThreshold
 
-        if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellionRankInfo and sabellionRankInfo.currentLevel) then
+        if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellianRankInfo and sabellianRankInfo.currentLevel) then
             newDragonFlightRepID = 2517 -- Wrathion is higher
-        elseif (sabellionRankInfo and sabellionRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
+        elseif (sabellianRankInfo and sabellianRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
             newDragonFlightRepID = 2518 -- Sabellian is higher
-        elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellionRankInfo and sabellionRankInfo.currentLevel) then
+        elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellianRankInfo and sabellianRankInfo.currentLevel) then
             -- they are the same rank or the factions are unknown, verify
-            if wrathionCurrentRepAmount > sabellionCurrentRepAmount then
+            if wrathionCurrentRepAmount > sabellianCurrentRepAmount then
                 newDragonFlightRepID = 2517 -- Wrathion is higher
-            elseif sabellionCurrentRepAmount > wrathionCurrentRepAmount then
+            elseif sabellianCurrentRepAmount > wrathionCurrentRepAmount then
                 newDragonFlightRepID = 2518 -- Sabellian is higher
             end
         end
