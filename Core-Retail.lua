@@ -66,6 +66,7 @@ local tabard_itemIDs_to_factionIDs = {
     [45578]     = 54,       -- Gnomeregan
     [45579]     = 69,       -- Darnassus
     [45580]     = 930,      -- Exodar
+    [64882]     = 1134,     -- Gilneas
     [83079]     = 1353,     -- Tushui Pandaren
 
     -- Horde
@@ -74,6 +75,7 @@ local tabard_itemIDs_to_factionIDs = {
     [45583]     = 68,       -- Undercity
     [45584]     = 81,       -- Thunder Bluff
     [45585]     = 911,      -- Silvermoon City
+    [64884]     = 1133,     -- Bilgewater Cartel
     [83080]     = 1352,     -- Huojin Pandaren
 }
 

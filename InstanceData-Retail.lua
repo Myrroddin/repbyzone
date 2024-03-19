@@ -209,6 +209,7 @@ function RepByZone:InstancesAndFactionList()
 
         ---------- Legion ----------
         [617]       = 1090,     -- Dalaran Arena/Kirin Tor
+        [721]       = 1948,     -- Halls of Valor (scenario)/Valarjar
         [1456]      = 1894,     -- Eye of Azshara/The Wardens
         [1458]      = 1828,     -- Neltharion's Lair/Highmountain Tribe
         [1466]      = 1883,     -- Darkheart Thicket/Dreamweavers
