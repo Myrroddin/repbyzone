@@ -19,6 +19,7 @@ local GetNumFactions = GetNumFactions
 local HORDE = HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
+local IsPlayerNeutral = IsPlayerNeutral
 local LibStub = LibStub
 local NONE = NONE
 local pairs = pairs
@@ -32,7 +33,7 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
-local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "LibAboutPanel-2.0", "AceConsole-3.0")
+local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local Dialog = LibStub("AceConfigDialog-3.0")
 
@@ -139,7 +140,7 @@ local player_races_to_factionIDs = {
     ["Mechagnome"]          = 54,       -- Gnomeregan
     ["Vulpera"]             = 76,       -- Orgrimmar
     ["ZandalariTroll"]      = 530,      -- Darkspear Trolls
-    ["Dracthyr"]            = 524 or 2523,  -- Obsidian Warders or Dark Talons
+    ["Dracthyr"]            = A and 524 or H and 2523,  -- Obsidian Warders or Dark Talons
 }
 
 -- Return a table of defaul SV values
@@ -151,6 +152,8 @@ local defaults = {
         verbose                 = true,
         watchOnTaxi             = true,
         watchSubZones           = true,
+        watchedRepID            = nil,
+        watchedRepName          = nil,
         watchWoDBodyGuards      = {
             ["**"] = true
         }
@@ -186,6 +189,9 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
+
+    -- Set up variables
+    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnEnable()
@@ -201,7 +207,7 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
     -- Pandaren do not start Alliance or Horde
-    if UnitFactionGroup("player") == nil then
+    if IsPlayerNeutral() then
         self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
     end
 
@@ -220,9 +226,6 @@ function RepByZone:OnEnable()
 
     -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
-
-    -- Set up variables
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnDisable()
@@ -254,7 +257,7 @@ function RepByZone:SlashHandler()
     end
 end
 
--- The user has reset the DB or created a new profile
+-- The user has reset the profile or created a new profile
 function RepByZone:RefreshConfig()
     db = self.db.profile
     self:SetUpVariables(true) -- true == new or reset profile
@@ -262,35 +265,30 @@ end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
 function RepByZone:SetUpVariables(newOrResetProfile)
-    local defaultRepID, defaultRepName
-
     -- Initialize or verify part of the profile database
-    defaultRepID, defaultRepName = self:GetRacialRep()
+    local defaultRepID, defaultRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or defaultRepID
     db.watchedRepName = db.watchedRepName or defaultRepName
 
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
-    isOnTaxi = UnitOnTaxi("player")
     bodyguardRepID = self:GetActiveBodyguardRepID()
+    self:CheckTaxi()
     self:GetCovenantRep()
-    self:GetMultiRepIDsForZones()
-    if db.useFactionTabards then
-        self:GetEquippedTabard()
+    self:GetSholazarBasinRep()
+    self:GetWrathionOrSabellianRep()
+    self:GetPandarenRep()
+    self:GetEquippedTabard()
+
+    -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
+    if newOrResetProfile then
+        db.watchedRepID, db.watchedRepName = defaultRepID, defaultRepName
     end
 
-    -- Populate tables
-    if newOrResetProfile then
-        -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
-        db.watchedRepID, db.watchedRepName = defaultRepID, defaultRepName
-    else
-        -- This is the first run of the session, or the addon was enabled/re-enabled
-        -- Obsolete and removed
-        db.useClassRep = nil
+    if not IsPlayerNeutral() then
         -- We missed Pandaren players joining either the Alliance or Horde, update
-        if A or H and playerRace == "Pandaren" then
-            if db.defaultRepID == 1216 then
-                self:GetPandarenRep("NEUTRAL_FACTION_SELECT_RESULT", true)
-            end
+        if db.watchedRepID == 1216 then
+            db.watchedRepID = A and 1353 or H and 1352
+            db.watchedRepName = GetFactionInfoByID(db.watchedRepID)
         end
     end
 end
@@ -363,81 +361,88 @@ function RepByZone:UpdateActiveBodyguardRepID()
     self:SwitchedZones("BODYGUARD_UPDATED")
 end
 
--- Sholazar Basin has three possible zone factions; some DF subzones have two; retun factionID based on player's quest progress
-function RepByZone:GetMultiRepIDsForZones()
-    -- Possible zoning issues, exit out unless we have valid map data
-    local uiMapID = C_Map.GetBestMapForUnit("player")
-    if not uiMapID then return end
-    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+-- Sholazar Basin has three possible zone factions
+function RepByZone:GetSholazarBasinRep()
+    local newSholazarRepID
+    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
+    local oraclesStanding = select(3, GetFactionInfoByID(1105))
 
-    -- If the player is not in Sholazar Basin or Waking Shore then exit out
-    if (uiMapID ~= 119 or parentMapID ~= 119) or (uiMapID ~= 2022 or parentMapID ~= 2022) then return end
+    if frenzyHeartStanding <= 3 then
+        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
+    elseif oraclesStanding <= 3 then
+        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
+    elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
+        newSholazarRepID = db.watchedRepID
+    end
 
-    -- Sholazar Basin
-    if uiMapID == 119 or parentMapID == 119 then
-        local newSholazarRepID
-        local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
-        local oraclesStanding = select(3, GetFactionInfoByID(1105))
+    if newSholazarRepID ~= self.sholazarRepID then
+        self.sholazarRepID = newSholazarRepID
 
-        if frenzyHeartStanding <= 3 then
-            newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
-        elseif oraclesStanding <= 3 then
-            newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
-        elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-            newSholazarRepID = db.watchedRepID
-        end
+        -- update both zones and subzones
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
+        self:SwitchedZones()
+    end
+end
 
-        if newSholazarRepID ~= self.sholazarRepID then
-            self.sholazarRepID = newSholazarRepID
+-- The Waking Shores has three possible zone factions
+function RepByZone:GetWrathionOrSabellianRep()
+    local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
+    self.dragonflightRepID = 2510 -- start with Valdrakken Accord
+    local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
+    local sabellianFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
 
-            -- update both zones and subzones
-            zonesAndFactions = self:ZoneAndFactionList()
-            subZonesAndFactions = self:SubZonesAndFactionsList()
-            self:SwitchedZones()
+    local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
+    local sabellianRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+
+    local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+    local sabellianMaxRep = sabellianFriendshipInfo and sabellianFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+
+    local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
+    local sabellianNextThreshold = sabellianFriendshipInfo and sabellianFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
+
+    local wrathionCurrentRepAmount = wrathionMaxRep % wrathionNextThreshold
+    local sabellianCurrentRepAmount = sabellianMaxRep % sabellianNextThreshold
+
+    if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellianRankInfo and sabellianRankInfo.currentLevel) then
+        newDragonFlightRepID = 2517 -- Wrathion is higher
+    elseif (sabellianRankInfo and sabellianRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
+        newDragonFlightRepID = 2518 -- Sabellian is higher
+    elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellianRankInfo and sabellianRankInfo.currentLevel) then
+        -- they are the same rank or the factions are unknown, verify
+        if wrathionCurrentRepAmount > sabellianCurrentRepAmount then
+            newDragonFlightRepID = 2517 -- Wrathion is higher
+        elseif sabellianCurrentRepAmount > wrathionCurrentRepAmount then
+            newDragonFlightRepID = 2518 -- Sabellian is higher
         end
     end
 
-    -- Wrathion or Sabellian in Dragonflight
-    if uiMapID == 2022 or parentMapID == 2022 then
-        local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
-        self.dragonflightRepID = 2510 -- start with Valdrakken Accord
-        local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
-        local sabellianFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
+    if newDragonFlightRepID ~= self.dragonflightRepID then
+        self.dragonflightRepID = newDragonFlightRepID
 
-        local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
-        local sabellianRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+        -- update databases
+        instancesAndFactions = self:InstancesAndFactionList()
+        zonesAndFactions = self:ZoneAndFactionList()
+        subZonesAndFactions = self:SubZonesAndFactionsList()
+        self:SwitchedZones()
+    end
+end
 
-        local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
-        local sabellianMaxRep = sabellianFriendshipInfo and sabellianFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
+function RepByZone:GetMultiRepIDsForZones()
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    -- possible zoning issues, exit out unless we have valid map data
+    if not uiMapID then return end
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
 
-        local wrathionNextThreshold = wrathionFriendshipInfo and wrathionFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
-        local sabellianNextThreshold = sabellianFriendshipInfo and sabellianFriendshipInfo.nextThreshold or 0 -- use 0 instead of possible nil
-
-        local wrathionCurrentRepAmount = wrathionMaxRep % wrathionNextThreshold
-        local sabellianCurrentRepAmount = sabellianMaxRep % sabellianNextThreshold
-
-        if (wrathionRankInfo and wrathionRankInfo.currentLevel) > (sabellianRankInfo and sabellianRankInfo.currentLevel) then
-            newDragonFlightRepID = 2517 -- Wrathion is higher
-        elseif (sabellianRankInfo and sabellianRankInfo.currentLevel) > (wrathionRankInfo and wrathionRankInfo.currentLevel) then
-            newDragonFlightRepID = 2518 -- Sabellian is higher
-        elseif (wrathionRankInfo and wrathionRankInfo.currentLevel) == (sabellianRankInfo and sabellianRankInfo.currentLevel) then
-            -- they are the same rank or the factions are unknown, verify
-            if wrathionCurrentRepAmount > sabellianCurrentRepAmount then
-                newDragonFlightRepID = 2517 -- Wrathion is higher
-            elseif sabellianCurrentRepAmount > wrathionCurrentRepAmount then
-                newDragonFlightRepID = 2518 -- Sabellian is higher
-            end
-        end
-
-        if newDragonFlightRepID ~= self.dragonflightRepID then
-            self.dragonflightRepID = newDragonFlightRepID
-
-            -- update both zones and subzones
-            instancesAndFactions = self:InstancesAndFactionList()
-            zonesAndFactions = self:ZoneAndFactionList()
-            subZonesAndFactions = self:SubZonesAndFactionsList()
-            self:SwitchedZones()
-        end
+    if uiMapID == 119 or parentMapID == 119 then
+        -- Sholazar Basin
+        self:GetSholazarBasinRep()
+    elseif uiMapID == 2022 or parentMapID == 2022 then
+        -- Valdrakken Accord, Wrathion, or Sabellian in Waking Shores
+        self:GetWrathionOrSabellianRep()
+    else
+        -- wrong zones, exit
+        return
     end
 end
 
@@ -467,9 +472,11 @@ function RepByZone:OpenAllFactionHeaders()
 	while factionIndex <= numFactions do
 		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 		if isHeader and isCollapsed then
-            repsCollapsed[name] = repsCollapsed[name] or isCollapsed
-            ExpandFactionHeader(factionIndex)
-            numFactions = GetNumFactions()
+            if name then
+                repsCollapsed[name] = repsCollapsed[name] or isCollapsed
+                ExpandFactionHeader(factionIndex)
+                numFactions = GetNumFactions()
+            end
         end
         factionIndex = factionIndex + 1
 	end
@@ -602,7 +609,7 @@ function RepByZone:SwitchedZones(event)
         end
     end
 
-    watchedFactionID = tonumber(db.defaultRepID)
+    watchedFactionID = type(db.watchedRepID) == "number" and db.watchedRepID or 0
     watchedFactionID = not lookUpSubZones and (isWoDZone and bodyguardRepID)
     or not lookUpSubZones and (hasDungeonTabard and tabardID)
     or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
@@ -612,7 +619,7 @@ function RepByZone:SwitchedZones(event)
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.defaultRepID is a number
+            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.watchedRepIDD is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 C_Reputation.SetWatchedFaction(watchedFactionID)
@@ -621,7 +628,7 @@ function RepByZone:SwitchedZones(event)
                 end
             end
         else
-            -- There is nothing in the database and db.defaultRepID == "0-none"; blank the bar
+            -- There is nothing in the database and db.watchedRepID == "0-none"; blank the bar
             C_Reputation.SetWatchedFaction(0)
         end
     end)

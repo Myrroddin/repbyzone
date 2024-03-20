@@ -38,4 +38,3 @@ L["Watch Subzones"] = true
 L["Watch WoD garrison bodyguard faction."] = true
 L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."] = true
 L["You have joined the %s, switching watched saved variable to %s."] = true
-L["Your class reputation is %s"] = true
