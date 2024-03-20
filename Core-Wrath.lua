@@ -15,7 +15,6 @@ local IsInInstance = IsInInstance
 local LibStub = LibStub
 local NONE = NONE
 local select = select
-local tonumber = tonumber
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -91,6 +90,8 @@ local defaults = {
         verbose                 = true,
         watchOnTaxi             = true,
         watchSubZones           = true,
+        watchedRepID            = nil,
+        watchedRepName          = nil
     }
 }
 
@@ -122,6 +123,9 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
+
+    -- Set up variables
+    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnEnable()
@@ -137,16 +141,13 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
      -- Check Sholazar Basin factions
-     self:RegisterEvent("UPDATE_FACTION", "GetSholazarBasinRep")
+     self:RegisterEvent("UPDATE_FACTION", "GetRepIDsForZone")
 
     -- Check if a faction tabard is equipped or changed
     self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
 
     -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
-
-    -- Set up variables
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnDisable()
@@ -182,27 +183,19 @@ end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
 function RepByZone:SetUpVariables(newOrResetProfile)
-    local defaultRepID, defaultRepName
-
-    -- Populate variables
-    isOnTaxi = UnitOnTaxi("player")
-    self:GetSholazarBasinRep()
-    if db.useFactionTabards then
-        self:GetEquippedTabard()
-    end
-
     -- Initialize or verify part of the database
-    defaultRepID, defaultRepName = self:GetRacialRep()
+    local defaultRepID, defaultRepName = self:GetRacialRep()
     db.watchedRepID = db.watchedRepID or defaultRepID
     db.watchedRepName = db.watchedRepName or defaultRepName
 
-    -- Populate tables
+    -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
+    self:CheckTaxi()
+    self:GetSholazarBasinRep()
+    self:GetEquippedTabard()
+
+    -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
     if newOrResetProfile then
-        -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
         db.watchedRepID, db.watchedRepName = defaultRepID, defaultRepName
-    else
-        -- Obsolete and removed
-        db.useClassRep = nil
     end
 end
 
@@ -224,13 +217,6 @@ end
 -------------------- Reputation code starts here --------------------
 -- Sholazar Basin has three possible zone factions, retun factionID based on player's quest progress
 function RepByZone:GetSholazarBasinRep()
-    local uiMapID = C_Map.GetBestMapForUnit("player")
-    if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
-    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
-
-    -- If the player is not in Sholazar Basin then exit out
-    if uiMapID ~= 119 or parentMapID ~= 119 then return end
-
     local newSholazarRepID
     local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
     local oraclesStanding = select(3, GetFactionInfoByID(1105))
@@ -250,6 +236,21 @@ function RepByZone:GetSholazarBasinRep()
         zonesAndFactions = self:ZoneAndFactionList()
         subZonesAndFactions = self:SubZonesAndFactionsList()
         self:SwitchedZones()
+    end
+end
+
+function RepByZone:GetRepIDsForZone()
+    local uiMapID = C_Map.GetBestMapForUnit("player")
+    -- possible zoning issues, exit out unless we have valid map data
+    if not uiMapID then return end
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+
+    if uiMapID == 119 or parentMapID == 119 then
+        -- Sholazar Basin
+        self:GetSholazarBasinRep()
+    else
+        -- wrong zones, exit
+        return
     end
 end
 
@@ -278,9 +279,11 @@ function RepByZone:OpenAllFactionHeaders()
 	while factionIndex <= numFactions do
 		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 		if isHeader and isCollapsed then
-            repsCollapsed[name] = repsCollapsed[name] or isCollapsed
-            ExpandFactionHeader(factionIndex)
-            numFactions = GetNumFactions()
+            if name then
+                repsCollapsed[name] = repsCollapsed[name] or isCollapsed
+                ExpandFactionHeader(factionIndex)
+                numFactions = GetNumFactions()
+            end
         end
         factionIndex = factionIndex + 1
 	end
@@ -316,7 +319,9 @@ function RepByZone:GetAllFactions()
         local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(factionIndex)
         if name then
             if not isHeader and name ~= FACTION_INACTIVE then
-                factionList[factionID] = name
+                if factionID then
+                    factionList[factionID] = name
+                end
             end
         end
     end
@@ -396,7 +401,7 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    watchedFactionID = tonumber(db.defaultRepID)
+    watchedFactionID = type(db.watchedRepID) == "number" and db.watchedRepID or 0
     watchedFactionID = (hasDungeonTabard and tabardID)
     or not hasDungeonTabard and (inInstance and instancesAndFactions[whichInstanceID])
     or not inInstance and (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
@@ -405,7 +410,7 @@ function RepByZone:SwitchedZones()
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.defaultRepID is a number
+            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 C_Reputation.SetWatchedFaction(watchedFactionID)
@@ -414,7 +419,7 @@ function RepByZone:SwitchedZones()
                 end
             end
         else
-            -- There is nothing in the database and db.defaultRepID == "0-none"; blank the bar
+            -- There is nothing in the database and db.watchedRepID == "0-none"; blank the bar
             C_Reputation.SetWatchedFaction(0)
         end
     end)

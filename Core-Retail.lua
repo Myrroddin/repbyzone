@@ -24,7 +24,6 @@ local LibStub = LibStub
 local NONE = NONE
 local pairs = pairs
 local select = select
-local tonumber = tonumber
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -512,7 +511,9 @@ function RepByZone:GetAllFactions()
         local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(factionIndex)
         if name then
             if not isHeader and name ~= FACTION_INACTIVE then
-                factionList[factionID] = name
+                if factionID then
+                    factionList[factionID] = name
+                end
             end
         end
     end
@@ -610,10 +611,10 @@ function RepByZone:SwitchedZones(event)
     end
 
     watchedFactionID = type(db.watchedRepID) == "number" and db.watchedRepID or 0
-    watchedFactionID = not lookUpSubZones and (isWoDZone and bodyguardRepID)
-    or not lookUpSubZones and (hasDungeonTabard and tabardID)
-    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or not lookUpSubZones and (inInstance and instancesAndFactions[whichInstanceID])
+    watchedFactionID = (hasDungeonTabard and tabardID)
+    or not hasDungeonTabard and (inInstance and instancesAndFactions[whichInstanceID])
+    or not lookUpSubZones and (isWoDZone and bodyguardRepID)
+    or lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
     or (not inInstance and zonesAndFactions[uiMapID])
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
