@@ -15,7 +15,7 @@ function RepByZone:GetOptions()
     local db = self.db
     local defaultRepID, defaultRepName = self:GetRacialRep()
     db.char.watchedRepID = db.char.watchedRepID or defaultRepID
-    db.watchedRepName = db.watchedRepName or defaultRepName
+    db.char.watchedRepName = db.char.watchedRepName or defaultRepName
     local options = {
         name = "RepByZone",
         handler = RepByZone,

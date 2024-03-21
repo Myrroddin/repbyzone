@@ -81,7 +81,7 @@ local player_races_to_factionIDs = {
     ["Draenei"]             = 930,      -- Exodar
 }
 
--- Return a table of defaul SV values
+-- Return a table of default SV values
 local defaults = {
     profile = {
         delayGetFactionInfoByID = 0.25,
