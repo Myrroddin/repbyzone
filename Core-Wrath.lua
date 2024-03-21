@@ -187,6 +187,7 @@ end
 -- The user has reset the DB or created a new profile
 function RepByZone:RefreshConfig()
     db = self.db
+    self.db.profile.initialized = true
     self:SetUpVariables(true) -- true == new or reset profile
 end
 
@@ -419,7 +420,7 @@ function RepByZone:SwitchedZones()
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.profile.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.watchedRepID is a number
+            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.char.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 C_Reputation.SetWatchedFaction(watchedFactionID)
@@ -428,7 +429,7 @@ function RepByZone:SwitchedZones()
                 end
             end
         else
-            -- There is nothing in the database and db.watchedRepID == "0-none"; blank the bar
+            -- There is nothing in the database and db.char.watchedRepID is not a number; blank the bar
             C_Reputation.SetWatchedFaction(0)
         end
     end)
