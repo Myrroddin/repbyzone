@@ -23,7 +23,8 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
-local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "LibAboutPanel-2.0", "AceConsole-3.0")
+---@class RepByZone: AceAddon
+local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local Dialog = LibStub("AceConfigDialog-3.0")
 
@@ -203,10 +204,13 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     self:GetSholazarBasinRep()
     self:GetEquippedTabard()
 
-    -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
+    -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
     end
+
+    -- no need to calculate the fallback reputation unless the user changes the setting
+    self.fallbackRepID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
 end
 
 ------------------- Event handlers starts here --------------------
@@ -236,7 +240,7 @@ function RepByZone:GetSholazarBasinRep()
     elseif oraclesStanding <= 3 then
         newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
     elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
-        newSholazarRepID = db.watchedRepID or self.racialRepID
+        newSholazarRepID = db.char.watchedRepID or self.racialRepID
     end
 
     if newSholazarRepID ~= self.sholazarRepID then

@@ -9,6 +9,7 @@ local NONE = NONE
 local type = type
 
 ------------------- Get addon reference --------------------
+---@class RepByZone: AceAddon
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
@@ -179,13 +180,8 @@ function RepByZone:GetOptions()
                         end,
                         set = function(info, value)
                             db.char.watchedRepID = value
-                            if type(value) == "number" then
-                                db.char.watchedRepName = GetFactionInfoByID(value)
-                            elseif type(value) == "string" then
-                                db.char.watchedRepName = NONE
-                            else
-                                db.char.watchedRepID, db.char.watchedRepName = self:GetRacialRep()
-                            end
+                            db.char.watchedRepName = type(value) == "number" and GetFactionInfoByID(value) or NONE
+                            self.fallbackRepID = type(value) == "number" and value or 0
                             self:SwitchedZones()
                         end
                     }

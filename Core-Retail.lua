@@ -32,6 +32,7 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
+---@class RepByZone: AceAddon
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local Dialog = LibStub("AceConfigDialog-3.0")
@@ -289,7 +290,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     self:GetPandarenRep()
     self:GetEquippedTabard()
 
-    -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
+    -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
     end
@@ -298,9 +299,12 @@ function RepByZone:SetUpVariables(newOrResetProfile)
         -- We missed Pandaren players joining either the Alliance or Horde, update
         if db.char.watchedRepID == 1216 then
             db.char.watchedRepID = A and 1353 or H and 1352
-            db.char.watchedRepName = GetFactionInfoByID(db.watchedRepID)
+            db.char.watchedRepName = GetFactionInfoByID(db.char.watchedRepID)
         end
     end
+
+    -- no need to calculate the fallback reputation unless the user changes the setting
+    self.fallbackRepID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
 end
 
 ------------------- Event handlers starts here --------------------
@@ -348,7 +352,7 @@ function RepByZone:GetPandarenRep(event, success)
             self:UnregisterEvent(event)
             db.char.watchedRepID, db.char.watchedRepName = self:GetRacialRep()
             zonesAndFactions = self:ZoneAndFactionList()
-            self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.watchedRepName))
+            self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.char.watchedRepName))
             self:SwitchedZones()
         end
     end
@@ -382,7 +386,7 @@ function RepByZone:GetSholazarBasinRep()
     elseif oraclesStanding <= 3 then
         newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
     elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-        newSholazarRepID = db.watchedRepID
+        newSholazarRepID = db.char.watchedRepID
     end
 
     if newSholazarRepID ~= self.sholazarRepID then
