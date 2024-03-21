@@ -89,20 +89,29 @@ local defaults = {
         useFactionTabards       = true,
         verbose                 = true,
         watchOnTaxi             = true,
-        watchSubZones           = true,
+        watchSubZones           = true
+    },
+    char = {
         watchedRepID            = nil,
         watchedRepName          = nil
     }
 }
 
 function RepByZone:OnInitialize()
-    self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults)
+    self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
-    db = self.db.profile
 
-    self:SetEnabledState(db.enabled)
+    -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
+    if not self.db.profile.initialized then
+        self.db:RegisterDefaults(defaults)
+        self.db:ResetDB("Default")
+        self.db.profile.initialized = true
+    end
+    db = self.db
+
+    self:SetEnabledState(db.profile.enabled)
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -131,7 +140,7 @@ end
 function RepByZone:OnEnable()
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
-    if db.watchSubZones then
+    if db.profile.watchSubZones then
         self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
         self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
     end
@@ -177,7 +186,7 @@ end
 
 -- The user has reset the DB or created a new profile
 function RepByZone:RefreshConfig()
-    db = self.db.profile
+    db = self.db
     self:SetUpVariables(true) -- true == new or reset profile
 end
 
@@ -185,8 +194,8 @@ end
 function RepByZone:SetUpVariables(newOrResetProfile)
     -- Initialize or verify part of the database
     local defaultRepID, defaultRepName = self:GetRacialRep()
-    db.watchedRepID = db.watchedRepID or defaultRepID
-    db.watchedRepName = db.watchedRepName or defaultRepName
+    db.char.watchedRepID = db.char.watchedRepID or defaultRepID
+    db.char.watchedRepName = db.char.watchedRepName or defaultRepName
 
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
     self:CheckTaxi()
@@ -195,7 +204,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
 
     -- The profile was reset by the user, refresh db.watchedRepID and db.watchedRepName
     if newOrResetProfile then
-        db.watchedRepID, db.watchedRepName = defaultRepID, defaultRepName
+        db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
     end
 end
 
@@ -350,7 +359,7 @@ end
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    if not db.enabled then return end -- Exit if the addon is disabled
+    if not db.profile.enabled then return end -- Exit if the addon is disabled
 
     local uiMapID = C_Map.GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
@@ -379,7 +388,7 @@ function RepByZone:SwitchedZones()
         hasDungeonTabard = false
         lookUpSubZones = false
         -- Process faction tabards
-        if db.useFactionTabards then
+        if db.profile.useFactionTabards then
             if tabardID then
                 hasDungeonTabard = true
             end
@@ -393,7 +402,7 @@ function RepByZone:SwitchedZones()
     end
 
     -- Process subzones
-    if db.watchSubZones then
+    if db.profile.watchSubZones then
         lookUpSubZones = true
         -- Wrath instances do not have different subzone data
         if inInstance then
@@ -401,20 +410,20 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    watchedFactionID = type(db.watchedRepID) == "number" and db.watchedRepID or 0
+    watchedFactionID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
     watchedFactionID = (hasDungeonTabard and tabardID)
     or not hasDungeonTabard and (inInstance and instancesAndFactions[whichInstanceID])
     or not inInstance and (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
     or (not inInstance and zonesAndFactions[uiMapID])
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-    C_Timer.After(db.delayGetFactionInfoByID, function()
+    C_Timer.After(db.profile.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
             -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 C_Reputation.SetWatchedFaction(watchedFactionID)
-                if db.verbose then
+                if db.profile.verbose then
                     self:Print(L["Now watching %s"]:format(factionName))
                 end
             end

@@ -36,6 +36,7 @@
         "ERR_SKILL_UP_SI",
         "ERR_SPELL_UNLEARNED_S",
         "QuestEventListener",
-        "EasyMenu"
+        "EasyMenu",
+        "enabled"
     ]
 }
