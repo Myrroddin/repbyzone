@@ -386,7 +386,7 @@ function RepByZone:GetSholazarBasinRep()
     elseif oraclesStanding <= 3 then
         newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
     elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-        newSholazarRepID = db.char.watchedRepID
+        newSholazarRepID = self.fallbackRepID
     end
 
     if newSholazarRepID ~= self.sholazarRepID then
