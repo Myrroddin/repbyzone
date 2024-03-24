@@ -19,9 +19,10 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
----@class RepByZone: AceAddon
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
+---@class Dialog: AceConfigDialog-3.0
 local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
@@ -302,7 +303,9 @@ function RepByZone:SwitchedZones()
     local inInstance = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local lookUpSubZones = false
+    watchedFactionID = nil -- reset whenever SwitchedZones() is called
 
     -- Apply instance data
     if inInstance then
@@ -318,10 +321,11 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    watchedFactionID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
-    watchedFactionID = not lookUpSubZones and (inInstance and instancesAndFactions[whichInstanceID])
-    or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or (not inInstance and zonesAndFactions[uiMapID])
+    watchedFactionID = watchedFactionID
+    or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
+    or (inInstance and instancesAndFactions[whichInstanceID])
+    or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
+    or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.profile.delayGetFactionInfoByID, function()

@@ -23,9 +23,10 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
----@class RepByZone: AceAddon
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
+---@class Dialog: AceConfigDialog-3.0
 local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
@@ -202,7 +203,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
     self:CheckTaxi()
     self:GetSholazarBasinRep()
-    self:GetEquippedTabard()
+    self:GetEquippedTabard(_, "player")
 
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
@@ -240,7 +241,7 @@ function RepByZone:GetSholazarBasinRep()
     elseif oraclesStanding <= 3 then
         newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
     elseif frenzyHeartStanding == 0 or oraclesStanding == 0 then
-        newSholazarRepID = db.char.watchedRepID or self.racialRepID
+        newSholazarRepID = db.char.watchedRepID or self.fallbackRepID
     end
 
     if newSholazarRepID ~= self.sholazarRepID then
@@ -387,6 +388,8 @@ function RepByZone:SwitchedZones()
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
+    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    watchedFactionID = nil -- reset whenever SwitchedZones() is called
 
     -- Apply instance reputations
     if inInstance and instanceType == "party" then
@@ -415,11 +418,12 @@ function RepByZone:SwitchedZones()
         end
     end
 
-    watchedFactionID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
-    watchedFactionID = (hasDungeonTabard and tabardID)
-    or not hasDungeonTabard and (inInstance and instancesAndFactions[whichInstanceID])
-    or not inInstance and (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or (not inInstance and zonesAndFactions[uiMapID])
+    watchedFactionID = watchedFactionID
+    or (inInstance and hasDungeonTabard and tabardID)
+    or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
+    or (inInstance and instancesAndFactions[whichInstanceID])
+    or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
+    or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.profile.delayGetFactionInfoByID, function()

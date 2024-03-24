@@ -3,6 +3,7 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"
@@ -193,6 +194,7 @@ function RepByZone:InstancesAndFactionList()
         [1131]      = A and self.racialRepID or H and 46, -- The Secrets of Ragefire/racial rep or Orgrimmar
         [1136]      = A and 72 or H and 76, -- Siege of Orgrimmar/Stormwind or Orgrimmar
         [1148]      = self.racialRepID, -- Proving Grounds/racial rep
+        [1155]      = A and 509 or H and 510, -- Stromgarde Keep/The League of Arathor or The Defilers
 
         ---------- WoD ----------
         [1175]      = 1711,     -- Bloodmaul Slag Mines/Steamwheedle Preservation Society

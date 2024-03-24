@@ -9,7 +9,7 @@ local NONE = NONE
 local type = type
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 

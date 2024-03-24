@@ -4,6 +4,7 @@ local UnitFactionGroup = UnitFactionGroup
 local C_Map = C_Map
 
 ------------------- Get addon reference --------------------
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"

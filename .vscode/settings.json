@@ -37,6 +37,7 @@
         "ERR_SPELL_UNLEARNED_S",
         "QuestEventListener",
         "EasyMenu",
-        "enabled"
+        "enabled",
+        "UnitBuff"
     ]
 }

@@ -32,9 +32,10 @@ local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
----@class RepByZone: AceAddon
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
+---@class Dialog: AceConfigDialog-3.0
 local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
@@ -278,6 +279,7 @@ end
 function RepByZone:SetUpVariables(newOrResetProfile)
     -- Initialize or verify part of the profile database
     local defaultRepID, defaultRepName = self:GetRacialRep()
+    self.racialRepID = defaultRepID
     db.char.watchedRepID = db.char.watchedRepID or defaultRepID
     db.char.watchedRepName = db.char.watchedRepName or defaultRepName
 
@@ -287,8 +289,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     self:GetCovenantRep()
     self:GetSholazarBasinRep()
     self:GetWrathionOrSabellianRep()
-    self:GetPandarenRep()
-    self:GetEquippedTabard()
+    self:GetEquippedTabard(_, "player")
 
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
@@ -296,10 +297,9 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     end
 
     if not IsPlayerNeutral() then
-        -- We missed Pandaren players joining either the Alliance or Horde, update
+        -- Alliance or Horde characters cannot use Shang Xi's Academy, and we missed updating them
         if db.char.watchedRepID == 1216 then
-            db.char.watchedRepID = A and 1353 or H and 1352
-            db.char.watchedRepName = GetFactionInfoByID(db.char.watchedRepID)
+            self:GetPandarenRep("NEUTRAL_FACTION_SELECT_RESULT", true)
         end
     end
 
@@ -435,19 +435,17 @@ function RepByZone:GetWrathionOrSabellianRep(event)
         self.dragonflightRepID = newDragonFlightRepID
 
         -- update databases
+        local delay = 0 -- number of seconds passed to C_Timer.After
         if event then
-            -- delay rebuilding the data lists so they aren't updated each time the player gains reputation
-            C_Timer.After(db.profile.delayListUpdates, function()
-                instancesAndFactions = self:InstancesAndFactionList()
-                zonesAndFactions = self:ZoneAndFactionList()
-                subZonesAndFactions = self:SubZonesAndFactionsList()
-            end)
-        else
-            -- no delay because this is initialization when the player logs into the game
+            -- throttle rebuilding the tables so rebuilding isn't happening each time the player gains reputation
+            delay = db.profile.delayListUpdates
+        end
+
+        C_Timer.After(delay, function()
             instancesAndFactions = self:InstancesAndFactionList()
             zonesAndFactions = self:ZoneAndFactionList()
             subZonesAndFactions = self:SubZonesAndFactionsList()
-        end
+        end)
 
         -- update rep bar
         self:SwitchedZones()
@@ -600,6 +598,7 @@ function RepByZone:SwitchedZones(event)
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
+    watchedFactionID = nil -- reset whenever SwitchedZones() is called
 
     -- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
     if inInstance and instanceType == "party" then
@@ -626,8 +625,8 @@ function RepByZone:SwitchedZones(event)
     -- Process subzones
     if db.profile.watchSubZones then
         lookUpSubZones = true
-        -- Battlegrounds and warfronts are the only instances with subzones
-        if inInstance and instanceType ~= "pvp" then
+        -- Stromgarde Keep and The Battle for Stromgarde are the only instances with subzones that are different than the main instance data
+        if (inInstance and whichInstanceID ~= 1155) or (inInstance and whichInstanceID ~= 1804) then
             lookUpSubZones = false
         end
 
@@ -637,17 +636,18 @@ function RepByZone:SwitchedZones(event)
         end
     end
 
-    watchedFactionID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
-    watchedFactionID = (hasDungeonTabard and tabardID)
-    or not hasDungeonTabard and (inInstance and instancesAndFactions[whichInstanceID])
-    or not lookUpSubZones and (isWoDZone and bodyguardRepID)
-    or lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
-    or (not inInstance and zonesAndFactions[uiMapID])
+    watchedFactionID = watchedFactionID
+    or (inInstance and hasDungeonTabard and tabardID)
+    or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
+    or (inInstance and instancesAndFactions[whichInstanceID])
+    or (not lookUpSubZones and isWoDZone and bodyguardRepID)
+    or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
+    or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     C_Timer.After(db.profile.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.char.watchedRepID is a number
+            -- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 C_Reputation.SetWatchedFaction(watchedFactionID)
@@ -656,7 +656,7 @@ function RepByZone:SwitchedZones(event)
                 end
             end
         else
-            -- There is nothing in the database and db.char.watchedRepID is not a number; blank the bar
+            -- There is no factionID to watch based on the databases and the user set the default watched factionID to "0-none"
             C_Reputation.SetWatchedFaction(0)
         end
     end)
