@@ -188,8 +188,6 @@ end
 
 -- The user has reset the DB or created a new profile
 function RepByZone:RefreshConfig()
-    db = self.db
-    self.db.profile.initialized = true
     self:SetUpVariables(true) -- true == new or reset profile
 end
 
@@ -207,6 +205,10 @@ function RepByZone:SetUpVariables(newOrResetProfile)
 
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
+        self.db:RegisterDefaults(defaults)
+        self.db:ResetDB("Default")
+        self.db.profile.initialized = true
+        db = self.db
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
     end
 
@@ -383,13 +385,12 @@ function RepByZone:SwitchedZones()
     subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
 
     -- Set up variables
-    local _, watchedFactionID, factionName, isWatched
+    local _, watchedFactionID, factionName, isWatched = nil, nil, nil, nil
     local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
-    watchedFactionID = nil -- reset whenever SwitchedZones() is called
 
     -- Apply instance reputations
     if inInstance and instanceType == "party" then

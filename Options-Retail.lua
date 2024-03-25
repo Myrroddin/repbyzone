@@ -94,12 +94,10 @@ function RepByZone:GetOptions()
                             db.profile.useFactionTabards = value
                             if value then
                                 self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
-                                self:GetEquippedTabard()
                             else
                                 self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
-                                self:GetEquippedTabard()
                             end
-                            self:SwitchedZones()
+                            self:GetEquippedTabard(_, "player")
                         end
                     },
                     delayGetFactionInfoByID = {
@@ -119,25 +117,8 @@ function RepByZone:GetOptions()
                         softMax = 1.0,
                         step = 0.05
                     },
-                    delayListUpdates = {
-                        order = 100,
-                        name = L["Delay data updates"],
-                        desc = L["The Waking Shores data could slow down if you gain a lot of reputation quickly. Delay the updates."],
-                        type = "range",
-                        width = 1.5,
-                        get = function() return db.profile.delayListUpdates end,
-                        set = function(info, value)
-                            db.profile.delayListUpdates = value
-                        end,
-                        bigStep = 5,
-                        min = 3,
-                        max = 30,
-                        softMin = 3,
-                        softMax = 30,
-                        step = 1
-                    },
                     watchWoDBodyGuards = {
-                        order = 110,
+                        order = 100,
                         name = L["Watch WoD garrison bodyguard faction."],
                         desc = L["This prefers the bodyguard reputation over zone or subzone reputations for Warlords of Draenor content."],
                         type = "multiselect",
@@ -166,7 +147,7 @@ function RepByZone:GetOptions()
                         end
                     },
                     defaultRep = {
-                        order = 200,
+                        order = 110,
                         name = L["Default watched faction"],
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",

@@ -148,7 +148,6 @@ local player_races_to_factionIDs = {
 local defaults = {
     profile = {
         delayGetFactionInfoByID = 0.25,
-        delayListUpdates        = 5,
         enabled                 = true,
         useFactionTabards       = true,
         verbose                 = true,
@@ -270,8 +269,6 @@ end
 
 -- The user has reset the profile or created a new profile
 function RepByZone:RefreshConfig()
-    db = self.db
-    self.db.profile.initialized = true
     self:SetUpVariables(true) -- true == new or reset profile
 end
 
@@ -293,6 +290,10 @@ function RepByZone:SetUpVariables(newOrResetProfile)
 
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
+        self.db:RegisterDefaults(defaults)
+        self.db:ResetDB("Default")
+        self.db.profile.initialized = true
+        db = self.db
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
     end
 
@@ -438,7 +439,7 @@ function RepByZone:GetWrathionOrSabellianRep(event)
         local delay = 0 -- number of seconds passed to C_Timer.After
         if event then
             -- throttle rebuilding the tables so rebuilding isn't happening each time the player gains reputation
-            delay = db.profile.delayListUpdates
+            delay = 30
         end
 
         C_Timer.After(delay, function()
@@ -591,14 +592,13 @@ function RepByZone:SwitchedZones(event)
     end
 
     -- Set up variables
-    local _, watchedFactionID, factionName, isWatched
+    local _, watchedFactionID, factionName, isWatched = nil, nil, nil, nil
     local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
-    watchedFactionID = nil -- reset whenever SwitchedZones() is called
 
     -- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
     if inInstance and instanceType == "party" then

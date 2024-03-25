@@ -100,7 +100,7 @@ function RepByZone:GetOptions()
                         step = 0.05
                     },
                     defaultRep = {
-                        order = 200,
+                        order = 100,
                         name = L["Default watched faction"],
                         desc = L["Defaults to your racial faction per character."],
                         type = "select",
