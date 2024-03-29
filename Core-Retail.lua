@@ -291,7 +291,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
         self.db:RegisterDefaults(defaults)
-        self.db:ResetDB("Default")
+        self.db:ResetProfile(false, true)
         self.db.profile.initialized = true
         db = self.db
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
@@ -401,7 +401,7 @@ function RepByZone:GetSholazarBasinRep()
 end
 
 -- The Waking Shores has three possible zone factions
-function RepByZone:GetWrathionOrSabellianRep(event)
+function RepByZone:GetWrathionOrSabellianRep(isInCombat)
     local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
     self.dragonflightRepID = 2510 -- start with Valdrakken Accord
     local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
@@ -435,39 +435,34 @@ function RepByZone:GetWrathionOrSabellianRep(event)
     if newDragonFlightRepID ~= self.dragonflightRepID then
         self.dragonflightRepID = newDragonFlightRepID
 
-        -- update databases
-        local delay = 0 -- number of seconds passed to C_Timer.After
-        if event then
-            -- throttle rebuilding the tables so rebuilding isn't happening each time the player gains reputation
-            delay = 30
-        end
-
-        C_Timer.After(delay, function()
+        -- update databases when not in combat
+        if not isInCombat then
             instancesAndFactions = self:InstancesAndFactionList()
             zonesAndFactions = self:ZoneAndFactionList()
             subZonesAndFactions = self:SubZonesAndFactionsList()
-        end)
 
-        -- update rep bar
-        self:SwitchedZones()
+            -- update rep bar
+            self:SwitchedZones()
+        end
     end
 end
 
-function RepByZone:GetMultiRepIDsForZones(event)
+function RepByZone:GetMultiRepIDsForZones()
     local uiMapID = C_Map.GetBestMapForUnit("player")
     -- possible zoning issues, exit out unless we have valid map data
     if not uiMapID then return end
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    local subZone = GetMinimapZoneText()
+    local isInCombat = self:InCombat()
 
     if uiMapID == 119 or parentMapID == 119 then
         -- Sholazar Basin
         self:GetSholazarBasinRep()
-    elseif uiMapID == 2022 or parentMapID == 2022 then
-        -- Valdrakken Accord, Wrathion, or Sabellian in Waking Shores
-        self:GetWrathionOrSabellianRep(event) -- pass the event to GetWrathionOrSabellianRep()
-    else
-        -- wrong zones, exit
-        return
+    end
+
+    if (subZone == C_Map.GetAreaInfo(13720)) or (subZone == C_Map.GetAreaInfo(13717)) then
+        -- Valdrakken Accord, Wrathion, or Sabellian in Dragonbane Keep or Obsidian Citadel
+        self:GetWrathionOrSabellianRep(isInCombat) -- pass combat status to GetWrathionOrSabellianRep()
     end
 end
 
@@ -637,10 +632,10 @@ function RepByZone:SwitchedZones(event)
     end
 
     watchedFactionID = watchedFactionID
-    or (inInstance and hasDungeonTabard and tabardID)
+    or (inInstance and (hasDungeonTabard and tabardID))
     or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
     or (inInstance and instancesAndFactions[whichInstanceID])
-    or (not lookUpSubZones and isWoDZone and bodyguardRepID)
+    or (not lookUpSubZones and (isWoDZone and bodyguardRepID))
     or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
     or self.fallbackRepID
 

@@ -97,7 +97,7 @@ function RepByZone:GetOptions()
                             else
                                 self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
                             end
-                            self:GetEquippedTabard(_, "player")
+                            self:SwitchedZones()
                         end
                     },
                     delayGetFactionInfoByID = {

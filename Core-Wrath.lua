@@ -206,7 +206,7 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
     if newOrResetProfile then
         self.db:RegisterDefaults(defaults)
-        self.db:ResetDB("Default")
+        self.db:ResetProfile(false, true)
         self.db.profile.initialized = true
         db = self.db
         db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
@@ -420,7 +420,7 @@ function RepByZone:SwitchedZones()
     end
 
     watchedFactionID = watchedFactionID
-    or (inInstance and hasDungeonTabard and tabardID)
+    or (inInstance and (hasDungeonTabard and tabardID))
     or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
     or (inInstance and instancesAndFactions[whichInstanceID])
     or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
