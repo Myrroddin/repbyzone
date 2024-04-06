@@ -104,9 +104,7 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-
-    -- Set up variables
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
+    self:RegisterEvent("PLAYER_REGEN_ENABLED", "InCombat")
 end
 
 function RepByZone:OnEnable()
@@ -123,6 +121,9 @@ function RepByZone:OnEnable()
 
     -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
+
+    -- Set up variables that are not available as early as OnInitialize()
+    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnDisable()

@@ -21,6 +21,7 @@ local UnitFactionGroup = UnitFactionGroup
 local UnitOnTaxi = UnitOnTaxi
 local UnitRace = UnitRace
 local wipe = wipe
+local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 
 ------------------- Create the addon --------------------
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
@@ -50,7 +51,7 @@ local citySubZonesAndFactions = {
 }
 
 -- Faction tabard code
-local tabardID
+local tabardID, tabardStandingStatus = nil, false
 local tabard_itemIDs_to_factionIDs = {
     -- [itemID] = factionID
     -- Alliance
@@ -88,6 +89,7 @@ local defaults = {
     profile = {
         delayGetFactionInfoByID = 0.25,
         enabled                 = true,
+        ignoreExaltedTabards    = true,
         useFactionTabards       = true,
         verbose                 = true,
         watchOnTaxi             = true,
@@ -134,9 +136,7 @@ function RepByZone:OnInitialize()
 
     -- These events never get unregistered
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-
-    -- Set up variables
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
+    self:RegisterEvent("PLAYER_REGEN_ENABLED", "InCombat")
 end
 
 function RepByZone:OnEnable()
@@ -159,6 +159,9 @@ function RepByZone:OnEnable()
 
     -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
+
+    -- Set up variables that are not available as early as OnInitialize()
+    self:SetUpVariables(false) -- false == this is not a new or reset profile
 end
 
 function RepByZone:OnDisable()
@@ -261,13 +264,18 @@ function RepByZone:GetRepIDsForZone()
     -- possible zoning issues, exit out unless we have valid map data
     if not uiMapID then return end
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    local newtabardStandingStatus = false
 
     if uiMapID == 119 or parentMapID == 119 then
         -- Sholazar Basin
         self:GetSholazarBasinRep()
-    else
-        -- wrong zones, exit
-        return
+    end
+
+    -- learn if the player is wearing a dungeon faction tabard and update if required
+    newtabardStandingStatus = tabardID and (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION) or false
+    if newtabardStandingStatus ~= tabardStandingStatus then
+        tabardStandingStatus = newtabardStandingStatus
+        self:SwitchedZones()
     end
 end
 
@@ -280,6 +288,7 @@ function RepByZone:GetEquippedTabard(_, unit)
     if newTabardID then
         newTabardRep = tabard_itemIDs_to_factionIDs[newTabardID]
     end
+    tabardStandingStatus = newTabardRep and (select(3, GetFactionInfoByID(newTabardRep)) == MAX_REPUTATION_REACTION) or false
 
     if newTabardRep ~= tabardID then
         tabardID = newTabardRep
@@ -400,6 +409,12 @@ function RepByZone:SwitchedZones()
         if db.profile.useFactionTabards then
             if tabardID then
                 hasDungeonTabard = true
+            end
+
+            if db.profile.ignoreExaltedTabards then
+                if tabardStandingStatus then
+                    hasDungeonTabard = false
+                end
             end
         else
             -- We aren't watching faction tabards

@@ -38,6 +38,7 @@
         "QuestEventListener",
         "EasyMenu",
         "enabled",
-        "UnitBuff"
+        "UnitBuff",
+        "MAX_REPUTATION_REACTION"
     ]
 }

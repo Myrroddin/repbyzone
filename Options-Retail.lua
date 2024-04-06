@@ -32,12 +32,12 @@ function RepByZone:GetOptions()
                 type = "toggle",
                 width = "full",
                 get = function() return db.profile.enabled end,
-                set = function(info, value)
+                set = function(_, value)
                     db.profile.enabled = value
                     if value then
-                        self:OnEnable()
+                        self:Enable()
                     else
-                        self:OnDisable()
+                        self:Disable()
                     end
                 end
             },
@@ -53,7 +53,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction based on subzones."],
                         type = "toggle",
                         get = function() return db.profile.watchSubZones end,
-                        set = function(info, value)
+                        set = function(_, value)
                             db.profile.watchSubZones = value
                             if value then
                                 self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
@@ -71,7 +71,7 @@ function RepByZone:GetOptions()
                         desc = L["Print to chat when you switch watched faction."],
                         type = "toggle",
                         get = function() return db.profile.verbose end,
-                        set = function(info, value) db.profile.verbose = value end
+                        set = function(_, value) db.profile.verbose = value end
                     },
                     watchOnTaxi = {
                         order = 30,
@@ -79,7 +79,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction while you are on a taxi."],
                         type = "toggle",
                         get = function() return db.profile.watchOnTaxi end,
-                        set = function(info, value)
+                        set = function(_, value)
                             db.profile.watchOnTaxi = value
                         end
                     },
@@ -90,13 +90,26 @@ function RepByZone:GetOptions()
                         type = "toggle",
                         width = 1.5,
                         get = function () return db.profile.useFactionTabards end,
-                        set = function (info, value)
+                        set = function (_, value)
                             db.profile.useFactionTabards = value
                             if value then
                                 self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
                             else
                                 self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
                             end
+                            self:SwitchedZones()
+                        end
+                    },
+                    ignoreExaltedTabards = {
+                        order = 50,
+                        name = L["Ignore Exalted Faction Tabards"],
+                        desc = L["Stop watching dungeon tabards at Exalted"],
+                        type = "toggle",
+                        width = 1.5,
+                        disabled = function() return not db.profile.useFactionTabards end,
+                        get = function() return db.profile.ignoreExaltedTabards end,
+                        set = function(_, value)
+                            db.profile.ignoreExaltedTabards = value
                             self:SwitchedZones()
                         end
                     },
@@ -107,7 +120,7 @@ function RepByZone:GetOptions()
                         type = "range",
                         width = 1.5,
                         get = function() return db.profile.delayGetFactionInfoByID end,
-                        set = function(info, value)
+                        set = function(_, value)
                             db.profile.delayGetFactionInfoByID = value
                         end,
                         bigStep = 0.25,
@@ -135,12 +148,12 @@ function RepByZone:GetOptions()
                             [582]       = C_Map.GetMapInfo(582).name, -- Lunarfall
                             [590]       = C_Map.GetMapInfo(590).name, -- Frostwall
                         },
-                        get = function(info, index)
+                        get = function(_, index)
                             local value = db.profile.watchWoDBodyGuards[index]
                             self.WoDFollowerZones[index] = value
                             return db.profile.watchWoDBodyGuards[index] and value
                         end,
-                        set = function(info, index, value)
+                        set = function(_, index, value)
                             db.profile.watchWoDBodyGuards[index] = value
                             self.WoDFollowerZones[index] = value
                             self:SwitchedZones()
@@ -159,7 +172,7 @@ function RepByZone:GetOptions()
                             end
                             return db.char.watchedRepID
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             db.char.watchedRepID = value
                             db.char.watchedRepName = type(value) == "number" and GetFactionInfoByID(value) or NONE
                             self.fallbackRepID = type(value) == "number" and value or 0
