@@ -199,8 +199,8 @@ function RepByZone:ZoneAndFactionList()
         [863]       = A and 2159 or H and 2380, -- Nazmir/7th Legion or Talanji's Expedition
         [864]       = A and 2159 or H and 2382, -- Vol'dun/7th Legion or Voldunai
         [895]       = A and 2160 or H and 2157, -- Tiragarde Sound/Proudmore Admiralty or The Honorbound
-        [896]       = A and 2383 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
-        [942]       = A and 2381 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound
+        [896]       = A and 2167 or H and 2157, -- Drustvar/Order of Embers or The Honorbound
+        [942]       = A and 2162 or H and 2157, -- Stormsong Valley/Storm's Wake or The Honorbound
         [1161]      = A and 2160 or H and 2157, -- Borealus/Proudmore Admiralty or The Honorbound
         [1163]      = A and 2159 or H and 2378, -- Dazar'alor: The Great Seal/7th Legion or Zandalari Empire
         [1164]      = A and 2159 or H and 2378, -- Dazar'alor: Hall of Chroniclers/7th Legion or Zandalari Empire
@@ -836,16 +836,16 @@ function RepByZone:SubZonesAndFactionsList()
         --------- BfA ---------
         [C_Map.GetAreaInfo(8925)]       = 47,       -- Nesingwary's Trek/Ironforge
         [C_Map.GetAreaInfo(9007)]       = 1068,     -- Explorer's League Campsite/Explorer's League
-        [C_Map.GetAreaInfo(9310)]       = 2386,     -- The Wound/Champions of Azeroth
-        [C_Map.GetAreaInfo(9329)]       = 2387,     -- Seeker's Outpost/Tortollan Seekers
+        [C_Map.GetAreaInfo(9310)]       = 2164,     -- The Wound/Champions of Azeroth
+        [C_Map.GetAreaInfo(9329)]       = 2163,     -- Seeker's Outpost/Tortollan Seekers
         [C_Map.GetAreaInfo(9470)]       = 2395,     -- Mildenhall Brewery/Honeyback Hive
         [C_Map.GetAreaInfo(9473)]       = 69,       -- Staghelm Point/Darnassus
         [C_Map.GetAreaInfo(9474)]       = 1133,     -- Southwind Village/Bilgewater Cartel
         [C_Map.GetAreaInfo(9494)]       = 1133,     -- Warfront: The Battle for Stromgarde (Ar'gorok)/Bilgewater Cartel
-        [C_Map.GetAreaInfo(9556)]       = 2387,     -- Tortaka Refuge/Tortollan Seekers
+        [C_Map.GetAreaInfo(9556)]       = 2163,     -- Tortaka Refuge/Tortollan Seekers
         [C_Map.GetAreaInfo(9667)]       = 2386,     -- Chamber of Heart (Destroyed)/Champions of Azeroth
-        [C_Map.GetAreaInfo(9693)]       = 2387,     -- Seeker's Vista/Tortollan Seekers
-        [C_Map.GetAreaInfo(9714)]       = 2387,     -- Seeker's Expedition/Tortollan Seekers
+        [C_Map.GetAreaInfo(9693)]       = 2163,     -- Seeker's Vista/Tortollan Seekers
+        [C_Map.GetAreaInfo(9714)]       = 2163,     -- Seeker's Expedition/Tortollan Seekers
         [C_Map.GetAreaInfo(9735)]       = 1133,     -- Ar'gorok/Bilgewater Cartel
         [C_Map.GetAreaInfo(9747)]       = 72,       -- Warfront: The Battle for Stromgarde (Refuge Pointe)/Stormwind
         [C_Map.GetAreaInfo(9750)]       = 68,       -- Hammerfall/Undercity
@@ -853,9 +853,9 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(9756)]       = 68,       -- Thoradin's Wall (Horde Warfront)/Undercity
         [C_Map.GetAreaInfo(9758)]       = 47,       -- Thoradin's Wall (Alliance Warfront)/Ironforge
         [C_Map.GetAreaInfo(9759)]       = A and 47 or H and 68, -- Thoradin's Wall/Ironforge or Undercity
-        [C_Map.GetAreaInfo(10006)]      = 2387,     -- House of Jol/Tortollan Seekers
-        [C_Map.GetAreaInfo(10504)]      = 2386,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
-        [C_Map.GetAreaInfo(12905)]      = 2386,     -- Chamber of Heart (scenario)/Champions of Azeroth
+        [C_Map.GetAreaInfo(10006)]      = 2163,     -- House of Jol/Tortollan Seekers
+        [C_Map.GetAreaInfo(10504)]      = 2164,     -- Chamber of Heart (rebuilt)/Champions of Azeroth
+        [C_Map.GetAreaInfo(12905)]      = 2164,     -- Chamber of Heart (scenario)/Champions of Azeroth
         [C_Map.GetAreaInfo(13539)]      = 1098,     -- Acherus: The Ebon Hold (Class Hall)/Knights of the Ebon Blade
 
         --------- Shadowlands ---------
