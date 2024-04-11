@@ -206,7 +206,7 @@ function RepByZone:ZoneAndFactionList()
         [1164]      = A and 2159 or H and 2103, -- Dazar'alor: Hall of Chroniclers/7th Legion or Zandalari Empire
         [1165]      = A and 2159 or H and 2103, -- Dazar'alor/7th Legion or Zandalari Empire
         [1193]      = A and 2159 or H and 2103, -- Zuldazar/7th Legion or Zandalari Empire
-        [1355]      = A and 2400 or H and 2103, -- Nazjatar/Waveblade Ankoan or The Unshackled
+        [1355]      = A and 2400 or H and 2373, -- Nazjatar/Waveblade Ankoan or The Unshackled
         [1462]      = 2391,     -- Mechagon Island/Rustbolt Resistance
         [1497]      = 2391,     -- Mechagon City/Rustbolt Resistance
         [1527]      = 2417,     -- Uldum/Uldum Accord
