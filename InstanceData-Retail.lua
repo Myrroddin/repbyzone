@@ -77,6 +77,7 @@ function RepByZone:InstancesAndFactionList()
         [209]       = A and 1174 or H and 530, -- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
         [229]       = A and 72 or H and 76, -- Blackrock Spire/Stormwind or Orgrimmar
         [230]       = 59,       -- Blackrock Depths/Thorium Brotherhood
+        [249]       = A and 72 or H and 76, -- Onyxia's Lair/Stormwind or Orgrimmar
         [329]       = 1106,     -- Strathholme/Argent Crusade
         [349]       = 609,      -- Maraudon/Cenarion Circle
         [389]       = 76,       -- Ragefire Chasm/Orgrimmar
@@ -116,7 +117,6 @@ function RepByZone:InstancesAndFactionList()
         [585]       = 1077,     -- Magister's Terrace/Shattered Sun Offensive
 
         ---------- WotLK ----------
-        [249]       = A and 72 or H and 76, -- Onyxia's Lair/Stormwind or Orgrimmar
         [533]       = 1106,     -- Naxxramas/Argent Crusade
         [574]       = A and 1050 or H and 1067, -- Utgarde Keep/Valiance Expedition or The Hand of Vengeance
         [575]       = A and 1050 or H and 1067, -- Utgarde Pinnacle/Valiance Expedition or The Hand of Vengeance
