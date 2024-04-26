@@ -24,16 +24,9 @@ function RepByZone:InstancesAndFactionList()
         [607]       = A and 1050 or H and 1085, -- Strand of the Ancients/Valiance Expedition or Warsong Offensive
         [628]       = A and 1050 or H and 1085, -- Isle of Conquest/Valiance Expedition or Warsong Offensive
         [726]       = A and 1174 or H and 1172, -- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
-        [727]       = A and 72 or H and 1133, -- Silvershard Mines/Stormwind or Bilgewater Cartel
         [732]       = A and 1177 or H and 1178, -- Tol Barad/Baradin's Warders or Hellscream's Reach
         [761]       = A and 1134 or H and 68, -- The Battle for Gilneas/Gilneas or Undercity
         [968]       = A and 930 or H and 911, -- Eye of the Storm (rated)/Exodar or Silvermoon City
-        [1191]      = A and 1682 or H and 1681, -- Ashran/Wrynn's Vanguard or Vol'jin's Spear
-        [1681]      = A and 509 or H and 510, -- Arathi Basin (Winter)/The League of Arathor or The Defilers
-        [2106]      = A and 890 or H and 889, -- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
-        [2107]      = A and 509 or H and 510, -- Arathi Basin/The League of Arathor or The Defilers
-        [2118]      = A and 1037 or H and 1052, -- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
-        [2177]      = A and 509 or H and 510, -- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
 
         ---------- Vanilla ----------
         [33]        = A and 1134 or H and 68, -- Shadowfang Keep/Gilneas or Undercity
