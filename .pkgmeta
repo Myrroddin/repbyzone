@@ -22,11 +22,11 @@ ignore:
     - Libs/LibAboutPanel-2.0/LibStub
     - Libs/LibAboutPanel-2.0/CallbackHandler-1.0
     - Libs/LibAboutPanel-2.0/AceConfig-3.0
-    - Libs/LibAboutPanel-2.0/"*.toc"
-    - Libs/LibAboutPanel-2.0/"*.md"
-    - Libs/LibAboutPanel-2.0/"*.txt"
+    - Libs/LibAboutPanel-2.0/LibAboutPanel-2.0.toc
+    - Libs/LibAboutPanel-2.0/README.md
+    - Libs/LibAboutPanel-2.0/LICENSE.txt
     - Libs/LibAboutPanel-2.0/lib.xml
     - Libs/LibAboutPanel-2.0/LibAboutPanel-2.0.lua
  
  move-folders:
-    Libs/LibAboutPanel-2.0/LibAboutPanel-2.0: Libs/LibAboutPanel-2.0
+    RepByZone/Libs/LibAboutPanel-2.0/LibAboutPanel-2.0: RepByZone/Libs/LibAboutPanel-2.0
