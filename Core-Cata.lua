@@ -50,6 +50,7 @@ local citySubZonesAndFactions = {
     [L["The Crimson Dawn"]]         = 1124,     -- The Sunreavers
     [L["The Filthy Animal"]]        = A and 1094 or H and 1124, -- The Silver Covenant or The Sunreavers
     [L["The Roasted Ram"]]          = 2510,     -- Valdrakken Accord
+    [L["The Salty Sailor Tavern"]]  = 21,       -- Booty Bay
     [L["The Seer's Library"]]       = 934,      -- The Scryers
     [L["The Silver Blade"]]         = 1094,     -- The Silver Covenant
 	[L["Tinker Town"]]              = 54,       -- Gnomeregan

@@ -298,7 +298,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(5687)]       = 1134,     -- Darnassus: The Howling Oak/Gilneas
         [C_Map.GetAreaInfo(5705)]       = A and 47 or H and 530, -- Snowden Chalet/Ironforge or Darkspear Trolls
         [C_Map.GetAreaInfo(5706)]       = 369,      -- The Steam Pools/Gadgetzan
-        [C_Map.GetAreaInfo(8615)]       = 21,       -- The Salty Sailor Tavern/Booty Bay
 
         --------- TBC ---------
         [C_Map.GetAreaInfo(3482)]       = 922,      -- The Dead Scar (Eversong Woods)/Tranquillien
