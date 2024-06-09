@@ -1,6 +1,5 @@
 package-as: RepByZone
 wowi-archive-previous: no
-enable-toc-creation: yes
 
 externals:
     Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
