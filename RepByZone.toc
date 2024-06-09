@@ -1,4 +1,6 @@
-## Interface: 11502, 40400, 100207
+## Interface: 100207
+## Interface-Classic: 11502
+## Interface-Cata: 40400
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -61,7 +63,6 @@ Locales\koKR.lua
 # Data-Vanilla.lua
 # Options-Vanilla.lua
 # #@end-version-classic@
-
 # #@version-cata@
 # Core-Cata.lua
 # Data-Cata.lua
@@ -69,7 +70,6 @@ Locales\koKR.lua
 # Options-Cata.lua
 # #@end-version-cata@
 #@end-non-debug@
-
 #@version-retail@
 Core-Retail.lua
 Data-Retail.lua
