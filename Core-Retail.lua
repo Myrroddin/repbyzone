@@ -1,29 +1,29 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local ALLIANCE = ALLIANCE
-local C_Covenants = C_Covenants
+local After = C_Timer.After
+local ALLIANCE = FACTION_ALLIANCE
 local C_GossipInfo = C_GossipInfo
 local C_Map = C_Map
-local C_QuestLog = C_QuestLog
-local C_Reputation = C_Reputation
-local C_Timer = C_Timer
-local CollapseFactionHeader = CollapseFactionHeader
-local Enum = Enum
-local ExpandFactionHeader = ExpandFactionHeader
+local CollapseFactionHeader = C_Reputation.CollapseFactionHeader
+local enum = Enum.CovenantType
+local ExpandFactionHeader = C_Reputation.ExpandFactionHeader
 local FACTION_INACTIVE = FACTION_INACTIVE
-local GetFactionInfo = GetFactionInfo
-local GetFactionInfoByID = GetFactionInfoByID
+local GetActiveCovenantID = C_Covenants.GetActiveCovenantID
+local GetFactionDataByIndex = C_Reputation.GetFactionDataByIndex
+local GetFactionDataByID = C_Reputation.GetFactionDataByID
 local GetInstanceInfo = GetInstanceInfo
 local GetInventoryItemID = GetInventoryItemID
 local GetMinimapZoneText = GetMinimapZoneText
-local GetNumFactions = GetNumFactions
-local HORDE = HORDE
+local GetNumFactions = C_Reputation.GetNumFactions
+local HORDE = FACTION_HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
+local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local LibStub = LibStub
 local NONE = NONE
 local pairs = pairs
 local select = select
+local SetWatchedFactionByID = C_Reputation.SetWatchedFactionByID
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -111,10 +111,10 @@ local bodyguard_quests = {
 
 -- Covenant code
 local covenantReps = {
-    [Enum.CovenantType.Kyrian]      = 2407,     -- The Ascended
-    [Enum.CovenantType.Venthyr]     = 2413,     -- Court of Harvesters
-    [Enum.CovenantType.NightFae]    = 2422,     -- Night Fae
-    [Enum.CovenantType.Necrolord]   = 2410,     -- The Undying Army
+    [enum.Kyrian]       = 2407,     -- The Ascended
+    [enum.Venthyr]      = 2413,     -- Court of Harvesters
+    [enum.NightFae]     = 2422,     -- Night Fae
+    [enum.Necrolord]    = 2410,     -- The Undying Army
 }
 
 -- Blizzard adds new player races, assign factionIDs on the "basic" factions that are available for new characters
@@ -176,7 +176,7 @@ function RepByZone:OnInitialize()
     -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
     if not self.db.profile.initialized then
         self.db:RegisterDefaults(defaults)
-        self.db:ResetDB("Default")
+        self.db:ResetDB(DEFAULT)
         self.db.profile.initialized = true
     end
     db = self.db
@@ -330,7 +330,7 @@ end
 
 -- What Covenant does the player belong to, if any
 function RepByZone:CovenantToFactionID()
-    local id = C_Covenants.GetActiveCovenantID()
+    local id = GetActiveCovenantID()
     return covenantReps[id]
 end
 
@@ -367,7 +367,7 @@ end
 function RepByZone:GetActiveBodyguardRepID()
     local newBodyguardRepID
     for questID in pairs(bodyguard_quests) do
-        if C_QuestLog.IsQuestFlaggedCompleted(questID) then
+        if IsQuestFlaggedCompleted(questID) then
             newBodyguardRepID = bodyguard_quests[questID]
             break
         end
@@ -383,8 +383,11 @@ end
 -- Sholazar Basin has three possible zone factions
 function RepByZone:GetSholazarBasinRep()
     local newSholazarRepID
-    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
-    local oraclesStanding = select(3, GetFactionInfoByID(1105))
+    local frenzyHeartStanding = GetFactionDataByID(1104).reaction
+    local oraclesStanding = GetFactionDataByID(1105).reaction
+
+    -- nil check
+    if not frenzyHeartStanding or not oraclesStanding then return end
 
     if frenzyHeartStanding <= 3 then
         newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
@@ -456,7 +459,7 @@ function RepByZone:GetMultiRepIDsForZones()
     local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isInCombat = self:InCombat()
-    local newtabardStandingStatus = false
+    local newtabardStandingStatus = (GetFactionDataByID(tabardID).reaction == MAX_REPUTATION_REACTION) or false
 
     if uiMapID == 119 or parentMapID == 119 then
         -- Sholazar Basin
@@ -469,7 +472,6 @@ function RepByZone:GetMultiRepIDsForZones()
     end
 
     -- learn if the player is wearing a dungeon faction tabard and update if required
-    newtabardStandingStatus = tabardID and (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION) or false
     if newtabardStandingStatus ~= tabardStandingStatus then
         tabardStandingStatus = newtabardStandingStatus
         self:SwitchedZones()
@@ -479,13 +481,14 @@ end
 -- Tabard code
 function RepByZone:GetEquippedTabard(_, unit)
     if unit ~= "player" then return end
-    local newTabardID, newTabardRep
+    local newTabardID, newTabardRep, factionReaction
     newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
 
     if newTabardID then
         newTabardRep = tabard_itemIDs_to_factionIDs[newTabardID]
+        factionReaction = GetFactionDataByID(newTabardRep).reaction
     end
-    tabardStandingStatus = newTabardRep and (select(3, GetFactionInfoByID(newTabardRep)) == MAX_REPUTATION_REACTION) or false
+    tabardStandingStatus = (newTabardRep and factionReaction == MAX_REPUTATION_REACTION) or false
 
     if newTabardRep ~= tabardID then
         tabardID = newTabardRep
@@ -498,38 +501,42 @@ local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
     local numFactions = GetNumFactions()
-    local factionIndex = 1
+    local factionData, factionIndex = nil, 1
 
 	while factionIndex <= numFactions do
-		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
-		if isHeader and isCollapsed then
-            if name then
-                repsCollapsed[name] = repsCollapsed[name] or isCollapsed
-                ExpandFactionHeader(factionIndex)
-                numFactions = GetNumFactions()
+		factionData = GetFactionDataByIndex(factionIndex)
+        if factionData then
+            if factionData.isHeader and factionData.isCollapsed then
+                if factionData.name then
+                    repsCollapsed[factionData.name] = repsCollapsed[factionData.name] or factionData.isCollapsed
+                    ExpandFactionHeader(factionIndex)
+                    numFactions = GetNumFactions()
+                end
             end
+            factionIndex = factionIndex + 1
         end
-        factionIndex = factionIndex + 1
 	end
 end
 
 -- Close all faction headers
 function RepByZone:CloseAllFactionHeaders()
     local numFactions = GetNumFactions()
-    local factionIndex = 1
+    local factionData, factionIndex = nil, 1
 
 	while factionIndex <= numFactions do
-		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
-		if isHeader then
-			if isCollapsed and not repsCollapsed[name] then
-				ExpandFactionHeader(factionIndex)
-                numFactions = GetNumFactions()
-			elseif repsCollapsed[name] and not isCollapsed then
-				CollapseFactionHeader(factionIndex)
-                numFactions = GetNumFactions()
-			end
-		end
-        factionIndex = factionIndex + 1
+		factionData = GetFactionDataByIndex(factionIndex)
+        if factionData then
+            if factionData.isHeader then
+                if factionData.isCollapsed and not repsCollapsed[factionData.name] then
+                    ExpandFactionHeader(factionIndex)
+                    numFactions = GetNumFactions()
+                elseif repsCollapsed[factionData.name] and not factionData.isCollapsed then
+                    CollapseFactionHeader(factionIndex)
+                    numFactions = GetNumFactions()
+                end
+            end
+            factionIndex = factionIndex + 1
+        end
 	end
 	wipe(repsCollapsed)
 end
@@ -537,14 +544,16 @@ end
 function RepByZone:GetAllFactions()
     -- Will not return factions the user has marked as inactive
     self:OpenAllFactionHeaders()
-    local factionList = {}
+    local factionData, factionList = nil, {}
 
     for factionIndex = 1, GetNumFactions() do
-        local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(factionIndex)
-        if name then
-            if not isHeader and name ~= FACTION_INACTIVE then
-                if factionID then
-                    factionList[factionID] = name
+        factionData = GetFactionDataByIndex(factionIndex)
+        if factionData then
+            if factionData.name then
+                if not factionData.isHeader and factionData.name ~= FACTION_INACTIVE then
+                    if factionData.factionID then
+                        factionList[factionData.factionID] = factionData.name
+                    end
                 end
             end
         end
@@ -558,18 +567,25 @@ end
 -------------------- Watched faction code starts here --------------------
 -- Get the character's racial factionID and factionName
 function RepByZone:GetRacialRep()
-    local racialRepID, racialRepName
+    local racialRepID, racialRepName, factionData
     racialRepID = player_races_to_factionIDs[playerRace]
     if not racialRepID then
         racialRepID = A and 72 or H and 76 -- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated
     end
-    racialRepName = GetFactionInfoByID(racialRepID)
+    factionData = GetFactionDataByID(racialRepID)
+    if factionData then
+        racialRepName = GetFactionDataByID(racialRepID).name
+    end
     return racialRepID, racialRepName
 end
 
 -- Entering an instance
-function RepByZone:EnteringInstance()
-    self:SwitchedZones()
+function RepByZone:EnteringInstance(_, isInitialLogin, isReloadingUi)
+    if isInitialLogin or isReloadingUi then
+        return
+    else
+        self:SwitchedZones()
+    end
 end
 
 -- Player switched zones, subzones, or instances, set watched faction
@@ -598,7 +614,7 @@ function RepByZone:SwitchedZones(event)
     end
 
     -- Set up variables
-    local _, watchedFactionID, factionName, isWatched = nil, nil, nil, nil
+    local watchedFactionID, factionData = nil, nil
     local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
@@ -637,7 +653,7 @@ function RepByZone:SwitchedZones(event)
     -- Process subzones
     if db.profile.watchSubZones then
         lookUpSubZones = true
-        -- Stromgarde Keep and The Battle for Stromgarde are the only instances with subzones that are different than the main instance data
+        -- Stromgarde Keep and The Battle for Stromgarde are the only instances with subzones which are different than the main instance data
         if (inInstance and whichInstanceID ~= 1155) or (inInstance and whichInstanceID ~= 1804) then
             lookUpSubZones = false
         end
@@ -657,19 +673,19 @@ function RepByZone:SwitchedZones(event)
     or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-    C_Timer.After(db.profile.delayGetFactionInfoByID, function()
+    After(db.profile.delayGetFactionInfoByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
             -- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
-            factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
-            if factionName and not isWatched then
-                C_Reputation.SetWatchedFaction(watchedFactionID)
+            factionData = GetFactionDataByID(watchedFactionID)
+            if factionData and not factionData.isWatched then
+                SetWatchedFactionByID(watchedFactionID)
                 if db.profile.verbose then
-                    self:Print(L["Now watching %s"]:format(factionName))
+                    self:Print(L["Now watching %s"]:format(factionData.name))
                 end
             end
         else
             -- There is no factionID to watch based on the databases and the user set the default watched factionID to "0-none"
-            C_Reputation.SetWatchedFaction(0)
+            SetWatchedFactionByID(0)
         end
     end)
 end

@@ -1,8 +1,8 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local C_Map = C_Map
 local DISABLE = DISABLE
 local ENABLE = ENABLE
-local GetFactionInfoByID = GetFactionInfoByID
+local GetFactionInfoByID = C_Reputation.GetFactionDataByID
+local GetMapInfo = C_Map.GetMapInfo
 local JUST_OR = JUST_OR
 local LibStub = LibStub
 local NONE = NONE
@@ -138,15 +138,15 @@ function RepByZone:GetOptions()
                         dialogControl = "Dropdown",
                         width = 1.5,
                         values = {
-                            [525]       = C_Map.GetMapInfo(525).name, -- Frostfire Ridge
-                            [534]       = C_Map.GetMapInfo(534).name, -- Tanaan Jungle
-                            [535]       = C_Map.GetMapInfo(535).name, -- Talador
-                            [539]       = C_Map.GetMapInfo(539).name, -- Shadowmoon Valley
-                            [542]       = C_Map.GetMapInfo(542).name, -- Spires of Arak
-                            [543]       = C_Map.GetMapInfo(543).name, -- Gorgrond
-                            [550]       = C_Map.GetMapInfo(550).name, -- Nagrand
-                            [582]       = C_Map.GetMapInfo(582).name, -- Lunarfall
-                            [590]       = C_Map.GetMapInfo(590).name, -- Frostwall
+                            [525]       = GetMapInfo(525).name, -- Frostfire Ridge
+                            [534]       = GetMapInfo(534).name, -- Tanaan Jungle
+                            [535]       = GetMapInfo(535).name, -- Talador
+                            [539]       = GetMapInfo(539).name, -- Shadowmoon Valley
+                            [542]       = GetMapInfo(542).name, -- Spires of Arak
+                            [543]       = GetMapInfo(543).name, -- Gorgrond
+                            [550]       = GetMapInfo(550).name, -- Nagrand
+                            [582]       = GetMapInfo(582).name, -- Lunarfall
+                            [590]       = GetMapInfo(590).name, -- Frostwall
                         },
                         get = function(_, index)
                             local value = db.profile.watchWoDBodyGuards[index]
@@ -174,8 +174,17 @@ function RepByZone:GetOptions()
                         end,
                         set = function(_, value)
                             db.char.watchedRepID = value
-                            db.char.watchedRepName = type(value) == "number" and GetFactionInfoByID(value) or NONE
-                            self.fallbackRepID = type(value) == "number" and value or 0
+                            local factionData
+                            if type(value) == "number" then
+                                self.fallbackRepID = value
+                                factionData = GetFactionInfoByID(value)
+                                if factionData then
+                                    db.char.watchedRepName = factionData.name
+                                end
+                            else
+                                self.fallbackRepID = 0
+                                db.char.watchedRepName = NONE
+                            end
                             self:SwitchedZones()
                         end
                     }

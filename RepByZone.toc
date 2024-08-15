@@ -27,6 +27,7 @@
 ## SavedVariables: RepByZoneDB
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
 
+## X-Date: @project-date-iso@
 ## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES, esMX
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
 ## X-Category: Quests & Leveling, Action Bars, Combat, Roleplay

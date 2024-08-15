@@ -1,7 +1,6 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local ALLIANCE = ALLIANCE
+local ALLIANCE = FACTION_ALLIANCE
 local C_Map = C_Map
-local C_Reputation = C_Reputation
 local C_Timer = C_Timer
 local CollapseFactionHeader = CollapseFactionHeader
 local ExpandFactionHeader = ExpandFactionHeader
@@ -12,12 +11,13 @@ local GetInstanceInfo = GetInstanceInfo
 local GetInventoryItemID = GetInventoryItemID
 local GetMinimapZoneText = GetMinimapZoneText
 local GetNumFactions = GetNumFactions
-local HORDE = HORDE
+local HORDE = FACTION_HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
 local LibStub = LibStub
 local NONE = NONE
 local select = select
+local SetWatchedFactionByID = C_Reputation.SetWatchedFaction
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -119,7 +119,7 @@ function RepByZone:OnInitialize()
     -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
     if not self.db.profile.initialized then
         self.db:RegisterDefaults(defaults)
-        self.db:ResetDB("Default")
+        self.db:ResetDB(DEFAULT)
         self.db.profile.initialized = true
     end
     db = self.db
@@ -440,10 +440,11 @@ function RepByZone:SwitchedZones()
     -- Process subzones
     if db.profile.watchSubZones then
         lookUpSubZones = true
-        -- there are no subzones in instances during Cataclysm
-        if inInstance then
-            lookUpSubZones = false
-        end
+    end
+
+    -- Cataclysm has no subzones which are different in instances
+    if inInstance then
+        lookUpSubZones = false
     end
 
     watchedFactionID = watchedFactionID
@@ -459,14 +460,14 @@ function RepByZone:SwitchedZones()
             -- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
-                C_Reputation.SetWatchedFaction(watchedFactionID)
+                SetWatchedFactionByID(watchedFactionID)
                 if db.profile.verbose then
                     self:Print(L["Now watching %s"]:format(factionName))
                 end
             end
         else
             -- There is no factionID to watch based on the databases and the user set the default watched factionID to "0-none"
-            C_Reputation.SetWatchedFaction(0)
+            SetWatchedFactionByID(0)
         end
     end)
 end
