@@ -41,7 +41,8 @@
         "MAX_REPUTATION_REACTION",
         "FACTION_ALLIANCE",
         "FACTION_HORDE",
-        "DEFAULT"
+        "DEFAULT",
+        "Settings"
     ],
     "Lua.runtime.version": "Lua 5.1",
     "Lua.runtime.builtin": {

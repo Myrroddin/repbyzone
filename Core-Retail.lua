@@ -1,17 +1,20 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local After = C_Timer.After
 local ALLIANCE = FACTION_ALLIANCE
-local C_GossipInfo = C_GossipInfo
-local C_Map = C_Map
 local CollapseFactionHeader = C_Reputation.CollapseFactionHeader
 local enum = Enum.CovenantType
 local ExpandFactionHeader = C_Reputation.ExpandFactionHeader
 local FACTION_INACTIVE = FACTION_INACTIVE
 local GetActiveCovenantID = C_Covenants.GetActiveCovenantID
+local GetAreaInfo = C_Map.GetAreaInfo
+local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetFactionDataByIndex = C_Reputation.GetFactionDataByIndex
 local GetFactionDataByID = C_Reputation.GetFactionDataByID
+local GetFriendshipReputation = C_GossipInfo.GetFriendshipReputation
+local GetFriendshipReputationRanks = C_GossipInfo.GetFriendshipReputationRanks
 local GetInstanceInfo = GetInstanceInfo
 local GetInventoryItemID = GetInventoryItemID
+local GetMapInfo = C_Map.GetMapInfo
 local GetMinimapZoneText = GetMinimapZoneText
 local GetNumFactions = C_Reputation.GetNumFactions
 local HORDE = FACTION_HORDE
@@ -36,8 +39,6 @@ local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
----@class Dialog: AceConfigDialog-3.0
-local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
 local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
@@ -149,7 +150,6 @@ local player_races_to_factionIDs = {
 -- Return a table of default SV values
 local defaults = {
     profile = {
-        delayGetFactionInfoByID = 0.25,
         enabled                 = true,
         ignoreExaltedTabards    = true,
         useFactionTabards       = true,
@@ -163,6 +163,9 @@ local defaults = {
     char = {
         watchedRepID            = nil,
         watchedRepName          = nil
+    },
+    global = {
+        delayGetFactionDataByID = 0.25,
     }
 }
 
@@ -174,10 +177,10 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
 
     -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
-    if not self.db.profile.initialized then
+    if not self.db.global.initialized then
         self.db:RegisterDefaults(defaults)
         self.db:ResetDB(DEFAULT)
-        self.db.profile.initialized = true
+        self.db.global.initialized = true
     end
     db = self.db
 
@@ -194,7 +197,7 @@ function RepByZone:OnInitialize()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("RepByZone", options)
 
     -- Add options to Interface/AddOns
-    self.optionsFrame = Dialog:AddToBlizOptions("RepByZone", "RepByZone")
+    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("RepByZone", "RepByZone")
 
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
@@ -239,7 +242,7 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
 
     -- Set up variables that are not available as early as OnInitialize()
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
+    self:SetUpVariables()
 end
 
 function RepByZone:OnDisable()
@@ -263,21 +266,21 @@ function RepByZone:SlashHandler()
     local isInCombat = self:InCombat()
     if isInCombat then return end
 
-    -- Close option panel if opened, otherwise open option panel
-    if Dialog.OpenFrames["RepByZone"] then
-        Dialog:Close("RepByZone")
-    else
-        Dialog:Open("RepByZone")
-    end
+    Settings.OpenToCategory("RepByZone")
 end
 
 -- The user has reset the profile or created a new profile
-function RepByZone:RefreshConfig()
-    self:SetUpVariables(true) -- true == new or reset profile
+function RepByZone:RefreshConfig(callback)
+    if callback == "OnProfileReset" then
+        self.db:ResetDB(DEFAULT)
+        self.db.global.initialized = true
+    end
+    db = self.db
+    self:SetUpVariables()
 end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
-function RepByZone:SetUpVariables(newOrResetProfile)
+function RepByZone:SetUpVariables()
     -- Initialize or verify part of the profile database
     local defaultRepID, defaultRepName = self:GetRacialRep()
     self.racialRepID = defaultRepID
@@ -291,15 +294,6 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     self:GetSholazarBasinRep()
     self:GetWrathionOrSabellianRep()
     self:GetEquippedTabard(_, "player")
-
-    -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
-    if newOrResetProfile then
-        self.db:RegisterDefaults(defaults)
-        self.db:ResetProfile(false, true)
-        self.db.profile.initialized = true
-        db = self.db
-        db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
-    end
 
     if not IsPlayerNeutral() then
         -- Alliance or Horde characters cannot use Shang Xi's Academy, and we missed updating them
@@ -315,9 +309,6 @@ end
 ------------------- Event handlers starts here --------------------
 function RepByZone:InCombat()
     if UnitAffectingCombat("player") then
-        if Dialog.OpenFrames["RepByZone"] then
-            Dialog:Close("RepByZone")
-        end
         return true
     end
     return false
@@ -413,11 +404,11 @@ function RepByZone:GetWrathionOrSabellianRep(isInCombat)
 
     local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
     self.dragonflightRepID = 2510 -- start with Valdrakken Accord
-    local wrathionFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2517)
-    local sabellianFriendshipInfo = C_GossipInfo.GetFriendshipReputation(2518)
+    local wrathionFriendshipInfo = GetFriendshipReputation(2517)
+    local sabellianFriendshipInfo = GetFriendshipReputation(2518)
 
-    local wrathionRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2517)
-    local sabellianRankInfo = C_GossipInfo.GetFriendshipReputationRanks(2518)
+    local wrathionRankInfo = GetFriendshipReputationRanks(2517)
+    local sabellianRankInfo = GetFriendshipReputationRanks(2518)
 
     local wrathionMaxRep = wrathionFriendshipInfo and wrathionFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
     local sabellianMaxRep = sabellianFriendshipInfo and sabellianFriendshipInfo.maxRep or 0 -- use 0 instead of possible nil
@@ -453,10 +444,10 @@ function RepByZone:GetWrathionOrSabellianRep(isInCombat)
 end
 
 function RepByZone:GetMultiRepIDsForZones()
-    local uiMapID = C_Map.GetBestMapForUnit("player")
+    local uiMapID = GetBestMapForUnit("player")
     -- possible zoning issues, exit out unless we have valid map data
     if not uiMapID then return end
-    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    local parentMapID = GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isInCombat = self:InCombat()
     local newtabardStandingStatus = (GetFactionDataByID(tabardID).reaction == MAX_REPUTATION_REACTION) or false
@@ -466,7 +457,7 @@ function RepByZone:GetMultiRepIDsForZones()
         self:GetSholazarBasinRep()
     end
 
-    if (subZone == C_Map.GetAreaInfo(13720)) or (subZone == C_Map.GetAreaInfo(13717)) then
+    if (subZone == GetAreaInfo(13720)) or (subZone == GetAreaInfo(13717)) then
         -- Valdrakken Accord, Wrathion, or Sabellian in Dragonbane Keep or Obsidian Citadel
         self:GetWrathionOrSabellianRep(isInCombat) -- pass combat status to GetWrathionOrSabellianRep()
     end
@@ -584,7 +575,7 @@ function RepByZone:EnteringInstance(_, isInitialLogin, isReloadingUi)
     if isInitialLogin or isReloadingUi then
         return
     else
-        self:SwitchedZones()
+        After(1, function() self:SwitchedZones() end)
     end
 end
 
@@ -593,7 +584,7 @@ function RepByZone:SwitchedZones(event)
     if not db.profile.enabled then return end -- Exit if the addon is disabled
 
     -- Possible zoning issues, exit out unless we have valid map data
-    local uiMapID = C_Map.GetBestMapForUnit("player")
+    local uiMapID = GetBestMapForUnit("player")
     if not uiMapID then return end
 
     if isOnTaxi then
@@ -618,7 +609,7 @@ function RepByZone:SwitchedZones(event)
     local hasDungeonTabard, lookUpSubZones = false, false
     local inInstance, instanceType = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
-    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    local parentMapID = GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isWoDZone = self.WoDFollowerZones[uiMapID] or (self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
 
@@ -673,7 +664,7 @@ function RepByZone:SwitchedZones(event)
     or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-    After(db.profile.delayGetFactionInfoByID, function()
+    After(db.global.delayGetFactionDataByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
             -- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
             factionData = GetFactionDataByID(watchedFactionID)

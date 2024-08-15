@@ -1,10 +1,12 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local C_Map = C_Map
+local After = C_Timer.After
 local CollapseFactionHeader = CollapseFactionHeader
 local ExpandFactionHeader = ExpandFactionHeader
 local FACTION_INACTIVE = FACTION_INACTIVE
+local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetFactionInfo = GetFactionInfo
 local GetFactionInfoByID = GetFactionInfoByID
+local GetMapInfo = C_Map.GetMapInfo
 local GetMinimapZoneText = GetMinimapZoneText
 local GetNumFactions = GetNumFactions
 local IsInInstance = IsInInstance
@@ -22,8 +24,6 @@ local wipe = wipe
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
----@class Dialog: AceConfigDialog-3.0
-local Dialog = LibStub("AceConfigDialog-3.0")
 
 -- Local variables
 local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
@@ -57,7 +57,6 @@ local player_races_to_factionIDs = {
 -- Return a table of default SV values
 local defaults = {
     profile = {
-        delayGetFactionInfoByID = 0.25,
         enabled                 = true,
         verbose                 = true,
         watchOnTaxi             = true,
@@ -66,6 +65,9 @@ local defaults = {
     char = {
         watchedRepID            = nil,
         watchedRepName          = nil
+    },
+    global = {
+        delayGetFactionDataByID = 0.25,
     }
 }
 
@@ -76,10 +78,10 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
 
     -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
-    if not self.db.profile.initialized then
+    if not self.db.global.initialized then
         self.db:RegisterDefaults(defaults)
         self.db:ResetDB(DEFAULT)
-        self.db.profile.initialized = true
+        self.db.global.initialized = true
     end
     db = self.db
 
@@ -96,7 +98,7 @@ function RepByZone:OnInitialize()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("RepByZone", options)
 
     -- Add options to Interface/AddOns
-    self.optionsFrame = Dialog:AddToBlizOptions("RepByZone", "RepByZone")
+    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("RepByZone", "RepByZone")
 
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
@@ -123,7 +125,7 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
 
     -- Set up variables that are not available as early as OnInitialize()
-    self:SetUpVariables(false) -- false == this is not a new or reset profile
+    self:SetUpVariables()
 end
 
 function RepByZone:OnDisable()
@@ -141,21 +143,21 @@ function RepByZone:SlashHandler()
     local isInCombat = self:InCombat()
     if isInCombat then return end
 
-    -- Close option panel if opened, otherwise open option panel
-    if Dialog.OpenFrames["RepByZone"] then
-        Dialog:Close("RepByZone")
-    else
-        Dialog:Open("RepByZone")
-    end
+    Settings.OpenToCategory("RepByZone")
 end
 
--- The user has reset the DB or created a new profile
-function RepByZone:RefreshConfig()
-    self:SetUpVariables(true) -- true == new or reset profile
+-- The user has reset the profile or created a new profile
+function RepByZone:RefreshConfig(callback)
+    if callback == "OnProfileReset" then
+        self.db:ResetDB(DEFAULT)
+        self.db.global.initialized = true
+    end
+    db = self.db
+    self:SetUpVariables()
 end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
-function RepByZone:SetUpVariables(newOrResetProfile)
+function RepByZone:SetUpVariables()
     -- Initialize or verify part of the database
     local defaultRepID, defaultRepName = self:GetRacialRep()
     db.char.watchedRepID = db.char.watchedRepID or defaultRepID
@@ -164,15 +166,6 @@ function RepByZone:SetUpVariables(newOrResetProfile)
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
     self:CheckTaxi()
 
-    -- The profile was reset by the user, refresh db.char.watchedRepID and db.char.watchedRepName
-    if newOrResetProfile then
-        self.db:RegisterDefaults(defaults)
-        self.db:ResetProfile(false, true)
-        self.db.profile.initialized = true
-        db = self.db
-        db.char.watchedRepID, db.char.watchedRepName = defaultRepID, defaultRepName
-    end
-
     -- no need to calculate the fallback reputation unless the user changes the setting
     self.fallbackRepID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
 end
@@ -180,20 +173,6 @@ end
 ------------------- Event handlers starts here --------------------
 function RepByZone:InCombat()
     if UnitAffectingCombat("player") then
-        if Dialog.OpenFrames["RepByZone"] then
-            Dialog:Close("RepByZone")
-        end
-        return true
-    end
-    return false
-end
-
-------------------- Event handlers starts here --------------------
-function RepByZone:InCombat()
-    if UnitAffectingCombat("player") then
-        if Dialog.OpenFrames["RepByZone"] then
-            Dialog:Close("RepByZone")
-        end
         return true
     end
     return false
@@ -278,15 +257,19 @@ function RepByZone:GetRacialRep()
 end
 
 -- Entering an instance
-function RepByZone:EnteringInstance()
-    self:SwitchedZones()
+function RepByZone:EnteringInstance(_, isInitialLogin, isReloadingUi)
+    if isInitialLogin or isReloadingUi then
+        return
+    else
+        After(1, function() self:SwitchedZones() end)
+    end
 end
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
     if not db.profile.enabled then return end -- Exit if the addon is disabled
 
-    local uiMapID = C_Map.GetBestMapForUnit("player")
+    local uiMapID = GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
 
     if isOnTaxi then
@@ -306,7 +289,7 @@ function RepByZone:SwitchedZones()
     local inInstance = IsInInstance()
     local whichInstanceID = inInstance and select(8, GetInstanceInfo())
     local subZone = GetMinimapZoneText()
-    local parentMapID = C_Map.GetMapInfo(uiMapID).parentMapID
+    local parentMapID = GetMapInfo(uiMapID).parentMapID
     local lookUpSubZones = false
 
     -- Process subzones
@@ -326,7 +309,7 @@ function RepByZone:SwitchedZones()
     or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-    C_Timer.After(db.profile.delayGetFactionInfoByID, function()
+    After(db.global.delayGetFactionDataByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
             -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.char.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)

@@ -112,15 +112,15 @@ function RepByZone:GetOptions()
                             self:SwitchedZones()
                         end
                     },
-                    delayGetFactionInfoByID = {
+                    delayGetFactionDataByID = {
                         order = 90,
                         name = L["Delay Setting the Watched Faction"],
                         desc = L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."],
                         type = "range",
                         width = 1.5,
-                        get = function() return db.profile.delayGetFactionInfoByID end,
+                        get = function() return db.global.delayGetFactionDataByID end,
                         set = function(_, value)
-                            db.profile.delayGetFactionInfoByID = value
+                            db.global.delayGetFactionDataByID = value
                         end,
                         bigStep = 0.25,
                         min = 0.10,
