@@ -27,4 +27,5 @@ RepByZone can be localized using Curseforge's [online localization](https://lega
 
 ## Known Issues
 
-- It is not possible to display zone or subzone data for reputations the character has not yet discovered. Once a character gains or loses any amount of reputation with that faction and moves around the zone, RBZ will update. Discovering the faction may require the character to explore other zones or even continents.
+- It is not possible to display zone or subzone data for reputations the character has not yet discovered. Once a character gains or loses any amount of reputation with that faction and moves around the zone, RBZ will update.
+- Discovering the faction may require the character to explore other zones or even continents, then kill mobs or do quests for the faction.
