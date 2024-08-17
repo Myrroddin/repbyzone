@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field, undefined-global
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local After = C_Timer.After
 local ALLIANCE = FACTION_ALLIANCE
@@ -373,12 +374,15 @@ end
 
 -- Sholazar Basin has three possible zone factions
 function RepByZone:GetSholazarBasinRep()
-    local newSholazarRepID
-    local frenzyHeartStanding = GetFactionDataByID(1104).reaction
-    local oraclesStanding = GetFactionDataByID(1105).reaction
+    local newSholazarRepID, frenzyHeartData, oraclesData
+    frenzyHeartData = GetFactionDataByID(1104)
+    oraclesData = GetFactionDataByID(1105)
 
     -- nil check
-    if not frenzyHeartStanding or not oraclesStanding then return end
+    if not frenzyHeartData or not oraclesData then return end
+
+    local frenzyHeartStanding = frenzyHeartData.reaction
+    local oraclesStanding = oraclesData.reaction
 
     if frenzyHeartStanding <= 3 then
         newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
@@ -450,36 +454,54 @@ function RepByZone:GetMultiRepIDsForZones()
     local parentMapID = GetMapInfo(uiMapID).parentMapID
     local subZone = GetMinimapZoneText()
     local isInCombat = self:InCombat()
-    local newtabardStandingStatus = (GetFactionDataByID(tabardID).reaction == MAX_REPUTATION_REACTION) or false
+    local factionData, newtabardStandingStatus = nil, false
+    local inInstance, instanceType = IsInInstance()
+
+    if tabardID then
+        factionData = GetFactionDataByID(tabardID)
+    end
+    if factionData then
+        newtabardStandingStatus = factionData.reaction == MAX_REPUTATION_REACTION
+    end
 
     if uiMapID == 119 or parentMapID == 119 then
         -- Sholazar Basin
         self:GetSholazarBasinRep()
+        return
     end
 
     if (subZone == GetAreaInfo(13720)) or (subZone == GetAreaInfo(13717)) then
         -- Valdrakken Accord, Wrathion, or Sabellian in Dragonbane Keep or Obsidian Citadel
         self:GetWrathionOrSabellianRep(isInCombat) -- pass combat status to GetWrathionOrSabellianRep()
+        return
     end
 
     -- learn if the player is wearing a dungeon faction tabard and update if required
-    if newtabardStandingStatus ~= tabardStandingStatus then
-        tabardStandingStatus = newtabardStandingStatus
-        self:SwitchedZones()
+    if inInstance and instanceType == "party" then
+        if newtabardStandingStatus ~= tabardStandingStatus then
+            tabardStandingStatus = newtabardStandingStatus
+            self:SwitchedZones()
+            return
+        end
     end
 end
 
 -- Tabard code
 function RepByZone:GetEquippedTabard(_, unit)
     if unit ~= "player" then return end
-    local newTabardID, newTabardRep, factionReaction
+    local newTabardID, newTabardRep, factionData
     newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
+    tabardStandingStatus = false
 
     if newTabardID then
         newTabardRep = tabard_itemIDs_to_factionIDs[newTabardID]
-        factionReaction = GetFactionDataByID(newTabardRep).reaction
+        if newTabardRep then
+            factionData = GetFactionDataByID(newTabardRep)
+            if factionData then
+                tabardStandingStatus = factionData.reaction == MAX_REPUTATION_REACTION
+            end
+        end
     end
-    tabardStandingStatus = (newTabardRep and factionReaction == MAX_REPUTATION_REACTION) or false
 
     if newTabardRep ~= tabardID then
         tabardID = newTabardRep

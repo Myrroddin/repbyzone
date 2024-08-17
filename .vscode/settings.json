@@ -19,18 +19,6 @@
         "ChatFrame3",
         "tostringall",
         "ALL",
-        "_G",
-        "Enum",
-        "error",
-        "setmetatable",
-        "rawget",
-        "next",
-        "select",
-        "pairs",
-        "type",
-        "tostring",
-        "assert",
-        "tonumber",
         "StaticPopupDialogs",
         "ORDER_HALL_ZONE_SUPPORT",
         "ERR_SKILL_UP_SI",
@@ -57,6 +45,6 @@
         "utf8": "disable"
     },
     "Lua.workspace.library": [
-        "~\\.vscode\\extensions\\ketho.wow-api-0.16.8\\Annotations"
+        "~\\.vscode\\extensions\\ketho.wow-api-0.17.4\\Annotations"
     ]
 }
