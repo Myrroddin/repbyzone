@@ -4,16 +4,15 @@ As you wander around Azeroth, your reputation bar will switch depending on where
 
 ## Supports
 
-- Gained Retail WoW support! Completed January 26, 2022, at least until patch 9.2 releases. If I missed any scenarios or other areas, let me know.
 - Zones by faction: Stormwind, Darkspear Trolls, Gnomeregan Exiles, Orgrimmar, etc.
 - Instances by faction: Hydraxian Waterlords, Brood of Nozdormu, etc
 - Battlegrounds by faction: Silverpike Guard, Warsong Outriders, etc
 - Subzones by faction: several little areas in various zones have pockets of faction hubs
 - WoD Bodyguards' reputations can be watched instead of zone reputations
-- Wrath and retail support equipped capital city tabards while in dungeons
+- Cataclysm and retail support equipped capital city tabards while in dungeons
+- Option to stop watching capital city tabard factions at Exalted
 - Toggle on/off switching watched factions while you are taking taxi flights
 - If you haven't discovered a zone reputation or there isn't one, select a default fallback watched reputation
-- Some races have an associated reputation, which you can use instead of the default fallback reputation
 
 ## Open the options
 
@@ -24,6 +23,10 @@ As you wander around Azeroth, your reputation bar will switch depending on where
 ## Translate
 
 RepByZone can be localized using Curseforge's [online localization](https://legacy.curseforge.com/wow/addons/repbyzone/localization) URL.
+
+## Bug Reports
+
+If you encountered an error, file a report [on GitHub](https://github.com/Myrroddin/repbyzone/issues) and I will be notified.
 
 ## Known Issues
 
