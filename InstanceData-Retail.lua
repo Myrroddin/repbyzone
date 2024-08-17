@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup

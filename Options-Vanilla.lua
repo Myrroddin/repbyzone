@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field, undefined-global
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local DISABLE = DISABLE
 local ENABLE = ENABLE

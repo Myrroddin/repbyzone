@@ -1,4 +1,4 @@
----@diagnostic disable: duplicate-set-field, undefined-global
+---@diagnostic disable: duplicate-set-field, undefined-global, undefined-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local After = C_Timer.After
 local CollapseFactionHeader = CollapseFactionHeader
