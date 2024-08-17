@@ -265,17 +265,22 @@ function RepByZone:GetMultiRepIDsForZones()
     if not uiMapID then return end
     local parentMapID = GetMapInfo(uiMapID).parentMapID
     local newtabardStandingStatus = false
+    local inInstance, instanceType = IsInInstance()
 
     if uiMapID == 119 or parentMapID == 119 then
         -- Sholazar Basin
         self:GetSholazarBasinRep()
+        return
     end
 
     -- learn if the player is wearing a dungeon faction tabard and update if required
-    newtabardStandingStatus = tabardID and (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION) or false
-    if newtabardStandingStatus ~= tabardStandingStatus then
-        tabardStandingStatus = newtabardStandingStatus
-        self:SwitchedZones()
+    if inInstance and instanceType == "party" then
+        newtabardStandingStatus = tabardID and (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION) or false
+        if newtabardStandingStatus ~= tabardStandingStatus then
+            tabardStandingStatus = newtabardStandingStatus
+            self:SwitchedZones()
+            return
+        end
     end
 end
 
