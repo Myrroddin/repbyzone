@@ -94,7 +94,6 @@ function RepByZone:ZoneAndFactionList()
         [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
         [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
         [118]       = 1098,     -- Icecrown/Knights of the Ebon Blade
-        [119]       = self.sholazarRepID, -- See Core-Retail.lua's CheckSholazarBasin()
         [120]       = 1119,     -- The Storm Peaks/The Sons of Hodir
         [121]       = 1106,     -- Zul'Drak/Argent Crusade
         [123]       = A and 1050 or H and 1052, -- Wintergrasp/Valiance Expedition or Horde Expedition

@@ -16,6 +16,7 @@ local GetNumFactions = GetNumFactions
 local HORDE = FACTION_HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
+local IsPlayerNeutral = IsPlayerNeutral
 local LibStub = LibStub
 local NONE = NONE
 local select = select
@@ -65,6 +66,7 @@ local tabard_itemIDs_to_factionIDs = {
     [45579]     = 69,       -- Darnassus
     [45580]     = 930,      -- Exodar
     [64882]     = 1134,     -- Gilneas
+    [83079]     = 1353,     -- Tushui Pandaren
 
     -- Horde
     [45581]     = 76,       -- Orgrimmar
@@ -73,6 +75,7 @@ local tabard_itemIDs_to_factionIDs = {
     [45584]     = 81,       -- Thunder Bluff
     [45585]     = 911,      -- Silvermoon City
     [64884]     = 1133,     -- Bilgewater Cartel
+    [83080]     = 1352,     -- Huojin Pandaren
 }
 
 -- Blizzard adds new player races, assign factionIDs on the "basic" factions that are available for new characters
@@ -90,6 +93,7 @@ local player_races_to_factionIDs = {
     ["Draenei"]             = 930,      -- Exodar
     ["Goblin"]              = 1133,     -- Bilgewater Cartel
     ["Worgen"]              = 1134,     -- Gilneas
+    ["Pandaren"]            = A and 1353 or H and 1352 or 1216, -- Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
 }
 
 -- Return a table of default SV values
@@ -162,6 +166,11 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
+    -- Pandaren do not start Alliance or Horde
+    if IsPlayerNeutral() then
+        self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
+    end
+
     -- Check Sholazar Basin and Wrathion/Sabellian factions
     self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
@@ -182,6 +191,7 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("ZONE_CHANGED_INDOORS")
     self:UnregisterEvent("PLAYER_CONTROL_LOST")
     self:UnregisterEvent("PLAYER_CONTROL_GAINED")
+    self:UnregisterEvent("NEUTRAL_FACTION_SELECT_RESULT")
     self:UnregisterEvent("UPDATE_FACTION")
     self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
@@ -218,6 +228,13 @@ function RepByZone:SetUpVariables()
     self:GetSholazarBasinRep()
     self:GetEquippedTabard(_, "player")
 
+    if not IsPlayerNeutral() then
+        -- Alliance or Horde characters cannot use Shang Xi's Academy, and we missed updating them
+        if db.char.watchedRepID == 1216 then
+            self:GetPandarenRep("NEUTRAL_FACTION_SELECT_RESULT", true)
+        end
+    end
+
     -- no need to calculate the fallback reputation unless the user changes the setting
     self.fallbackRepID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
 end
@@ -233,6 +250,22 @@ end
 -- Is the player on a taxi
 function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
+end
+
+-- Pandaren code
+function RepByZone:GetPandarenRep(event, success)
+    if success then
+        A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
+        H = UnitFactionGroup("player") == "Horde" and HORDE
+        if A or H then
+            -- Update data
+            self:UnregisterEvent(event)
+            db.char.watchedRepID, db.char.watchedRepName = self:GetRacialRep()
+            zonesAndFactions = self:ZoneAndFactionList()
+            self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.char.watchedRepName))
+            self:SwitchedZones()
+        end
+    end
 end
 
 -- Sholazar Basin has three possible zone factions
@@ -441,7 +474,7 @@ function RepByZone:SwitchedZones()
         lookUpSubZones = true
     end
 
-    -- Cataclysm has no subzones which are different in instances
+    -- Mists of Pandaria has no subzones which are different in instances
     if inInstance then
         lookUpSubZones = false
     end

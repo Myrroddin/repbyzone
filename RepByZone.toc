@@ -62,12 +62,12 @@ Locales\koKR.lua
 # Data-Vanilla.lua
 # Options-Vanilla.lua
 # #@end-version-classic@
-# #@version-cata@
-# Core-Cata.lua
-# Data-Cata.lua
-# InstanceData-Cata.lua
-# Options-Cata.lua
-# #@end-version-cata@
+# #@version-mists@
+# Core-MoP.lua
+# Data-MoP.lua
+# InstanceData-MoP.lua
+# Options-MoP.lua
+# #@end-version-mists@
 #@end-non-debug@
 #@version-retail@
 Core-Retail.lua

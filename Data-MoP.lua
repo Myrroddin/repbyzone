@@ -94,7 +94,6 @@ function RepByZone:ZoneAndFactionList()
         [116]       = A and 1050 or H and 1085, -- Grizzly Hills/Valiance Expedition or Warsong Offensive
         [117]       = A and 1050 or H and 1067, -- Howling Fjord/Valiance Expedition or The Hand of Vengeance
         [118]       = 1098,     -- Icecrown/Knights of the Ebon Blade
-        [119]       = self.sholazarRepID, -- See Core-Retail.lua's CheckSholazarBasin()
         [120]       = 1119,     -- The Storm Peaks/The Sons of Hodir
         [121]       = 1106,     -- Zul'Drak/Argent Crusade
         [123]       = A and 1050 or H and 1052, -- Wintergrasp/Valiance Expedition or Horde Expedition
@@ -127,6 +126,23 @@ function RepByZone:ZoneAndFactionList()
         [249]       = 1173,     -- Uldum/Ramkahen
         [276]       = 1135,     -- The Maelstrom/The Earthen Ring
         [738]       = 1204,     -- Firelands/Avengers of Hyjal
+
+        --------- MoP ---------
+        [371]       = A and 1242 or H and 1228, -- Jade Forest/Pearlfin Jinyu or Forest Hozen
+        [376]       = 1272,     -- Valley of the Four Winds/The Tillers
+        [378]       = A and 1353 or H and 1352 or 1216, -- The Wandering Isle/Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+        [379]       = 1270,     -- Kun-Lai Summit/Shado-Pan
+        [388]       = 1270,     -- Towlong Steppes/Shado-Pan
+        [390]       = 1269,     -- Vale of Eternal Blossoms/Golden Lotus
+        [407]       = 909,      -- Darkmoon Island (orphan)/Darkmoon Faire
+        [408]       = 909,      -- Darkmoon Island (dungeon)/Darkoon Faire
+        [418]       = 1302,     -- Krasarang Wilds/The Anglers
+        [422]       = 1337,     -- Dread Wastes/The Klaxxi
+        [425]       = 72,       -- Northshire/Stormwind
+        [433]       = 1359,     -- The Veiled Stair/The Black Prince
+        [507]       = A and 72 or H and 76, -- Isle of Giants/Stormwind or Orgrimmar
+        [516]       = A and 1387 or H and 1388, -- Isle of Thunder/Kirin Tor Offensive or Sunreaver Onslaught
+        [554]       = 1492,     -- Timeless Isle/Emperor Shaohao
     }
     return zonesAndFactions
 end
@@ -540,6 +556,64 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(5595)]       = 1091,     -- Obsidian Forest/The Wyrmrest Accord
         [C_Map.GetAreaInfo(5660)]       = 1091,     -- Obsidian Lair/The Wyrmrest Accord
         [C_Map.GetAreaInfo(5664)]       = 1135,     -- Iso'rath/The Earthen Ring
+
+        --------- MoP ---------
+        [C_Map.GetAreaInfo(4081)]       = 81,       -- The Dawnchaser/Thunder Bluff
+        [C_Map.GetAreaInfo(5876)]       = 1271,     -- Serpent's Heart/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(5931)]       = 1271,     -- The Arboretum/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(5974)]       = 1341,     -- Jade Temple Grounds/The August Celestials
+        [C_Map.GetAreaInfo(5975)]       = 1341,     -- Temple of the Jade Serpent/The August Celestials
+        [C_Map.GetAreaInfo(5976)]       = 1270,     -- Gate of the Setting Sun/Shado-Pan
+        [C_Map.GetAreaInfo(6012)]       = 1271,     -- Windward Isle/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(6013)]       = A and 1376 or H and 1375, -- The Dawnchaser (Retreat)/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6016)]       = 69,       -- Sentinel Basecamp/Darnassus
+        [C_Map.GetAreaInfo(6022)]       = 1271,     -- Mistveil Sea/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(6025)]       = 47,       -- Nesingwary's Safari/Ironforge
+        [C_Map.GetAreaInfo(6048)]       = 1341,     -- Temple of the Red Crane/The August Celestials
+        [C_Map.GetAreaInfo(6059)]       = A and 1353 or H and 1352, -- Binan Village/Tushui Pandaren or Huojin Pandaren
+        [C_Map.GetAreaInfo(6080)]       = 1271,     -- Serpent's Overlook/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(6117)]       = 1341,     -- Fountain of the Everseeing/The August Celestials
+        [C_Map.GetAreaInfo(6118)]       = 1341,     -- The Scrollkeeper's Sanctum/The August Celestials
+        [C_Map.GetAreaInfo(6119)]       = 1341,     -- Terrace of the Twin Dragons/The August Celestials
+        [C_Map.GetAreaInfo(6120)]       = 1341,     -- The Heart of Jade/The August Celestials
+        [C_Map.GetAreaInfo(6143)]       = 1341,     -- Mogu'shan Palace1/The August Celestials
+        [C_Map.GetAreaInfo(6155)]       = 1341,     -- Cradle of Chi-Ji/The August Celestials
+        [C_Map.GetAreaInfo(6160)]       = 1341,     -- Angkhal Pavilion/The August Celestials
+        [C_Map.GetAreaInfo(6161)]       = 1341,     -- Pedestal of Hope/The August Celestials
+        [C_Map.GetAreaInfo(6162)]       = 1341,     -- Dome Balrissa/The August Celestials
+        [C_Map.GetAreaInfo(6174)]       = 1341,     -- Temple of the White Tiger/The August Celestials
+        [C_Map.GetAreaInfo(6182)]       = 1341,     -- Mogu'shan Palace2/The August Celestials
+        [C_Map.GetAreaInfo(6213)]       = 1341,     -- Niuzao Temple/The August Celestials
+        [C_Map.GetAreaInfo(6295)]       = 1345,     -- Seat of Knowledge/The Lorewalkers
+        [C_Map.GetAreaInfo(6368)]       = 1302,     -- Soggy's Gamble/The Anglers
+        [C_Map.GetAreaInfo(6371)]       = A and 1376 or H and 1375, -- The Southern Isles/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6393)]       = 1270,     -- Serpent's Spine (Valley of the Four Winds)/Shado-Pan
+        [C_Map.GetAreaInfo(6394)]       = 1270,     -- Serpent's Spine (Vale of Eternal Blossoms)/Shado-Pan
+        [C_Map.GetAreaInfo(6395)]       = 1270,     -- Serpent's Spine (Kun-Lai Summit)/Shado-Pan
+        [C_Map.GetAreaInfo(6401)]       = 1302,     -- Shelf of Mazu/The Anglers
+        [C_Map.GetAreaInfo(6402)]       = 1302,     -- Wreck of the Mist-Hopper/The Anglers
+        [C_Map.GetAreaInfo(6433)]       = 1302,     -- Lonesome Cove/The Anglers
+        [C_Map.GetAreaInfo(6482)]       = A and 1341, -- The Summer Terrace/The August Celestials
+        [C_Map.GetAreaInfo(6498)]       = 1341,     -- Gate of the August Celestials/The August Celestials
+        [C_Map.GetAreaInfo(6512)]       = 1271,     -- The Widow's Wail/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(6513)]       = 1271,     -- Oona Kagu/Order of the Cloud Serpent
+        [C_Map.GetAreaInfo(6533)]       = 72,       -- The Skyfire (Jade Forest)/Stormwind
+        [C_Map.GetAreaInfo(6560)]       = H and 1341, -- The Golden Terrace/The August Celestials
+        [C_Map.GetAreaInfo(6566)]       = A and 1376 or H and 1375, -- Domination Point/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6595)]       = A and 1376 or H and 1375, -- The Skyfire/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6596)]       = A and 1376 or H and 1375, -- Lion's Landing1/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6597)]       = A and 1376 or H and 1375, -- Sparkrocket Outpost/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6600)]       = A and 1376 or H and 1375, -- Blacksand Spillway/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6601)]       = A and 1376 or H and 1375, -- Bilgewater Beach/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6602)]       = A and 1376 or H and 1375, -- The Boiling Crustacean/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6604)]       = A and 1376 or H and 1375, -- Quickchop's Lumber Farm/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6609)]       = A and 1376 or H and 1375, -- Ruins of Ogudei/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6643)]       = A and 1376 or H and 1375, -- Lion's Landing/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6644)]       = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
+        [C_Map.GetAreaInfo(6701)]       = 54,       -- Beeble's Wreck/Gnomeregan
+        [C_Map.GetAreaInfo(6702)]       = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
+        [C_Map.GetAreaInfo(6762)]       = 1710,     -- Shattrath City Center/Sha'tari Defense
+        [C_Map.GetAreaInfo(6771)]       = 1341,     -- Celestial Tournament/The August Celestials
     }
     return subZonesAndFactions
 end
