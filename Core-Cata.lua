@@ -19,7 +19,7 @@ local IsInInstance = IsInInstance
 local LibStub = LibStub
 local NONE = NONE
 local select = select
-local SetWatchedFactionByID = C_Reputation.SetWatchedFaction
+local SetWatchedFactionIndex = SetWatchedFactionIndex
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -459,14 +459,22 @@ function RepByZone:SwitchedZones()
             -- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
-                SetWatchedFactionByID(watchedFactionID)
+                self:OpenAllFactionHeaders() -- Open all headers to ensure the watched faction is visible
+                for factionIndex = 1, GetNumFactions() do
+                    local name, _, _, _, _, _, _, _, _, _, _, _, _, factionID = GetFactionInfo(factionIndex)
+                    if name and factionID == watchedFactionID then
+                        SetWatchedFactionIndex(factionIndex)
+                        break
+                    end
+                end
+                self:CloseAllFactionHeaders() -- Close all headers after setting the watched faction
                 if db.profile.verbose then
                     self:Print(L["Now watching %s"]:format(factionName))
                 end
             end
         else
             -- There is no factionID to watch based on the databases and the user set the default watched factionID to "0-none"
-            SetWatchedFactionByID(0)
+            SetWatchedFactionIndex(0)
         end
     end)
 end
