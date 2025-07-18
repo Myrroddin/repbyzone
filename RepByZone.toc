@@ -1,6 +1,4 @@
-## Interface: 110002
-## Interface-Classic: 11503
-## Interface-Cata: 40400
+## Interface: 11507, 50500, 110107
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
