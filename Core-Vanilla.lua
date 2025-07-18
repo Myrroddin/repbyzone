@@ -13,7 +13,7 @@ local GetNumFactions = GetNumFactions
 local IsInInstance = IsInInstance
 local LibStub = LibStub
 local NONE = NONE
-local SetWatchedFactionByID = C_Reputation.SetWatchedFaction
+local SetWatchedFactionIndex = SetWatchedFactionIndex
 local type = type
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
@@ -315,14 +315,22 @@ function RepByZone:SwitchedZones()
             -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.char.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
-                SetWatchedFactionByID(watchedFactionID)
+                self:OpenAllFactionHeaders() -- Open all headers to ensure the watched faction is visible
+                for factionIndex = 1, GetNumFactions() do
+                    local name, _, _, _, _, _, _, _, _, _, _, _, _, factionID = GetFactionInfo(factionIndex)
+                    if name and factionID == watchedFactionID then
+                        SetWatchedFactionIndex(factionIndex)
+                        break
+                    end
+                end
+                self:CloseAllFactionHeaders() -- Close all headers after setting the watched faction
                 if db.profile.verbose then
                     self:Print(L["Now watching %s"]:format(factionName))
                 end
             end
         else
             -- There is nothing in the database and db.char.watchedRepID is not a number; blank the bar
-            SetWatchedFactionByID(0)
+            SetWatchedFactionIndex(0)
         end
     end)
 end
