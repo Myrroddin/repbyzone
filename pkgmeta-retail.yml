@@ -19,3 +19,6 @@ externals:
 
 ignore:
   - Libs/LibStub/tests
+  - "*.md"
+  - "*Vanilla*.*"
+  - "*Mists*.*"

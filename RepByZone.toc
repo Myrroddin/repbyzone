@@ -65,10 +65,10 @@ Locales\koKR.lua
 # Options-Vanilla.lua
 # #@end-version-classic@
 # #@version-mists@
-# Core-MoP.lua
-# Data-MoP.lua
-# InstanceData-MoP.lua
-# Options-MoP.lua
+# Core-Mists.lua
+# Data-Mists.lua
+# InstanceData-Mists.lua
+# Options-Mists.lua
 # #@end-version-mists@
 #@end-non-debug@
 #@version-retail@

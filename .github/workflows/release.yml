@@ -39,5 +39,17 @@ jobs:
           fetch-depth: 0  # gets git history for changelogs
 
       # once cloned, we just run the GitHub Action for the packager project
-      - name: Package and release
+      - name: Package and release for Retail
         uses: BigWigsMods/packager@v2
+        with:
+          args: -g retail -m pkmeta-retail.yml
+
+      - name: Package and release for Classic Era
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -g classic -m pkmeta-vanilla.yml
+
+      - name: Package and release for Mists of Pandaria
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -g mists -m pkmeta-mists.yml
