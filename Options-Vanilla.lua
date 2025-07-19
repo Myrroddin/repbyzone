@@ -36,6 +36,7 @@ function RepByZone:GetOptions()
                     db.profile.enabled = value
                     if value then
                         self:Enable()
+                        self:PLAYER_ENTERING_WORLD(_, true) -- Force an update of the saved variables
                     else
                         self:Disable()
                     end

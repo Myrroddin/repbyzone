@@ -13,6 +13,7 @@ As you wander around Azeroth, your reputation bar will switch depending on where
 - Option to stop watching capital city tabard factions at Exalted
 - Toggle on/off switching watched factions while you are taking taxi flights
 - If you haven't discovered a zone reputation or there isn't one, select a default fallback watched reputation
+- Supports Classic Era and its variants, Mists of Pandaria, and Retail
 
 ## Open the options
 

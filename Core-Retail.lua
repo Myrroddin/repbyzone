@@ -204,9 +204,8 @@ function RepByZone:OnInitialize()
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
 
-    -- These events never get unregistered
-    self:RegisterEvent("PLAYER_REGEN_DISABLED", "InCombat")
-    self:RegisterEvent("PLAYER_REGEN_ENABLED", "InCombat")
+    -- We are either logging into the game or we are zoning into an instance
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function RepByZone:OnEnable()
@@ -238,12 +237,6 @@ function RepByZone:OnEnable()
 
     -- Check if a faction tabard is equipped or changed
     self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
-
-    -- We are zoning into an instance
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnteringInstance")
-
-    -- Set up variables that are not available as early as OnInitialize()
-    self:SetUpVariables()
 end
 
 function RepByZone:OnDisable()
@@ -259,13 +252,11 @@ function RepByZone:OnDisable()
     self:UnregisterEvent("GOSSIP_CLOSED")
     self:UnregisterEvent("UPDATE_FACTION")
     self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
-    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function RepByZone:SlashHandler()
-    -- Check if player is in combat, exit out and close options panels if that's the case
-    local isInCombat = self:InCombat()
-    if isInCombat then return end
+    -- Exit if player is in combat, otherwise, open the settings panel
+    if UnitAffectingCombat("player") then return end
 
     Settings.OpenToCategory("RepByZone")
 end
@@ -276,17 +267,16 @@ function RepByZone:RefreshConfig(callback)
         self.db:ResetDB(DEFAULT)
         self.db.global.initialized = true
     end
-    db = self.db
-    self:SetUpVariables()
+    self:PLAYER_ENTERING_WORLD(_, true) -- Force an update of the saved variables
 end
 
 -- Initialize tables and variables, or reset them if the user resets the profile
 function RepByZone:SetUpVariables()
-    -- Initialize or verify part of the profile database
+    -- Initialize or verify part of the database
     local defaultRepID, defaultRepName = self:GetRacialRep()
-    self.racialRepID = defaultRepID
-    db.char.watchedRepID = db.char.watchedRepID or defaultRepID
-    db.char.watchedRepName = db.char.watchedRepName or defaultRepName
+    self.db.char.watchedRepID = self.db.char.watchedRepID or defaultRepID
+    self.db.char.watchedRepName = self.db.char.watchedRepName or defaultRepName
+    self.racialRepID = defaultRepID -- Store the racial factionID for later use
 
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
     bodyguardRepID = self:GetActiveBodyguardRepID()
@@ -298,23 +288,16 @@ function RepByZone:SetUpVariables()
 
     if not IsPlayerNeutral() then
         -- Alliance or Horde characters cannot use Shang Xi's Academy, and we missed updating them
-        if db.char.watchedRepID == 1216 then
+        if self.db.char.watchedRepID == 1216 then
             self:GetPandarenRep("NEUTRAL_FACTION_SELECT_RESULT", true)
         end
     end
 
     -- no need to calculate the fallback reputation unless the user changes the setting
-    self.fallbackRepID = type(db.char.watchedRepID) == "number" and db.char.watchedRepID or 0
+    self.fallbackRepID = type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID or 0
 end
 
 ------------------- Event handlers starts here --------------------
-function RepByZone:InCombat()
-    if UnitAffectingCombat("player") then
-        return true
-    end
-    return false
-end
-
 -- Is the player on a taxi
 function RepByZone:CheckTaxi()
     isOnTaxi = UnitOnTaxi("player")
@@ -347,7 +330,9 @@ function RepByZone:GetPandarenRep(event, success)
         if A or H then
             -- Update data
             self:UnregisterEvent(event)
-            db.char.watchedRepID, db.char.watchedRepName = self:GetRacialRep()
+            self.db.char.watchedRepID, self.db.char.watchedRepName = self:GetRacialRep()
+            db = self.db -- Update the local db variable to the current profile
+            -- Update the faction lists
             zonesAndFactions = self:ZoneAndFactionList()
             self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, db.char.watchedRepName))
             self:SwitchedZones()
@@ -592,13 +577,23 @@ function RepByZone:GetRacialRep()
     return racialRepID, racialRepName
 end
 
--- Entering an instance
-function RepByZone:EnteringInstance(_, isInitialLogin, isReloadingUi)
-    if isInitialLogin or isReloadingUi then
-        return
-    else
-        After(1, function() self:SwitchedZones() end)
+-- Entering an instance or logging in, set up variables
+function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
+    if isInitialLogin then
+        self:SetUpVariables()
+        db = self.db -- Update the local db variable to the current profile
     end
+
+    if not db.profile.enabled then
+        return -- Exit if the addon is disabled
+    end
+
+    -- If the player is reloading the UI, we don't want to switch zones
+    if isReloadingUi then
+        return
+    end
+
+    After(1, function() self:SwitchedZones() end)
 end
 
 -- Player switched zones, subzones, or instances, set watched faction

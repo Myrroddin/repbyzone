@@ -10,7 +10,7 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
 
--- Return instance data to Core-Cata.lua
+-- Return instance data to Core-Mists.lua
 function RepByZone:InstancesAndFactionList()
     local instancesAndFactions = {
         -- [instanceID] = factionID
