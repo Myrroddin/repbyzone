@@ -232,7 +232,7 @@ function RepByZone:OnEnable()
     self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "UpdateActiveBodyguardRepID")
     self:RegisterEvent("GOSSIP_CLOSED", "UpdateActiveBodyguardRepID")
 
-    -- Check Sholazar Basin and Wrathion/Sabellian factions
+    -- Check Wrathion/Sabellian factions
     self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
     -- Check if a faction tabard is equipped or changed
@@ -282,7 +282,6 @@ function RepByZone:SetUpVariables()
     bodyguardRepID = self:GetActiveBodyguardRepID()
     self:CheckTaxi()
     self:GetCovenantRep()
-    self:GetSholazarBasinRep()
     self:GetWrathionOrSabellianRep()
     self:GetEquippedTabard(_, "player")
 
@@ -357,40 +356,8 @@ function RepByZone:UpdateActiveBodyguardRepID()
     self:SwitchedZones("BODYGUARD_UPDATED")
 end
 
--- Sholazar Basin has three possible zone factions
-function RepByZone:GetSholazarBasinRep()
-    local newSholazarRepID, frenzyHeartData, oraclesData
-    frenzyHeartData = GetFactionDataByID(1104)
-    oraclesData = GetFactionDataByID(1105)
-
-    -- nil check
-    if not frenzyHeartData or not oraclesData then return end
-
-    local frenzyHeartStanding = frenzyHeartData.reaction
-    local oraclesStanding = oraclesData.reaction
-
-    if frenzyHeartStanding <= 3 then
-        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
-    elseif oraclesStanding <= 3 then
-        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
-    elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-        newSholazarRepID = self.fallbackRepID
-    end
-
-    if newSholazarRepID ~= self.sholazarRepID then
-        self.sholazarRepID = newSholazarRepID
-
-        -- update both zones and subzones
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-        self:SwitchedZones()
-    end
-end
-
 -- The Waking Shores has three possible zone factions
-function RepByZone:GetWrathionOrSabellianRep(isInCombat)
-    if isInCombat then return end
-
+function RepByZone:GetWrathionOrSabellianRep()
     local newDragonFlightRepID = 2510 -- start with Valdrakken Accord
     self.dragonflightRepID = 2510 -- start with Valdrakken Accord
     local wrathionFriendshipInfo = GetFriendshipReputation(2517)
@@ -434,11 +401,8 @@ end
 
 function RepByZone:GetMultiRepIDsForZones()
     local uiMapID = GetBestMapForUnit("player")
-    -- possible zoning issues, exit out unless we have valid map data
-    if not uiMapID then return end
-    local parentMapID = GetMapInfo(uiMapID).parentMapID
+    if not uiMapID then return end -- possible zoning issues, exit out unless we have valid map data
     local subZone = GetMinimapZoneText()
-    local isInCombat = self:InCombat()
     local factionData, newtabardStandingStatus = nil, false
     local inInstance, instanceType = IsInInstance()
 
@@ -449,15 +413,9 @@ function RepByZone:GetMultiRepIDsForZones()
         newtabardStandingStatus = factionData.reaction == MAX_REPUTATION_REACTION
     end
 
-    if uiMapID == 119 or parentMapID == 119 then
-        -- Sholazar Basin
-        self:GetSholazarBasinRep()
-        return
-    end
-
     if (subZone == GetAreaInfo(13720)) or (subZone == GetAreaInfo(13717)) then
         -- Valdrakken Accord, Wrathion, or Sabellian in Dragonbane Keep or Obsidian Citadel
-        self:GetWrathionOrSabellianRep(isInCombat) -- pass combat status to GetWrathionOrSabellianRep()
+        self:GetWrathionOrSabellianRep()
         return
     end
 

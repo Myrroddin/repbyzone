@@ -215,7 +215,6 @@ function RepByZone:SetUpVariables()
 
     -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
     self:CheckTaxi()
-    self:GetSholazarBasinRep()
     self:GetEquippedTabard(_, "player")
 
     if not IsPlayerNeutral() then
@@ -253,43 +252,11 @@ function RepByZone:GetPandarenRep(event, success)
     end
 end
 
--- Sholazar Basin has three possible zone factions
-function RepByZone:GetSholazarBasinRep()
-    local newSholazarRepID
-    local frenzyHeartStanding = select(3, GetFactionInfoByID(1104))
-    local oraclesStanding = select(3, GetFactionInfoByID(1105))
-
-    if frenzyHeartStanding <= 3 then
-        newSholazarRepID = 1105 -- Frenzyheart hated, return Oracles
-    elseif oraclesStanding <= 3 then
-        newSholazarRepID = 1104 -- Oracles hated, return Frenzyheart
-    elseif (frenzyHeartStanding == 0) or (oraclesStanding == 0) then
-        newSholazarRepID = self.fallbackRepID
-    end
-
-    if newSholazarRepID ~= self.sholazarRepID then
-        self.sholazarRepID = newSholazarRepID
-
-        -- update both zones and subzones
-        zonesAndFactions = self:ZoneAndFactionList()
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-        self:SwitchedZones()
-    end
-end
-
 function RepByZone:GetMultiRepIDsForZones()
     local uiMapID = GetBestMapForUnit("player")
-    -- possible zoning issues, exit out unless we have valid map data
-    if not uiMapID then return end
-    local parentMapID = GetMapInfo(uiMapID).parentMapID
+    if not uiMapID then return end -- possible zoning issues, exit out unless we have valid map data
     local newtabardStandingStatus = false
     local inInstance, instanceType = IsInInstance()
-
-    if uiMapID == 119 or parentMapID == 119 then
-        -- Sholazar Basin
-        self:GetSholazarBasinRep()
-        return
-    end
 
     -- learn if the player is wearing a dungeon faction tabard and update if required
     if inInstance and instanceType == "party" then

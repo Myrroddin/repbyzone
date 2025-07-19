@@ -302,7 +302,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(5477)]       = 1134,     -- Pyrewood Inn/Gilneas
         [C_Map.GetAreaInfo(5478)]       = 1134,     -- Pyrewood Town Hall/Gilneas
         [C_Map.GetAreaInfo(5480)]       = 1134,     -- Gilneas Liberation Base Camp/Gilneas
-        [C_Map.GetAreaInfo(5481)]       = 2159,     -- 7th Legion Base Camp/7th Legion
         [C_Map.GetAreaInfo(5495)]       = 54,       -- Gnomeregan/Gnomeregan
         [C_Map.GetAreaInfo(5496)]       = 369,      -- Fuselight/Gadgetzan
         [C_Map.GetAreaInfo(5497)]       = 369,      -- Fuselight-by-the-Sea/Gadgetzan
@@ -444,7 +443,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(4234)]       = 1106,     -- Naxxramas/Argent Crusade
         [C_Map.GetAreaInfo(4243)]       = 1037,     -- Wintergarde Crypt/Alliance Vanguard
         [C_Map.GetAreaInfo(4246)]       = 1037,     -- Wintergarde Mausoleum/Alliance Vanguard
-        [C_Map.GetAreaInfo(4253)]       = 2159,     -- 7th Legion Front/7th Legion
         [C_Map.GetAreaInfo(4256)]       = A and 1094 or H and 1124, -- Drak'mar Lake/The Silver Covenant or The Sunreavers
         [C_Map.GetAreaInfo(4261)]       = 68,       -- Ghostblade Point/Undercity
         [C_Map.GetAreaInfo(4281)]       = 1098,     -- Acherus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
