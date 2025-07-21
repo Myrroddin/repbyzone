@@ -610,7 +610,6 @@ function RepByZone:SubZonesAndFactionsList()
         [C_Map.GetAreaInfo(6644)]       = A and 1376 or H and 1375, -- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
         [C_Map.GetAreaInfo(6701)]       = 54,       -- Beeble's Wreck/Gnomeregan
         [C_Map.GetAreaInfo(6702)]       = 1133,     -- Bozzle's Wreck/Bilgewater Cartel
-        [C_Map.GetAreaInfo(6762)]       = 1710,     -- Shattrath City Center/Sha'tari Defense
         [C_Map.GetAreaInfo(6771)]       = 1341,     -- Celestial Tournament/The August Celestials
     }
     return subZonesAndFactions
