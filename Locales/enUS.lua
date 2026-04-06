@@ -16,6 +16,7 @@ L["Ignore Exalted Faction Tabards"] = true
 L["Instead of older instance reputation, watch the equipped faction tabard instead."] = true
 L["Now watching %s"] = true
 L["Print to chat when you switch watched faction."] = true
+L["RepByZone has been updated. The settings have been reset to defaults."] = true
 L["Reputation Settings"] = true
 L["Scryer's Tier"] = true
 L["Shrine of Unending Light"] = true

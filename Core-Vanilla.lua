@@ -1,4 +1,3 @@
----@diagnostic disable: duplicate-set-field, undefined-global, undefined-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local After = C_Timer.After
 local CollapseFactionHeader = CollapseFactionHeader
@@ -15,14 +14,12 @@ local LibStub = LibStub
 local NONE = NONE
 local SetWatchedFactionIndex = SetWatchedFactionIndex
 local type = type
-local UnitAffectingCombat = UnitAffectingCombat
 local UnitFactionGroup = UnitFactionGroup
 local UnitOnTaxi = UnitOnTaxi
 local UnitRace = UnitRace
 local wipe = wipe
 
 ------------------- Create the addon --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
@@ -31,8 +28,9 @@ local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
 local A = UnitFactionGroup("player") == "Alliance"
 local H = UnitFactionGroup("player") == "Horde"
 local _, playerRace = UnitRace("player")
+local CURRENT_DB_VERSION = 1
 
--- Table to localize subzones that Blizzard does not provide areaIDs
+-- Table to localize subzones for which Blizzard does not provide areaIDs
 local citySubZonesAndFactions = {
 	-- [L["Subzone"]]               = factionID, subzone names are localized so we can compare to the localized minimap text from Blizzard
 	[L["Dwarven District"]]         = 47,       -- Ironforge
@@ -42,18 +40,27 @@ local citySubZonesAndFactions = {
 	[L["Valley of Wisdom"]]         = 81,       -- Thunder Bluff
 }
 
--- Blizzard adds new player races, assign factionIDs on the "basic" factions that are available for new characters
-local player_races_to_factionIDs = {
-    --["playerRaceFile"]    = factionID
-    ["Dwarf"]               = 47,       -- Ironforge
-    ["Gnome"]               = 54,       -- Gnomeregan
-    ["Human"]               = 72,       -- Stormwind
-    ["NightElf"]            = 69,       -- Darnassus
-    ["Orc"]                 = 76,       -- Orgrimmar
-    ["Scourge"]             = 68,       -- Undercity
-    ["Tauren"]              = 81,       -- Thunder Bluff
-    ["Troll"]               = 530,      -- Darkspear Trolls
-}
+-- Get the character's racial factionID for the defaults table
+local function GetRacialRep()
+    local racialRepID
+    -- Blizzard adds new player races, assign factionIDs on the "basic" factions that are available for new characters
+    local player_races_to_factionIDs = {
+        --["playerRaceFile"]    = factionID
+        ["Dwarf"]               = 47,       -- Ironforge
+        ["Gnome"]               = 54,       -- Gnomeregan
+        ["Human"]               = 72,       -- Stormwind
+        ["NightElf"]            = 69,       -- Darnassus
+        ["Orc"]                 = 76,       -- Orgrimmar
+        ["Scourge"]             = 68,       -- Undercity
+        ["Tauren"]              = 81,       -- Thunder Bluff
+        ["Troll"]               = 530,      -- Darkspear Trolls
+    }
+    racialRepID = player_races_to_factionIDs[playerRace]
+    if not racialRepID then
+        racialRepID = A and 72 or H and 76 -- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated
+    end
+    return racialRepID
+end
 
 -- Return a table of default SV values
 local defaults = {
@@ -64,8 +71,7 @@ local defaults = {
         watchSubZones           = true
     },
     char = {
-        watchedRepID            = nil,
-        watchedRepName          = nil
+        watchedRepID            = GetRacialRep()
     },
     global = {
         delayGetFactionDataByID = 0.25,
@@ -78,15 +84,23 @@ function RepByZone:OnInitialize()
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
 
-    -- reset the AceDB-3.0 DB on the first run, as we migrated from character profiles to the Default profile
-    if not self.db.global.initialized then
-        self.db:RegisterDefaults(defaults)
-        self.db:ResetDB(DEFAULT)
-        self.db.global.initialized = true
-    end
-    db = self.db -- Update the local db variable to the current profile
+	-- if the current_db_version is less than the CURRENT_DB_VERSION, reset the database to defaults and show a popup message to the user
+	local oldVersion = self.db.global.current_db_version
+	if (not oldVersion) or (oldVersion < CURRENT_DB_VERSION) then
+		StaticPopupDialogs["REPBYZONE_RESET"] = {
+			text = L["RepByZone has been updated. The settings have been reset to defaults."],
+			button1 = ACCEPT,
+			timeout = 0,
+			whileDead = true,
+			hideOnEscape = true
+		}
+		StaticPopup_Show("REPBYZONE_RESET")
+		self.db:ResetDB(DEFAULT)
+	end
 
-    self:SetEnabledState(db.profile.enabled)
+	self.db.global.current_db_version = CURRENT_DB_VERSION
+	db = self.db.profile
+	self:SetEnabledState(db and db.enableAddOn)
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -98,15 +112,12 @@ function RepByZone:OnInitialize()
     -- Register your options with AceConfigRegistry
     LibStub("AceConfig-3.0"):RegisterOptionsTable("RepByZone", options)
 
-    -- Add options to Interface/AddOns
+    -- Add options to Blizzard's Options/AddOns
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions("RepByZone", "RepByZone")
 
     -- Create slash commands
     self:RegisterChatCommand("repbyzone", "SlashHandler")
     self:RegisterChatCommand("rbz", "SlashHandler")
-
-    -- We are either logging into the game or we are zoning into an instance
-    self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function RepByZone:OnEnable()
@@ -120,45 +131,45 @@ function RepByZone:OnEnable()
     -- If the player loses or gains control of the character, it is one of the signs of taxi use
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
+
+    -- We are either logging into the game or we are zoning into an instance
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+    -- Populate variables
+    self:CheckTaxi()
+
+    -- Calculate the fallback reputation
+    self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+
+    if not instancesAndFactions then
+        instancesAndFactions = self:InstancesAndFactionList()
+    end
+    if not zonesAndFactions then
+        zonesAndFactions = self:ZoneAndFactionList()
+    end
+    if not subZonesAndFactions then
+        subZonesAndFactions = self:SubZonesAndFactionsList()
+    end
 end
 
 function RepByZone:OnDisable()
-    -- Stop watching most events if RBZ is disabled
-    self:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
-    self:UnregisterEvent("ZONE_CHANGED")
-    self:UnregisterEvent("ZONE_CHANGED_INDOORS")
-    self:UnregisterEvent("PLAYER_CONTROL_LOST")
-    self:UnregisterEvent("PLAYER_CONTROL_GAINED")
+    -- Stop watching events if RBZ is disabled
+    self:UnregisterAllEvents()
+
+    -- Shrink memory footprint by wiping tables and variables
+    wipe(instancesAndFactions)
+    wipe(zonesAndFactions)
+    wipe(subZonesAndFactions)
+    isOnTaxi = nil
 end
 
 function RepByZone:SlashHandler()
-    -- Exit if player is in combat, otherwise, open the settings panel
-    if UnitAffectingCombat("player") then return end
-
-    Settings.OpenToCategory("RepByZone")
+    LibStub("AceConfigDialog-3.0"):Open("RepByZone")
 end
 
 -- The user has reset the profile or created a new profile
-function RepByZone:RefreshConfig(callback)
-    if callback == "OnProfileReset" then
-        self.db:ResetDB(DEFAULT)
-        self.db.global.initialized = true
-    end
-    self:PLAYER_ENTERING_WORLD(_, true) -- Force an update of the saved variables
-end
-
--- Initialize tables and variables, or reset them if the user resets the profile
-function RepByZone:SetUpVariables()
-    -- Initialize or verify part of the database
-    local defaultRepID, defaultRepName = self:GetRacialRep()
-    self.db.char.watchedRepID = self.db.char.watchedRepID or defaultRepID
-    self.db.char.watchedRepName = self.db.char.watchedRepName or defaultRepName
-
-    -- Populate variables, some of which update the faction lists and call RepByZone:SwitchedZones()
-    self:CheckTaxi()
-
-    -- no need to calculate the fallback reputation unless the user changes the setting
-    self.fallbackRepID = type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID or 0
+function RepByZone:RefreshConfig()
+	db = self.db.profile
 end
 
 ------------------- Event handlers starts here --------------------
@@ -229,30 +240,10 @@ function RepByZone:GetAllFactions()
 end
 
 -------------------- Watched faction code starts here --------------------
--- Get the character's racial factionID and factionName
-function RepByZone:GetRacialRep()
-    local racialRepID, racialRepName
-    racialRepID = player_races_to_factionIDs[playerRace]
-    if not racialRepID then
-        racialRepID = A and 72 or H and 76 -- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated
-    end
-    racialRepName = GetFactionInfoByID(racialRepID)
-    return racialRepID, racialRepName
-end
-
 -- Entering an instance or logging in, set up variables
 function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
-    if isInitialLogin then
-        self:SetUpVariables()
-        db = self.db -- Update the local db variable to the current profile
-    end
-
-    if not db.profile.enabled then
-        return -- Exit if the addon is disabled
-    end
-
-    -- If the player is reloading the UI, we don't want to switch zones
-    if isReloadingUi then
+    -- If either of these are true, we didn't enter an instance, so exit
+    if isInitialLogin or isReloadingUi then
         return
     end
 
@@ -272,11 +263,6 @@ function RepByZone:SwitchedZones()
             return
         end
     end
-
-    -- Some data may not be available because of the specialty zone functions, get something until a full data update refreshes things
-    instancesAndFactions = instancesAndFactions or self:InstancesAndFactionList()
-    zonesAndFactions = zonesAndFactions or self:ZoneAndFactionList()
-    subZonesAndFactions = subZonesAndFactions or self:SubZonesAndFactionsList()
 
     -- Set up variables
     local _, watchedFactionID, factionName, isWatched = nil, nil, nil, nil
@@ -302,10 +288,10 @@ function RepByZone:SwitchedZones()
     or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
     or self.fallbackRepID
 
-    -- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
+    -- WoW has a delay whenever the player changes instance/zone/subzone; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
     After(db.global.delayGetFactionDataByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone/tabard or we don't have a factionID and db.char.watchedRepID is a number
+            -- We have a factionID for the instance/zone/subzone or we don't have a factionID and db.char.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 self:OpenAllFactionHeaders() -- Open all headers to ensure the watched faction is visible

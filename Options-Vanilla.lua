@@ -1,24 +1,20 @@
----@diagnostic disable: duplicate-set-field, undefined-global
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local DISABLE = DISABLE
 local ENABLE = ENABLE
-local GetFactionInfoByID = GetFactionInfoByID
 local JUST_OR = JUST_OR
 local LibStub = LibStub
-local NONE = NONE
 local type = type
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
+---@cast RepByZone RepByZoneAddon
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
+local options
 
 function RepByZone:GetOptions()
+    if options then return options end
     local db = self.db
-    local defaultRepID, defaultRepName = self:GetRacialRep()
-    db.char.watchedRepID = db.char.watchedRepID or defaultRepID
-    db.char.watchedRepName = db.char.watchedRepName or defaultRepName
-    local options = {
+    options = {
         name = "RepByZone",
         handler = RepByZone,
         type = "group",
@@ -36,7 +32,6 @@ function RepByZone:GetOptions()
                     db.profile.enabled = value
                     if value then
                         self:Enable()
-                        self:PLAYER_ENTERING_WORLD(_, true) -- Force an update of the saved variables
                     else
                         self:Disable()
                     end
@@ -109,15 +104,11 @@ function RepByZone:GetOptions()
                         width = 1.5,
                         values = function() return self:GetAllFactions() end,
                         get = function()
-                            if db.char.watchedRepID == nil then
-                                db.char.watchedRepID, db.char.watchedRepName = self:GetRacialRep()
-                            end
                             return db.char.watchedRepID
                         end,
                         set = function(_, value)
                             db.char.watchedRepID = value
-                            db.char.watchedRepName = type(value) == "number" and GetFactionInfoByID(value) or NONE
-                            self.fallbackRepID = type(value) == "number" and value or 0
+                            self.fallbackRepID = (type(value) == "number" and value) or 0
                             self:SwitchedZones()
                         end
                     }
