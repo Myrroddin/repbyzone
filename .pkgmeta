@@ -18,6 +18,5 @@ externals:
 
 ignore:
   - Libs/LibStub/tests
-  - "*.md"
-  - "*Vanilla*.*"
-  - "*Retail*.*"
+  - Libs/CallbackHandler-1.0/CallbackHandler-1.0.xml
+  - README.md

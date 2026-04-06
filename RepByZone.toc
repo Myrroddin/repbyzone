@@ -1,6 +1,4 @@
-## Interface: 110107
-## Interface-Classic: 11507
-## Interface-Mists: 50500
+## Interface: 120001, 50503, 38000, 20505, 11508
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -18,7 +16,7 @@
 ## X-Author-Server: Lightbringer
 ## X-Author-Faction: Alliance
 ## X-Author-Guild: Crimson Embers
-## X-Copyright: Copyright (c) 2019-2025 Paul Vandersypen. All Rights Reserved
+## X-Copyright: Copyright (c) 2019-2026 Paul Vandersypen. All Rights Reserved
 ## X-Curse-Project-ID: 348072
 ## X-WoWI-ID: 25407
 ## X-Wago-ID: q96dZlGO
@@ -28,14 +26,24 @@
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibAboutPanel-2.0
 
 ## X-Date: @project-date-iso@
-## X-Localizations: enUS, deDE, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW, esES, esMX
+## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, ptBR, koKR, ruRU, zhCN, zhTW
 ## X-Credits: Inspired by Diplomancer, written by Phanx and Talyrius
-## X-Category: Quests & Leveling, Action Bars, Combat, Roleplay
+## Category: Quests
+## Category-deDE: Quests
+## Category-esES: Misiones
+## Category-esMX: Misiones
+## Category-frFR: Quêtes
+## Category-itIT: Missioni
+## Category-koKR: 퀘스트
+## Category-ptBR: Missões
+## Category-ruRU: Задания
+## Category-zhCN: 任务
+## Category-zhTW: 任務
 ## X-Website: https://www.curseforge.com/wow/addons/repbyzone
 ## X-Email: psvander@gmail.com
 
 Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 Libs\AceAddon-3.0\AceAddon-3.0.xml
 Libs\AceEvent-3.0\AceEvent-3.0.xml
 Libs\AceDB-3.0\AceDB-3.0.xml
@@ -48,32 +56,24 @@ Libs\LibAboutPanel-2.0\lib.xml
 
 Locales\enUS.lua
 Locales\deDE.lua
+Locales\esES.lua
+Locales\esMX.lua
 Locales\frFr.lua
 Locales\itIT.lua
+Locales\koKR.lua
 Locales\ptBR.lua
 Locales\ruRU.lua
 Locales\zhTW.lua
 Locales\zhCN.lua
-Locales\esES.lua
-Locales\esMX.lua
-Locales\koKR.lua
 
-#@non-debug@
-# #@version-classic@
-# Core-Vanilla.lua
-# Data-Vanilla.lua
-# Options-Vanilla.lua
-# #@end-version-classic@
-# #@version-mists@
-# Core-Mists.lua
-# Data-Mists.lua
-# InstanceData-Mists.lua
-# Options-Mists.lua
-# #@end-version-mists@
-#@end-non-debug@
-#@version-retail@
-Core-Retail.lua
-Data-Retail.lua
-InstanceData-Retail.lua
-Options-Retail.lua
-#@end-version-retail@
+Core-Vanilla.lua [AllowLoadGameType vanilla]
+Data-Vanilla.lua [AllowLoadGameType vanilla]
+Options-Vanilla.lua [AllowLoadGameType vanilla]
+Core-Mists.lua [AllowLoadGameType mists]
+Data-Mists.lua [AllowLoadGameType mists]
+InstanceData-Mists.lua [AllowLoadGameType mists]
+Options-Mists.lua [AllowLoadGameType mists]
+Core-Retail.lua [AllowLoadGameType retail]
+Data-Retail.lua [AllowLoadGameType retail]
+InstanceData-Retail.lua [AllowLoadGameType retail]
+Options-Retail.lua [AllowLoadGameType retail]
