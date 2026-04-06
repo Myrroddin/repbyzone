@@ -1,0 +1,37 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor and IDE settings
+.idea/
+.vscode/
+.vs/
+*.code-workspace
+
+# Temporary and backup files
+*~
+*.bak
+*.tmp
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Lua tooling and compiled output
+*.luac
+luac.out
+.luarocks/
+
+# Common release and packaging artifacts for WoW addons
+build/
+dist/
+pkg/
+release/
+releases/
+.release/
+.packager/
+*.zip
+*.tar
+*.tar.gz
