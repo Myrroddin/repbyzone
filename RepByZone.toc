@@ -1,4 +1,4 @@
-## Interface: 120001, 50503, 38000, 20505, 11508
+## Interface: 120001, 50503, 20505, 11508
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -71,7 +71,13 @@ Core-Vanilla.lua [AllowLoadGameType vanilla]
 ZoneData-Vanilla.lua [AllowLoadGameType vanilla]
 SubZoneData-Vanilla.lua [AllowLoadGameType vanilla]
 InstanceData-Vanilla.lua [AllowLoadGameType vanilla]
-Options-Vanilla.lua [AllowLoadGameType vanilla]
+# The Burning Crusade Classic
+Core-TBC.lua [AllowLoadGameType tbc]
+ZoneData-TBC.lua [AllowLoadGameType tbc]
+SubZoneData-TBC.lua [AllowLoadGameType tbc]
+InstanceData-TBC.lua [AllowLoadGameType tbc]
+# Vanilla + TBC share options
+Options-VanillaTBC.lua [AllowLoadGameType vanilla, tbc]
 # Mists of Pandaria Classic
 Core-Mists.lua [AllowLoadGameType mists]
 Data-Mists.lua [AllowLoadGameType mists]

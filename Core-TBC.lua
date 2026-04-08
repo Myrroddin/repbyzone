@@ -30,14 +30,16 @@ local H = UnitFactionGroup("player") == "Horde"
 local _, _, playerRaceID = UnitRace("player")
 local CURRENT_DB_VERSION = 1
 
--- Table to localize subzones for which Blizzard does not provide areaIDs
+-- Table to localize subzones that Blizzard does not provide areaIDs
 local citySubZonesAndFactions = {
 	-- [L["Subzone"]]               = factionID, subzone names are localized so we can compare to the localized minimap text from Blizzard
-	[L["Dwarven District"]]         = 47,       -- Ironforge
+    [L["Dwarven District"]]         = 47,       -- Ironforge
 	[L["The Salty Sailor Tavern"]]  = 21,       -- Booty Bay
 	[L["Tinker Town"]]              = 54,       -- Gnomeregan Exiles
 	[L["Valley of Spirits"]]        = 530,      -- Darkspear Trolls
 	[L["Valley of Wisdom"]]         = 81,       -- Thunder Bluff
+    [L["Shrine of Unending Light"]] = 932,      -- The Aldor
+    [L["The Seer's Library"]]       = 934,      -- The Scryers
 }
 
 -- Get the character's racial factionID for the defaults table
@@ -54,6 +56,8 @@ local function GetRacialRep()
         [6]     = 81,   -- Tauren/Thunder Bluff
         [7]     = 54,   -- Gnome/Gnomeregan
         [8]     = 530,  -- Troll/Darkspear Trolls
+        [10]    = 911,  -- Blood Elf/Silvermoon City
+        [11]    = 930,  -- Draenei/Exodar
     }
     racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
     if not racialRepID then

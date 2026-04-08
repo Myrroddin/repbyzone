@@ -19,7 +19,7 @@ function RepByZone:ZoneAndFactionList()
 
     if zonesAndFactions then return zonesAndFactions end
     zonesAndFactions = {
-        --------- Horde ----------
+        --------- Vanilla ----------
         [1411]      = 76,       -- Durotar/Orgrimmar
         [1454]      = 76,       -- Orgrimmar/Orgrimmar
         [1412]      = 81,       -- Mulgore/Thunder Bluff
@@ -27,8 +27,6 @@ function RepByZone:ZoneAndFactionList()
         [1421]      = 68,       -- Silverpine Forest/Undercity
         [1458]      = 68,       -- Undercity/Undercity
         [1420]      = 68,       -- Tirisfal Glades/Undercity
-
-        --------- Alliance ----------
         [1453]      = 72,       -- Stormwind City/Stormwind
         [1429]      = 72,       -- Elwynn Forest/Stormwind
         [1436]      = 72,       -- Westfall/Stormwind
@@ -42,8 +40,6 @@ function RepByZone:ZoneAndFactionList()
         [1438]      = 69,       -- Teldrassil/Darnassus
         [1439]      = 69,       -- Darkshore/Darnassus
         [1450]      = 609,      -- Moonglade/Cenarion Circle
-
-        --------- Both ---------
         [1422]      = 529,      -- Western Plaguelands/Argent Dawn
         [1423]      = 529,      -- Eastern Plaguelands/Argent Dawn
         [1427]      = 59,       -- Searing Gorge/Thorium Brotherhood
@@ -68,6 +64,23 @@ function RepByZone:ZoneAndFactionList()
         [1445]      = A and 72 or H and 76, -- Dustwallow Marsh/Stormwind or Orgrimmar
         [1447]      = A and 69 or H and 76, -- Azshara/Darnassus or Orgrimmar
         [1448]      = A and 69 or H and 68, -- Felwood/Darnassus or Undercity
+
+        --------- TBC ---------
+        [1941]      = 911,      -- Eversong Woods/Silvermoon City
+        [1942]      = 922,      -- Ghostlands/Tranquillien
+        [1943]      = 930,      -- Azuremyst Isle/Exodar
+        [1944]      = A and 946 or H and 947, -- Hellfire Peninsula/Honor Hold or Thrallmar
+        [1946]      = 942,      -- Zangarmarsh/Cenarion Expedition
+        [1947]      = 930,      -- The Exodar/Exodar
+        [1948]      = 1012,     -- Shadowmoon Valley/Ashtongue Deathsworn
+        [1949]      = 1038,     -- Blade's Edge Mountains/Ogri'la
+        [1950]      = 930,      -- Bloodmyst Isle/Exodar
+        [1951]      = A and 978 or H and 941, -- Nagrand/Kurenai or The Mag'har
+        [1952]      = 1011,     -- Terokkar Forest/Lower City
+        [1953]      = 933,      -- Netherstorm/The Consortium
+        [1954]      = 911,      -- Silvermoon City/Silvermoon City
+        [1955]      = 935,      -- Shattrath City/The Sha'tar
+        [1957]      = 1077,     -- Isle of Quel'Danas/Shattered Sun Offensive
     }
     return zonesAndFactions
 end
