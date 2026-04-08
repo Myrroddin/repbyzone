@@ -58,7 +58,7 @@ Locales\enUS.lua
 Locales\deDE.lua
 Locales\esES.lua
 Locales\esMX.lua
-Locales\frFr.lua
+Locales\frFR.lua
 Locales\itIT.lua
 Locales\koKR.lua
 Locales\ptBR.lua
@@ -66,14 +66,19 @@ Locales\ruRU.lua
 Locales\zhTW.lua
 Locales\zhCN.lua
 
+# Vanilla Classic Era, Hardcore, Fresh, and Season of Discovery
 Core-Vanilla.lua [AllowLoadGameType vanilla]
-Data-Vanilla.lua [AllowLoadGameType vanilla]
+ZoneData-Vanilla.lua [AllowLoadGameType vanilla]
+SubZoneData-Vanilla.lua [AllowLoadGameType vanilla]
+InstanceData-Vanilla.lua [AllowLoadGameType vanilla]
 Options-Vanilla.lua [AllowLoadGameType vanilla]
+# Mists of Pandaria Classic
 Core-Mists.lua [AllowLoadGameType mists]
 Data-Mists.lua [AllowLoadGameType mists]
 InstanceData-Mists.lua [AllowLoadGameType mists]
 Options-Mists.lua [AllowLoadGameType mists]
-Core-Retail.lua [AllowLoadGameType retail]
-Data-Retail.lua [AllowLoadGameType retail]
-InstanceData-Retail.lua [AllowLoadGameType retail]
-Options-Retail.lua [AllowLoadGameType retail]
+# Mainline, AKA Retail
+Core-Mainline.lua [AllowLoadGameType mainline]
+Data-Mainline.lua [AllowLoadGameType mainline]
+InstanceData-Mainline.lua [AllowLoadGameType mainline]
+Options-Mainline.lua [AllowLoadGameType mainline]

@@ -75,9 +75,7 @@ function RepByZone:GetOptions()
                         desc = L["Switch watched faction while you are on a taxi."],
                         type = "toggle",
                         get = function() return db.profile.watchOnTaxi end,
-                        set = function(_, value)
-                            db.profile.watchOnTaxi = value
-                        end
+                        set = function(_, value) db.profile.watchOnTaxi = value end
                     },
                     delayGetFactionDataByID = {
                         order = 90,

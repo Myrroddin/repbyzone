@@ -20,3 +20,4 @@ ignore:
   - Libs/LibStub/tests
   - Libs/CallbackHandler-1.0/CallbackHandler-1.0.xml
   - README.md
+  - RepByZone.local.types.lua

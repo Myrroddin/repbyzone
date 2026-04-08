@@ -100,7 +100,7 @@ function RepByZone:OnInitialize()
 
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	db = self.db.profile
-	self:SetEnabledState(db and db.enableAddOn)
+	self:SetEnabledState(db and db.enabled)
 
     local options = self:GetOptions() -- Options.lua
     options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -123,7 +123,7 @@ end
 function RepByZone:OnEnable()
     -- All events that deal with entering a new zone or subzone are handled with the same function
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
-    if db.profile.watchSubZones then
+    if db.watchSubZones then
         self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
         self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
     end
@@ -132,35 +132,25 @@ function RepByZone:OnEnable()
     self:RegisterEvent("PLAYER_CONTROL_LOST", "CheckTaxi")
     self:RegisterEvent("PLAYER_CONTROL_GAINED", "CheckTaxi")
 
-    -- We are either logging into the game or we are zoning into an instance
+    -- We are zoning into an instance
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-    -- Populate variables
+    -- Is the player on a taxi?
     self:CheckTaxi()
 
     -- Calculate the fallback reputation
     self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 
-    if not instancesAndFactions then
-        instancesAndFactions = self:InstancesAndFactionList()
-    end
-    if not zonesAndFactions then
-        zonesAndFactions = self:ZoneAndFactionList()
-    end
-    if not subZonesAndFactions then
-        subZonesAndFactions = self:SubZonesAndFactionsList()
-    end
+    self:SwitchedZones()
 end
 
 function RepByZone:OnDisable()
     -- Stop watching events if RBZ is disabled
     self:UnregisterAllEvents()
 
-    -- Shrink memory footprint by wiping tables and variables
-    wipe(instancesAndFactions)
-    wipe(zonesAndFactions)
-    wipe(subZonesAndFactions)
+    -- Shrink memory footprint by wiping variables
     isOnTaxi = nil
+    self.fallbackRepID = nil
 end
 
 function RepByZone:SlashHandler()
@@ -168,7 +158,13 @@ function RepByZone:SlashHandler()
 end
 
 -- The user has reset the profile or created a new profile
-function RepByZone:RefreshConfig()
+function RepByZone:RefreshConfig(callback)
+    if callback == "OnProfileReset" then
+        self.db:ResetDB(DEFAULT)
+    end
+    self.db.global.current_db_version = CURRENT_DB_VERSION
+    self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+    self:CheckTaxi()
 	db = self.db.profile
 end
 
@@ -252,13 +248,24 @@ end
 
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
-    if not db.profile.enabled then return end -- Exit if the addon is disabled
+    if not db.enabled then return end -- Exit if the addon is disabled
 
     local uiMapID = GetBestMapForUnit("player")
     if not uiMapID then return end -- Possible zoning issues, exit out unless we have valid map data
 
+    -- Populate tables if they haven't been already
+    if not instancesAndFactions then
+        instancesAndFactions = self:InstancesAndFactionList()
+    end
+    if not zonesAndFactions then
+        zonesAndFactions = self:ZoneAndFactionList()
+    end
+    if not subZonesAndFactions then
+        subZonesAndFactions = self:SubZonesAndFactionsList()
+    end
+
     if isOnTaxi then
-        if not db.profile.watchOnTaxi then
+        if not db.watchOnTaxi then
             -- On taxi but don't switch
             return
         end
@@ -273,7 +280,7 @@ function RepByZone:SwitchedZones()
     local lookUpSubZones = false
 
     -- Process subzones
-    if db.profile.watchSubZones then
+    if db.watchSubZones then
         lookUpSubZones = true
     end
 
@@ -289,9 +296,9 @@ function RepByZone:SwitchedZones()
     or self.fallbackRepID
 
     -- WoW has a delay whenever the player changes instance/zone/subzone; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
-    After(db.global.delayGetFactionDataByID, function()
+    After(self.db.global.delayGetFactionDataByID, function()
         if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-            -- We have a factionID for the instance/zone/subzone or we don't have a factionID and db.char.watchedRepID is a number
+            -- We have a factionID for the instance/zone/subzone or we don't have a factionID and self.db.char.watchedRepID is a number
             factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
             if factionName and not isWatched then
                 self:OpenAllFactionHeaders() -- Open all headers to ensure the watched faction is visible
@@ -303,12 +310,12 @@ function RepByZone:SwitchedZones()
                     end
                 end
                 self:CloseAllFactionHeaders() -- Close all headers after setting the watched faction
-                if db.profile.verbose then
+                if db.verbose then
                     self:Print(L["Now watching %s"]:format(factionName))
                 end
             end
         else
-            -- There is nothing in the database and db.char.watchedRepID is not a number; blank the bar
+            -- There is nothing in the database and self.db.char.watchedRepID is not a number; blank the bar
             SetWatchedFactionIndex(0)
         end
     end)
