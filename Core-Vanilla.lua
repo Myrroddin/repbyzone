@@ -41,20 +41,19 @@ local citySubZonesAndFactions = {
 }
 
 -- Get the character's racial factionID for the defaults table
+local player_raceIDs_to_factionIDs = {
+    -- [playerRaceID]   = factionID
+    [1]     = 72,   -- Human/Stormwind
+    [2]     = 76,   -- Orc/Orgrimmar
+    [3]     = 47,   -- Dwarf/Ironforge
+    [4]     = 69,   -- Night Elf/Darnassus
+    [5]     = 68,   -- Undead (Scourge)/Undercity
+    [6]     = 81,   -- Tauren/Thunder Bluff
+    [7]     = 54,   -- Gnome/Gnomeregan
+    [8]     = 530,  -- Troll/Darkspear Trolls
+}
 local function GetRacialRep()
     local racialRepID
-    -- Blizzard adds new player races, assign factionIDs on the "basic" factions that are available for new characters
-    local player_raceIDs_to_factionIDs = {
-        -- [playerRaceID]   = factionID
-        [1]     = 72,   -- Human/Stormwind
-        [2]     = 76,   -- Orc/Orgrimmar
-        [3]     = 47,   -- Dwarf/Ironforge
-        [4]     = 69,   -- Night Elf/Darnassus
-        [5]     = 68,   -- Undead (Scourge)/Undercity
-        [6]     = 81,   -- Tauren/Thunder Bluff
-        [7]     = 54,   -- Gnome/Gnomeregan
-        [8]     = 530,  -- Troll/Darkspear Trolls
-    }
     racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
     if not racialRepID then
         racialRepID = A and 72 or H and 76 -- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated
@@ -168,11 +167,6 @@ function RepByZone:RefreshConfig(callback)
 	db = self.db.profile
 end
 
-------------------- Event handlers starts here --------------------
-function RepByZone:CheckTaxi()
-    isOnTaxi = UnitOnTaxi("player")
-end
-
 -------------------- Reputation code starts here --------------------
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
@@ -235,8 +229,12 @@ function RepByZone:GetAllFactions()
     return factionList
 end
 
--------------------- Watched faction code starts here --------------------
--- Entering an instance or logging in, set up variables
+------------------- Event handlers starts here --------------------
+function RepByZone:CheckTaxi()
+    isOnTaxi = UnitOnTaxi("player")
+end
+
+-- Entering an instance
 function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
     -- If either of these are true, we didn't enter an instance, so exit
     if isInitialLogin or isReloadingUi then
@@ -246,6 +244,7 @@ function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
     After(1, function() self:SwitchedZones() end)
 end
 
+-------------------- Watched faction code starts here --------------------
 -- Player switched zones, subzones, or instances, set watched faction
 function RepByZone:SwitchedZones()
     if not db.enabled then return end -- Exit if the addon is disabled

@@ -15,7 +15,7 @@ function RepByZone:ZoneAndFactionList()
     -- [UImapID] = factionID
     -- If an UImapID is not listed, that zone has no associated factionID
     -- see https://warcraft.wiki.gg/wiki/UiMapID#Classic for the Classic list of UImapIDs
-    -- see https://warcraft.wiki.gg/wiki/FactionID for the list of factionIDs
+    -- see https://warcraft.wiki.gg/wiki/FactionID#Classic for the list of factionIDs
 
     if zonesAndFactions then return zonesAndFactions end
     zonesAndFactions = {

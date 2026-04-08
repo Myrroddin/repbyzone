@@ -16,7 +16,7 @@ function RepByZone:SubZonesAndFactionsList()
     if subZonesAndFactions then return subZonesAndFactions end
     subZonesAndFactions = {
 		-- [GetAreaInfo(areaID)] = factionID
-		-- see https://wow.tools/dbc/?dbc=areatable&build=1.14.3.47658#page=1
+		-- see https://wago.tools/db2/AreaTable?build=1.15.8.66564
 
         [GetAreaInfo(19)]       = 270,      -- Zul'Gurub/Zandalar Tribe
         [GetAreaInfo(35)]       = 21,       -- Booty Bay/Booty Bay
