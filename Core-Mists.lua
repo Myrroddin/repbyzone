@@ -94,7 +94,7 @@ local player_raceIDs_to_factionIDs = {
 	[22]	= 1134,		-- Worgen/Gilneas
 	[23]	= 1134,		-- Gilnean/Gilneas
 	[24]	= 1216,		-- Pandaren (Neutral)/Shang Xi's Academy
-	[25]	= 1352,		-- Pandaren (Alliance)/Huojin Pandaren
+	[25]	= 1353,		-- Pandaren (Alliance)/Tushui Pandaren
 	[26]	= 1352,		-- Pandaren (Horde)/Huojin Pandaren
 }
 local function GetRacialRep()
@@ -191,7 +191,8 @@ function RepByZone:OnEnable()
 	self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
 
 	-- Check if a faction tabard is equipped or changed
-	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
+	self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
+	self:GetEquippedTabard(nil, "player")
 
 	-- Is the player on a taxi?
 	self:CheckTaxi()
@@ -213,6 +214,8 @@ function RepByZone:OnDisable()
 	isOnTaxi = nil
 	self.fallbackRepID = nil
 	self.racialRepID = nil
+	tabardID = nil
+	tabardStandingStatus = false
 end
 
 function RepByZone:SlashHandler()
@@ -232,6 +235,7 @@ function RepByZone:RefreshConfig(callback)
 	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
 	db = self.db.profile
+	self:GetEquippedTabard(nil, "player")
 	self:SwitchedZones()
 end
 
@@ -273,36 +277,45 @@ function RepByZone:GetPandarenRep(event, success)
 	end
 end
 
-function RepByZone:GetMultiRepIDsForZones()
-	local uiMapID = GetBestMapForUnit("player")
-	if not uiMapID then return end -- possible zoning issues, exit out unless we have valid map data
-	local newtabardStandingStatus = false
-	local inInstance, instanceType = IsInInstance()
-
-	-- learn if the player is wearing a dungeon faction tabard and update if required
-	if inInstance and instanceType == "party" then
-		newtabardStandingStatus = tabardID and (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION) or false
-		if newtabardStandingStatus ~= tabardStandingStatus then
-			tabardStandingStatus = newtabardStandingStatus
+-- Tabard code
+function RepByZone:UpdateTabardStanding()
+	if not tabardID then
+		if tabardStandingStatus then
+			tabardStandingStatus = false
 			self:SwitchedZones()
-			return
 		end
+		return
+	end
+
+	local isExalted = (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION)
+
+	if isExalted ~= tabardStandingStatus then
+		tabardStandingStatus = isExalted
+		self:SwitchedZones()
 	end
 end
 
--- Tabard code
 function RepByZone:GetEquippedTabard(_, unit)
 	if unit ~= "player" then return end
-	local newTabardID, newTabardRep
-	newTabardID = GetInventoryItemID(unit, INVSLOT_TABARD)
 
-	if newTabardID then
-		newTabardRep = tabard_itemIDs_to_factionIDs[newTabardID]
+	local newItemID = GetInventoryItemID(unit, INVSLOT_TABARD)
+	local newFactionID = newItemID and tabard_itemIDs_to_factionIDs[newItemID]
+
+	local newStanding = newFactionID and (select(3, GetFactionInfoByID(newFactionID)) == MAX_REPUTATION_REACTION) or false
+
+	local changed = false
+
+	if newFactionID ~= tabardID then
+		tabardID = newFactionID
+		changed = true
 	end
-	tabardStandingStatus = newTabardRep and (select(3, GetFactionInfoByID(newTabardRep)) == MAX_REPUTATION_REACTION) or false
 
-	if newTabardRep ~= tabardID then
-		tabardID = newTabardRep
+	if newStanding ~= tabardStandingStatus then
+		tabardStandingStatus = newStanding
+		changed = true
+	end
+
+	if changed then
 		self:SwitchedZones()
 	end
 end
@@ -406,23 +419,10 @@ function RepByZone:SwitchedZones()
 
 	-- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
 	if inInstance and instanceType == "party" then
-		hasDungeonTabard	= false
-		lookUpSubZones		= false
-		-- Process faction tabards
-		if db.useFactionTabards then
-			if tabardID then
-				hasDungeonTabard = true
-			end
-
-			if db.ignoreExaltedTabards then
-				if tabardStandingStatus then
-					hasDungeonTabard = false
-				end
-			end
-		else
-			-- We aren't watching faction tabards
-			hasDungeonTabard = false
-		end
+		hasDungeonTabard =
+		db.useFactionTabards
+		and tabardID ~= nil
+		and (not db.ignoreExaltedTabards or not tabardStandingStatus)
 	else
 		-- We aren't in a party
 		hasDungeonTabard = false
@@ -439,7 +439,7 @@ function RepByZone:SwitchedZones()
 	end
 
 	watchedFactionID = watchedFactionID
-	or (inInstance and (hasDungeonTabard and tabardID))
+	or (inInstance and hasDungeonTabard and tabardID)
 	or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
 	or (inInstance and instancesAndFactions[whichInstanceID])
 	or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
