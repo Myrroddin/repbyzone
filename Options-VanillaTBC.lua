@@ -12,107 +12,107 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local options
 
 function RepByZone:GetOptions()
-    if options then return options end
-    local db = self.db
-    options = {
-        name = "RepByZone",
-        handler = RepByZone,
-        type = "group",
-        childGroups = "tab",
-        args = {
-            enableDisable = {
-                order = 10,
-                name = ENABLE .. " " .. JUST_OR .. " " .. DISABLE,
-                desc = L["Toggle RepByZone on or off."],
-                descStyle = "inline",
-                type = "toggle",
-                width = "full",
-                get = function() return db.profile.enabled end,
-                set = function(_, value)
-                    db.profile.enabled = value
-                    if value then
-                        self:Enable()
-                    else
-                        self:Disable()
-                    end
-                end
-            },
-            factionStuff = {
-                order = 20,
-                name = L["Reputation Settings"],
-                type = "group",
-                disabled = function() return not db.profile.enabled end,
-                args = {
-                    watchSubZones = {
-                        order = 10,
-                        name = L["Watch Subzones"],
-                        desc = L["Switch watched faction based on subzones."],
-                        type = "toggle",
-                        get = function() return db.profile.watchSubZones end,
-                        set = function(_, value)
-                            db.profile.watchSubZones = value
-                            if value then
-                                self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
-                                self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
-                            else
-                                self:UnregisterEvent("ZONE_CHANGED")
-                                self:UnregisterEvent("ZONE_CHANGED_INDOORS")
-                            end
-                            self:SwitchedZones()
-                        end
-                    },
-                    verbose = {
-                        order = 20,
-                        name = L["Verbose"],
-                        desc = L["Print to chat when you switch watched faction."],
-                        type = "toggle",
-                        get = function() return db.profile.verbose end,
-                        set = function(_, value) db.profile.verbose = value end
-                    },
-                    watchOnTaxi = {
-                        order = 30,
-                        name = L["Switch on taxi"],
-                        desc = L["Switch watched faction while you are on a taxi."],
-                        type = "toggle",
-                        get = function() return db.profile.watchOnTaxi end,
-                        set = function(_, value) db.profile.watchOnTaxi = value end
-                    },
-                    delayGetFactionDataByID = {
-                        order = 90,
-                        name = L["Delay Setting the Watched Faction"],
-                        desc = L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."],
-                        type = "range",
-                        width = 1.5,
-                        get = function() return db.global.delayGetFactionDataByID end,
-                        set = function(_, value)
-                            db.global.delayGetFactionDataByID = value
-                        end,
-                        bigStep = 0.25,
-                        min = 0.10,
-                        max = 1.0,
-                        softMin = 0.10,
-                        softMax = 1.0,
-                        step = 0.05
-                    },
-                    defaultRep = {
-                        order = 100,
-                        name = L["Default watched faction"],
-                        desc = L["Defaults to your racial faction per character."],
-                        type = "select",
-                        width = 1.5,
-                        values = function() return self:GetAllFactions() end,
-                        get = function()
-                            return db.char.watchedRepID
-                        end,
-                        set = function(_, value)
-                            db.char.watchedRepID = value
-                            self.fallbackRepID = (type(value) == "number" and value) or 0
-                            self:SwitchedZones()
-                        end
-                    }
-                }
-            }
-        }
-    }
-    return options
+	if options then return options end
+	local db = self.db
+	options = {
+		name = "RepByZone",
+		handler = RepByZone,
+		type = "group",
+		childGroups = "tab",
+		args = {
+			enableDisable = {
+				order = 10,
+				name = ENABLE .. " " .. JUST_OR .. " " .. DISABLE,
+				desc = L["Toggle RepByZone on or off."],
+				descStyle = "inline",
+				type = "toggle",
+				width = "full",
+				get = function() return db.profile.enabled end,
+				set = function(_, value)
+					db.profile.enabled = value
+					if value then
+						self:Enable()
+					else
+						self:Disable()
+					end
+				end
+			},
+			factionStuff = {
+				order = 20,
+				name = L["Reputation Settings"],
+				type = "group",
+				disabled = function() return not db.profile.enabled end,
+				args = {
+					watchSubZones = {
+						order = 10,
+						name = L["Watch Subzones"],
+						desc = L["Switch watched faction based on subzones."],
+						type = "toggle",
+						get = function() return db.profile.watchSubZones end,
+						set = function(_, value)
+							db.profile.watchSubZones = value
+							if value then
+								self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
+								self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
+							else
+								self:UnregisterEvent("ZONE_CHANGED")
+								self:UnregisterEvent("ZONE_CHANGED_INDOORS")
+							end
+							self:SwitchedZones()
+						end
+					},
+					verbose = {
+						order = 20,
+						name = L["Verbose"],
+						desc = L["Print to chat when you switch watched faction."],
+						type = "toggle",
+						get = function() return db.profile.verbose end,
+						set = function(_, value) db.profile.verbose = value end
+					},
+					watchOnTaxi = {
+						order = 30,
+						name = L["Switch on taxi"],
+						desc = L["Switch watched faction while you are on a taxi."],
+						type = "toggle",
+						get = function() return db.profile.watchOnTaxi end,
+						set = function(_, value) db.profile.watchOnTaxi = value end
+					},
+					delayGetFactionDataByID = {
+						order = 90,
+						name = L["Delay Setting the Watched Faction"],
+						desc = L["Whenever the player changes locations, there is a delay by fractions of a second before data is available."],
+						type = "range",
+						width = 1.5,
+						get = function() return db.global.delayGetFactionDataByID end,
+						set = function(_, value)
+							db.global.delayGetFactionDataByID = value
+						end,
+						bigStep = 0.25,
+						min = 0.10,
+						max = 1.0,
+						softMin = 0.10,
+						softMax = 1.0,
+						step = 0.05
+					},
+					defaultRep = {
+						order = 100,
+						name = L["Default watched faction"],
+						desc = L["Defaults to your racial faction per character."],
+						type = "select",
+						width = 1.5,
+						values = function() return self:GetAllFactions() end,
+						get = function()
+							return db.char.watchedRepID
+						end,
+						set = function(_, value)
+							db.char.watchedRepID = value
+							self.fallbackRepID = (type(value) == "number" and value) or 0
+							self:SwitchedZones()
+						end
+					}
+				}
+			}
+		}
+	}
+	return options
 end

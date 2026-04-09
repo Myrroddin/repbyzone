@@ -80,7 +80,8 @@ InstanceData-TBC.lua [AllowLoadGameType tbc]
 Options-VanillaTBC.lua [AllowLoadGameType vanilla, tbc]
 # Mists of Pandaria Classic
 Core-Mists.lua [AllowLoadGameType mists]
-Data-Mists.lua [AllowLoadGameType mists]
+ZoneData-Mists.lua [AllowLoadGameType mists]
+SubZoneData-Mists.lua [AllowLoadGameType mists]
 InstanceData-Mists.lua [AllowLoadGameType mists]
 Options-Mists.lua [AllowLoadGameType mists]
 # Mainline, AKA Retail
