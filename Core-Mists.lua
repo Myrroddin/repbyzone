@@ -226,8 +226,13 @@ function RepByZone:RefreshConfig(callback)
 	end
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+	self.racialRepID = GetRacialRep()
+	zonesAndFactions = self:ZoneAndFactionList()
+	subZonesAndFactions = self:SubZonesAndFactionsList()
+	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
 	db = self.db.profile
+	self:SwitchedZones()
 end
 
 ------------------- Event handlers starts here --------------------
@@ -255,10 +260,13 @@ function RepByZone:GetPandarenRep(event, success)
 			-- Update data
 			self:UnregisterEvent(event)
 			self.db.char.watchedRepID = GetRacialRep()
+			self.racialRepID = GetRacialRep()
 			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 			local factionName = GetFactionInfoByID(self.db.char.watchedRepID)
 			-- Update the faction lists
-			zonesAndFactions[378] = A and 1353 or H and 1352 or 1216 -- Update The Wandering Isle data
+			zonesAndFactions = self:ZoneAndFactionList()
+			subZonesAndFactions = self:SubZonesAndFactionsList()
+			instancesAndFactions = self:InstancesAndFactionList()
 			self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, factionName))
 			self:SwitchedZones()
 		end

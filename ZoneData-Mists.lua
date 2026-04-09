@@ -129,7 +129,7 @@ function RepByZone:ZoneAndFactionList()
 		--------- MoP ---------
 		[371]		= A and 1242 or H and 1228,	-- Jade Forest/Pearlfin Jinyu or Forest Hozen
 		[376]		= 1272,						-- Valley of the Four Winds/The Tillers
-		[378]		= A and 1353 or H and 1352 or 1216,	-- The Wandering Isle/Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
+		[378]		= (A and 1353) or (H and 1352) or 1216,	-- The Wandering Isle/Tushui Pandaren or Huojin Pandaren or Shang Xi's Academy
 		[379]		= 1270,						-- Kun-Lai Summit/Shado-Pan
 		[388]		= 1270,						-- Towlong Steppes/Shado-Pan
 		[390]		= 1269,						-- Vale of Eternal Blossoms/Golden Lotus

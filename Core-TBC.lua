@@ -169,6 +169,7 @@ function RepByZone:RefreshConfig(callback)
 	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 	self:CheckTaxi()
 	db = self.db.profile
+	self:SwitchedZones()
 end
 
 -------------------- Reputation code starts here --------------------
