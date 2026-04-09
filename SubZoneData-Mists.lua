@@ -12,11 +12,9 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
 local playerClass = UnitClassBase("player")
-local subZonesAndFactions
 
 function RepByZone:SubZonesAndFactionsList()
-	if subZonesAndFactions then return subZonesAndFactions end
-	subZonesAndFactions = {
+	local subZonesAndFactions = {
 		-- [GetAreaInfo(areaID)]  = factionID
 		-- see https://wago.tools/db2/AreaTable?build=5.5.3.66565
 

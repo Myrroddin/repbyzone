@@ -9,16 +9,14 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
-local zonesAndFactions
 
 function RepByZone:ZoneAndFactionList()
-	if zonesAndFactions then return zonesAndFactions end
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/UiMapID or https://wago.tools/db2/UiMap?build=5.5.3.66565 for the list of UImapIDs
 	-- see https://warcraft.wiki.gg/wiki/FactionID for the list of factionIDs
 
-	zonesAndFactions = {
+	local zonesAndFactions = {
 		--------- Vanilla ----------
 		[1]			= 46,						-- Durotar/Orgrimmar
 		[3]			= 72,						-- Tiragarde Keep/Stormwind

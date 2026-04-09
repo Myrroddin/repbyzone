@@ -9,12 +9,10 @@ local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local H = UnitFactionGroup("player") == "Horde"
 local A = UnitFactionGroup("player") == "Alliance"
-local instancesAndFactions
 
 -- Return instance data to Core-Mists.lua
 function RepByZone:InstancesAndFactionList()
-	if instancesAndFactions then return instancesAndFactions end
-	instancesAndFactions = {
+	local instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID
 		-- See https://warcraft.wiki.gg/wiki/InstanceID#Classic or https://wago.tools/db2/JournalInstance?build=5.5.3.66565 for the list of instanceIDs
