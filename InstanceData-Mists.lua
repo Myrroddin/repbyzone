@@ -7,11 +7,10 @@ local UnitFactionGroup = UnitFactionGroup
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
-local H = UnitFactionGroup("player") == "Horde"
-local A = UnitFactionGroup("player") == "Alliance"
-
 -- Return instance data to Core-Mists.lua
 function RepByZone:InstancesAndFactionList()
+	local H = UnitFactionGroup("player") == "Horde"
+	local A = UnitFactionGroup("player") == "Alliance"
 	local instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID

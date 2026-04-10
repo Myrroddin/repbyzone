@@ -185,14 +185,19 @@ function RepByZone:OnEnable()
 	-- Pandaren do not start Alliance or Horde
 	if IsPlayerNeutral() then
 		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
+	else
+		-- We missed Pandaren joining either the Alliance or Horde and the char db is outdated
+		if self.db.char.watchedRepID == 1216 then
+			self:GetPandarenRep(nil, true)
+		end
 	end
 
-	-- Check Sholazar Basin factions
-	self:RegisterEvent("UPDATE_FACTION", "GetMultiRepIDsForZones")
-
 	-- Check if a faction tabard is equipped or changed
-	self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
-	self:GetEquippedTabard(nil, "player")
+	if db.useFactionTabards then
+		self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
+		self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
+		self:GetEquippedTabard(nil, "player")
+	end
 
 	-- Is the player on a taxi?
 	self:CheckTaxi()
@@ -228,13 +233,13 @@ function RepByZone:RefreshConfig(callback)
 		self.db:ResetDB(DEFAULT)
 	end
 	self.db.global.current_db_version = CURRENT_DB_VERSION
+	db = self.db.profile
 	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 	self.racialRepID = GetRacialRep()
 	zonesAndFactions = self:ZoneAndFactionList()
 	subZonesAndFactions = self:SubZonesAndFactionsList()
 	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
-	db = self.db.profile
 	self:GetEquippedTabard(nil, "player")
 	self:SwitchedZones()
 end
@@ -258,11 +263,13 @@ end
 -- Pandaren code
 function RepByZone:GetPandarenRep(event, success)
 	if success then
+		if event then
+			self:UnregisterEvent(event)
+		end
 		A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 		H = UnitFactionGroup("player") == "Horde" and HORDE
 		if A or H then
 			-- Update data
-			self:UnregisterEvent(event)
 			self.db.char.watchedRepID = GetRacialRep()
 			self.racialRepID = GetRacialRep()
 			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
@@ -287,7 +294,8 @@ function RepByZone:UpdateTabardStanding()
 		return
 	end
 
-	local isExalted = (select(3, GetFactionInfoByID(tabardID)) == MAX_REPUTATION_REACTION)
+	local _, _, standing = GetFactionInfoByID(tabardID)
+	local isExalted = (standing == MAX_REPUTATION_REACTION) or false
 
 	if isExalted ~= tabardStandingStatus then
 		tabardStandingStatus = isExalted

@@ -7,10 +7,9 @@ local UnitFactionGroup = UnitFactionGroup
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
-local H = UnitFactionGroup("player") == "Horde"
-local A = UnitFactionGroup("player") == "Alliance"
-
 function RepByZone:ZoneAndFactionList()
+	local H = UnitFactionGroup("player") == "Horde"
+	local A = UnitFactionGroup("player") == "Alliance"
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/UiMapID or https://wago.tools/db2/UiMap?build=5.5.3.66565 for the list of UImapIDs
@@ -95,7 +94,7 @@ function RepByZone:ZoneAndFactionList()
 		[120]		= 1119,						-- The Storm Peaks/The Sons of Hodir
 		[121]		= 1106,						-- Zul'Drak/Argent Crusade
 		[123]		= A and 1050 or H and 1052,	-- Wintergrasp/Valiance Expedition or Horde Expedition
-		[124]		= 1098,						-- Plaguelands: The Scarlet Enclave (DK starting zone)/Knights of the Ebon Blade
+		[124]		= self.racialRepID,			-- Plaguelands: The Scarlet Enclave (DK starting zone)/racial rep
 		[125]		= 1090,						-- Dalaran City/Kirin Tor
 		[126]		= 1090,						-- Dalaran City (The Underbelly)/Kirin Tor
 		[127]		= 1090,						-- Crystalsong Forest/Kirin Tor

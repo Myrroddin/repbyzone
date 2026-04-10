@@ -88,8 +88,11 @@ function RepByZone:GetOptions()
 							db.profile.useFactionTabards = value
 							if value then
 								self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
+								self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
+								self:GetEquippedTabard(nil, "player")
 							else
 								self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+								self:UnregisterEvent("UPDATE_FACTION")
 							end
 							self:SwitchedZones()
 						end
