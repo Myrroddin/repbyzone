@@ -27,7 +27,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
 local A = UnitFactionGroup("player") == "Alliance"
 local H = UnitFactionGroup("player") == "Horde"
-local _, _, playerRaceID = UnitRace("player")
 local CURRENT_DB_VERSION = 1
 
 -- Table to localize subzones that Blizzard does not provide areaIDs
@@ -57,6 +56,7 @@ local player_raceIDs_to_factionIDs = {
 	[11]	= 930,		-- Draenei/Exodar
 }
 local function GetRacialRep()
+	local _, _, playerRaceID = UnitRace("player")
 	local racialRepID
 	racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
 	if not racialRepID then

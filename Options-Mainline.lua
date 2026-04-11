@@ -144,11 +144,7 @@ function RepByZone:GetOptions()
 							[582]	= GetMapInfo(582).name,	-- Lunarfall
 							[590]	= GetMapInfo(590).name,	-- Frostwall
 						},
-						get = function(_, index)
-							local value = db.profile.watchWoDBodyGuards[index]
-							self.WoDFollowerZones[index] = value
-							return db.profile.watchWoDBodyGuards[index] and value
-						end,
+						get = function(_, index) return db.profile.watchWoDBodyGuards[index] end,
 						set = function(_, index, value)
 							db.profile.watchWoDBodyGuards[index] = value
 							self.WoDFollowerZones[index] = value

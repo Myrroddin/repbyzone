@@ -41,7 +41,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
 local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
-local _, _, playerRaceID = UnitRace("player")
 local CURRENT_DB_VERSION = 1
 
 -- Table to localize subzones that Blizzard does not provide areaIDs
@@ -155,6 +154,7 @@ local player_raceIDs_to_factionIDs = {
 	[91]	= 530,		-- Haranir (Horde)/Darkspear Trolls
 }
 local function GetRacialRep()
+	local _, _, playerRaceID = UnitRace("player")
 	local racialRepID
 	racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
 	if not racialRepID then
@@ -230,7 +230,7 @@ end
 function RepByZone:OnEnable()
 	-- All events that deal with entering a new zone or subzone are handled with the same function
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SwitchedZones")
-	if db.profile.watchSubZones then
+	if db.watchSubZones then
 		self:RegisterEvent("ZONE_CHANGED", "SwitchedZones")
 		self:RegisterEvent("ZONE_CHANGED_INDOORS", "SwitchedZones")
 	end
@@ -275,6 +275,16 @@ function RepByZone:OnEnable()
 	-- For certain content
 	self.racialRepID = GetRacialRep()
 
+	-- Get the player's Covenant, if any
+	self:GetCovenantRep()
+
+	-- Get the player's WoD garrison bodyguard, if any
+	bodyguardRepID = self:GetActiveBodyguardRepID()
+	wipe(self.WoDFollowerZones)
+	for index, value in pairs(db.watchWoDBodyGuards) do
+		self.WoDFollowerZones[index] = value
+	end
+
 	self:SwitchedZones()
 end
 
@@ -288,6 +298,7 @@ function RepByZone:OnDisable()
 	self.racialRepID = nil
 	tabardID = nil
 	tabardStandingStatus = false
+	bodyguardRepID = nil
 end
 
 function RepByZone:SlashHandler()
@@ -308,6 +319,12 @@ function RepByZone:RefreshConfig(callback)
 	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
 	self:GetEquippedTabard(nil, "player")
+	bodyguardRepID = self:GetActiveBodyguardRepID()
+	wipe(self.WoDFollowerZones)
+	for index, value in pairs(db and db.watchWoDBodyGuards) do
+		self.WoDFollowerZones[index] = value
+	end
+	self:GetCovenantRep()
 	self:SwitchedZones()
 end
 
