@@ -4,8 +4,8 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
+---@cast RepByZone RepByZoneAddon
 
 -- Return instance data to Core-Mists.lua
 function RepByZone:InstancesAndFactionList()

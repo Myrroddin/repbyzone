@@ -4,8 +4,8 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
+---@cast RepByZone RepByZoneAddon
 
 -- Blizzard has a habit of adding instanceIDs for new content using lower integers. These dungeons do not support tabards
 local tabardExemptDungeons = {
@@ -29,6 +29,27 @@ local tabardExemptDungeons = {
 	[2526] = true, -- Algeth'ar Academy
 	[2527] = true, -- Halls of Infusion
 	[2979] = true, -- Dawn of the Infinite
+
+	---------- TWW ----------
+	[2648] = true, -- The Rookery
+	[2649] = true, -- Priory of the Sacred Flame
+	[2651] = true, -- Darkflame Cleft
+	[2652] = true, -- The Stonevault
+	[2660] = true, -- Ara-Kara, City of Echoes
+	[2661] = true, -- Cinderbrew Meadery
+	[2662] = true, -- The Dawnbreaker
+	[2669] = true, -- Ciy of Threads
+	[2773] = true, -- Operation: Floodgate
+
+	---------- Midnight ----------
+	[2805] = true, -- Windrunner Spire
+	[2811] = true, -- Magisters' Terrace
+	[2813] = true, -- Murder Row
+	[2825] = true, -- Den of Nalorakk
+	[2859] = true, -- The Blinding Vale
+	[2874] = true, -- Maisara Caverns
+	[2915] = true, -- Nexus-Point Xenas
+	[2923] = true, -- Voidscar Arena
 }
 RepByZone.tabardExemptDungeons = tabardExemptDungeons
 
@@ -61,6 +82,8 @@ function RepByZone:InstancesAndFactionList()
 		[2118]		= A and 1037 or H and 1052,		-- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
 		[2177]		= A and 509 or H and 510,		-- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
 		[2245]		= A and 1353 or H and 1352,		-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
+		[2292]		= A and 509 or H and 510,		-- Arathi (Epic Warfront)/The League of Arathor or The Defilers
+		[2656]		= A and 2590 or H and 2594,		-- Deephaul Ravine/Council of Dornogal or The Assembly of the Deeps
 
 		---------- Vanilla ----------
 		[33]		= A and 1134 or H and 68,		-- Shadowfang Keep/Gilneas or Undercity
@@ -112,7 +135,7 @@ function RepByZone:InstancesAndFactionList()
 		[564]		= 1012,							-- Black Temple/Ashtongue Deathsworn
 		[565]		= 1038,							-- Gruul's Lair/Ogri'la
 		[580]		= 1077,							-- Sunwell Plateau/Shattered Sun Offensive
-		[585]		= 1077,							-- Magister's Terrace/Shattered Sun Offensive
+		[585]		= 1077,							-- Magisters' Terrace/Shattered Sun Offensive
 
 		---------- WotLK ----------
 		[533]		= 1106,							-- Naxxramas/Argent Crusade
@@ -266,7 +289,6 @@ function RepByZone:InstancesAndFactionList()
 		[2213]		= 72,							-- Horrific Vision of Stormwind/Stormwind
 		[2217]		= 2164,							-- Ny'alotha: The Waking City/Champions of Azeroth
 		[2268]		= 2391,							-- Mechagon City/Rustbolt Resistance
-		[2292]		= A and 509 or H and 510,		-- Arathi (Epic Warfront)/The League of Arathor or The Defilers
 
 		---------- Shadowlands ----------
 		[2284]		= 2413,							-- Sanguine Depths/Court of Harvesters
@@ -294,8 +316,10 @@ function RepByZone:InstancesAndFactionList()
 		[2522]		= 2507,							-- Vault of the Incarnates/Dragonscale Expedition
 		[2526]		= 2510,							-- Algeth'ar Academy/Valdrakken Accord
 		[2527]		= 2510,							-- Halls of Infusion/Valdrakken Accord
-		[2556]		= 1859,							-- Scenario: Emerald Dramway/The Nightfallen
+		[2556]		= 1883,							-- Scenario: Emerald Dreamway/Dreamweavers
 		[2979]		= 989,							-- Dawn of the Infinite/Keepers of Time
+
+		---------- TWW ----------
 	}
 	return instancesAndFactions
 end

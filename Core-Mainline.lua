@@ -296,9 +296,10 @@ function RepByZone:OnDisable()
 	isOnTaxi = nil
 	self.fallbackRepID = nil
 	self.racialRepID = nil
+	self.covenantRepID = nil
 	tabardID = nil
-	tabardStandingStatus = false
 	bodyguardRepID = nil
+	tabardStandingStatus = false
 end
 
 function RepByZone:SlashHandler()
