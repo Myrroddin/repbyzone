@@ -86,6 +86,7 @@ InstanceData-Mists.lua [AllowLoadGameType mists]
 Options-Mists.lua [AllowLoadGameType mists]
 # Mainline, AKA Retail
 Core-Mainline.lua [AllowLoadGameType mainline]
-Data-Mainline.lua [AllowLoadGameType mainline]
+ZoneData-Mainline.lua [AllowLoadGameType mainline]
+SubZoneData-Mainline.lua [AllowLoadGameType mainline]
 InstanceData-Mainline.lua [AllowLoadGameType mainline]
 Options-Mainline.lua [AllowLoadGameType mainline]

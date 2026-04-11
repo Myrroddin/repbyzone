@@ -156,7 +156,7 @@ function RepByZone:InstancesAndFactionList()
 		[1104]		= 1395,						-- A Little Patience (Horde)/The Lorewalkers
 		[1112]		= 1012,						-- Pursuing the Black Harvest (Warlock)/Ashtongue Deathsworn
 		[1130]		= A and 47 or H and 2103,	-- Blood in the Snow/Ironforge or Zandalari Empire
-		[1131]		= H and 46 or self.racialRepID,	-- The Secrets of Ragefire/racial rep or Orgrimmar
+		[1131]		= 46,							-- The Secrets of Ragefire/Orgrimmar
 		[1136]		= A and 72 or H and 76,		-- Siege of Orgrimmar/Stormwind or Orgrimmar
 		[1148]		= self.racialRepID,			-- Proving Grounds/racial rep
 		[1155]		= A and 509 or H and 510,	-- Stromgarde Keep/The League of Arathor or The Defilers

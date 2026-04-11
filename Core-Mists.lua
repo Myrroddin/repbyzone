@@ -205,7 +205,7 @@ function RepByZone:OnEnable()
 	-- Calculate the fallback reputation
 	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 
-	-- For certain Mists instanced content
+	-- For certain content
 	self.racialRepID = GetRacialRep()
 
 	self:SwitchedZones()
@@ -245,7 +245,7 @@ function RepByZone:RefreshConfig(callback)
 end
 
 ------------------- Event handlers starts here --------------------
------ Entering an instance
+-- Entering an instance
 function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 	-- If either of these are true, we didn't enter an instance, so exit
 	if isInitialLogin or isReloadingUi then
@@ -425,7 +425,7 @@ function RepByZone:SwitchedZones()
 	local parentMapID = GetMapInfo(uiMapID).parentMapID
 	local subZone = GetMinimapZoneText()
 
-	-- Apply instance reputations. Garrisons return false for inInstance and "party" for instanceType, which is good, we can filter them out
+	-- Apply faction tabard instance reputation
 	if inInstance and instanceType == "party" then
 		hasDungeonTabard =
 		db.useFactionTabards
@@ -456,7 +456,7 @@ function RepByZone:SwitchedZones()
 	-- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
 	After(self.db.global.delayGetFactionDataByID, function()
 		if type(watchedFactionID) == "number" and watchedFactionID > 0 then
-			-- We have a factionID to watch either from the databases or the default watched factionID is a number greater than or equal to 1
+			-- We have a factionID to watch either from the databases or the default watched factionID is a number greater than 0
 			factionName, _, _, _, _, _, _, _, _, _, _, isWatched = GetFactionInfoByID(watchedFactionID)
 			if factionName and not isWatched then
 				self:OpenAllFactionHeaders() -- Open all headers to ensure the watched faction is visible
