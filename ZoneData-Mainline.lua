@@ -13,7 +13,7 @@ function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/InstanceID#Retail or https://wago.tools/db2/UiMap for the list of UImapIDs
-	-- see https://warcraft.wiki.gg/wiki/FactionID#Retail for the list of factionIDs
+	-- see https://warcraft.wiki.gg/wiki/FactionID#Retail  or https://wago.tools/db2/Faction for the list of factionIDs
 
 	local zonesAndFactions = {
 		--------- Vanilla ----------
@@ -241,7 +241,6 @@ function RepByZone:ZoneAndFactionList()
 		[1742]		= 2413,						-- Revendreth/Court of Harvesters
 		[1813]		= 2407,						-- Bastion/The Ascended
 		[1814]		= 2410,						-- Maldraxxus/The Undying Army
-		[1911]		= 2432,						-- Torghast: Tower of the Damned/Ve'nari
 		[1960]		= 2432,						-- The Maw/Ve'nari
 		[1961]		= 2470,						-- Korthia/Death's Advance
 		[1970]		= 2478,						-- Zereth Mortis/The Enlightened
@@ -264,6 +263,25 @@ function RepByZone:ZoneAndFactionList()
 		[2175]		= 2564,						-- Zaralek Cavern/Loamm Niffen
 		[2200]		= 2574,						-- Emerald Dream/Dream Wardens
 		[2268]		= 2574,						-- Amirdrassil/Dream Wardens
+
+		--------- TWW ---------
+		[2214]		= 2594,						-- The Ringing Deeps/The Assembly of the Deeps
+		[2215]		= 2570,						-- Hallowfall/Hallowfall Arathi
+		[2248]		= 2590,						-- Isle of Dorn/Council of Dornogal
+		[2255]		= 2600,						-- Azj-Kahet/The Severed Threads
+		[2339]		= 2590,						-- Dornogol/ Council of Dornogal
+		[2346]		= 2653,						-- The Drowned Market/Mariner's Row
+		[2350]		= 2653,						-- Undermine/The Cartels of Undermine
+		[2369]		= 2570,						-- Siren Isle/Hallowfall Arathi
+		[2371]		= 2658,						-- The Drowned Market/Mariner's Row
+		[2372]		= 2658,						-- K'aresh/The K'aresh Trust
+
+		--------- Midnight ---------
+		[2393]		= 2710,						-- Silvermoon City/Silvermoon Court
+		[2395]		= 2710,						-- Eversong Woods/Silvermoon Court
+		[2405]		= 2709,						-- Voidstorm/Vanguard of the Light
+		[2413]		= A and 2729 or H and 2728,	-- Harandar/Haranir (Alliance or Horde)
+		[2437]		= 2696,						-- Zul'Aman/Amani Tribe
 	}
 	return zonesAndFactions
 end
