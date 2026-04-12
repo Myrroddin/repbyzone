@@ -37,3 +37,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0  # gets git history for changelogs
+
+      # once cloned, we just run the GitHub Action
+      - name: Package and release
+        uses: BigWigsMods/packager@v2
