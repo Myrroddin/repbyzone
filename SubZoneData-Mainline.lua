@@ -582,6 +582,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(9714)]		= 2163,						-- Seeker's Expedition/Tortollan Seekers
 		[GetAreaInfo(9735)]		= 1133,						-- Ar'gorok/Bilgewater Cartel
 		[GetAreaInfo(9747)]		= 72,						-- Warfront: The Battle for Stromgarde (Refuge Pointe)/Stormwind
+		[GetAreaInfo(9749)]		= 70,						-- Dabyrie's Farmstead/The Syndicate
 		[GetAreaInfo(9750)]		= 68,						-- Hammerfall/Undercity
 		[GetAreaInfo(9755)]		= 47,						-- Thandol Span/Ironforge
 		[GetAreaInfo(9756)]		= 68,						-- Thoradin's Wall (Horde Warfront)/Undercity
@@ -651,6 +652,16 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(14432)]	= 2507,						-- The Missing Hinge Inn/Dragonscale Expedition
 		[GetAreaInfo(14437)]	= 2550,						-- Training Grounds/Cobalt Assembly
 		[GetAreaInfo(14438)]	= 2544,						-- Khadin's Cave/Artisan's Consortium
+
+		--------- TWW ---------
+		[GetAreaInfo(14758)]	= 2570,						-- Arathi's End/Hallowfall Arathi
+		[GetAreaInfo(14774)]	= 1090,						-- Tranquil Strand/Kirin Tor
+		[GetAreaInfo(14766)]	= 2570,						-- Wildcamp Ul'ar/Hallowfall Arathi
+		[GetAreaInfo(14945)]	= 1090,						-- Faerin's Advance/Kirin Tor
+		[GetAreaInfo(14958)]	= 2570,						-- Wildcamp Or'lay/Hallowfall Arathi
+		[GetAreaInfo(15329)]	= 2640,						-- Delver's Headquarters/Brann Bronzebeard
+		[GetAreaInfo(15526)]	= 2653,						-- Sanity's Rest/The Cartels of Undermine
+		[GetAreaInfo(15528)]	= 2653,						-- Gutterville/The Cartels of Undermine
 	}
 	return subZonesAndFactions
 end

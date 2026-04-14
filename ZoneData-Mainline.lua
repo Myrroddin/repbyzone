@@ -270,11 +270,10 @@ function RepByZone:ZoneAndFactionList()
 		[2248]		= 2590,						-- Isle of Dorn/Council of Dornogal
 		[2255]		= 2600,						-- Azj-Kahet/The Severed Threads
 		[2339]		= 2590,						-- Dornogol/ Council of Dornogal
-		[2346]		= 2653,						-- The Drowned Market/Mariner's Row
-		[2350]		= 2653,						-- Undermine/The Cartels of Undermine
+		[2346]		= 2653,						-- Undermine/The Cartels of Undermine
 		[2369]		= 2570,						-- Siren Isle/Hallowfall Arathi
-		[2371]		= 2658,						-- The Drowned Market/Mariner's Row
-		[2372]		= 2658,						-- K'aresh/The K'aresh Trust
+		[2371]		= 2658,						-- K'aresh/The K'aresh Trust
+		[2372]		= A and 509 or H and 510,	-- Arathi Highlands/The League of Arathor or The Defilers
 
 		--------- Midnight ---------
 		[2393]		= 2710,						-- Silvermoon City/Silvermoon Court
