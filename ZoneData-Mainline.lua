@@ -278,8 +278,8 @@ function RepByZone:ZoneAndFactionList()
 		--------- Midnight ---------
 		[2393]		= 2710,						-- Silvermoon City/Silvermoon Court
 		[2395]		= 2710,						-- Eversong Woods/Silvermoon Court
-		[2405]		= 2709,						-- Voidstorm/Vanguard of the Light
-		[2413]		= A and 2729 or H and 2728,	-- Harandar/Haranir (Alliance or Horde)
+		[2405]		= 2699,						-- Voidstorm/The Singularity
+		[2413]		= 2704,						-- Harandar/Hara'ti
 		[2437]		= 2696,						-- Zul'Aman/Amani Tribe
 	}
 	return zonesAndFactions

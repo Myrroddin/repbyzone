@@ -662,6 +662,21 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(15329)]	= 2640,						-- Delver's Headquarters/Brann Bronzebeard
 		[GetAreaInfo(15526)]	= 2653,						-- Sanity's Rest/The Cartels of Undermine
 		[GetAreaInfo(15528)]	= 2653,						-- Gutterville/The Cartels of Undermine
+
+		--------- Midnight ---------
+		[GetAreaInfo(15958)]	= 2770,						-- Masters' Perch/Slayer's Duellum
+		[GetAreaInfo(15994)]	= 2712,						-- Sunsail Anchorage/Blood Knights
+		[GetAreaInfo(15997)]	= 2714,						-- Saltheril's Haven/Saints of the Row
+		[GetAreaInfo(16050)]	= 2713,						-- Farstrider Enclave/Farstriders
+		[GetAreaInfo(16052)]	= 2696,						-- Amani Pass/Amani Tribe
+		[GetAreaInfo(16056)]	= 68,						-- Ruins of Deathholme/Undercity
+		[GetAreaInfo(16062)]	= 2713,						-- Lake Elrendar/Farstriders
+		[GetAreaInfo(16067)]	= 2713,						-- Farstrider Hold/Farstriders
+		[GetAreaInfo(16068)]	= 2711,						-- Stillwhisper Pond/Magisters
+		[GetAreaInfo(16071)]	= 2711,						-- Goldenbough Pass/Magisters
+		[GetAreaInfo(16087)]	= 2713,						-- Farstrider Square/Farstriders
+		[GetAreaInfo(16173)]	= 911,						-- Sunstrider Isle/Silvermoon City
+		[GetAreaInfo(16426)]	= 1094,						-- Silverglade/The Silver Covenant
 	}
 	return subZonesAndFactions
 end
