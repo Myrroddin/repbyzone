@@ -40,6 +40,7 @@ local tabardExemptDungeons = {
 	[2662] = true, -- The Dawnbreaker
 	[2669] = true, -- Ciy of Threads
 	[2773] = true, -- Operation: Floodgate
+	[2830] = true, -- Eco-Dome Al'Dani
 
 	---------- Midnight ----------
 	[2805] = true, -- Windrunner Spire
@@ -320,6 +321,32 @@ function RepByZone:InstancesAndFactionList()
 		[2979]		= 989,							-- Dawn of the Infinite/Keepers of Time
 
 		---------- TWW ----------
+		[2648]		= 2594,							-- The Rookery/The Assembly of the Deeps
+		[2649]		= 2570,							-- Priory of the Sacred Flame/Hallowfall Arathi
+		[2651]		= 2594,							-- Darkflame Cleft/The Assembly of the Deeps
+		[2652]		= 2594,							-- The Stonevault/The Assembly of the Deeps
+		[2657]		= 2600,							-- Nerub-ar Palace/The Severed Threads
+		[2660]		= 2600,							-- Ara-Kara, City of Echoes/The Severed Threads
+		[2661]		= 2590,							-- Cinderbrew Meadery/Council of Dornogal
+		[2662]		= 2570,							-- The Dawnbreaker/Hallowfall Arathi
+		[2669]		= 2658,							-- City of Threads/The K'aresh Trust
+		[2769]		= 2653,							-- Liberation of Undermine/Cartels of Undermine
+		[2773]		= 2653,							-- Operation: Floodgate/The Cartels of Undermine
+		[2810]		= 2658,							-- Manaforge Omega/The K'aresh Trust
+		[2830]		= 2658,							-- Eco-Dome Al'Dani/The K'aresh Trust
+
+		---------- Midnight ----------
+		[2805]		= 2710,							-- Windrunner Spire/Silvermoon Court
+		[2811]		= 2710,							-- Magisters' Terrace/Silvermoon Court
+		[2813]		= 2714,							-- Murder Row/Shades of the Row
+		[2825]		= 2437,							-- Den of Nalorakk/Armani Tribe
+		[2859]		= 2704,							-- The Blinding Vale/Hara'ti
+		[2874]		= 2437,							-- Maisara Caverns/Armani Tribe
+		[2912]		= 2699,							-- The Voidspire/The Singularity
+		[2913]		= 2710,							-- March on Quel'Danas/Silvermoon Court
+		[2915]		= 2699,							-- Nexus-Point Xenas/The Singularity
+		[2923]		= 2770,							-- Voidscar Arena/Slayer's Duellum
+		[2939]		= 2770,							-- The Dreamrift/Slayer's Duellum
 	}
 	return instancesAndFactions
 end
