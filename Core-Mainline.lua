@@ -423,7 +423,7 @@ function RepByZone:GetEquippedTabard(_, unit)
 
 	local newItemID = GetInventoryItemID(unit, INVSLOT_TABARD)
 	local newFactionID = newItemID and tabard_itemIDs_to_factionIDs[newItemID]
-	local factionData = GetFactionDataByID(newFactionID)
+	local factionData = newFactionID and GetFactionDataByID(newFactionID)
 
 	local newStanding = factionData and (factionData.reaction == MAX_REPUTATION_REACTION) or false
 
