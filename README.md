@@ -10,14 +10,27 @@ That includes city reputations such as Stormwind and Orgrimmar, battleground rep
 - Falls back to a configurable default watched reputation when an area has no specific mapping
 - Can print a chat message whenever the watched reputation changes
 - Can keep switching while you are on taxi flights
-- Supports Classic Era variants, The Burning Crusade Classic, Mists of Pandaria Classic, and Retail
+- Supports Classic Era variants, The Burning Crusade Classic, Wrath of the Lich King Classic, Mists of Pandaria Classic, and Retail
 
 ## Version-specific features
 
 - Classic Era variants, including Hardcore, Fresh, and Season of Discovery, support zone, subzone, instance, battleground, fallback, taxi, and verbose handling
 - The Burning Crusade Classic supports the same core switching behavior as Classic Era
-- Mists of Pandaria Classic adds Pandaren handling and faction tabard support in older 5-player dungeons
+- Wrath of the Lich King Classic adds faction tabard support in older 5-player dungeons
+- Mists of Pandaria Classic adds Pandaren handling and includes the same faction tabard support in older 5-player dungeons
 - Retail adds faction tabard support in older 5-player dungeons, optional WoD garrison bodyguard tracking, and other retail-specific reputation handling
+
+### Wrath of the Lich King Classic AKA Titan Reforged
+
+This is an exclusive client for China, of which I have no access, and cannot test. Please report any errors via [GitHub Issues](https://github.com/Myrroddin/repbyzone/issues).
+
+### 巫妖王之怒经典版（又名 Titan Reforged）
+
+这是中国地区的专属客户端，我无法访问，也无法进行测试。如发现任何错误，请通过 [GitHub Issues](https://github.com/Myrroddin/repbyzone/issues) 进行反馈。
+
+### 巫妖王之怒經典版（又名 Titan Reforged）
+
+這是中國地區的專屬客戶端，我無法存取，也無法進行測試。如發現任何錯誤，請透過 [GitHub Issues](https://github.com/Myrroddin/repbyzone/issues) 回報。
 
 ## How it works
 
@@ -47,8 +60,8 @@ On supported clients, special rules can also take precedence:
 - Adjust the delay used after zone changes before reading reputation data
 - Choose a default watched reputation per character
 - Use the Profiles tab to keep separate settings for alts or different play styles
-- Mists of Pandaria Classic and Retail: use faction tabards in supported dungeons
-- Mists of Pandaria Classic and Retail: stop using tabard reputations after Exalted
+- Wrath of the Lich King Classic, Mists of Pandaria Classic, and Retail: use faction tabards in supported dungeons
+- Wrath of the Lich King Classic, Mists of Pandaria Classic, and Retail: stop using tabard reputations after Exalted
 - Retail: prefer active WoD garrison bodyguard reputations in selected Draenor zones
 
 ## Installation
