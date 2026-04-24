@@ -7,14 +7,16 @@ local UnitFactionGroup = UnitFactionGroup
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 ---@cast RepByZone RepByZoneAddon
 
--- Return instance data to Core-Mists.lua
+-- Return instance data to Core-Wrath.lua
+local instancesAndFactions
 function RepByZone:InstancesAndFactionList()
+	if instancesAndFactions then return instancesAndFactions end
 	local H = UnitFactionGroup("player") == "Horde"
 	local A = UnitFactionGroup("player") == "Alliance"
-	local instancesAndFactions = {
+	instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID
-		-- See https://warcraft.wiki.gg/wiki/InstanceID#Classic or https://wago.tools/db2/JournalInstance?build=5.5.3.66565 for the list of instanceIDs
+		-- See https://warcraft.wiki.gg/wiki/InstanceID#Classic for the list of instanceIDs
 
 		----------- Battlegrounds ----------
 		[30]		= A and 730 or H and 729,	-- Alterac Valley/Stormpike Guard or Frostwolf Clan
@@ -22,15 +24,9 @@ function RepByZone:InstancesAndFactionList()
 		[529]		= A and 509 or H and 510,	-- Arathi Basin (Classic)/The League of Arathor or The Defilers
 		[607]		= A and 1050 or H and 1085,	-- Strand of the Ancients/Valiance Expedition or Warsong Offensive
 		[628]		= A and 1050 or H and 1085,	-- Isle of Conquest/Valiance Expedition or Warsong Offensive
-		[726]		= A and 1174 or H and 1172,	-- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
-		[732]		= A and 1177 or H and 1178,	-- Tol Barad/Baradin's Warders or Hellscream's Reach
-		[761]		= A and 1134 or H and 68,	-- The Battle for Gilneas/Gilneas or Undercity
-		[998]		= A and 1353 or H and 1352,	-- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
-		[1105]		= A and 1353 or H and 1352,	-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
-		[2245]		= A and 1353 or H and 1352,	-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
 
 		---------- Vanilla ----------
-		[33]		= A and 1134 or H and 68,	-- Shadowfang Keep/Gilneas or Undercity
+		[33]		= A and 72 or H and 68,		-- Shadowfang Keep/Stormwind or Undercity
 		[34]		= 72,						-- The Stockades/Stormwind
 		[36]		= 72,						-- The Deadmines/Stormwind
 		[43]		= 81,						-- Wailing Caverns/Thunder Bluff
@@ -39,7 +35,7 @@ function RepByZone:InstancesAndFactionList()
 		[70]		= A and 47 or H and 530,	-- Uldaman/Ironforge or Darkspear Trolls
 		[90]		= 54,						-- Gnomeregan/Gnomeregan
 		[129]		= A and 72 or H and 76,		-- Razorfen Downs/Stormwind or Orgrimmar
-		[209]		= A and 1174 or H and 530,	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+		[209]		= A and 471 or H and 530,	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
 		[229]		= A and 72 or H and 76,		-- Blackrock Spire/Stormwind or Orgrimmar
 		[230]		= 59,						-- Blackrock Depths/Thorium Brotherhood
 		[249]		= A and 72 or H and 76,		-- Onyxia's Lair/Stormwind or Orgrimmar
@@ -47,7 +43,7 @@ function RepByZone:InstancesAndFactionList()
 		[349]		= 609,						-- Maraudon/Cenarion Circle
 		[389]		= 76,						-- Ragefire Chasm/Orgrimmar
 		[409]		= 749,						-- Molten Core/Hydraxian Waterlords
-		[429]		= 69,						-- Dire Maul/Darnassus
+		[429]		= 809,						-- Dire Maul/Shen'dralar
 		[469]		= A and 72 or H and 76,		-- Blackwing Lair/Stormwind or Orgrimmar
 		[509]		= 609,						-- Ruins of Ahn'Qiraj/Cenarion Circle
 		[531]		= 910,						-- Temple of Ahn'Qiraj/Brood of Nozdormu
@@ -107,58 +103,6 @@ function RepByZone:InstancesAndFactionList()
 		[658]		= 1156,						-- Pit of Saron/The Ashen Verdict
 		[668]		= 1156,						-- Halls of Reflection/The Ashen Verdict
 		[724]		= 1091,						-- The Ruby Sanctum/The Wyrmrest Accord
-
-		---------- Cataclysm ----------
-		[369]		= 72,						-- Deeprun Tram/Stormwind
-		[568]		= A and 72 or H and 911,	-- Zul'Aman/Stormwind or Silvermoon City
-		[643]		= 1135,						-- Throne of the Tides/The Earthen Ring
-		[644]		= 2164,						-- Halls of Origination/Champions of Azeroth
-		[645]		= 1158,						-- Blackrock Caverns/Guardians of Hyjal
-		[657]		= 1173,						-- The Vortex Pinnacle/Ramkahen
-		[669]		= 1158,						-- Blackwing Descent/Guardians of Hyjal
-		[670]		= A and 1174 or H and 1172,	-- Grim Batol/Wildhammer Clan or Dragonmaw Clan
-		[671]		= A and 1174 or H and 1172,	-- The Bastion of Twilight/Wildhammer Clan or Dragonmaw Clan
-		[720]		= 1204,						-- Firelands/Avengers of Hyjal
-		[725]		= 1135,						-- The Stonecore/The Earthen Ring
-		[754]		= 1173,						-- Throne of the Four Winds/Ramkahen
-		[755]		= 1173,						-- Lost City of the Tol'vir/Ramkahen
-		[757]		= A and 1177 or H and 1178,	-- Baradin Hold/Bardin's Warders or Hellscream's Reach
-		[859]		= A and 72 or H and 76,		-- Zul'Gurub/Stormwind or Orgrimmar
-		[938]		= 910,						-- End Time/Brood of Nozdormu
-		[939]		= 989,						-- Well of Eternity/Keepers of Time
-		[940]		= 1091,						-- Hour of Twilight/The Wyrmrest Accord
-		[967]		= 1091,						-- Dragon Soul/The Wyrmrest Accord
-		[974]		= 909,						-- Darkmoon Island/Darkmoon Faire
-		[1113]		= 909,						-- Transport: Darkmoon Carousel/Darkmoon Faire
-
-		---------- MoP ----------
-		[959]		= 1270,						-- Shado-pan Monestary/Shado-Pan
-		[960]		= 1341,						-- Temple of the Jade Serpent/The August Celestials
-		[961]		= 1272,						-- Stormstout Brewery/The Tillers
-		[962]		= 1270,						-- Gate of the Setting Sun/Shado-Pan
-		[994]		= 1341,						-- Mogu'shan Palace/The August Celestials
-		[996]		= 1492,						-- Terrace of Endless Spring/Emperor Shaohao
-		[1005]		= A and 1353 or H and 1352,	-- A Brewing Storm/Tushui Pandaren or Huojin Pandaren
-		[1008]		= 1341,						-- Mogu'shan Vault/The August Celestials
-		[1009]		= 1337,						-- Heart of Fear/The Klaxxi
-		[1011]		= 1341,						-- Siege of Niuzao Temple/The August Celestials
-		[1024]		= A and 1353 or H and 1352,	-- Greenstone Village/Tushui Pandaren or Huojin Pandaren
-		[1030]		= 1270,						-- Crypt of Forgotten Kings/Shado-Pan
-		[1031]		= 1341,						-- Arena of Annihilation/The August Celestials
-		[1048]		= 1302,						-- Unga Ingoo/The Anglers
-		[1050]		= 1337,						-- Assault on Zan'vess/The Klaxxi
-		[1051]		= A and 1353 or H and 1352,	-- Brewmoon Festival/Tushui Pandaren or Huojin Pandaren
-		[1095]		= 1395,						-- Dagger in the Dark (Alliance)/The Lorewalkers
-		[1098]		= 1270,						-- Throne of Thunder/Shado-Pan
-		[1102]		= 1375,						-- Domination Point (Horde)/Dominance Offensive
-		[1103]		= 1376,						-- Lion's Landing/Operation: Shieldwall
-		[1104]		= 1395,						-- A Little Patience (Horde)/The Lorewalkers
-		[1112]		= 1012,						-- Pursuing the Black Harvest (Warlock)/Ashtongue Deathsworn
-		[1130]		= A and 47 or H and 2103,	-- Blood in the Snow/Ironforge or Zandalari Empire
-		[1131]		= 46,							-- The Secrets of Ragefire/Orgrimmar
-		[1136]		= A and 72 or H and 76,		-- Siege of Orgrimmar/Stormwind or Orgrimmar
-		[1148]		= self.racialRepID,			-- Proving Grounds/racial rep
-		[1155]		= A and 509 or H and 510,	-- Stromgarde Keep/The League of Arathor or The Defilers
 	}
 	return instancesAndFactions
 end

@@ -16,7 +16,6 @@ local GetNumFactions = GetNumFactions
 local HORDE = FACTION_HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
-local IsPlayerNeutral = IsPlayerNeutral
 local LibStub, NONE, select, type, wipe = LibStub, NONE, select, type, wipe
 local SetWatchedFactionIndex = SetWatchedFactionIndex
 local UnitFactionGroup = UnitFactionGroup
@@ -58,8 +57,6 @@ local tabard_itemIDs_to_factionIDs = {
 	[45578]		= 54,		-- Gnomeregan
 	[45579]		= 69,		-- Darnassus
 	[45580]		= 930,		-- Exodar
-	[64882]		= 1134,		-- Gilneas
-	[83079]		= 1353,		-- Tushui Pandaren
 
 	-- Horde
 	[45581]		= 76,		-- Orgrimmar
@@ -67,8 +64,6 @@ local tabard_itemIDs_to_factionIDs = {
 	[45583]		= 68,		-- Undercity
 	[45584]		= 81,		-- Thunder Bluff
 	[45585]		= 911,		-- Silvermoon City
-	[64884]		= 1133,		-- Bilgewater Cartel
-	[83080]		= 1352,		-- Huojin Pandaren
 }
 
 -- Get the character's racial factionID for the defaults table
@@ -82,14 +77,8 @@ local player_raceIDs_to_factionIDs = {
 	[6]		= 81,		-- Tauren/Thunder Bluff
 	[7]		= 54,		-- Gnome/Gnomeregan
 	[8]		= 530,		-- Troll/Darkspear Trolls
-	[9]		= 1133,		-- Goblin/Bilgewater Cartel
 	[10]	= 911,		-- Blood Elf/Silvermoon City
 	[11]	= 930,		-- Draenei/Exodar
-	[22]	= 1134,		-- Worgen/Gilneas
-	[23]	= 1134,		-- Gilnean/Gilneas
-	[24]	= 1216,		-- Pandaren (Neutral)/Shang Xi's Academy
-	[25]	= 1353,		-- Pandaren (Alliance)/Tushui Pandaren
-	[26]	= 1352,		-- Pandaren (Horde)/Huojin Pandaren
 }
 local function GetRacialRep()
 	local _, _, playerRaceID = UnitRace("player")
@@ -177,16 +166,6 @@ function RepByZone:OnEnable()
 	-- We are zoning into an instance
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	-- Pandaren do not start Alliance or Horde
-	if IsPlayerNeutral() then
-		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
-	else
-		-- We missed Pandaren joining either the Alliance or Horde and the char db is outdated
-		if self.db.char.watchedRepID == 1216 then
-			self:GetPandarenRep(nil, true)
-		end
-	end
-
 	-- Check if a faction tabard is equipped or changed
 	if db.useFactionTabards then
 		self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
@@ -253,30 +232,6 @@ end
 -- Is the player on a taxi
 function RepByZone:CheckTaxi()
 	isOnTaxi = UnitOnTaxi("player")
-end
-
--- Pandaren code
-function RepByZone:GetPandarenRep(event, success)
-	if success then
-		if event then
-			self:UnregisterEvent(event)
-		end
-		A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
-		H = UnitFactionGroup("player") == "Horde" and HORDE
-		if A or H then
-			-- Update data
-			self.db.char.watchedRepID = GetRacialRep()
-			self.racialRepID = GetRacialRep()
-			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
-			local factionName = GetFactionInfoByID(self.db.char.watchedRepID)
-			-- Update the faction lists
-			zonesAndFactions = self:ZoneAndFactionList()
-			subZonesAndFactions = self:SubZonesAndFactionsList()
-			instancesAndFactions = self:InstancesAndFactionList()
-			self:Print(L["You have joined the %s, switching watched saved variable to %s."]:format(A or H, factionName))
-			self:SwitchedZones()
-		end
-	end
 end
 
 -- Tabard code

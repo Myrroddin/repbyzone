@@ -10,12 +10,14 @@ local UnitFactionGroup = UnitFactionGroup
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local playerClass = UnitClassBase("player")
 
+local subZonesAndFactions
 function RepByZone:SubZonesAndFactionsList()
+	if subZonesAndFactions then return subZonesAndFactions end
 	local H = UnitFactionGroup("player") == "Horde"
 	local A = UnitFactionGroup("player") == "Alliance"
-	local subZonesAndFactions = {
+	subZonesAndFactions = {
 		-- [GetAreaInfo(areaID)]  = factionID
-		-- see https://wago.tools/db2/AreaTable?build=5.5.3.66565
+		-- see https://wago.tools/db2/AreaTable?build=3.80.1.66991
 
 		[GetAreaInfo(35)]		= 21,						-- Booty Bay/Booty Bay
 		[GetAreaInfo(36)]		= A and 730 or H and 729,	-- Alterac Mountains/Stormpike Guard or Frostwolf Clan
@@ -30,8 +32,6 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(199)]		= 72,						-- Felstone Field/Stormwind
 		[GetAreaInfo(201)]		= 68,						-- Gahrron's Withering/Undercity
 		[GetAreaInfo(202)]		= 68,						-- Writhing Haunt/Undercity
-		[GetAreaInfo(204)]		= 1134,						-- Pyrewood Village/Gilneas
-		[GetAreaInfo(233)]		= 1134,						-- Ambermill/Gilneas
 		[GetAreaInfo(250)]		= 59,						-- Ruins of Thaurissan/Thorium Brotherhood
 		[GetAreaInfo(279)]		= 1090,						-- Dalaran Crater/Kirin Tor
 		[GetAreaInfo(280)]		= 349,						-- Strahnbrad/Ravenholdt
@@ -40,7 +40,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(299)]		= 72,						-- Menethil Bay/Stormwind
 		[GetAreaInfo(313)]		= 349,						-- Northfold Manor/Ravenholdt
 		[GetAreaInfo(315)]		= 72,						-- Dabyrie's Farmstead/Stormwind
-		[GetAreaInfo(317)]		= A and 1174 or H and 530,	-- Witherbark Village/Wildhammer Clan or Darkspear Trolls
+		[GetAreaInfo(317)]		= A and 471 or H and 530,	-- Witherbark Village/Wildhammer Clan or Darkspear Trolls
 		[GetAreaInfo(320)]		= 72,						-- Refuge Pointe/Stormwind
 		[GetAreaInfo(321)]		= 68,						-- Hammerfall/Undercity
 		[GetAreaInfo(324)]		= 349,						-- Stromgarde Keep/Ravenholdt
@@ -54,7 +54,6 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(385)]		= 72,						-- Northwatch Hold/Stormwind
 		[GetAreaInfo(392)]		= 470,						-- Ratchet/Ratchet
 		[GetAreaInfo(393)]		= 530,						-- Darkspear Strand/Darkspear Trolls
-		[GetAreaInfo(401)]		= H and playerClass == "SHAMAN" and 1135, -- The Tidus Stair/The Earthen Ring (only for Horde shamans)
 		[GetAreaInfo(439)]		= A and 54 or H and 76,		-- The Shimmering Flats/Gnomeregan or Orgrimmar
 		[GetAreaInfo(484)]		= A and 69 or H and 81,		-- Freewind Post/Darnassus or Thunder Bluff
 		[GetAreaInfo(501)]		= 369,						-- Beezil's Wreck/Gadgetzan
@@ -69,24 +68,21 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(702)]		= 69,						-- Rut'theran Village/Darnassus
 		[GetAreaInfo(721)]		= 54,						-- Gnomeregan/Gnomeregan
 		[GetAreaInfo(813)]		= 1106,						-- The Bulwark/Argent Crusade
-		[GetAreaInfo(880)]		= 1174,						-- Thandol Span (Arathi Highlands)/Wildhammer Clan
+		[GetAreaInfo(880)]		= 471,						-- Thandol Span (Arathi Highlands)/Wildhammer Clan
 		[GetAreaInfo(881)]		= 47,						-- Thandol Span (Wetlands)/Ironforge
 		[GetAreaInfo(896)]		= A and 730 or H and 729,	-- Purgation Isle/Stormpike Guard or Frostwolf Clan
-		[GetAreaInfo(978)]		= A and 1174 or H and 530,	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
-		[GetAreaInfo(987)]		= 1133,						-- Land's End Beach/Bilgewater Cartel
+		[GetAreaInfo(978)]		= A and 471 or H and 530,	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
 		[GetAreaInfo(1016)]		= 69,						-- Direforge Hill/Darnassus
 		[GetAreaInfo(1025)]		= 69,						-- The Green Belt/Darnassus
 		[GetAreaInfo(1057)]		= A and 47 or H and 68,		-- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
 		[GetAreaInfo(1216)]		= 579,						-- Timbermaw Hold/Timbermaw Hold
 		[GetAreaInfo(1220)]		= 69,						-- Darnassian Base Camp/Darnassus
-		[GetAreaInfo(1336)]		= A and 54 or H and 1133,	-- Lost Rigger Cove/Gnomeregan or Bilgewater Cartel
 		[GetAreaInfo(1446)]		= 59,						-- Thorium Point/Thorium Brotherhood
 		[GetAreaInfo(1658)]		= 609,						-- Cenarion Enclave/Cenarion Circle
 		[GetAreaInfo(1677)]		= A and 730 or H and 729,	-- Gavin's Naze/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(1678)]		= 72,						-- Sofera's Naze/Stormwind
 		[GetAreaInfo(1679)]		= A and 730 or H and 729,	-- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(1680)]		= A and 730 or H and 729,	-- The Headland/Stormpike Guard or Frostwolf Clan
-		[GetAreaInfo(1739)]		= 1133,						-- Hardwrench Hideaway/Bilgewater Cartel
 		[GetAreaInfo(1741)]		= 87,						-- Gurubashi Arena/Bloodsail Buccaneers
 		[GetAreaInfo(1757)]		= 87,						-- The Crimson Veil/Bloodsail Buccaneers
 		[GetAreaInfo(1758)]		= 87,						-- The Riptide/Bloodsail Buccaneers
@@ -95,17 +91,15 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(1762)]		= 579,						-- Felpaw Village/Timbermaw Hold
 		[GetAreaInfo(1769)]		= 579,						-- Timbermaw Hold/Timbermaw Hold
 		[GetAreaInfo(1778)]		= 369,						-- Sorrowmurk/Gadgetzan
-		[GetAreaInfo(1797)]		= 1133,						-- Stagalbog/Bilgewater Cartel
-		[GetAreaInfo(1837)]		= A and 1174 or H and 530,	-- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
+		[GetAreaInfo(1837)]		= A and 471 or H and 530,	-- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
 		[GetAreaInfo(1857)]		= A and 47 or H and 68,		-- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
-		[GetAreaInfo(1858)]		= 1174,						-- Boulder'gor/Wildhammer Clan
+		[GetAreaInfo(1858)]		= 471,						-- Boulder'gor/Wildhammer Clan
 		[GetAreaInfo(1941)]		= 989,						-- Caverns of Time/Keepers of Time
-		[GetAreaInfo(1998)]		= 1134,						-- Talonbranch Glade/Gilneas
 		[GetAreaInfo(2079)]		= A and 54 or H and 68,		-- Alcaz Island/Gnomeregan or Undercity
 		[GetAreaInfo(2097)]		= A and 69 or H and 81,		-- Darkcloud Pinnacle/Darnassus or Thunder Bluff
 		[GetAreaInfo(2157)]		= A and 47 or H and 81,		-- Bael'dun Keep/Ironforge or Thunder Bluff
 		[GetAreaInfo(2177)]		= 87,						-- Battle Ring/Bloodsail Buccaneers
-		[GetAreaInfo(2240)]		= A and 54 or H and 1133,	-- Mirage Raceway/Gnomeregan or Bilgewater Cartel
+		[GetAreaInfo(2240)]		= 369,						-- Mirage Raceway/Gadgetzan
 		[GetAreaInfo(2241)]		= 589,						-- Frostsaber Rock/Wintersaber Trainers
 		[GetAreaInfo(2242)]		= 69,						-- The Hidden Grove/Darnassus
 		[GetAreaInfo(2243)]		= 579,						-- Timbermaw Post/Timbermaw Hold
@@ -134,50 +128,6 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(3427)]		= 47,						-- Bronzebeard Encampment/Ironforge
 		[GetAreaInfo(3486)]		= 349,						-- Ravenholdt Manor/Ravenholdt
 		[GetAreaInfo(4010)]		= 369,						-- Mudsprocket/Gadgetzan
-		[GetAreaInfo(4690)]		= 1135,						-- Thunder Peak/The Earthen Ring
-		[GetAreaInfo(4715)]		= 1133,						-- The Skunkworks/Bilgewater Cartel
-		[GetAreaInfo(4745)]		= 76,						-- Orgrimmar Rear Gate/Orgrimmar
-		[GetAreaInfo(4798)]		= 1068,						-- Thoargad's Camp/Explorer's League
-		[GetAreaInfo(4803)]		= 911,						-- Furien's Post/Silvermoon City
-		[GetAreaInfo(4882)]		= 369,						-- Marshal's Stand/Gadgetzan
-		[GetAreaInfo(4883)]		= 369,						-- Mossy Pile/Gadgetzan
-		[GetAreaInfo(4925)]		= 609,						-- Thunk's Abode/Cenarion Circle
-		[GetAreaInfo(4927)]		= 76,						-- The Fold/Orgrimmar
-		[GetAreaInfo(4933)]		= 76,						-- Krom'gar Fortress/Orgrimmar
-		[GetAreaInfo(4934)]		= 1133,						-- The Sludgewerks/Bilgewater Cartel
-		[GetAreaInfo(4940)]		= 1068,						-- Northwatch Expedition Base Camp/Explorer's League
-		[GetAreaInfo(5011)]		= 81,						-- Westreach Summit/Thunder Bluff
-		[GetAreaInfo(5028)]		= 87,						-- Southsea Holdfast/Bloodsail Buccaneers
-		[GetAreaInfo(5041)]		= A and 54 or H and 1133,	-- Fizzle & Pozzik's Speedbarge/Gnomeregan or Bilgewater Cartel
-		[GetAreaInfo(5044)]		= 609,						-- The Tainted Forest/Cenarion Circle
-		[GetAreaInfo(5048)]		= A and 54 or H and 1133,	-- Raceway Ruins/Gnomeregan or Bilgewater Cartel
-		[GetAreaInfo(5083)]		= 911,						-- Sunveil Excursion/Silvermoon City
-		[GetAreaInfo(5117)]		= 1133,						-- Nozzlepot's Outpost/Bilgewater Cartel
-		[GetAreaInfo(5121)]		= 68,						-- Galen's Fall/Undercity
-		[GetAreaInfo(5150)]		= 47,						-- Dwarven District/Ironforge
-		[GetAreaInfo(5169)]		= 530,						-- Valley of Spirits/Darkspear Trolls
-		[GetAreaInfo(5171)]		= 81,						-- Valley of Wisdom/Thunder Bluff
-		[GetAreaInfo(5305)]		= 69,						-- Greenwarden's Grove/Darnassus
-		[GetAreaInfo(5317)]		= 530,						-- Bambala/Darkspear Trolls
-		[GetAreaInfo(5367)]		= 942,						-- The Mender's Stead/Cenarion Circle
-		[GetAreaInfo(5388)]		= 911,						-- Dawnrise Expedition/Silvermoon City
-		[GetAreaInfo(5458)]		= 369,						-- Bogpaddle/Gadgetzan
-		[GetAreaInfo(5476)]		= 1134,						-- Pyrewood Chapel/Gilneas
-		[GetAreaInfo(5477)]		= 1134,						-- Pyrewood Inn/Gilneas
-		[GetAreaInfo(5478)]		= 1134,						-- Pyrewood Town Hall/Gilneas
-		[GetAreaInfo(5480)]		= 1134,						-- Gilneas Liberation Base Camp/Gilneas
-		[GetAreaInfo(5495)]		= 54,						-- Gnomeregan/Gnomeregan
-		[GetAreaInfo(5496)]		= 369,						-- Fuselight/Gadgetzan
-		[GetAreaInfo(5497)]		= 369,						-- Fuselight-by-the-Sea/Gadgetzan
-		[GetAreaInfo(5524)]		= 911,						-- Bloodwatcher Point/Silvermoon City
-		[GetAreaInfo(5564)]		= 72,						-- Dragon's Mouth/Stormwind
-		[GetAreaInfo(5645)]		= 609,						-- Whisperwind Grove/Cenarion Circle
-		[GetAreaInfo(5649)]		= 609,						-- Wildheart Point/Cenarion Circle
-		[GetAreaInfo(5654)]		= 59,						-- Chiselgrip/Thorium Brotherhood
-		[GetAreaInfo(5675)]		= A and 69 or H and 81,		-- Arikara's Needle/Darnassus or Thunder Bluff
-		[GetAreaInfo(5687)]		= 1134,						-- Darnassus: The Howling Oak/Gilneas
-		[GetAreaInfo(5705)]		= A and 47 or H and 530,	-- Snowden Chalet/Ironforge or Darkspear Trolls
-		[GetAreaInfo(5706)]		= 369,						-- The Steam Pools/Gadgetzan
 
 		--------- TBC ---------
 		[GetAreaInfo(3482)]		= 922,						-- The Dead Scar (Eversong Woods)/Tranquillien
@@ -191,11 +141,8 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(3573)]		= 72,						-- Odesyus' Landing/Stormwind
 		[GetAreaInfo(3590)]		= 69,						-- Wrathscale Lair/Darnassus
 		[GetAreaInfo(3591)]		= 69,						-- Ruins of Loreth'Aran/Darnassus
-		[GetAreaInfo(3596)]		= A and playerClass == "SHAMAN" and 1135, -- The Hidden Reef/The Earthen Ring (only for Alliance shamans)
 		[GetAreaInfo(3598)]		= 69,						-- Wyrmscar Island/Darnassus
-		[GetAreaInfo(3615)]		= 1135,						-- Throne of the Elements/The Earthen Ring
 		[GetAreaInfo(3623)]		= 933,						-- Aeris Landing/The Consortium
-		[GetAreaInfo(3636)]		= 1135,						-- Elemental Plateau/The Earthen Ring
 		[GetAreaInfo(3673)]		= 47,						-- Nesingwary Safari/Ironforge
 		[GetAreaInfo(3628)]		= A and 930 or H and 911,	-- Halaa/Exodar or Silvermoon City
 		[GetAreaInfo(3630)]		= 933,						-- Oshu'gun/The Consortium
@@ -217,7 +164,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(3718)]		= 530,						-- Swamprat Post/Darkspear Trolls
 		[GetAreaInfo(3719)]		= 941,						-- Bleeding Hollow Ruins/The Mag'har
 		[GetAreaInfo(3744)]		= 76,						-- Shadowmoon Village/Orgrimmar
-		[GetAreaInfo(3745)]		= 1174,						-- Wildhammer Stronghold/Wildhammer Clan
+		[GetAreaInfo(3745)]		= 471,						-- Wildhammer Stronghold/Wildhammer Clan
 		[GetAreaInfo(3754)]		= 932,						-- Altar of Sha'tar/The Aldor
 		[GetAreaInfo(3758)]		= 1015,						-- Netherwing Fields/Netherwing
 		[GetAreaInfo(3759)]		= 1015,						-- Netherwing Ledge/Netherwing
@@ -243,7 +190,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(3901)]		= 69,						-- Allerian Post/Darnassus
 		[GetAreaInfo(3902)]		= 941,						-- Stonebreaker Camp/The Mag'har
 		[GetAreaInfo(3918)]		= 54,						-- Toshley's Station/Gnomeregan
-		[GetAreaInfo(3936)]		= 1174,						-- Deathforge Tower/Wildhammer Clan
+		[GetAreaInfo(3936)]		= 471,						-- Deathforge Tower/Wildhammer Clan
 		[GetAreaInfo(3937)]		= 76,						-- Slag Watch/Orgrimmar
 		[GetAreaInfo(3938)]		= 934,						-- Sanctum of the Stars/The Scryers
 		[GetAreaInfo(3951)]		= 942,						-- Evergrove/Cenarion Expedition
@@ -364,115 +311,6 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(4677)]		= A and 1094 or H and 1124,	-- Silver Covenant Pavilion (Outside)/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4740)]		= A and 1094 or H and 1124,	-- The Silver Enclave/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4760)]		= A and 1094 or H and 1124,	-- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(5561)]		= 1090,						-- The Nexus Entrance/Kirin Tor
-
-		--------- Cataclysm ---------
-		[GetAreaInfo(3707)]		= 72,						-- Alliance Base/Stormwind
-		[GetAreaInfo(3708)]		= 76,						-- Horde Encampment/Orgrimmar
-		[GetAreaInfo(3709)]		= 69,						-- Night Elf Village/Darnassus
-		[GetAreaInfo(4779)]		= 76,						-- Horde Base Camp/Orgrimmar
-		[GetAreaInfo(4846)]		= 81,						-- Camp Una'fe/Thunder Bluff
-		[GetAreaInfo(4851)]		= 81,						-- Ruins of Taurajo/Thunder Bluff
-		[GetAreaInfo(4856)]		= A and 47 or H and 81,		-- Bael Modan/Ironforge or Thunder Bluff
-		[GetAreaInfo(4857)]		= 1135,						-- Firestone Point/The Earthen Ring
-		[GetAreaInfo(4860)]		= 81,						-- Overgrown Camp/Thunder Bluff
-		[GetAreaInfo(4872)]		= A and 47 or H and 81,		-- Bael'dun Keep/Ironforge or Thunder Bluff
-		[GetAreaInfo(4912)]		= 76,						-- Warchief's Lookout/Orgrimmar
-		[GetAreaInfo(4946)]		= A and 47 or H and 81,		-- Bael Modan Excavation/Ironforge or Thunder Bluff
-		[GetAreaInfo(4947)]		= 47,						-- Twinbraid's Patrol/Ironforge
-		[GetAreaInfo(4948)]		= A and 47 or H and 1133,	-- Frazzlecraz Motherlode/Ironforge or Bilgewater Cartel
-		[GetAreaInfo(4949)]		= 81,						-- Spearhead/Thunder Bluff
-		[GetAreaInfo(4969)]		= 72,						-- Tranquil Wash/Stormwind
-		[GetAreaInfo(4970)]		= 76,						-- Legion's Rest/Orgrimmar
-		[GetAreaInfo(4975)]		= 76,						-- Tenebrous Cavern/Orgrimmar
-		[GetAreaInfo(4976)]		= 72,						-- Darkbreak Cove/Stormwind
-		[GetAreaInfo(4986)]		= 81,						-- Vendetta Point/Thunder Bluff
-		[GetAreaInfo(5050)]		= 1204,						-- Firelands Hatchery (The Hatchery)/Avengers of Hyjal
-		[GetAreaInfo(5064)]		= 1204,						-- Firelands Forgeworks (The Anvil of Flame)/Avengers of Hyjal
-		[GetAreaInfo(5067)]		= 1204,						-- The Inner Spire/Avengers of Hyjal
-		[GetAreaInfo(5099)]		= 1204,						-- The Crucible of Flame (The Crucible)/Avengers of Hyjal
-		[GetAreaInfo(5137)]		= 1133,						-- The Krazzworks/Bilgewater Cartel
-		[GetAreaInfo(5140)]		= A and 72 or H and 1133,	-- Highbank/Stormwind or Bilgewater Cartel
-		[GetAreaInfo(5155)]		= 1091,						-- Vermillion Redoubt/The Wyrmrest Accord
-		[GetAreaInfo(5248)]		= 72,						-- Voldrin's Hold/Stormwind
-		[GetAreaInfo(5249)]		= 76,						-- Stygian Bounty/Orgrimmar
-		[GetAreaInfo(5293)]		= 1171,						-- Crumbling Depths/Therazane
-		[GetAreaInfo(5294)]		= 1171,						-- Shuddering Spires/Therazane
-		[GetAreaInfo(5295)]		= 1171,						-- The Pale Roost/Therazane
-		[GetAreaInfo(5296)]		= 1171,						-- Therazane's Throne/Therazane
-		[GetAreaInfo(5297)]		= 1171,						-- Halcyon Egress/Therazane
-		[GetAreaInfo(5298)]		= 1171,						-- Twilight Precipice/Therazane
-		[GetAreaInfo(5299)]		= 1171,						-- Lorthuna's Gate/Therazane
-		[GetAreaInfo(5300)]		= 1171,						-- Verlok Stand/Therazane
-		[GetAreaInfo(5302)]		= 1171,						-- Crimson Expanse/Therazane
-		[GetAreaInfo(5338)]		= 1171,						-- Fungal Deep/Therazane
-		[GetAreaInfo(5408)]		= 1068,						-- Explorer's League Digsite/Explorer's League
-		[GetAreaInfo(5437)]		= 1135,						-- Ring of the Elements/The Earthen Ring
-		[GetAreaInfo(5438)]		= 1135,						-- The Maw of Madness/The Earthen Ring
-		[GetAreaInfo(5439)]		= 1135,						-- Ruins of Drakgor/The Earthen Ring
-		[GetAreaInfo(5461)]		= A and 72 or H and 1133,	-- Dragonmaw Pass/Stormwind or Bilgewater Cartel
-		[GetAreaInfo(5462)]		= A and 72 or H and 1133,	-- Wyrms' Bend/Stormwind or Bilgewater Cartel
-		[GetAreaInfo(5470)]		= A and 72 or H and 1133,	-- Victor's Point/Stormwind or Bilgewater Cartel
-		[GetAreaInfo(5595)]		= 1091,						-- Obsidian Forest/The Wyrmrest Accord
-		[GetAreaInfo(5660)]		= 1091,						-- Obsidian Lair/The Wyrmrest Accord
-		[GetAreaInfo(5664)]		= 1135,						-- Iso'rath/The Earthen Ring
-
-		--------- MoP ---------
-		[GetAreaInfo(4081)]		= 81,						-- The Dawnchaser/Thunder Bluff
-		[GetAreaInfo(5876)]		= 1271,						-- Serpent's Heart/Order of the Cloud Serpent
-		[GetAreaInfo(5931)]		= 1271,						-- The Arboretum/Order of the Cloud Serpent
-		[GetAreaInfo(5974)]		= 1341,						-- Jade Temple Grounds/The August Celestials
-		[GetAreaInfo(5975)]		= 1341,						-- Temple of the Jade Serpent/The August Celestials
-		[GetAreaInfo(5976)]		= 1270,						-- Gate of the Setting Sun/Shado-Pan
-		[GetAreaInfo(6012)]		= 1271,						-- Windward Isle/Order of the Cloud Serpent
-		[GetAreaInfo(6013)]		= A and 1376 or H and 1375,	-- The Dawnchaser (Retreat)/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6016)]		= 69,						-- Sentinel Basecamp/Darnassus
-		[GetAreaInfo(6022)]		= 1271,						-- Mistveil Sea/Order of the Cloud Serpent
-		[GetAreaInfo(6025)]		= 47,						-- Nesingwary's Safari/Ironforge
-		[GetAreaInfo(6048)]		= 1341,						-- Temple of the Red Crane/The August Celestials
-		[GetAreaInfo(6059)]		= A and 1353 or H and 1352,	-- Binan Village/Tushui Pandaren or Huojin Pandaren
-		[GetAreaInfo(6080)]		= 1271,						-- Serpent's Overlook/Order of the Cloud Serpent
-		[GetAreaInfo(6117)]		= 1341,						-- Fountain of the Everseeing/The August Celestials
-		[GetAreaInfo(6118)]		= 1341,						-- The Scrollkeeper's Sanctum/The August Celestials
-		[GetAreaInfo(6119)]		= 1341,						-- Terrace of the Twin Dragons/The August Celestials
-		[GetAreaInfo(6120)]		= 1341,						-- The Heart of Jade/The August Celestials
-		[GetAreaInfo(6143)]		= 1341,						-- Mogu'shan Palace1/The August Celestials
-		[GetAreaInfo(6155)]		= 1341,						-- Cradle of Chi-Ji/The August Celestials
-		[GetAreaInfo(6160)]		= 1341,						-- Angkhal Pavilion/The August Celestials
-		[GetAreaInfo(6161)]		= 1341,						-- Pedestal of Hope/The August Celestials
-		[GetAreaInfo(6162)]		= 1341,						-- Dome Balrissa/The August Celestials
-		[GetAreaInfo(6174)]		= 1341,						-- Temple of the White Tiger/The August Celestials
-		[GetAreaInfo(6182)]		= 1341,						-- Mogu'shan Palace2/The August Celestials
-		[GetAreaInfo(6213)]		= 1341,						-- Niuzao Temple/The August Celestials
-		[GetAreaInfo(6295)]		= 1345,						-- Seat of Knowledge/The Lorewalkers
-		[GetAreaInfo(6368)]		= 1302,						-- Soggy's Gamble/The Anglers
-		[GetAreaInfo(6371)]		= A and 1376 or H and 1375,	-- The Southern Isles/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6393)]		= 1270,						-- Serpent's Spine (Valley of the Four Winds)/Shado-Pan
-		[GetAreaInfo(6394)]		= 1270,						-- Serpent's Spine (Vale of Eternal Blossoms)/Shado-Pan
-		[GetAreaInfo(6395)]		= 1270,						-- Serpent's Spine (Kun-Lai Summit)/Shado-Pan
-		[GetAreaInfo(6401)]		= 1302,						-- Shelf of Mazu/The Anglers
-		[GetAreaInfo(6402)]		= 1302,						-- Wreck of the Mist-Hopper/The Anglers
-		[GetAreaInfo(6433)]		= 1302,						-- Lonesome Cove/The Anglers
-		[GetAreaInfo(6482)]		= A and 1341,				-- The Summer Terrace/The August Celestials
-		[GetAreaInfo(6498)]		= 1341,						-- Gate of the August Celestials/The August Celestials
-		[GetAreaInfo(6512)]		= 1271,						-- The Widow's Wail/Order of the Cloud Serpent
-		[GetAreaInfo(6513)]		= 1271,						-- Oona Kagu/Order of the Cloud Serpent
-		[GetAreaInfo(6533)]		= 72,						-- The Skyfire (Jade Forest)/Stormwind
-		[GetAreaInfo(6560)]		= H and 1341,				-- The Golden Terrace/The August Celestials
-		[GetAreaInfo(6566)]		= A and 1376 or H and 1375,	-- Domination Point/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6595)]		= A and 1376 or H and 1375,	-- The Skyfire/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6596)]		= A and 1376 or H and 1375,	-- Lion's Landing/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6597)]		= A and 1376 or H and 1375,	-- Sparkrocket Outpost/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6600)]		= A and 1376 or H and 1375,	-- Blacksand Spillway/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6601)]		= A and 1376 or H and 1375,	-- Bilgewater Beach/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6602)]		= A and 1376 or H and 1375,	-- The Boiling Crustacean/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6604)]		= A and 1376 or H and 1375,	-- Quickchop's Lumber Farm/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6609)]		= A and 1376 or H and 1375,	-- Ruins of Ogudei/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6643)]		= A and 1376 or H and 1375,	-- Lion's Landing (Scenario)/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6644)]		= A and 1376 or H and 1375,	-- Domination Point (Horde)/Operation: Shieldwall or Dominance Offensive
-		[GetAreaInfo(6701)]		= 54,						-- Beeble's Wreck/Gnomeregan
-		[GetAreaInfo(6702)]		= 1133,						-- Bozzle's Wreck/Bilgewater Cartel
-		[GetAreaInfo(6771)]		= 1341,						-- Celestial Tournament/The August Celestials
 	}
 	return subZonesAndFactions
 end

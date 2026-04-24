@@ -4,19 +4,19 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
+---@cast RepByZone RepByZoneAddon
 
 local zonesAndFactions
 function RepByZone:ZoneAndFactionList()
-	-- [UImapID] = factionID
-	-- If an UImapID is not listed, that zone has no associated factionID
-	-- see https://warcraft.wiki.gg/wiki/UiMapID#Classic for the Classic list of UImapIDs
-	-- see https://warcraft.wiki.gg/wiki/FactionID#Classic for the list of factionIDs
-
 	if zonesAndFactions then return zonesAndFactions end
 	local H = UnitFactionGroup("player") == "Horde"
 	local A = UnitFactionGroup("player") == "Alliance"
+	-- [UImapID] = factionID
+	-- If an UImapID is not listed, that zone has no associated factionID
+	-- see https://warcraft.wiki.gg/wiki/UiMapID#Classic or https://wago.tools/db2/UiMap?build=3.80.1.66991 for the list of UImapIDs
+	-- see https://warcraft.wiki.gg/wiki/FactionID for the list of factionIDs
+
 	zonesAndFactions = {
 		--------- Vanilla ----------
 		[1411]		= 76,						-- Durotar/Orgrimmar
@@ -80,6 +80,21 @@ function RepByZone:ZoneAndFactionList()
 		[1954]		= 911,						-- Silvermoon City/Silvermoon City
 		[1955]		= 935,						-- Shattrath City/The Sha'tar
 		[1957]		= 1077,						-- Isle of Quel'Danas/Shattered Sun Offensive
+
+		--------- WotLK ---------
+		[114]		= A and 1050 or H and 1085,	-- Borean Tundra/Valiance Expedition or Warsong Offensive
+		[115]		= 1091,						-- Dragonblight/The Wyrmrest Accord
+		[116]		= A and 1050 or H and 1085,	-- Grizzly Hills/Valiance Expedition or Warsong Offensive
+		[117]		= A and 1050 or H and 1067,	-- Howling Fjord/Valiance Expedition or The Hand of Vengeance
+		[118]		= 1098,						-- Icecrown/Knights of the Ebon Blade
+		[120]		= 1119,						-- The Storm Peaks/The Sons of Hodir
+		[121]		= 1106,						-- Zul'Drak/Argent Crusade
+		[123]		= A and 1050 or H and 1052,	-- Wintergrasp/Valiance Expedition or Horde Expedition
+		[124]		= self.racialRepID,			-- Plaguelands: The Scarlet Enclave (DK starting zone)/racial rep
+		[125]		= 1090,						-- Dalaran City/Kirin Tor
+		[126]		= 1090,						-- Dalaran City (The Underbelly)/Kirin Tor
+		[127]		= 1090,						-- Crystalsong Forest/Kirin Tor
+		[170]		= 1106,						-- Hrothgar's Landing/Argent Crusade
 	}
 	return zonesAndFactions
 end

@@ -10,14 +10,10 @@ local GetMapInfo = C_Map.GetMapInfo
 local GetMinimapZoneText = GetMinimapZoneText
 local GetNumFactions = GetNumFactions
 local IsInInstance = IsInInstance
-local LibStub = LibStub
-local NONE = NONE
+local LibStub, NONE, type, wipe = LibStub, NONE, type, wipe
 local SetWatchedFactionIndex = SetWatchedFactionIndex
-local type = type
 local UnitFactionGroup = UnitFactionGroup
-local UnitOnTaxi = UnitOnTaxi
-local UnitRace = UnitRace
-local wipe = wipe
+local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 
 ------------------- Create the addon --------------------
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")

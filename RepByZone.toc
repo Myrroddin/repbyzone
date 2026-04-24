@@ -1,4 +1,4 @@
-## Interface: 120005, 50503, 20505, 11508
+## Interface: 120005, 50503, 38001, 20505, 11508
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -63,8 +63,8 @@ Locales\itIT.lua
 Locales\koKR.lua
 Locales\ptBR.lua
 Locales\ruRU.lua
-Locales\zhTW.lua
 Locales\zhCN.lua
+Locales\zhTW.lua
 
 # Vanilla Classic Era, Hardcore, Fresh, and Season of Discovery
 Core-Vanilla.lua [AllowLoadGameType vanilla]
@@ -78,12 +78,18 @@ SubZoneData-TBC.lua [AllowLoadGameType tbc]
 InstanceData-TBC.lua [AllowLoadGameType tbc]
 # Vanilla + TBC share options
 Options-VanillaTBC.lua [AllowLoadGameType vanilla, tbc]
+# Wrath of the Lich King Classic AKA Titan Reforged (China)
+Core-Wrath.lua [AllowLoadGameType wrath]
+ZoneData-Wrath.lua [AllowLoadGameType wrath]
+SubZoneData-Wrath.lua [AllowLoadGameType wrath]
+InstanceData-Wrath.lua [AllowLoadGameType wrath]
 # Mists of Pandaria Classic
 Core-Mists.lua [AllowLoadGameType mists]
 ZoneData-Mists.lua [AllowLoadGameType mists]
 SubZoneData-Mists.lua [AllowLoadGameType mists]
 InstanceData-Mists.lua [AllowLoadGameType mists]
-Options-Mists.lua [AllowLoadGameType mists]
+# Wrath + Mists share options
+Options-WrathMists.lua [AllowLoadGameType wrath, mists]
 # Mainline, AKA Retail
 Core-Mainline.lua [AllowLoadGameType mainline]
 ZoneData-Mainline.lua [AllowLoadGameType mainline]

@@ -32,7 +32,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(202)]		= 68,						-- Writhing Haunt/Undercity
 		[GetAreaInfo(204)]		= 1134,						-- Pyrewood Village/Gilneas
 		[GetAreaInfo(233)]		= 1134,						-- Ambermill/Gilneas
-		[GetAreaInfo(250)]		= 59,						-- Ruins of Thaurissan
+		[GetAreaInfo(250)]		= 59,						-- Ruins of Thaurissan/Thorium Brotherhood
 		[GetAreaInfo(279)]		= 1090,						-- Dalaran Crater/Kirin Tor
 		[GetAreaInfo(280)]		= 349,						-- Strahnbrad/Ravenholdt
 		[GetAreaInfo(288)]		= 72,						-- Azurelode Mine/Stormwind
@@ -51,6 +51,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(359)]		= A and 47 or H and 81,		-- Bael Modan/Ironforge or Thunder Bluff
 		[GetAreaInfo(367)]		= 530,						-- Sen'jen Village/Darkspear Trolls
 		[GetAreaInfo(368)]		= 530,						-- Echo Isles/Darkspear Trolls
+		[GetAreaInfo(385)]		= 72,						-- Northwatch Hold/Stormwind
 		[GetAreaInfo(392)]		= 470,						-- Ratchet/Ratchet
 		[GetAreaInfo(393)]		= 530,						-- Darkspear Strand/Darkspear Trolls
 		[GetAreaInfo(401)]		= H and playerClass == "SHAMAN" and 1135, -- The Tidus Stair/The Earthen Ring (only for Horde shamans)
