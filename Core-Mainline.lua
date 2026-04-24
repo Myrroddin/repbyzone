@@ -20,16 +20,10 @@ local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
-local LibStub = LibStub
-local NONE = NONE
-local pairs = pairs
-local select = select
+local LibStub, NONE, pairs, select, type, wipe = LibStub, NONE, pairs, select, type, wipe
 local SetWatchedFactionByID = C_Reputation.SetWatchedFactionByID
-local type = type
 local UnitFactionGroup = UnitFactionGroup
-local UnitOnTaxi = UnitOnTaxi
-local UnitRace = UnitRace
-local wipe = wipe
+local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 
 ------------------- Create the addon --------------------
