@@ -1,4 +1,4 @@
-## Interface: 120005, 50503, 38001, 20505, 11508
+## Interface: 120005, 50504, 38001, 20505, 11508
 ## Title: RepByZone
 ## Notes: Switches your watched faction by the player's zone
 ## Notes-deDE: @localization(locale="deDE", key="Notes", namespace="ToC")@
@@ -43,7 +43,7 @@
 ## X-Email: psvander@gmail.com
 
 Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\AceAddon-3.0\AceAddon-3.0.xml
 Libs\AceEvent-3.0\AceEvent-3.0.xml
 Libs\AceDB-3.0\AceDB-3.0.xml
@@ -67,32 +67,32 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 # Vanilla Classic Era, Hardcore, Fresh, and Season of Discovery
-Core-Vanilla.lua [AllowLoadGameType vanilla]
-ZoneData-Vanilla.lua [AllowLoadGameType vanilla]
-SubZoneData-Vanilla.lua [AllowLoadGameType vanilla]
-InstanceData-Vanilla.lua [AllowLoadGameType vanilla]
+[AllowLoadGameType vanilla] Core-Vanilla.lua
+[AllowLoadGameType vanilla] ZoneData-Vanilla.lua
+[AllowLoadGameType vanilla] SubZoneData-Vanilla.lua
+[AllowLoadGameType vanilla] InstanceData-Vanilla.lua
 # The Burning Crusade Classic
-Core-TBC.lua [AllowLoadGameType tbc]
-ZoneData-TBC.lua [AllowLoadGameType tbc]
-SubZoneData-TBC.lua [AllowLoadGameType tbc]
-InstanceData-TBC.lua [AllowLoadGameType tbc]
+[AllowLoadGameType tbc] Core-TBC.lua
+[AllowLoadGameType tbc] ZoneData-TBC.lua
+[AllowLoadGameType tbc] SubZoneData-TBC.lua
+[AllowLoadGameType tbc] InstanceData-TBC.lua
 # Vanilla + TBC share options
-Options-VanillaTBC.lua [AllowLoadGameType vanilla, tbc]
+[AllowLoadGameType vanilla, tbc] Options-VanillaTBC.lua
 # Wrath of the Lich King Classic AKA Titan Reforged (China)
-Core-Wrath.lua [AllowLoadGameType wrath]
-ZoneData-Wrath.lua [AllowLoadGameType wrath]
-SubZoneData-Wrath.lua [AllowLoadGameType wrath]
-InstanceData-Wrath.lua [AllowLoadGameType wrath]
+[AllowLoadGameType wrath] Core-Wrath.lua
+[AllowLoadGameType wrath] ZoneData-Wrath.lua
+[AllowLoadGameType wrath] SubZoneData-Wrath.lua
+[AllowLoadGameType wrath] InstanceData-Wrath.lua
 # Mists of Pandaria Classic
-Core-Mists.lua [AllowLoadGameType mists]
-ZoneData-Mists.lua [AllowLoadGameType mists]
-SubZoneData-Mists.lua [AllowLoadGameType mists]
-InstanceData-Mists.lua [AllowLoadGameType mists]
+[AllowLoadGameType mists] Core-Mists.lua
+[AllowLoadGameType mists] ZoneData-Mists.lua
+[AllowLoadGameType mists] SubZoneData-Mists.lua
+[AllowLoadGameType mists] InstanceData-Mists.lua
 # Wrath + Mists share options
-Options-WrathMists.lua [AllowLoadGameType wrath, mists]
+[AllowLoadGameType wrath, mists] Options-WrathMists.lua
 # Mainline, AKA Retail
-Core-Mainline.lua [AllowLoadGameType mainline]
-ZoneData-Mainline.lua [AllowLoadGameType mainline]
-SubZoneData-Mainline.lua [AllowLoadGameType mainline]
-InstanceData-Mainline.lua [AllowLoadGameType mainline]
-Options-Mainline.lua [AllowLoadGameType mainline]
+[AllowLoadGameType mainline] Core-Mainline.lua
+[AllowLoadGameType mainline] ZoneData-Mainline.lua
+[AllowLoadGameType mainline] SubZoneData-Mainline.lua
+[AllowLoadGameType mainline] InstanceData-Mainline.lua
+[AllowLoadGameType mainline] Options-Mainline.lua
