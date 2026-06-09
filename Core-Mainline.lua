@@ -1,15 +1,16 @@
 ---@diagnostic disable: duplicate-set-field, undefined-global, undefined-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
-local After = C_Timer.After
 local ALLIANCE = FACTION_ALLIANCE
+local After = C_Timer.After
 local CollapseFactionHeader = C_Reputation.CollapseFactionHeader
 local enum = Enum.CovenantType
 local ExpandFactionHeader = C_Reputation.ExpandFactionHeader
 local FACTION_INACTIVE = FACTION_INACTIVE
 local GetActiveCovenantID = C_Covenants.GetActiveCovenantID
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
-local GetFactionDataByIndex = C_Reputation.GetFactionDataByIndex
+local GetDelvesFactionForSeason = C_DelvesUI.GetDelvesFactionForSeason
 local GetFactionDataByID = C_Reputation.GetFactionDataByID
+local GetFactionDataByIndex = C_Reputation.GetFactionDataByIndex
 local GetInstanceInfo = GetInstanceInfo
 local GetInventoryItemID = GetInventoryItemID
 local GetMapInfo = C_Map.GetMapInfo
@@ -21,10 +22,10 @@ local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local LibStub, NONE, pairs, select, type, wipe = LibStub, NONE, pairs, select, type, wipe
+local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 local SetWatchedFactionByID = C_Reputation.SetWatchedFactionByID
 local UnitFactionGroup = UnitFactionGroup
-local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
-local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
+local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 
 ------------------- Create the addon --------------------
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
@@ -372,7 +373,7 @@ function RepByZone:GetPandarenRep(event, success)
 			self.racialRepID = GetRacialRep()
 			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
 			local factionData = GetFactionDataByID(self.db.char.watchedRepID)
-			local factionName = factionData and factionData.name
+			local factionName = factionData and factionData.name or UNKNOWN
 			-- Update the faction lists
 			zonesAndFactions = self:ZoneAndFactionList()
 			subZonesAndFactions = self:SubZonesAndFactionsList()
@@ -548,7 +549,7 @@ function RepByZone:SwitchedZones(event)
 	-- Set up variables
 	local watchedFactionID, factionData = nil, nil
 	local hasDungeonTabard, lookUpSubZones = false, false
-	local inInstance, instanceType = IsInInstance()
+	local name, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceID = GetInstanceInfo()
 	local whichInstanceID = inInstance and select(8, GetInstanceInfo())
 	local parentMapID = GetMapInfo(uiMapID).parentMapID
 	local subZone = GetMinimapZoneText()

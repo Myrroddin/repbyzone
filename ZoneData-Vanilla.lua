@@ -1,13 +1,27 @@
----@diagnostic disable: duplicate-set-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
+---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
+local A = UnitFactionGroup("player") == "Alliance"
+
+---@type table<number, number>?
 local zonesAndFactions
+
+---@param allianceFactionID number
+---@param hordeFactionID number
+---@return number
+local function GetFactionID(allianceFactionID, hordeFactionID)
+	if A then
+		return allianceFactionID
+	end
+	return hordeFactionID
+end
+
+---@return table<number, number>
 function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
@@ -15,8 +29,6 @@ function RepByZone:ZoneAndFactionList()
 	-- see https://warcraft.wiki.gg/wiki/FactionID#Classic for the list of factionIDs
 
 	if zonesAndFactions then return zonesAndFactions end
-	local H = UnitFactionGroup("player") == "Horde"
-	local A = UnitFactionGroup("player") == "Alliance"
 	zonesAndFactions = {
 		--------- Horde ----------
 		[1411]		= 76,						-- Durotar/Orgrimmar
@@ -49,24 +61,24 @@ function RepByZone:ZoneAndFactionList()
 		[1446]		= 369,						-- Tanaris/Gadgetzan
 		[1451]		= 609,						-- Silithus/Cenarion Circle
 		[1452]		= 577,						-- Winterspring/Everlook
-		[1425]		= A and 471 or H and 530,	-- The Hinterlands/Wildhammer Clan or Darkspear Trolls
-		[1431]		= A and 72 or H and 68,		-- Duskwood/Stormwind or Undercity
-		[1440]		= A and 69 or H and 76,		-- Ashenvale/Darnassus or Orgrimmar
-		[1444]		= A and 69 or H and 81,		-- Feralas/Darnassus or Thunder Bluff
-		[1413]		= A and 470 or H and 81,	-- The Barrens/Ratchet or Thunder Bluff
-		[1417]		= A and 509 or H and 68,	-- Arathi Highlands/The League of Arathor or Undercity
-		[1424]		= A and 72 or H and 68,		-- Hillsbrad Foothills/Stormwind/Undercity
-		[1416]		= A and 72 or H and 76,		-- Alterac Mountains/Stormwind or Orgrimmar
-		[1418]		= A and 47 or H and 76,		-- Badlands/Ironforge or Orgrimmar
-		[1428]		= A and 47 or H and 530,	-- Burning Steppes/Ironforge or Darkspear Trolls
-		[1434]		= A and 72 or H and 76,		-- Stranglethorn Vale/Stormwind or Orgrimmar
-		[1435]		= A and 72 or H and 76,		-- Swamp of Sorrows/Stormwind or Orgrimmar
-		[1441]		= A and 69 or H and 81,		-- Thousand Needles/Darnassus or Thunder Bluff
-		[1442]		= A and 69 or H and 81,		-- Stonetalon Mountains/Darnassus or Thunder Bluff
-		[1443]		= A and 72 or H and 81,		-- Desolace/Stormwind or Thunder Bluff
-		[1445]		= A and 72 or H and 76,		-- Dustwallow Marsh/Stormwind or Orgrimmar
-		[1447]		= A and 69 or H and 76,		-- Azshara/Darnassus or Orgrimmar
-		[1448]		= A and 69 or H and 68,		-- Felwood/Darnassus or Undercity
+		[1425]		= GetFactionID(471, 530),	-- The Hinterlands/Wildhammer Clan or Darkspear Trolls
+		[1431]		= GetFactionID(72, 68),		-- Duskwood/Stormwind or Undercity
+		[1440]		= GetFactionID(69, 76),		-- Ashenvale/Darnassus or Orgrimmar
+		[1444]		= GetFactionID(69, 81),		-- Feralas/Darnassus or Thunder Bluff
+		[1413]		= GetFactionID(470, 81),	-- The Barrens/Ratchet or Thunder Bluff
+		[1417]		= GetFactionID(509, 68),	-- Arathi Highlands/The League of Arathor or Undercity
+		[1424]		= GetFactionID(72, 68),		-- Hillsbrad Foothills/Stormwind/Undercity
+		[1416]		= GetFactionID(72, 76),		-- Alterac Mountains/Stormwind or Orgrimmar
+		[1418]		= GetFactionID(47, 76),		-- Badlands/Ironforge or Orgrimmar
+		[1428]		= GetFactionID(47, 530),	-- Burning Steppes/Ironforge or Darkspear Trolls
+		[1434]		= GetFactionID(72, 76),		-- Stranglethorn Vale/Stormwind or Orgrimmar
+		[1435]		= GetFactionID(72, 76),		-- Swamp of Sorrows/Stormwind or Orgrimmar
+		[1441]		= GetFactionID(69, 81),		-- Thousand Needles/Darnassus or Thunder Bluff
+		[1442]		= GetFactionID(69, 81),		-- Stonetalon Mountains/Darnassus or Thunder Bluff
+		[1443]		= GetFactionID(72, 81),		-- Desolace/Stormwind or Thunder Bluff
+		[1445]		= GetFactionID(72, 76),		-- Dustwallow Marsh/Stormwind or Orgrimmar
+		[1447]		= GetFactionID(69, 76),		-- Azshara/Darnassus or Orgrimmar
+		[1448]		= GetFactionID(69, 68),		-- Felwood/Darnassus or Undercity
 	}
 	return zonesAndFactions
 end

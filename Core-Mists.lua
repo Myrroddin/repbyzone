@@ -268,7 +268,7 @@ function RepByZone:GetPandarenRep(event, success)
 			self.db.char.watchedRepID = GetRacialRep()
 			self.racialRepID = GetRacialRep()
 			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
-			local factionName = GetFactionInfoByID(self.db.char.watchedRepID)
+			local factionName = GetFactionInfoByID(self.db.char.watchedRepID) or UNKNOWN
 			-- Update the faction lists
 			zonesAndFactions = self:ZoneAndFactionList()
 			subZonesAndFactions = self:SubZonesAndFactionsList()
