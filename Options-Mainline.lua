@@ -7,13 +7,26 @@ local LibStub = LibStub
 local type = type
 
 ------------------- Get addon reference --------------------
+---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
----@cast RepByZone RepByZoneAddon
+
+---@type table<string, string>
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
+
+---@type table?
 local options
 
+---@param uiMapID number
+---@return string
+local function GetUiMapName(uiMapID)
+	local mapInfo = GetMapInfo(uiMapID)
+	return mapInfo and mapInfo.name or ""
+end
+
+---@return table
 function RepByZone:GetOptions()
 	if options then return options end
+	---@type RepByZoneDB
 	local db = self.db
 	options = {
 		name = "RepByZone",
@@ -134,15 +147,15 @@ function RepByZone:GetOptions()
 						dialogControl = "Dropdown",
 						width = 1.5,
 						values = {
-							[525]	= GetMapInfo(525).name,	-- Frostfire Ridge
-							[534]	= GetMapInfo(534).name,	-- Tanaan Jungle
-							[535]	= GetMapInfo(535).name,	-- Talador
-							[539]	= GetMapInfo(539).name,	-- Shadowmoon Valley
-							[542]	= GetMapInfo(542).name,	-- Spires of Arak
-							[543]	= GetMapInfo(543).name,	-- Gorgrond
-							[550]	= GetMapInfo(550).name,	-- Nagrand
-							[582]	= GetMapInfo(582).name,	-- Lunarfall
-							[590]	= GetMapInfo(590).name,	-- Frostwall
+							[525]	= GetUiMapName(525),	-- Frostfire Ridge
+							[534]	= GetUiMapName(534),	-- Tanaan Jungle
+							[535]	= GetUiMapName(535),	-- Talador
+							[539]	= GetUiMapName(539),	-- Shadowmoon Valley
+							[542]	= GetUiMapName(542),	-- Spires of Arak
+							[543]	= GetUiMapName(543),	-- Gorgrond
+							[550]	= GetUiMapName(550),	-- Nagrand
+							[582]	= GetUiMapName(582),	-- Lunarfall
+							[590]	= GetUiMapName(590),	-- Frostwall
 						},
 						get = function(_, index) return db.profile.watchWoDBodyGuards[index] end,
 						set = function(_, index, value)

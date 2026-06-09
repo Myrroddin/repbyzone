@@ -1,13 +1,25 @@
----@diagnostic disable: duplicate-set-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
+---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
----@cast RepByZone RepByZoneAddon
+
+local A = UnitFactionGroup("player") == "Alliance"
+
+---@param allianceFactionID number
+---@param hordeFactionID number
+---@return number
+local function GetFactionID(allianceFactionID, hordeFactionID)
+	if A then
+		return allianceFactionID
+	end
+	return hordeFactionID
+end
 
 -- Blizzard has a habit of adding instanceIDs for new content using lower integers. These dungeons do not support tabards
+---@type table<number, boolean>
 local tabardExemptDungeons = {
 	---------- Shadowlands ----------
 	[2284] = true, -- Sanguine Depths
@@ -54,58 +66,57 @@ local tabardExemptDungeons = {
 }
 RepByZone.tabardExemptDungeons = tabardExemptDungeons
 
--- Return instance data to Core-Retail.lua
+-- Return instance data to Core-Mainline.lua
+---@return table<number, number>
 function RepByZone:InstancesAndFactionList()
-	local H = UnitFactionGroup("player") == "Horde"
-	local A = UnitFactionGroup("player") == "Alliance"
 	local instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID
 		-- See https://warcraft.wiki.gg/wiki/InstanceID#Retail or https://wago.tools/db2/JournalInstance (look at the mapID column) for the list of instanceIDs
 
 		----------- Battlegrounds ----------
-		[30]		= A and 730 or H and 729,		-- Alterac Valley/Stormpike Guard or Frostwolf Clan
-		[489]		= A and 890 or H and 889,		-- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
-		[529]		= A and 509 or H and 510,		-- Arathi Basin (Classic)/The League of Arathor or The Defilers
-		[607]		= A and 1050 or H and 1085,		-- Strand of the Ancients/Valiance Expedition or Warsong Offensive
-		[628]		= A and 1050 or H and 1085,		-- Isle of Conquest/Valiance Expedition or Warsong Offensive
-		[726]		= A and 1174 or H and 1172,		-- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
-		[727]		= A and 72 or H and 1133,		-- Silvershard Mines/Stormwind or Bilgewater Cartel
-		[732]		= A and 1177 or H and 1178,		-- Tol Barad/Baradin's Warders or Hellscream's Reach
-		[761]		= A and 1134 or H and 68,		-- The Battle for Gilneas/Gilneas or Undercity
-		[998]		= A and 1353 or H and 1352,		-- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
-		[1105]		= A and 1353 or H and 1352,		-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
-		[1191]		= A and 1682 or H and 1681,		-- Ashran/Wrynn's Vanguard or Vol'jin's Spear
-		[1681]		= A and 509 or H and 510,		-- Arathi Basin (Winter)/The League of Arathor or The Defilers
-		[1803]		= A and 2160 or H and 2157,		-- Seething Shore/Proudmore Admiralty or The Honorbound
-		[2106]		= A and 890 or H and 889,		-- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
-		[2107]		= A and 509 or H and 510,		-- Arathi Basin/The League of Arathor or The Defilers
-		[2118]		= A and 1037 or H and 1052,		-- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
-		[2177]		= A and 509 or H and 510,		-- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
-		[2245]		= A and 1353 or H and 1352,		-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
-		[2292]		= A and 509 or H and 510,		-- Arathi (Epic Warfront)/The League of Arathor or The Defilers
-		[2656]		= A and 2590 or H and 2594,		-- Deephaul Ravine/Council of Dornogal or The Assembly of the Deeps
+		[30]		= GetFactionID(730, 729),		-- Alterac Valley/Stormpike Guard or Frostwolf Clan
+		[489]		= GetFactionID(890, 889),		-- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
+		[529]		= GetFactionID(509, 510),		-- Arathi Basin (Classic)/The League of Arathor or The Defilers
+		[607]		= GetFactionID(1050, 1085),		-- Strand of the Ancients/Valiance Expedition or Warsong Offensive
+		[628]		= GetFactionID(1050, 1085),		-- Isle of Conquest/Valiance Expedition or Warsong Offensive
+		[726]		= GetFactionID(1174, 1172),		-- Twin Peaks/Wildhammer Clan or Dragonmaw Clan
+		[727]		= GetFactionID(72, 1133),		-- Silvershard Mines/Stormwind or Bilgewater Cartel
+		[732]		= GetFactionID(1177, 1178),		-- Tol Barad/Baradin's Warders or Hellscream's Reach
+		[761]		= GetFactionID(1134, 68),		-- The Battle for Gilneas/Gilneas or Undercity
+		[998]		= GetFactionID(1353, 1352),		-- Temple of Kotmogu/Tushui Pandaren or Huojin Pandaren
+		[1105]		= GetFactionID(1353, 1352),		-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
+		[1191]		= GetFactionID(1682, 1681),		-- Ashran/Wrynn's Vanguard or Vol'jin's Spear
+		[1681]		= GetFactionID(509, 510),		-- Arathi Basin (Winter)/The League of Arathor or The Defilers
+		[1803]		= GetFactionID(2160, 2157),		-- Seething Shore/Proudmore Admiralty or The Honorbound
+		[2106]		= GetFactionID(890, 889),		-- Warsong Gulch/Silverwing Sentinels or Warsong Outriders
+		[2107]		= GetFactionID(509, 510),		-- Arathi Basin/The League of Arathor or The Defilers
+		[2118]		= GetFactionID(1037, 1052),		-- Battle for Wintergrasp/Alliance Vanguard or Horde Expedition
+		[2177]		= GetFactionID(509, 510),		-- Arathi Basin (Comp Stomp)/The League of Arathor or The Defilers
+		[2245]		= GetFactionID(1353, 1352),		-- Deepwind Gorge/Tushui Pandaren or Huojin Pandaren
+		[2292]		= GetFactionID(509, 510),		-- Arathi (Epic Warfront)/The League of Arathor or The Defilers
+		[2656]		= GetFactionID(2590, 2594),		-- Deephaul Ravine/Council of Dornogal or The Assembly of the Deeps
 
 		---------- Vanilla ----------
-		[33]		= A and 1134 or H and 68,		-- Shadowfang Keep/Gilneas or Undercity
+		[33]		= GetFactionID(1134, 68),		-- Shadowfang Keep/Gilneas or Undercity
 		[34]		= 72,							-- The Stockades/Stormwind
 		[36]		= 72,							-- The Deadmines/Stormwind
 		[43]		= 81,							-- Wailing Caverns/Thunder Bluff
-		[47]		= A and 69 or H and 81,			-- Razorfen Kraul/Darnassus or Thunderbluff
-		[48]		= A and 69 or H and 530,		-- Blackfathom Depths/Darnassus or Darkspear Trolls
-		[70]		= A and 47 or H and 530,		-- Uldaman/Ironforge or Darkspear Trolls
+		[47]		= GetFactionID(69, 81),			-- Razorfen Kraul/Darnassus or Thunderbluff
+		[48]		= GetFactionID(69, 530),		-- Blackfathom Depths/Darnassus or Darkspear Trolls
+		[70]		= GetFactionID(47, 530),		-- Uldaman/Ironforge or Darkspear Trolls
 		[90]		= 54,							-- Gnomeregan/Gnomeregan
-		[129]		= A and 72 or H and 76,			-- Razorfen Downs/Stormwind or Orgrimmar
-		[209]		= A and 1174 or H and 530,		-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
-		[229]		= A and 72 or H and 76,			-- Blackrock Spire/Stormwind or Orgrimmar
+		[129]		= GetFactionID(72, 76),			-- Razorfen Downs/Stormwind or Orgrimmar
+		[209]		= GetFactionID(1174, 530),		-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+		[229]		= GetFactionID(72, 76),			-- Blackrock Spire/Stormwind or Orgrimmar
 		[230]		= 59,							-- Blackrock Depths/Thorium Brotherhood
-		[249]		= A and 72 or H and 76,			-- Onyxia's Lair/Stormwind or Orgrimmar
+		[249]		= GetFactionID(72, 76),			-- Onyxia's Lair/Stormwind or Orgrimmar
 		[329]		= 1106,							-- Strathholme/Argent Crusade
 		[349]		= 609,							-- Maraudon/Cenarion Circle
 		[389]		= 76,							-- Ragefire Chasm/Orgrimmar
 		[409]		= 749,							-- Molten Core/Hydraxian Waterlords
 		[429]		= 69,							-- Dire Maul/Darnassus
-		[469]		= A and 72 or H and 46,			-- Blackwing Lair/Stormwind or Orgrimmar
+		[469]		= GetFactionID(72, 46),			-- Blackwing Lair/Stormwind or Orgrimmar
 		[509]		= 609,							-- Ruins of Ahn'Qiraj/Cenarion Circle
 		[531]		= 910,							-- Temple of Ahn'Qiraj/Brood of Nozdormu
 		[1001]		= 1106,							-- Scarlet Halls/Argent Crusade
@@ -116,10 +127,10 @@ function RepByZone:InstancesAndFactionList()
 		[269]		= 989,							-- The Black Morass/Keepers of Time
 		[532]		= 967,							-- Karazhan/The Violet Eye
 		[534]		= 990,							-- Hyjal Summit/The Scale of the Sands
-		[540]		= A and 946 or H and 947,		-- The Shattered Halls/Honor Hold or Thrallmar
-		[542]		= A and 946 or H and 947,		-- The Blood Furnace/Honor Hold or Thrallmar
-		[543]		= A and 946 or H and 947,		-- Hellfire Ramparts/Honor Hold or Thrallmar
-		[544]		= A and 946 or H and 947,		-- Magtheridon's Lair/Honor Hold or Thrallmar
+		[540]		= GetFactionID(946, 947),		-- The Shattered Halls/Honor Hold or Thrallmar
+		[542]		= GetFactionID(946, 947),		-- The Blood Furnace/Honor Hold or Thrallmar
+		[543]		= GetFactionID(946, 947),		-- Hellfire Ramparts/Honor Hold or Thrallmar
+		[544]		= GetFactionID(946, 947),		-- Magtheridon's Lair/Honor Hold or Thrallmar
 		[545]		= 942,							-- The Steamvault/Cenarion Expedition
 		[546]		= 942,							-- The Underbog/Cenarion Expedition
 		[547]		= 942,							-- The Slave Pens/Cenarion Expedition
@@ -140,23 +151,23 @@ function RepByZone:InstancesAndFactionList()
 
 		---------- WotLK ----------
 		[533]		= 1106,							-- Naxxramas/Argent Crusade
-		[574]		= A and 1050 or H and 1067,		-- Utgarde Keep/Valiance Expedition or The Hand of Vengeance
-		[575]		= A and 1050 or H and 1067,		-- Utgarde Pinnacle/Valiance Expedition or The Hand of Vengeance
+		[574]		= GetFactionID(1050, 1067),		-- Utgarde Keep/Valiance Expedition or The Hand of Vengeance
+		[575]		= GetFactionID(1050, 1067),		-- Utgarde Pinnacle/Valiance Expedition or The Hand of Vengeance
 		[576]		= 1090,							-- The Nexus/Kirin Tor
 		[578]		= 1091,							-- The Oculus/The Wyrmrest Accord
 		[595]		= 989,							-- The Culling of Stratholme/Keepers of Time
-		[599]		= A and 1050 or H and 1067,		-- Halls of Stone/Valiance Expedition or The Hand of Vengeance
-		[600]		= A and 1050 or H and 1067,		-- Drak'Tharon Keep/Valiance Expedition or The Hand of Vengeance
-		[601]		= A and 1050 or H and 1067,		-- Azjol-Nerub/Valiance Expedition or The Hand of Vengeance
-		[602]		= A and 1050 or H and 1067,		-- Halls of Lightning/Valiance Expedition or The Hand of Vengeance
+		[599]		= GetFactionID(1050, 1067),		-- Halls of Stone/Valiance Expedition or The Hand of Vengeance
+		[600]		= GetFactionID(1050, 1067),		-- Drak'Tharon Keep/Valiance Expedition or The Hand of Vengeance
+		[601]		= GetFactionID(1050, 1067),		-- Azjol-Nerub/Valiance Expedition or The Hand of Vengeance
+		[602]		= GetFactionID(1050, 1067),		-- Halls of Lightning/Valiance Expedition or The Hand of Vengeance
 		[603]		= 1119,							-- Ulduar/The Sons of Hodir
-		[604]		= A and 1050 or H and 1067,		-- Gundrak/Valiance Expedition or The Hand of Vengeance
+		[604]		= GetFactionID(1050, 1067),		-- Gundrak/Valiance Expedition or The Hand of Vengeance
 		[608]		= 1090,							-- The Violet Hold/Kirin Tor
 		[615]		= 1091,							-- The Obsidian Sanctum/The Wyrmrest Accord
 		[616]		= 1091,							-- The Eye of Eternity/The Wyrmrest Accord
 		[618]		= 1374,							-- The Ring of Valor/Brawl'gar Arena
-		[619]		= A and 1050 or H and 1067,		-- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
-		[624]		= A and 1037 or H and 1052,		-- Vault of Archavon/Alliance Vanguard or Horde Expedition
+		[619]		= GetFactionID(1050, 1067),		-- Ahn'kahet: The Old Kingdom/Valiance Expedition or The Hand of Vengeance
+		[624]		= GetFactionID(1037, 1052),		-- Vault of Archavon/Alliance Vanguard or Horde Expedition
 		[631]		= 1156,							-- Icecrown Citadel/The Ashen Verdict
 		[632]		= 1156,							-- Forge of Souls/The Ashen Verdict
 		[649]		= 1106,							-- Trial of the Crusader/Argent Crusade
@@ -168,20 +179,20 @@ function RepByZone:InstancesAndFactionList()
 
 		---------- Cataclysm ----------
 		[369]		= 72,							-- Deeprun Tram/Stormwind
-		[568]		= A and 72 or H and 911,		-- Zul'Aman/Stormwind or Silvermoon City
+		[568]		= GetFactionID(72, 911),		-- Zul'Aman/Stormwind or Silvermoon City
 		[643]		= 1135,							-- Throne of the Tides/The Earthen Ring
 		[644]		= 2164,							-- Halls of Origination/Champions of Azeroth
 		[645]       = 1158,							-- Blackrock Caverns/Guardians of Hyjal
 		[657]		= 1173,							-- The Vortex Pinnacle/Ramkahen
 		[669]		= 1158,							-- Blackwing Descent/Guardians of Hyjal
-		[670]		= A and 1174 or H and 1172,		-- Grim Batol/Wildhammer Clan or Dragonmaw Clan
-		[671]		= A and 1174 or H and 1172,		-- The Bastion of Twilight/Wildhammer Clan or Dragonmaw Clan
+		[670]		= GetFactionID(1174, 1172),		-- Grim Batol/Wildhammer Clan or Dragonmaw Clan
+		[671]		= GetFactionID(1174, 1172),		-- The Bastion of Twilight/Wildhammer Clan or Dragonmaw Clan
 		[720]		= 1204,							-- Firelands/Avengers of Hyjal
 		[725]		= 1135,							-- The Stonecore/The Earthen Ring
 		[754]		= 1173,							-- Throne of the Four Winds/Ramkahen
 		[755]		= 1173,							-- Lost City of the Tol'vir/Ramkahen
-		[757]		= A and 1177 or H and 1178,		-- Baradin Hold/Bardin's Warders or Hellscream's Reach
-		[859]		= A and 72 or H and 76,			-- Zul'Gurub/Stormwind or Orgrimmar
+		[757]		= GetFactionID(1177, 1178),		-- Baradin Hold/Bardin's Warders or Hellscream's Reach
+		[859]		= GetFactionID(72, 76),			-- Zul'Gurub/Stormwind or Orgrimmar
 		[938]		= 910,							-- End Time/Brood of Nozdormu
 		[939]		= 989,							-- Well of Eternity/Keepers of Time
 		[940]		= 1091,							-- Hour of Twilight/The Wyrmrest Accord
@@ -196,40 +207,40 @@ function RepByZone:InstancesAndFactionList()
 		[962]		= 1270,							-- Gate of the Setting Sun/Shado-Pan
 		[994]		= 1341,							-- Mogu'shan Palace/The August Celestials
 		[996]		= 1492,							-- Terrace of Endless Spring/Emperor Shaohao
-		[1005]		= A and 1353 or H and 1352,		-- A Brewing Storm/Tushi Pandaren or Huojin Pandaren
+		[1005]		= GetFactionID(1353, 1352),		-- A Brewing Storm/Tushi Pandaren or Huojin Pandaren
 		[1008]		= 1341,							-- Mogu'shan Vault/The August Celestials
 		[1009]		= 1337,							-- Heart of Fear/The Klaxxi
 		[1011]		= 1341,							-- Siege of Niuzao Temple/The August Celestials
-		[1024]		= A and 1353 or H and 1352,		-- Greenstone Village/Tushi Pandaren or Huojin Pandaren
+		[1024]		= GetFactionID(1353, 1352),		-- Greenstone Village/Tushi Pandaren or Huojin Pandaren
 		[1030]		= 1270,							-- Crypt of Forgotten Kings/Shado-Pan
 		[1031]		= 1341,							-- Arena of Annihilation/The August Celestials
 		[1048]		= 1302,							-- Unga Ingoo/The Anglers
 		[1050]		= 1337,							-- Assault on Zan'vess/The Klaxxi
-		[1051]		= A and 1353 or H and 1352,		-- Brewmoon Festival/Tushi Pandaren or Huojin Pandaren
+		[1051]		= GetFactionID(1353, 1352),		-- Brewmoon Festival/Tushi Pandaren or Huojin Pandaren
 		[1095]		= 1395,							-- Dagger in the Dark (Alliance)/The Lorewalkers
 		[1098]		= 1270,							-- Throne of Thunder/Shado-Pan
 		[1102]		= 1375,							-- Domination Point (Horde)/Dominance Offensive
 		[1103]		= 1376,							-- Lion's Landing/Operation: Shieldwall
 		[1104]		= 1395,							-- A Little Patience (Horde)/The Lorewalkers
 		[1112]		= 1012,							-- Pursuing the Black Harvest (Warlock)/Ashtongue Deathsworn
-		[1130]		= A and 47 or H and 2103,		-- Blood in the Snow/Ironforge or Zandalari Empire
+		[1130]		= GetFactionID(47, 2103),		-- Blood in the Snow/Ironforge or Zandalari Empire
 		[1131]		= 46,							-- The Secrets of Ragefire/Orgrimmar
-		[1136]		= A and 72 or H and 76,			-- Siege of Orgrimmar/Stormwind or Orgrimmar
+		[1136]		= GetFactionID(72, 76),			-- Siege of Orgrimmar/Stormwind or Orgrimmar
 		[1148]		= self.racialRepID,				-- Proving Grounds/racial rep
-		[1155]		= A and 509 or H and 510,		-- Stromgarde Keep/The League of Arathor or The Defilers
+		[1155]		= GetFactionID(509, 510),		-- Stromgarde Keep/The League of Arathor or The Defilers
 
 		---------- WoD ----------
 		[1175]		= 1711,							-- Bloodmaul Slag Mines/Steamwheedle Preservation Society
-		[1176]		= A and 1731 or H and 1445,		-- Shadowmoon Burial Grounds/Council of Exarchs or Frostwolf Orcs
-		[1182]		= A and 1710 or H and 1708,		-- Auchindoun/Sha'tari Defense or Laughing Skull Orcs
-		[1195]		= A and 1731 or H and 1445,		-- Iron Docks/Council of Exarchs or Frostwolf Orcs
-		[1205]		= A and 72 or H and 76,			-- Blackrock Foundry/Stormwind or Orgrimmar
-		[1208]		= A and 1731 or H and 1445,		-- Grimrail Depot/Council of Exarchs or Frostwolf Orcs
+		[1176]		= GetFactionID(1731, 1445),		-- Shadowmoon Burial Grounds/Council of Exarchs or Frostwolf Orcs
+		[1182]		= GetFactionID(1710, 1708),		-- Auchindoun/Sha'tari Defense or Laughing Skull Orcs
+		[1195]		= GetFactionID(1731, 1445),		-- Iron Docks/Council of Exarchs or Frostwolf Orcs
+		[1205]		= GetFactionID(72, 76),			-- Blackrock Foundry/Stormwind or Orgrimmar
+		[1208]		= GetFactionID(1731, 1445),		-- Grimrail Depot/Council of Exarchs or Frostwolf Orcs
 		[1209]		= 1515,							-- Skyreach/Arakkoa Outcasts
-		[1228]		= A and 72 or H and 76,			-- Highmaul/Stormwind or Orgrimmar
-		[1279]		= A and 1710 or H and 1708,		-- The Everbloom/Sha'tari Defense or Laughing Skull Orcs
+		[1228]		= GetFactionID(72, 76),			-- Highmaul/Stormwind or Orgrimmar
+		[1279]		= GetFactionID(1710, 1708),		-- The Everbloom/Sha'tari Defense or Laughing Skull Orcs
 		[1358]		= 1711,							-- Upper Blackrock Spire/Steamwheedle Preservation Society
-		[1448]		= A and 72 or H and 76,			-- Hellfire Citadel/Stormwind or Orgrimmar
+		[1448]		= GetFactionID(72, 76),			-- Hellfire Citadel/Stormwind or Orgrimmar
 
 		---------- Legion ----------
 		[617]		= 1090,							-- Dalaran Arena/Kirin Tor
@@ -242,7 +253,7 @@ function RepByZone:InstancesAndFactionList()
 		[1493]		= 1894,							-- Vault of the Wardens/The Wardens
 		[1501]		= 1883,							-- Black Rook Hold/Dreamweavers
 		[1516]		= 1859,							-- The Arcway/The Nightfallen
-		[1519]		= A and 69 or H and 911,		-- The Fel Hammer (Demon Hunter Class Hall)/Darnassus or Silvermoon City
+		[1519]		= GetFactionID(69, 911),		-- The Fel Hammer (Demon Hunter Class Hall)/Darnassus or Silvermoon City
 		[1520]		= 1883,							-- The Emerald Nightmare/Dreamweavers
 		[1530]		= 1859,							-- The Nighthold/The Nightfallen
 		[1544]		= 1090,							-- Volet Hold/Kirin Tor
@@ -260,10 +271,10 @@ function RepByZone:InstancesAndFactionList()
 		[1762]		= 2103,							-- King's Rest/Zandalari Empire
 		[1763]		= 2103,							-- Atal'Dazar/Zandalari Empire
 		[1771]		= 2160,							-- Tol Dagor/Proudmoore Admiralty
-		[1804]		= A and 509 or H and 510,		-- Warfront: The Battle for Stromgarde/The League of Arathor or The Defilers
-		[1813]		= A and 69 or H and 76,			-- Un'gol Ruins/Darnassus or Orgrimmar
-		[1814]		= A and 1134 or H and 68,		-- Havenswood/Gilneas or Undercity
-		[1822]		= A and 2160 or H and 2103,		-- Siege of Boralus/Proudmoore Admiralty or Zandalari Empire
+		[1804]		= GetFactionID(509, 510),		-- Warfront: The Battle for Stromgarde/The League of Arathor or The Defilers
+		[1813]		= GetFactionID(69, 76),			-- Un'gol Ruins/Darnassus or Orgrimmar
+		[1814]		= GetFactionID(1134, 68),		-- Havenswood/Gilneas or Undercity
+		[1822]		= GetFactionID(2160, 2103),		-- Siege of Boralus/Proudmoore Admiralty or Zandalari Empire
 		[1841]		= 2103,							-- The Underrot/Zandalari Empire
 		[1861]		= 2164,							-- Uldir/Champions of Azeroth
 		[1862]		= 2161,							-- Waycrest Manor/Order of Embers
@@ -271,21 +282,21 @@ function RepByZone:InstancesAndFactionList()
 		[1877]		= 2158,							-- Temple of Sethraliss/Voldunai
 		[1882]		= 942,							-- Verdant Wilds/Cenarion Expedition
 		[1892]		= 87,							-- Rotting Mire/Bloodsail Buccaneers
-		[1897]		= A and 1173 or H and 2103,		-- Molten Cay/Ramkahen or Zandalari Empire
-		[1898]		= A and 1050 or H and 1067,		-- Skittering Hollow/Valliance Expedition or The Hand of Vengeance
-		[1907]		= A and 1353 or H and 1352,		-- Snowblossom Village/Tushui Pandaren or Huojin Pandaren
-		[1979]		= A and 1073 or H and 1064,		-- Jorundall/The Kalu'ak or The Taunka
-		[1883]		= A and 69 or H and 530,		-- Whispering Reef/Darnassus or Darkspear Trolls
+		[1897]		= GetFactionID(1173, 2103),		-- Molten Cay/Ramkahen or Zandalari Empire
+		[1898]		= GetFactionID(1050, 1067),		-- Skittering Hollow/Valliance Expedition or The Hand of Vengeance
+		[1907]		= GetFactionID(1353, 1352),		-- Snowblossom Village/Tushui Pandaren or Huojin Pandaren
+		[1979]		= GetFactionID(1073, 1064),		-- Jorundall/The Kalu'ak or The Taunka
+		[1883]		= GetFactionID(69, 530),		-- Whispering Reef/Darnassus or Darkspear Trolls
 		[1893]		= 1106,							-- Dread Chain/Argent Crusade
-		[1955]		= A and 2160 or H and 2103,		-- Uncharted Island/Proudmoore Admiralty or Zandalari Empire
-		[2070]		= A and 2160 or H and 2103,		-- Battle of Dazara'lor/Proudmoore Admiralty or Zandalari Empire
+		[1955]		= GetFactionID(2160, 2103),		-- Uncharted Island/Proudmoore Admiralty or Zandalari Empire
+		[2070]		= GetFactionID(2160, 2103),		-- Battle of Dazara'lor/Proudmoore Admiralty or Zandalari Empire
 		[2096]		= 2162,							-- Crucible of Storms/Storm's Wake
 		[2097]		= 2391,							-- Operation: Mechagon/Rustbolt Resistance
 		[2105]		= 69,							-- Warfront: Darkshore (Alliance)/Darnassus
 		[2111]		= 68,							-- Warfront: Darkshore (Horde)/Undercity
-		[2124]		= A and 2160 or H and 76,		-- Crestfall/Proudmoore Admiralty or Orgrimmar
+		[2124]		= GetFactionID(2160, 76),		-- Crestfall/Proudmoore Admiralty or Orgrimmar
 		[2147]		= 1098,							-- Icecrown Citadel (8.1)/Knights of the Ebon Blade
-		[2164]		= A and 2401 or H and 2373,		-- The Eternal Palace/Waveblade Ankoan or The Unshackled
+		[2164]		= GetFactionID(2401, 2373),		-- The Eternal Palace/Waveblade Ankoan or The Unshackled
 		[2212]		= 76,							-- Horrific Vision of Orgrimmar/Orgrimmar
 		[2213]		= 72,							-- Horrific Vision of Stormwind/Stormwind
 		[2217]		= 2164,							-- Ny'alotha: The Waking City/Champions of Azeroth
