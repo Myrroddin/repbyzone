@@ -281,10 +281,7 @@ function RepByZone:OnDisable()
 end
 
 -- The user has reset the profile or created a new profile
-function RepByZone:RefreshConfig(callback)
-	if callback == "OnProfileReset" then
-		self.db:ResetDB(DEFAULT)
-	end
+function RepByZone:RefreshConfig()
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	db = self.db.profile
 	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
