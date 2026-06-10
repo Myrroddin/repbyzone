@@ -314,7 +314,6 @@ function RepByZone:InstancesAndFactionList()
 		[2296]		= 2413,							-- Castle Nathria/Court of Harvesters
 		[2441]		= 2432,							-- Tazavesh, The Veiled Market/Ve'nari
 		[2450]		= self.covenantRepID,			-- Sanctum of Domination/Covenant
-		[2453]		= self.covenantRepID,			-- Torgast/Covenant
 		[2481]		= 2478,							-- Sepulcher of the First Ones/The Enlightened
 
 		---------- Dragonflight ----------

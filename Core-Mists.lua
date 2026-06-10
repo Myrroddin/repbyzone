@@ -19,12 +19,12 @@ local INVSLOT_TABARD = INVSLOT_TABARD
 local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
 local LibStub, NONE, select, type, wipe = LibStub, NONE, select, type, wipe
+local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 local SetWatchedFactionIndex = SetWatchedFactionIndex
 local StaticPopupDialogs = StaticPopupDialogs
 local StaticPopup_Show = StaticPopup_Show
 local UnitFactionGroup = UnitFactionGroup
 local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
-local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 
 ------------------- Create the addon --------------------
 ---@class RepByZoneProfile

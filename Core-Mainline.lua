@@ -17,7 +17,6 @@ local GetMinimapZoneText = GetMinimapZoneText
 local GetNumFactions = C_Reputation.GetNumFactions
 local HORDE = FACTION_HORDE
 local INVSLOT_TABARD = INVSLOT_TABARD
-local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local LibStub, NONE, pairs, select, type, wipe = LibStub, NONE, pairs, select, type, wipe
@@ -81,6 +80,8 @@ local subZonesAndFactions
 local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
 local CURRENT_DB_VERSION = 1
+local TORGHAST_DIFFICULTY_ID = 167
+local DELVES_DIFFICULTY_ID = 208
 
 ---@param allianceFactionID number
 ---@param hordeFactionID number
@@ -241,7 +242,7 @@ local covenantReps = {
 }
 
 -- Return a table of default SV values
----@type { profile: RepByZoneProfile, char: RepByZoneCharacterDB, global: RepByZoneGlobalDB }
+---@type table
 local defaults = {
 	profile = {
 		enabled					= true,
@@ -650,12 +651,19 @@ function RepByZone:SwitchedZones(event)
 	-- Set up variables
 	local watchedFactionID, factionData = nil, nil
 	local hasDungeonTabard, lookUpSubZones = false, false
-	local inInstance, instanceType = IsInInstance()
-	local whichInstanceID = inInstance and select(8, GetInstanceInfo())
+	local _, instanceType, difficultyID, _, _, _, _, whichInstanceID = GetInstanceInfo()
+	local inInstance = instanceType ~= "none" and difficultyID ~= 0
+	local difficultyFactionID
 	local mapInfo = GetMapInfo(uiMapID)
 	local parentMapID = mapInfo and mapInfo.parentMapID
 	local subZone = GetMinimapZoneText()
 	local isWoDZone = self.WoDFollowerZones[uiMapID] or (parentMapID and self.WoDFollowerZones[uiMapID] == nil and self.WoDFollowerZones[parentMapID])
+
+	if difficultyID == TORGHAST_DIFFICULTY_ID then
+		difficultyFactionID = self.covenantRepID
+	elseif difficultyID == DELVES_DIFFICULTY_ID then
+		difficultyFactionID = GetDelvesFactionForSeason()
+	end
 
 	-- Apply faction tabard instance reputation
 	if inInstance and instanceType == "party" then
@@ -676,7 +684,7 @@ function RepByZone:SwitchedZones(event)
 	if db.watchSubZones then
 		lookUpSubZones = true
 		-- Stromgarde Keep and The Battle for Stromgarde are the only instances with subzones which are different than the main instance data
-		if (inInstance and whichInstanceID ~= 1155) and (inInstance and whichInstanceID ~= 1804) then
+		if inInstance and whichInstanceID ~= 1155 and whichInstanceID ~= 1804 then
 			lookUpSubZones = false
 		end
 
@@ -688,10 +696,11 @@ function RepByZone:SwitchedZones(event)
 
 	watchedFactionID = watchedFactionID
 	or (inInstance and hasDungeonTabard and tabardID)
-	or (lookUpSubZones and citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone])
+	or (inInstance and difficultyFactionID)
+	or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
 	or (inInstance and instancesAndFactions[whichInstanceID])
 	or (not lookUpSubZones and isWoDZone and bodyguardRepID)
-	or (not inInstance and zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID])
+	or (not inInstance and (zonesAndFactions[uiMapID] or (parentMapID and zonesAndFactions[parentMapID])))
 	or self.fallbackRepID
 
 	-- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar

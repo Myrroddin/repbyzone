@@ -1,7 +1,7 @@
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
+local GetAreaInfo = C_Map.GetAreaInfo
 local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
-local GetAreaInfo = C_Map.GetAreaInfo
 
 ------------------- Get addon reference --------------------
 ---@type RepByZone
