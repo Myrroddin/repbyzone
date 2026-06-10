@@ -105,7 +105,7 @@ local function GetRacialRep()
 end
 
 -- Return a table of default SV values
----@type { profile: RepByZoneProfile, char: RepByZoneCharacterDB, global: RepByZoneGlobalDB }
+---@type table
 local defaults = {
 	profile = {
 		enabled					= true,
@@ -123,7 +123,8 @@ local defaults = {
 
 function RepByZone:OnInitialize()
 	---@type RepByZoneDB
-	self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
+	local repDB = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
+	self.db = repDB
 	self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")

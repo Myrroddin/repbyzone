@@ -1,17 +1,27 @@
----@diagnostic disable: duplicate-set-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
+---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
----@cast RepByZone RepByZoneAddon
 
+---@type table<number, number>?
 local zonesAndFactions
+
+---@param allianceFactionID number
+---@param hordeFactionID number
+---@return number
+local function GetFactionID(allianceFactionID, hordeFactionID)
+	if UnitFactionGroup("player") == "Alliance" then
+		return allianceFactionID
+	end
+	return hordeFactionID
+end
+
+---@return table<number, number>
 function RepByZone:ZoneAndFactionList()
 	if zonesAndFactions then return zonesAndFactions end
-	local H = UnitFactionGroup("player") == "Horde"
-	local A = UnitFactionGroup("player") == "Alliance"
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/UiMapID#Classic or https://wago.tools/db2/UiMap?build=3.80.1.66991 for the list of UImapIDs
@@ -45,36 +55,36 @@ function RepByZone:ZoneAndFactionList()
 		[1446]		= 369,						-- Tanaris/Gadgetzan
 		[1451]		= 609,						-- Silithus/Cenarion Circle
 		[1452]		= 577,						-- Winterspring/Everlook
-		[1425]		= A and 471 or H and 530,	-- The Hinterlands/Wildhammer Clan or Darkspear Trolls
-		[1431]		= A and 72 or H and 68,		-- Duskwood/Stormwind or Undercity
-		[1440]		= A and 69 or H and 76,		-- Ashenvale/Darnassus or Orgrimmar
-		[1444]		= A and 69 or H and 81,		-- Feralas/Darnassus or Thunder Bluff
-		[1413]		= A and 470 or H and 81,	-- The Barrens/Ratchet or Thunder Bluff
-		[1417]		= A and 509 or H and 68,	-- Arathi Highlands/The League of Arathor or Undercity
-		[1424]		= A and 72 or H and 68,		-- Hillsbrad Foothills/Stormwind/Undercity
-		[1416]		= A and 72 or H and 76,		-- Alterac Mountains/Stormwind or Orgrimmar
-		[1418]		= A and 47 or H and 76,		-- Badlands/Ironforge or Orgrimmar
-		[1428]		= A and 47 or H and 530,	-- Burning Steppes/Ironforge or Darkspear Trolls
-		[1434]		= A and 72 or H and 76,		-- Stranglethorn Vale/Stormwind or Orgrimmar
-		[1435]		= A and 72 or H and 76,		-- Swamp of Sorrows/Stormwind or Orgrimmar
-		[1441]		= A and 69 or H and 81,		-- Thousand Needles/Darnassus or Thunder Bluff
-		[1442]		= A and 69 or H and 81,		-- Stonetalon Mountains/Darnassus or Thunder Bluff
-		[1443]		= A and 72 or H and 81,		-- Desolace/Stormwind or Thunder Bluff
-		[1445]		= A and 72 or H and 76,		-- Dustwallow Marsh/Stormwind or Orgrimmar
-		[1447]		= A and 69 or H and 76,		-- Azshara/Darnassus or Orgrimmar
-		[1448]		= A and 69 or H and 68,		-- Felwood/Darnassus or Undercity
+		[1425]		= GetFactionID(471, 530),	-- The Hinterlands/Wildhammer Clan or Darkspear Trolls
+		[1431]		= GetFactionID(72, 68),		-- Duskwood/Stormwind or Undercity
+		[1440]		= GetFactionID(69, 76),		-- Ashenvale/Darnassus or Orgrimmar
+		[1444]		= GetFactionID(69, 81),		-- Feralas/Darnassus or Thunder Bluff
+		[1413]		= GetFactionID(470, 81),	-- The Barrens/Ratchet or Thunder Bluff
+		[1417]		= GetFactionID(509, 68),	-- Arathi Highlands/The League of Arathor or Undercity
+		[1424]		= GetFactionID(72, 68),		-- Hillsbrad Foothills/Stormwind/Undercity
+		[1416]		= GetFactionID(72, 76),		-- Alterac Mountains/Stormwind or Orgrimmar
+		[1418]		= GetFactionID(47, 76),		-- Badlands/Ironforge or Orgrimmar
+		[1428]		= GetFactionID(47, 530),	-- Burning Steppes/Ironforge or Darkspear Trolls
+		[1434]		= GetFactionID(72, 76),		-- Stranglethorn Vale/Stormwind or Orgrimmar
+		[1435]		= GetFactionID(72, 76),		-- Swamp of Sorrows/Stormwind or Orgrimmar
+		[1441]		= GetFactionID(69, 81),		-- Thousand Needles/Darnassus or Thunder Bluff
+		[1442]		= GetFactionID(69, 81),		-- Stonetalon Mountains/Darnassus or Thunder Bluff
+		[1443]		= GetFactionID(72, 81),		-- Desolace/Stormwind or Thunder Bluff
+		[1445]		= GetFactionID(72, 76),		-- Dustwallow Marsh/Stormwind or Orgrimmar
+		[1447]		= GetFactionID(69, 76),		-- Azshara/Darnassus or Orgrimmar
+		[1448]		= GetFactionID(69, 68),		-- Felwood/Darnassus or Undercity
 
 		--------- TBC ---------
 		[1941]		= 911,						-- Eversong Woods/Silvermoon City
 		[1942]		= 922,						-- Ghostlands/Tranquillien
 		[1943]		= 930,						-- Azuremyst Isle/Exodar
-		[1944]		= A and 946 or H and 947,	-- Hellfire Peninsula/Honor Hold or Thrallmar
+		[1944]		= GetFactionID(946, 947),	-- Hellfire Peninsula/Honor Hold or Thrallmar
 		[1946]		= 942,						-- Zangarmarsh/Cenarion Expedition
 		[1947]		= 930,						-- The Exodar/Exodar
 		[1948]		= 1012,						-- Shadowmoon Valley/Ashtongue Deathsworn
 		[1949]		= 1038,						-- Blade's Edge Mountains/Ogri'la
 		[1950]		= 930,						-- Bloodmyst Isle/Exodar
-		[1951]		= A and 978 or H and 941,	-- Nagrand/Kurenai or The Mag'har
+		[1951]		= GetFactionID(978, 941),	-- Nagrand/Kurenai or The Mag'har
 		[1952]		= 1011,						-- Terokkar Forest/Lower City
 		[1953]		= 933,						-- Netherstorm/The Consortium
 		[1954]		= 911,						-- Silvermoon City/Silvermoon City
@@ -82,14 +92,14 @@ function RepByZone:ZoneAndFactionList()
 		[1957]		= 1077,						-- Isle of Quel'Danas/Shattered Sun Offensive
 
 		--------- WotLK ---------
-		[114]		= A and 1050 or H and 1085,	-- Borean Tundra/Valiance Expedition or Warsong Offensive
+		[114]		= GetFactionID(1050, 1085),	-- Borean Tundra/Valiance Expedition or Warsong Offensive
 		[115]		= 1091,						-- Dragonblight/The Wyrmrest Accord
-		[116]		= A and 1050 or H and 1085,	-- Grizzly Hills/Valiance Expedition or Warsong Offensive
-		[117]		= A and 1050 or H and 1067,	-- Howling Fjord/Valiance Expedition or The Hand of Vengeance
+		[116]		= GetFactionID(1050, 1085),	-- Grizzly Hills/Valiance Expedition or Warsong Offensive
+		[117]		= GetFactionID(1050, 1067),	-- Howling Fjord/Valiance Expedition or The Hand of Vengeance
 		[118]		= 1098,						-- Icecrown/Knights of the Ebon Blade
 		[120]		= 1119,						-- The Storm Peaks/The Sons of Hodir
 		[121]		= 1106,						-- Zul'Drak/Argent Crusade
-		[123]		= A and 1050 or H and 1052,	-- Wintergrasp/Valiance Expedition or Horde Expedition
+		[123]		= GetFactionID(1050, 1052),	-- Wintergrasp/Valiance Expedition or Horde Expedition
 		[124]		= self.racialRepID,			-- Plaguelands: The Scarlet Enclave (DK starting zone)/racial rep
 		[125]		= 1090,						-- Dalaran City/Kirin Tor
 		[126]		= 1090,						-- Dalaran City (The Underbelly)/Kirin Tor

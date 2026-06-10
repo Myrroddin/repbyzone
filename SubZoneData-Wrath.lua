@@ -1,32 +1,39 @@
----@diagnostic disable: duplicate-set-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
 local GetAreaInfo = C_Map.GetAreaInfo
 local LibStub = LibStub
-local UnitClassBase = UnitClassBase
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
+---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
-local playerClass = UnitClassBase("player")
-
+---@type table<string, number>?
 local subZonesAndFactions
+
+---@param allianceFactionID number
+---@param hordeFactionID number
+---@return number
+local function GetFactionID(allianceFactionID, hordeFactionID)
+	if UnitFactionGroup("player") == "Alliance" then
+		return allianceFactionID
+	end
+	return hordeFactionID
+end
+
+---@return table<string, number>
 function RepByZone:SubZonesAndFactionsList()
 	if subZonesAndFactions then return subZonesAndFactions end
-	local H = UnitFactionGroup("player") == "Horde"
-	local A = UnitFactionGroup("player") == "Alliance"
 	subZonesAndFactions = {
 		-- [GetAreaInfo(areaID)]  = factionID
 		-- see https://wago.tools/db2/AreaTable?build=3.80.1.66991
 
 		[GetAreaInfo(35)]		= 21,						-- Booty Bay/Booty Bay
-		[GetAreaInfo(36)]		= A and 730 or H and 729,	-- Alterac Mountains/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(36)]		= GetFactionID(730, 729),	-- Alterac Mountains/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(43)]		= 87,						-- Wild Shore/Bloodsail Buccaneers
 		[GetAreaInfo(100)]		= 47,						-- Nesingwary's Expedition/Ironforge
 		[GetAreaInfo(133)]		= 54,						-- New Tinkertown/Gnomeregan
 		[GetAreaInfo(150)]		= 72,						-- Menethil Harbor/Stormwind
 		[GetAreaInfo(152)]		= 1106,						-- The Bulwark/Argent Crusade
-		[GetAreaInfo(193)]		= A and 72 or H and 68,		-- Ruins of Andorhal/Stormwind or Undercity
+		[GetAreaInfo(193)]		= GetFactionID(72, 68),		-- Ruins of Andorhal/Stormwind or Undercity
 		[GetAreaInfo(196)]		= 72,						-- Uthor's Tomb/Stormwind
 		[GetAreaInfo(197)]		= 72,						-- Sorrow Hill/Stormwind
 		[GetAreaInfo(199)]		= 72,						-- Felstone Field/Stormwind
@@ -40,7 +47,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(299)]		= 72,						-- Menethil Bay/Stormwind
 		[GetAreaInfo(313)]		= 349,						-- Northfold Manor/Ravenholdt
 		[GetAreaInfo(315)]		= 72,						-- Dabyrie's Farmstead/Stormwind
-		[GetAreaInfo(317)]		= A and 471 or H and 530,	-- Witherbark Village/Wildhammer Clan or Darkspear Trolls
+		[GetAreaInfo(317)]		= GetFactionID(471, 530),	-- Witherbark Village/Wildhammer Clan or Darkspear Trolls
 		[GetAreaInfo(320)]		= 72,						-- Refuge Pointe/Stormwind
 		[GetAreaInfo(321)]		= 68,						-- Hammerfall/Undercity
 		[GetAreaInfo(324)]		= 349,						-- Stromgarde Keep/Ravenholdt
@@ -48,14 +55,14 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(328)]		= 21,						-- The Drowned Reef/Booty Bay
 		[GetAreaInfo(330)]		= 47,						-- Thandol Span/Ironforge
 		[GetAreaInfo(350)]		= 69,						-- Quel'Danil Lodge/Darnassus
-		[GetAreaInfo(359)]		= A and 47 or H and 81,		-- Bael Modan/Ironforge or Thunder Bluff
+		[GetAreaInfo(359)]		= GetFactionID(47, 81),		-- Bael Modan/Ironforge or Thunder Bluff
 		[GetAreaInfo(367)]		= 530,						-- Sen'jen Village/Darkspear Trolls
 		[GetAreaInfo(368)]		= 530,						-- Echo Isles/Darkspear Trolls
 		[GetAreaInfo(385)]		= 72,						-- Northwatch Hold/Stormwind
 		[GetAreaInfo(392)]		= 470,						-- Ratchet/Ratchet
 		[GetAreaInfo(393)]		= 530,						-- Darkspear Strand/Darkspear Trolls
-		[GetAreaInfo(439)]		= A and 54 or H and 76,		-- The Shimmering Flats/Gnomeregan or Orgrimmar
-		[GetAreaInfo(484)]		= A and 69 or H and 81,		-- Freewind Post/Darnassus or Thunder Bluff
+		[GetAreaInfo(439)]		= GetFactionID(54, 76),		-- The Shimmering Flats/Gnomeregan or Orgrimmar
+		[GetAreaInfo(484)]		= GetFactionID(69, 81),		-- Freewind Post/Darnassus or Thunder Bluff
 		[GetAreaInfo(501)]		= 369,						-- Beezil's Wreck/Gadgetzan
 		[GetAreaInfo(517)]		= 1358,						-- Tidefury Cove/Nat Pagle
 		[GetAreaInfo(596)]		= 470,						-- Kodo Graveyard/Ratchet
@@ -70,19 +77,19 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(813)]		= 1106,						-- The Bulwark/Argent Crusade
 		[GetAreaInfo(880)]		= 471,						-- Thandol Span (Arathi Highlands)/Wildhammer Clan
 		[GetAreaInfo(881)]		= 47,						-- Thandol Span (Wetlands)/Ironforge
-		[GetAreaInfo(896)]		= A and 730 or H and 729,	-- Purgation Isle/Stormpike Guard or Frostwolf Clan
-		[GetAreaInfo(978)]		= A and 471 or H and 530,	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
+		[GetAreaInfo(896)]		= GetFactionID(730, 729),	-- Purgation Isle/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(978)]		= GetFactionID(471, 530),	-- Zul'Farrak/Wildhammer Clan or Darkspear Trolls
 		[GetAreaInfo(1016)]		= 69,						-- Direforge Hill/Darnassus
 		[GetAreaInfo(1025)]		= 69,						-- The Green Belt/Darnassus
-		[GetAreaInfo(1057)]		= A and 47 or H and 68,		-- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
+		[GetAreaInfo(1057)]		= GetFactionID(47, 68),		-- Thoradin's Wall (Hillsbrad Foothills)/Ironforge or Undercity
 		[GetAreaInfo(1216)]		= 579,						-- Timbermaw Hold/Timbermaw Hold
 		[GetAreaInfo(1220)]		= 69,						-- Darnassian Base Camp/Darnassus
 		[GetAreaInfo(1446)]		= 59,						-- Thorium Point/Thorium Brotherhood
 		[GetAreaInfo(1658)]		= 609,						-- Cenarion Enclave/Cenarion Circle
-		[GetAreaInfo(1677)]		= A and 730 or H and 729,	-- Gavin's Naze/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(1677)]		= GetFactionID(730, 729),	-- Gavin's Naze/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(1678)]		= 72,						-- Sofera's Naze/Stormwind
-		[GetAreaInfo(1679)]		= A and 730 or H and 729,	-- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
-		[GetAreaInfo(1680)]		= A and 730 or H and 729,	-- The Headland/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(1679)]		= GetFactionID(730, 729),	-- Corrahn's Dagger/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(1680)]		= GetFactionID(730, 729),	-- The Headland/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(1741)]		= 87,						-- Gurubashi Arena/Bloodsail Buccaneers
 		[GetAreaInfo(1757)]		= 87,						-- The Crimson Veil/Bloodsail Buccaneers
 		[GetAreaInfo(1758)]		= 87,						-- The Riptide/Bloodsail Buccaneers
@@ -91,13 +98,13 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(1762)]		= 579,						-- Felpaw Village/Timbermaw Hold
 		[GetAreaInfo(1769)]		= 579,						-- Timbermaw Hold/Timbermaw Hold
 		[GetAreaInfo(1778)]		= 369,						-- Sorrowmurk/Gadgetzan
-		[GetAreaInfo(1837)]		= A and 471 or H and 530,	-- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
-		[GetAreaInfo(1857)]		= A and 47 or H and 68,		-- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
+		[GetAreaInfo(1837)]		= GetFactionID(471, 530),	-- Witherbark Caverns/Wildhammer Clan or Darkspear Trolls
+		[GetAreaInfo(1857)]		= GetFactionID(47, 68),		-- Thoradin's Wall (Arathi Highlands)/Ironforge or Undercity
 		[GetAreaInfo(1858)]		= 471,						-- Boulder'gor/Wildhammer Clan
 		[GetAreaInfo(1941)]		= 989,						-- Caverns of Time/Keepers of Time
-		[GetAreaInfo(2079)]		= A and 54 or H and 68,		-- Alcaz Island/Gnomeregan or Undercity
-		[GetAreaInfo(2097)]		= A and 69 or H and 81,		-- Darkcloud Pinnacle/Darnassus or Thunder Bluff
-		[GetAreaInfo(2157)]		= A and 47 or H and 81,		-- Bael'dun Keep/Ironforge or Thunder Bluff
+		[GetAreaInfo(2079)]		= GetFactionID(54, 68),		-- Alcaz Island/Gnomeregan or Undercity
+		[GetAreaInfo(2097)]		= GetFactionID(69, 81),		-- Darkcloud Pinnacle/Darnassus or Thunder Bluff
+		[GetAreaInfo(2157)]		= GetFactionID(47, 81),		-- Bael'dun Keep/Ironforge or Thunder Bluff
 		[GetAreaInfo(2177)]		= 87,						-- Battle Ring/Bloodsail Buccaneers
 		[GetAreaInfo(2240)]		= 369,						-- Mirage Raceway/Gadgetzan
 		[GetAreaInfo(2241)]		= 589,						-- Frostsaber Rock/Wintersaber Trainers
@@ -116,10 +123,10 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(2407)]		= 470,						-- Kormek's Hut/Ratchet
 		[GetAreaInfo(2408)]		= 530,						-- Shadowprey Village/Darkspear Trolls
 		[GetAreaInfo(2539)]		= 530,						-- Malaka'jin/Darkspear Trolls
-		[GetAreaInfo(2597)]		= A and 730 or H and 729,	-- Alterac Valley/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(2597)]		= GetFactionID(730, 729),	-- Alterac Valley/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(2617)]		= 470,						-- Scrabblescrew's Camp/Ratchet
 		[GetAreaInfo(2738)]		= 69,						-- Southwind Village/Darnassus
-		[GetAreaInfo(2839)]		= A and 730 or H and 729,	-- Alterac Valley/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(2839)]		= GetFactionID(730, 729),	-- Alterac Valley/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(2897)]		= 530,						-- Zoram'gar Outpost/Darkspear Trolls
 		[GetAreaInfo(3137)]		= 69,						-- Talrendis Point/Darnassus
 		[GetAreaInfo(3197)]		= 72,						-- Chillwind Camp/Stormwind
@@ -132,7 +139,7 @@ function RepByZone:SubZonesAndFactionsList()
 		--------- TBC ---------
 		[GetAreaInfo(3482)]		= 922,						-- The Dead Scar (Eversong Woods)/Tranquillien
 		[GetAreaInfo(3514)]		= 922,						-- The Dead Scar (Ghostlands)/Tranquillien
-		[GetAreaInfo(3530)]		= A and 930 or H and 911,	-- Shadow Ridge/Exodar or Silvermoon City
+		[GetAreaInfo(3530)]		= GetFactionID(930, 911),	-- Shadow Ridge/Exodar or Silvermoon City
 		[GetAreaInfo(3547)]		= 1077,						-- Throne of Kil'jaeden/Shattered Sun Offensive
 		[GetAreaInfo(3552)]		= 978,						-- Temple of Telhamat/Kurenai
 		[GetAreaInfo(3554)]		= 911,						-- Falcon Watch/Silvermoon City
@@ -144,7 +151,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(3598)]		= 69,						-- Wyrmscar Island/Darnassus
 		[GetAreaInfo(3623)]		= 933,						-- Aeris Landing/The Consortium
 		[GetAreaInfo(3673)]		= 47,						-- Nesingwary Safari/Ironforge
-		[GetAreaInfo(3628)]		= A and 930 or H and 911,	-- Halaa/Exodar or Silvermoon City
+		[GetAreaInfo(3628)]		= GetFactionID(930, 911),	-- Halaa/Exodar or Silvermoon City
 		[GetAreaInfo(3630)]		= 933,						-- Oshu'gun/The Consortium
 		[GetAreaInfo(3631)]		= 933,						-- Spirit Fields/The Consortium
 		[GetAreaInfo(3644)]		= 930,						-- Telredor/Exodar
@@ -235,8 +242,8 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(4165)]		= 1052,						-- Agmar's Hammer/Horde Expedition
 		[GetAreaInfo(4169)]		= 1037,						-- Fordragon Hold/Alliance Vanguard
 		[GetAreaInfo(4170)]		= 1052,						-- Kor'kron Vanguard/Horde Expedition
-		[GetAreaInfo(4171)]		= A and 1037 or H and 1052,	-- The Court of Skulls/Alliance Vanguard or Horde Expedition
-		[GetAreaInfo(4172)]		= A and 1037 or H and 1052,	-- Angrathar the Wrathgate/Alliance Vanguard or Horde Expedition
+		[GetAreaInfo(4171)]		= GetFactionID(1037, 1052),	-- The Court of Skulls/Alliance Vanguard or Horde Expedition
+		[GetAreaInfo(4172)]		= GetFactionID(1037, 1052),	-- Angrathar the Wrathgate/Alliance Vanguard or Horde Expedition
 		[GetAreaInfo(4177)]		= 1037,						-- Wintergarde Keep/Alliance Vanguard
 		[GetAreaInfo(4178)]		= 1037,						-- Wintergarde Mine/Alliance Vanguarde
 		[GetAreaInfo(4186)]		= 1067,						-- Venomspite/The Hand of Vengeance
@@ -252,7 +259,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(4234)]		= 1106,						-- Naxxramas/Argent Crusade
 		[GetAreaInfo(4243)]		= 1037,						-- Wintergarde Crypt/Alliance Vanguard
 		[GetAreaInfo(4246)]		= 1037,						-- Wintergarde Mausoleum/Alliance Vanguard
-		[GetAreaInfo(4256)]		= A and 1094 or H and 1124,	-- Drak'mar Lake/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4256)]		= GetFactionID(1094, 1124),	-- Drak'mar Lake/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4261)]		= 68,						-- Ghostblade Point/Undercity
 		[GetAreaInfo(4281)]		= 1098,						-- Acherus: The Ebon Hold (Eastern Kingdoms)/Knights of the Ebon Blade
 		[GetAreaInfo(4284)]		= 47,						-- Nesingwary Base Camp/Ironforge
@@ -276,41 +283,41 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(4442)]		= 1068,						-- Brann's Base-Camp/Explorers' League
 		[GetAreaInfo(4458)]		= 21,						-- Sparksocket Minefield/Booty Bay
 		[GetAreaInfo(4459)]		= 21,						-- Ricket's Folly/Booty Bay
-		[GetAreaInfo(4479)]		= A and 1094 or H and 1124,	-- Winter's Breath Lake/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4479)]		= GetFactionID(1094, 1124),	-- Winter's Breath Lake/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4485)]		= 1126,						-- The Inventor's Library/The Frostborn
 		[GetAreaInfo(4487)]		= 1085,						-- Frostfloe Deep/Warsong Offensive
 		[GetAreaInfo(4501)]		= 1106,						-- The Argent Vanguard/Argent Crusade
 		[GetAreaInfo(4502)]		= 1126,						-- Mimir's Workshop/The Frostborn
-		[GetAreaInfo(4503)]		= A and 1094 or H and 1124,	-- Ironwall Dam/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4503)]		= GetFactionID(1094, 1124),	-- Ironwall Dam/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4504)]		= 1106,						-- Valley of Echoes/Argent Crusade
 		[GetAreaInfo(4505)]		= 1106,						-- The Breach/Argent Crusade
 		[GetAreaInfo(4506)]		= 1106,						-- Scourgeholme/Argent Crusade
-		[GetAreaInfo(4507)]		= A and 1037 or H and 1052,	-- The Broken Front/Alliance Vanguard or Horde Expedition
-		[GetAreaInfo(4511)]		= A and 1037 or H and 1052,	-- The Skybreaker/Alliance Vanguard or Horde Expedition
-		[GetAreaInfo(4512)]		= A and 1037 or H and 1052,	-- Orgrim's Hammer/Alliance Vanguard or Horde Expedition
+		[GetAreaInfo(4507)]		= GetFactionID(1037, 1052),	-- The Broken Front/Alliance Vanguard or Horde Expedition
+		[GetAreaInfo(4511)]		= GetFactionID(1037, 1052),	-- The Skybreaker/Alliance Vanguard or Horde Expedition
+		[GetAreaInfo(4512)]		= GetFactionID(1037, 1052),	-- Orgrim's Hammer/Alliance Vanguard or Horde Expedition
 		[GetAreaInfo(4516)]		= 1106,						-- Ironwall Rampart/Argent Crusade
 		[GetAreaInfo(4522)]		= 1156,						-- Icecrown Citadel/The Ashen Verdict
-		[GetAreaInfo(4536)]		= A and 1068 or H and 1085,	-- Frosthowl Cavern/Explorers' League or Warsong Offensive
+		[GetAreaInfo(4536)]		= GetFactionID(1068, 1085),	-- Frosthowl Cavern/Explorers' League or Warsong Offensive
 		[GetAreaInfo(4541)]		= 1106,						-- Vanguard Infirmary/Argent Crusade
-		[GetAreaInfo(4558)]		= A and 1094 or H and 1124,	-- Sunreaver's Command/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4559)]		= A and 1094 or H and 1124,	-- Windrunner's Overlook/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4558)]		= GetFactionID(1094, 1124),	-- Sunreaver's Command/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4559)]		= GetFactionID(1094, 1124),	-- Windrunner's Overlook/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4580)]		= 1106,						-- Crusaders' Pinnacle/Argent Crusade
 		[GetAreaInfo(4593)]		= 1106,						-- The Pit of Fiends/Argent Crusade
-		[GetAreaInfo(4616)]		= A and 1094 or H and 1124,	-- Sunreaver's Sanctuary/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4646)]		= A and 1094 or H and 1124,	-- Ashwood Lake/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4616)]		= GetFactionID(1094, 1124),	-- Sunreaver's Sanctuary/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4646)]		= GetFactionID(1094, 1124),	-- Ashwood Lake/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4658)]		= 1106,						-- Argent Tournament Grounds/Argent Crusade
-		[GetAreaInfo(4666)]		= A and 1094 or H and 1124,	-- Sunreaver Pavilion/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4667)]		= A and 1094 or H and 1124,	-- Silver Covenant Pavilion/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4666)]		= GetFactionID(1094, 1124),	-- Sunreaver Pavilion/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4667)]		= GetFactionID(1094, 1124),	-- Silver Covenant Pavilion/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4669)]		= 1106,						-- The Ring of Champions/Argent Crusade
 		[GetAreaInfo(4670)]		= 1106,						-- The Aspirants' Ring/Argent Crusade
 		[GetAreaInfo(4671)]		= 1106,						-- The Argent Valiants' Ring/Argent Crusade
-		[GetAreaInfo(4672)]		= A and 1094 or H and 1124,	-- The Alliance Valiants' Ring/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4673)]		= A and 1094 or H and 1124,	-- The Horde Valiants' Ring/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4672)]		= GetFactionID(1094, 1124),	-- The Alliance Valiants' Ring/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4673)]		= GetFactionID(1094, 1124),	-- The Horde Valiants' Ring/The Silver Covenant or The Sunreavers
 		[GetAreaInfo(4674)]		= 1106,						-- Argent Pavilion/Argent Crusade
-		[GetAreaInfo(4676)]		= A and 1094 or H and 1124,	-- Sunreaver Pavilion (Outside)/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4677)]		= A and 1094 or H and 1124,	-- Silver Covenant Pavilion (Outside)/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4740)]		= A and 1094 or H and 1124,	-- The Silver Enclave/The Silver Covenant or The Sunreavers
-		[GetAreaInfo(4760)]		= A and 1094 or H and 1124,	-- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4676)]		= GetFactionID(1094, 1124),	-- Sunreaver Pavilion (Outside)/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4677)]		= GetFactionID(1094, 1124),	-- Silver Covenant Pavilion (Outside)/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4740)]		= GetFactionID(1094, 1124),	-- The Silver Enclave/The Silver Covenant or The Sunreavers
+		[GetAreaInfo(4760)]		= GetFactionID(1094, 1124),	-- The Sea Reaver's Run/The Silver Covenant or The Sunreavers
 	}
 	return subZonesAndFactions
 end

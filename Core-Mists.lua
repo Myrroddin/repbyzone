@@ -178,7 +178,7 @@ local function GetRacialRep()
 end
 
 -- Return a table of default SV values
----@type { profile: RepByZoneProfile, char: RepByZoneCharacterDB, global: RepByZoneGlobalDB }
+---@type table
 local defaults = {
 	profile = {
 		enabled					= true,
