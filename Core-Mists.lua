@@ -1,9 +1,10 @@
----@diagnostic disable: duplicate-set-field, undefined-global, undefined-field
 -- Grab local references to global variables. We are trading RAM to decrease CPU usage and hopefully increase FPS
+local ACCEPT = ACCEPT
 local After = C_Timer.After
 local ALLIANCE = FACTION_ALLIANCE
 local CollapseFactionHeader = CollapseFactionHeader
 local ExpandFactionHeader = ExpandFactionHeader
+local DEFAULT = DEFAULT
 local FACTION_INACTIVE = FACTION_INACTIVE
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetFactionInfo = GetFactionInfo
@@ -19,29 +20,92 @@ local IsInInstance = IsInInstance
 local IsPlayerNeutral = IsPlayerNeutral
 local LibStub, NONE, select, type, wipe = LibStub, NONE, select, type, wipe
 local SetWatchedFactionIndex = SetWatchedFactionIndex
+local StaticPopupDialogs = StaticPopupDialogs
+local StaticPopup_Show = StaticPopup_Show
 local UnitFactionGroup = UnitFactionGroup
-local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
+local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 
 ------------------- Create the addon --------------------
----@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0
+---@class RepByZoneProfile
+---@field enabled boolean
+---@field ignoreExaltedTabards boolean
+---@field useFactionTabards boolean
+---@field verbose boolean
+---@field watchOnTaxi boolean
+---@field watchSubZones boolean
+
+---@class RepByZoneCharacterDB
+---@field watchedRepID number|string?
+
+---@class RepByZoneGlobalDB
+---@field delayGetFactionDataByID number
+---@field current_db_version number?
+
+---@class RepByZoneDB: AceDBObject-3.0
+---@field RegisterCallback fun(target: table, eventName: string, method: string|function, arg?: any)
+---@field ResetDB fun(self: RepByZoneDB, defaultProfile?: string)
+---@field profile RepByZoneProfile
+---@field char RepByZoneCharacterDB
+---@field global RepByZoneGlobalDB
+
+---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0, LibAboutPanel-2.0
+---@field db RepByZoneDB
+---@field fallbackRepID number
+---@field racialRepID number
+---@field GetOptions fun(self: RepByZone): table
+---@field InstancesAndFactionList fun(self: RepByZone): table<number, number>
+---@field ZoneAndFactionList fun(self: RepByZone): table<number, number>
+---@field SubZonesAndFactionsList fun(self: RepByZone): table<string, number?>
+
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
+---@type table<string, string>
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 -- Local variables
-local db, isOnTaxi, instancesAndFactions, zonesAndFactions, subZonesAndFactions
+---@type RepByZoneProfile
+local db
+local isOnTaxi
+---@type table<number, number>?
+local instancesAndFactions
+---@type table<number, number>?
+local zonesAndFactions
+---@type table<string, number?>?
+local subZonesAndFactions
+
 local A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 local H = UnitFactionGroup("player") == "Horde" and HORDE
 local CURRENT_DB_VERSION = 1
 
+---@param allianceFactionID number
+---@param hordeFactionID number
+---@return number?
+local function GetFactionID(allianceFactionID, hordeFactionID)
+	if A then
+		return allianceFactionID
+	elseif H then
+		return hordeFactionID
+	end
+end
+
+---@param watchedRepID number|string?
+---@return number
+local function GetFallbackRepID(watchedRepID)
+	if type(watchedRepID) == "number" then
+		return watchedRepID
+	end
+	return 0
+end
+
 -- Table to localize subzones that Blizzard does not provide areaIDs
+---@type table<string, number?>
 local citySubZonesAndFactions = {
 	-- [L["Subzone"]]				= factionID, subzone names are localized so we can compare to the localized minimap text from Blizzard
-	[L["A Hero's Welcome"]]			= A and 1094 or H and 1124,	-- The Silver Covenant or The Sunreavers
+	[L["A Hero's Welcome"]]			= GetFactionID(1094, 1124),	-- The Silver Covenant or The Sunreavers
 	[L["Shrine of Unending Light"]]	= 932,						-- The Aldor
-	[L["The Beer Garden"]]			= A and 1094 or H and 1124,	-- The Silver Covenant or The Sunreavers
+	[L["The Beer Garden"]]			= GetFactionID(1094, 1124),	-- The Silver Covenant or The Sunreavers
 	[L["The Crimson Dawn"]]			= 1124,						-- The Sunreavers
-	[L["The Filthy Animal"]]		= A and 1094 or H and 1124,	-- The Silver Covenant or The Sunreavers
+	[L["The Filthy Animal"]]		= GetFactionID(1094, 1124),	-- The Silver Covenant or The Sunreavers
 	[L["The Salty Sailor Tavern"]]	= 21,						-- Booty Bay
 	[L["The Seer's Library"]]		= 934,						-- The Scryers
 	[L["The Silver Blade"]]			= 1094,						-- The Silver Covenant
@@ -49,7 +113,11 @@ local citySubZonesAndFactions = {
 }
 
 -- Faction tabard code
-local tabardID, tabardStandingStatus = nil, false
+---@type number?
+local tabardID
+local tabardStandingStatus = false
+
+---@type table<number, number>
 local tabard_itemIDs_to_factionIDs = {
 	-- [itemID] = factionID
 	-- Alliance
@@ -72,6 +140,7 @@ local tabard_itemIDs_to_factionIDs = {
 }
 
 -- Get the character's racial factionID for the defaults table
+---@type table<number, number>
 local player_raceIDs_to_factionIDs = {
 	-- [playerRaceID]   = factionID
 	[1]		= 72,		-- Human/Stormwind
@@ -91,17 +160,25 @@ local player_raceIDs_to_factionIDs = {
 	[25]	= 1353,		-- Pandaren (Alliance)/Tushui Pandaren
 	[26]	= 1352,		-- Pandaren (Horde)/Huojin Pandaren
 }
+---@return number
 local function GetRacialRep()
 	local _, _, playerRaceID = UnitRace("player")
-	local racialRepID
-	racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
+	local racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
 	if not racialRepID then
-		racialRepID = A and 72 or H and 76 -- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated
+		-- Known factionIDs in case Blizzard adds new races and the addon hasn't been updated.
+		if A then
+			racialRepID = 72
+		elseif H then
+			racialRepID = 76
+		else
+			racialRepID = 1216
+		end
 	end
 	return racialRepID
 end
 
 -- Return a table of default SV values
+---@type { profile: RepByZoneProfile, char: RepByZoneCharacterDB, global: RepByZoneGlobalDB }
 local defaults = {
 	profile = {
 		enabled					= true,
@@ -121,7 +198,9 @@ local defaults = {
 
 -- Ace3 code
 function RepByZone:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
+	---@type RepByZoneDB
+	local repDB = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
+	self.db = repDB
 	self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
@@ -142,7 +221,7 @@ function RepByZone:OnInitialize()
 
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	db = self.db.profile
-	self:SetEnabledState(db and db.enabled)
+	self:SetEnabledState(db.enabled)
 
 	local options = self:GetOptions() -- Options.lua
 	options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -198,7 +277,7 @@ function RepByZone:OnEnable()
 	self:CheckTaxi()
 
 	-- Calculate the fallback reputation
-	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
 
 	-- For certain content
 	self.racialRepID = GetRacialRep()
@@ -212,8 +291,8 @@ function RepByZone:OnDisable()
 
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
-	self.fallbackRepID = nil
-	self.racialRepID = nil
+	self.fallbackRepID = 0
+	self.racialRepID = 0
 	tabardID = nil
 	tabardStandingStatus = false
 end
@@ -223,13 +302,14 @@ function RepByZone:SlashHandler()
 end
 
 -- The user has reset the profile or created a new profile
+---@param callback string
 function RepByZone:RefreshConfig(callback)
 	if callback == "OnProfileReset" then
 		self.db:ResetDB(DEFAULT)
 	end
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	db = self.db.profile
-	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
 	self.racialRepID = GetRacialRep()
 	zonesAndFactions = self:ZoneAndFactionList()
 	subZonesAndFactions = self:SubZonesAndFactionsList()
@@ -241,6 +321,9 @@ end
 
 ------------------- Event handlers starts here --------------------
 -- Entering an instance
+---@param _ string
+---@param isInitialLogin boolean
+---@param isReloadingUi boolean
 function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 	-- If either of these are true, we didn't enter an instance, so exit
 	if isInitialLogin or isReloadingUi then
@@ -256,6 +339,8 @@ function RepByZone:CheckTaxi()
 end
 
 -- Pandaren code
+---@param event string?
+---@param success boolean
 function RepByZone:GetPandarenRep(event, success)
 	if success then
 		if event then
@@ -265,10 +350,11 @@ function RepByZone:GetPandarenRep(event, success)
 		H = UnitFactionGroup("player") == "Horde" and HORDE
 		if A or H then
 			-- Update data
-			self.db.char.watchedRepID = GetRacialRep()
-			self.racialRepID = GetRacialRep()
-			self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
-			local factionName = GetFactionInfoByID(self.db.char.watchedRepID) or UNKNOWN
+			local watchedRepID = GetRacialRep()
+			self.db.char.watchedRepID = watchedRepID
+			self.racialRepID = watchedRepID
+			self.fallbackRepID = GetFallbackRepID(watchedRepID)
+			local factionName = GetFactionInfoByID(watchedRepID) or UNKNOWN
 			-- Update the faction lists
 			zonesAndFactions = self:ZoneAndFactionList()
 			subZonesAndFactions = self:SubZonesAndFactionsList()
@@ -298,6 +384,8 @@ function RepByZone:UpdateTabardStanding()
 	end
 end
 
+---@param _ string?
+---@param unit string
 function RepByZone:GetEquippedTabard(_, unit)
 	if unit ~= "player" then return end
 
@@ -324,6 +412,7 @@ function RepByZone:GetEquippedTabard(_, unit)
 end
 
 -------------------- Reputation code starts here --------------------
+---@type table<string, boolean>
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 -- Open all faction headers
 function RepByZone:OpenAllFactionHeaders()
@@ -350,7 +439,7 @@ function RepByZone:CloseAllFactionHeaders()
 
 	while factionIndex <= numFactions do
 		local name, _, _, _, _, _, _, _, isHeader, isCollapsed = GetFactionInfo(factionIndex)
-		if isHeader then
+		if name and isHeader then
 			if isCollapsed and not repsCollapsed[name] then
 				ExpandFactionHeader(factionIndex)
 				numFactions = GetNumFactions()
@@ -364,6 +453,7 @@ function RepByZone:CloseAllFactionHeaders()
 	wipe(repsCollapsed)
 end
 
+---@return table<number|string, string>
 function RepByZone:GetAllFactions()
 	-- Will not return factions the user has marked as inactive
 	self:OpenAllFactionHeaders()
@@ -413,11 +503,12 @@ function RepByZone:SwitchedZones()
 	end
 
 	-- Set up variables
-	local _, watchedFactionID, factionName, isWatched = nil, nil, nil, nil
+	local watchedFactionID, factionName, isWatched = nil, nil, nil
 	local hasDungeonTabard, lookUpSubZones = false, false
 	local inInstance, instanceType = IsInInstance()
 	local whichInstanceID = inInstance and select(8, GetInstanceInfo())
-	local parentMapID = GetMapInfo(uiMapID).parentMapID
+	local mapInfo = GetMapInfo(uiMapID)
+	local parentMapID = mapInfo and mapInfo.parentMapID
 	local subZone = GetMinimapZoneText()
 
 	-- Apply faction tabard instance reputation
@@ -445,7 +536,7 @@ function RepByZone:SwitchedZones()
 	or (inInstance and hasDungeonTabard and tabardID)
 	or (lookUpSubZones and (citySubZonesAndFactions[subZone] or subZonesAndFactions[subZone]))
 	or (inInstance and instancesAndFactions[whichInstanceID])
-	or (not inInstance and (zonesAndFactions[uiMapID] or zonesAndFactions[parentMapID]))
+	or (not inInstance and (zonesAndFactions[uiMapID] or (parentMapID and zonesAndFactions[parentMapID])))
 	or self.fallbackRepID
 
 	-- WoW has a delay whenever the player changes instance/zone/subzone/tabard; factionName and isWatched aren't available immediately, so delay the lookup, then set the watched faction on the bar
