@@ -51,8 +51,8 @@ local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0, LibAboutPanel-2.0
 ---@field db RepByZoneDB
----@field fallbackRepID number
----@field racialRepID number
+---@field fallbackRepID number?
+---@field racialRepID number?
 ---@field GetOptions fun(self: RepByZone): table
 ---@field InstancesAndFactionList fun(self: RepByZone): table<number, number>
 ---@field ZoneAndFactionList fun(self: RepByZone): table<number, number>
@@ -115,6 +115,7 @@ local citySubZonesAndFactions = {
 -- Faction tabard code
 ---@type number?
 local tabardID
+---@type boolean?
 local tabardStandingStatus = false
 
 ---@type table<number, number>
@@ -291,14 +292,13 @@ function RepByZone:OnDisable()
 
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
-	self.fallbackRepID = 0
-	self.racialRepID = 0
+	self.fallbackRepID = nil
+	self.racialRepID = nil
 	tabardID = nil
-	tabardStandingStatus = false
-end
-
-function RepByZone:SlashHandler()
-	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
+	tabardStandingStatus = nil
+	zonesAndFactions = nil
+	subZonesAndFactions = nil
+	instancesAndFactions = nil
 end
 
 -- The user has reset the profile or created a new profile
@@ -317,6 +317,10 @@ function RepByZone:RefreshConfig(callback)
 	self:CheckTaxi()
 	self:GetEquippedTabard(nil, "player")
 	self:SwitchedZones()
+end
+
+function RepByZone:SlashHandler()
+	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
 end
 
 ------------------- Event handlers starts here --------------------

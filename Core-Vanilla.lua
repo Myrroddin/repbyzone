@@ -104,6 +104,15 @@ local function GetRacialRep()
 	return racialRepID
 end
 
+---@param watchedRepID number|string?
+---@return number
+local function GetFallbackRepID(watchedRepID)
+	if type(watchedRepID) == "number" then
+		return watchedRepID
+	end
+	return 0
+end
+
 -- Return a table of default SV values
 ---@type table
 local defaults = {
@@ -184,7 +193,7 @@ function RepByZone:OnEnable()
 	self:CheckTaxi()
 
 	-- Calculate the fallback reputation
-	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
+	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
 
 	self:SwitchedZones()
 end
@@ -196,10 +205,9 @@ function RepByZone:OnDisable()
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
 	self.fallbackRepID = nil
-end
-
-function RepByZone:SlashHandler()
-	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
+	zonesAndFactions = nil
+	subZonesAndFactions = nil
+	instancesAndFactions = nil
 end
 
 ---@param callback string
@@ -208,10 +216,17 @@ function RepByZone:RefreshConfig(callback)
 		self.db:ResetDB(DEFAULT)
 	end
 	self.db.global.current_db_version = CURRENT_DB_VERSION
-	self.fallbackRepID = (type(self.db.char.watchedRepID) == "number" and self.db.char.watchedRepID) or 0
-	self:CheckTaxi()
 	db = self.db.profile
+	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
+	zonesAndFactions = self:ZoneAndFactionList()
+	subZonesAndFactions = self:SubZonesAndFactionsList()
+	instancesAndFactions = self:InstancesAndFactionList()
+	self:CheckTaxi()
 	self:SwitchedZones()
+end
+
+function RepByZone:SlashHandler()
+	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
 end
 
 -------------------- Reputation code starts here --------------------

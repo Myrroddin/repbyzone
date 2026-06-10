@@ -67,8 +67,9 @@ local tabardExemptDungeons = {
 RepByZone.tabardExemptDungeons = tabardExemptDungeons
 
 -- Return instance data to Core-Mainline.lua
----@return table<number, number>
+---@return table<number, number?>
 function RepByZone:InstancesAndFactionList()
+	---@type table<number, number?>
 	local instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID

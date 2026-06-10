@@ -6,7 +6,7 @@ local UnitFactionGroup = UnitFactionGroup
 ---@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
----@return table<number, number>
+---@return table<number, number?>
 function RepByZone:ZoneAndFactionList()
 	local H = UnitFactionGroup("player") == "Horde"
 	local A = UnitFactionGroup("player") == "Alliance"
@@ -38,6 +38,7 @@ function RepByZone:ZoneAndFactionList()
 	-- see https://warcraft.wiki.gg/wiki/UiMapID or https://wago.tools/db2/UiMap?build=5.5.3.66565 for the list of UImapIDs
 	-- see https://warcraft.wiki.gg/wiki/FactionID for the list of factionIDs
 
+	---@type table<number, number?>
 	local zonesAndFactions = {
 		--------- Vanilla ----------
 		[1]			= 46,						-- Durotar/Orgrimmar

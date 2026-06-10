@@ -31,13 +31,14 @@ local function GetPandarenFactionID(allianceFactionID, hordeFactionID, neutralFa
 	return neutralFactionID
 end
 
----@return table<number, number>
+---@return table<number, number?>
 function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/InstanceID#Retail or https://wago.tools/db2/UiMap for the list of UImapIDs
 	-- see https://warcraft.wiki.gg/wiki/FactionID#Retail  or https://wago.tools/db2/Faction for the list of factionIDs
 
+	---@type table<number, number?>
 	local zonesAndFactions = {
 		--------- Vanilla ----------
 		[1]			= 46,						-- Durotar/Orgrimmar

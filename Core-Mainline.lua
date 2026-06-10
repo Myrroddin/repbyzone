@@ -53,9 +53,9 @@ local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0, LibAboutPanel-2.0
 ---@field db RepByZoneDB
----@field fallbackRepID number
----@field racialRepID number
----@field covenantRepID number
+---@field fallbackRepID number?
+---@field racialRepID number?
+---@field covenantRepID number?
 ---@field WoDFollowerZones table<number|string, boolean>
 ---@field tabardExemptDungeons table<number, boolean>
 ---@field GetOptions fun(self: RepByZone): table
@@ -121,6 +121,7 @@ local citySubZonesAndFactions = {
 -- Faction tabard code
 ---@type number?
 local tabardID
+---@type boolean?
 local tabardStandingStatus = false
 
 ---@type table<number, number>
@@ -375,24 +376,19 @@ function RepByZone:OnDisable()
 
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
-	self.fallbackRepID = 0
-	self.racialRepID = 0
-	self.covenantRepID = 0
+	self.fallbackRepID = nil
+	self.racialRepID = nil
+	self.covenantRepID = nil
 	tabardID = nil
 	bodyguardRepID = nil
-	tabardStandingStatus = false
-end
-
-function RepByZone:SlashHandler()
-	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
+	tabardStandingStatus = nil
+	zonesAndFactions = nil
+	subZonesAndFactions = nil
+	instancesAndFactions = nil
 end
 
 -- The user has reset the profile or created a new profile
----@param callback string
-function RepByZone:RefreshConfig(callback)
-	if callback == "OnProfileReset" then
-		self.db:ResetDB(DEFAULT)
-	end
+function RepByZone:RefreshConfig()
 	self.db.global.current_db_version = CURRENT_DB_VERSION
 	db = self.db.profile
 	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
@@ -409,6 +405,10 @@ function RepByZone:RefreshConfig(callback)
 	end
 	self:GetCovenantRep()
 	self:SwitchedZones()
+end
+
+function RepByZone:SlashHandler()
+	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
 end
 
 ------------------- Event handlers starts here --------------------

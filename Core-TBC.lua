@@ -43,7 +43,7 @@ local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0, LibAboutPanel-2.0
 ---@field db RepByZoneDB
----@field fallbackRepID number
+---@field fallbackRepID number?
 ---@field GetOptions fun(self: RepByZone): table
 ---@field InstancesAndFactionList fun(self: RepByZone): table<number|string, number|string>
 ---@field ZoneAndFactionList fun(self: RepByZone): table<number|string, number|string>
@@ -212,11 +212,10 @@ function RepByZone:OnDisable()
 
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
-	self.fallbackRepID = 0
-end
-
-function RepByZone:SlashHandler()
-	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
+	self.fallbackRepID = nil
+	zonesAndFactions = nil
+	subZonesAndFactions = nil
+	instancesAndFactions = nil
 end
 
 -- The user has reset the profile or created a new profile
@@ -226,10 +225,17 @@ function RepByZone:RefreshConfig(callback)
 		self.db:ResetDB(DEFAULT)
 	end
 	self.db.global.current_db_version = CURRENT_DB_VERSION
-	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
-	self:CheckTaxi()
 	db = self.db.profile
+	self.fallbackRepID = GetFallbackRepID(self.db.char.watchedRepID)
+	zonesAndFactions = self:ZoneAndFactionList()
+	subZonesAndFactions = self:SubZonesAndFactionsList()
+	instancesAndFactions = self:InstancesAndFactionList()
+	self:CheckTaxi()
 	self:SwitchedZones()
+end
+
+function RepByZone:SlashHandler()
+	LibStub("AceConfigDialog-3.0"):Open("RepByZone")
 end
 
 -------------------- Reputation code starts here --------------------
