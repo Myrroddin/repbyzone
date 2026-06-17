@@ -1,9 +1,10 @@
-local flag = true
+local debug = false
 --@debug@
-flag = false
+debug = true
 --@end-debug@
 
-local L = LibStub("AceLocale-3.0"):NewLocale("RepByZone", "enUS", true, flag)
+---@type table<string, string|boolean>
+local L = LibStub("AceLocale-3.0"):NewLocale("RepByZone", "enUS", true, debug)
 
 L["A Hero's Welcome"] = true
 L["Aldor Rise"] = true

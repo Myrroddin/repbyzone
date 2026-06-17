@@ -26,7 +26,7 @@ local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 ---@field watchSubZones boolean
 
 ---@class RepByZoneCharacterDB
----@field watchedRepID number|string?
+---@field watchedRepID number|string|nil
 
 ---@class RepByZoneGlobalDB
 ---@field delayGetFactionDataByID number

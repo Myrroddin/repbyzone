@@ -347,6 +347,7 @@ function RepByZone:InstancesAndFactionList()
 		[2830]		= 2658,							-- Eco-Dome Al'Dani/The K'aresh Trust
 
 		---------- Midnight ----------
+		[1592]		= 2704,							-- Sporefall/Hara'ti
 		[2805]		= 2710,							-- Windrunner Spire/Silvermoon Court
 		[2811]		= 2710,							-- Magisters' Terrace/Silvermoon Court
 		[2813]		= 2714,							-- Murder Row/Shades of the Row

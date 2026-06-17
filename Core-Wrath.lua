@@ -35,7 +35,7 @@ local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 ---@field watchSubZones boolean
 
 ---@class RepByZoneCharacterDB
----@field watchedRepID number|string?
+---@field watchedRepID number|string|nil
 
 ---@class RepByZoneGlobalDB
 ---@field delayGetFactionDataByID number
@@ -58,7 +58,6 @@ local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 ---@field SubZonesAndFactionsList fun(self: RepByZone): table<string, number?>
 
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
----@type table<string, string>
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 -- Local variables

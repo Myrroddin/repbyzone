@@ -38,7 +38,7 @@ local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 ---@field watchWoDBodyGuards table<number|string, boolean>
 
 ---@class RepByZoneCharacterDB
----@field watchedRepID number|string?
+---@field watchedRepID number|string|nil
 
 ---@class RepByZoneGlobalDB
 ---@field delayGetFactionDataByID number
@@ -243,7 +243,7 @@ local covenantReps = {
 }
 
 -- Return a table of default SV values
----@type table
+---@type { profile: RepByZoneProfile, char: RepByZoneCharacterDB, global: RepByZoneGlobalDB }
 local defaults = {
 	profile = {
 		enabled					= true,

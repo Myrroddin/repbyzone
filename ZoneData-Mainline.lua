@@ -35,7 +35,7 @@ end
 function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
-	-- see https://warcraft.wiki.gg/wiki/InstanceID#Retail or https://wago.tools/db2/UiMap for the list of UImapIDs
+	-- see https://warcraft.wiki.gg/wiki/UiMapID#Retail or https://wago.tools/db2/UiMap for the list of UImapIDs
 	-- see https://warcraft.wiki.gg/wiki/FactionID#Retail  or https://wago.tools/db2/Faction for the list of factionIDs
 
 	---@type table<number, number?>
