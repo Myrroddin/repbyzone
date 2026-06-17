@@ -18,4 +18,5 @@ externals:
 
 ignore:
   - Libs/LibStub/tests
+  - Libs/LibStub/LibStub.toc
   - README.md
