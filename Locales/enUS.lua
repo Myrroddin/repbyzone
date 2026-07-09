@@ -3,7 +3,6 @@ local debug = false
 debug = true
 --@end-debug@
 
----@type table<string, string|boolean>
 local L = LibStub("AceLocale-3.0"):NewLocale("RepByZone", "enUS", true, debug)
 
 L["A Hero's Welcome"] = true

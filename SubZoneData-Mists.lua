@@ -5,18 +5,13 @@ local UnitClassBase = UnitClassBase
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 local playerClass = UnitClassBase("player")
 
----@return table<string, number?>
 function RepByZone:SubZonesAndFactionsList()
 	local playerFaction = UnitFactionGroup("player")
 	local A = playerFaction == "Alliance"
 
-	---@param allianceFactionID number
-	---@param hordeFactionID number
-	---@return number
 	local function GetFactionID(allianceFactionID, hordeFactionID)
 		if A then
 			return allianceFactionID
@@ -24,19 +19,12 @@ function RepByZone:SubZonesAndFactionsList()
 		return hordeFactionID
 	end
 
-	---@param faction "Alliance"|"Horde"
-	---@param factionID number
-	---@return number?
 	local function GetSingleFactionID(faction, factionID)
 		if playerFaction == faction then
 			return factionID
 		end
 	end
 
-	---@param faction "Alliance"|"Horde"
-	---@param class string
-	---@param factionID number
-	---@return number?
 	local function GetClassFactionID(faction, class, factionID)
 		if playerFaction == faction and playerClass == class then
 			return factionID

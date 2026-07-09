@@ -3,12 +3,8 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
----@param allianceFactionID number
----@param hordeFactionID number
----@return number
 local function GetFactionID(allianceFactionID, hordeFactionID)
 	local playerFaction = UnitFactionGroup("player")
 	if playerFaction == "Alliance" then
@@ -17,10 +13,6 @@ local function GetFactionID(allianceFactionID, hordeFactionID)
 	return hordeFactionID
 end
 
----@param allianceFactionID number
----@param hordeFactionID number
----@param neutralFactionID number
----@return number
 local function GetPandarenFactionID(allianceFactionID, hordeFactionID, neutralFactionID)
 	local playerFaction = UnitFactionGroup("player")
 	if playerFaction == "Alliance" then
@@ -31,14 +23,12 @@ local function GetPandarenFactionID(allianceFactionID, hordeFactionID, neutralFa
 	return neutralFactionID
 end
 
----@return table<number, number?>
 function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID
 	-- see https://warcraft.wiki.gg/wiki/UiMapID#Retail or https://wago.tools/db2/UiMap for the list of UImapIDs
 	-- see https://warcraft.wiki.gg/wiki/FactionID#Retail  or https://wago.tools/db2/Faction for the list of factionIDs
 
-	---@type table<number, number?>
 	local zonesAndFactions = {
 		--------- Vanilla ----------
 		[1]			= 46,						-- Durotar/Orgrimmar

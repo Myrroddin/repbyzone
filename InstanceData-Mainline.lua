@@ -3,14 +3,10 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local A = UnitFactionGroup("player") == "Alliance"
 
----@param allianceFactionID number
----@param hordeFactionID number
----@return number
 local function GetFactionID(allianceFactionID, hordeFactionID)
 	if A then
 		return allianceFactionID
@@ -19,7 +15,6 @@ local function GetFactionID(allianceFactionID, hordeFactionID)
 end
 
 -- Blizzard has a habit of adding instanceIDs for new content using lower integers. These dungeons do not support tabards
----@type table<number, boolean>
 local tabardExemptDungeons = {
 	---------- Shadowlands ----------
 	[2284] = true, -- Sanguine Depths
@@ -67,9 +62,7 @@ local tabardExemptDungeons = {
 RepByZone.tabardExemptDungeons = tabardExemptDungeons
 
 -- Return instance data to Core-Mainline.lua
----@return table<number, number?>
 function RepByZone:InstancesAndFactionList()
-	---@type table<number, number?>
 	local instancesAndFactions = {
 		-- [instanceID] = factionID
 		-- If an instanceID is not listed, that instance has no associated factionID

@@ -7,26 +7,18 @@ local LibStub = LibStub
 local type = type
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
-
----@type table<string, string>
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
----@type table?
 local options
 
----@param uiMapID number
----@return string
 local function GetUiMapName(uiMapID)
 	local mapInfo = GetMapInfo(uiMapID)
 	return mapInfo and mapInfo.name or ""
 end
 
----@return table
 function RepByZone:GetOptions()
 	if options then return options end
-	---@type RepByZoneDB
 	local db = self.db
 	options = {
 		name = "RepByZone",

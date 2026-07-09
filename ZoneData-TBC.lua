@@ -3,14 +3,10 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local A = UnitFactionGroup("player") == "Alliance"
 
----@param allianceFactionID number
----@param hordeFactionID number
----@return number
 local function GetFactionID(allianceFactionID, hordeFactionID)
 	if A then
 		return allianceFactionID
@@ -18,10 +14,8 @@ local function GetFactionID(allianceFactionID, hordeFactionID)
 	return hordeFactionID
 end
 
----@type table<number, number>?
 local zonesAndFactions
 
----@return table<number, number>
 function RepByZone:ZoneAndFactionList()
 	-- [UImapID] = factionID
 	-- If an UImapID is not listed, that zone has no associated factionID

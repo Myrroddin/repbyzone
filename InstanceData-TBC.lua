@@ -3,17 +3,12 @@ local LibStub = LibStub
 local UnitFactionGroup = UnitFactionGroup
 
 ------------------- Get addon reference --------------------
----@type RepByZone
 local RepByZone = LibStub("AceAddon-3.0"):GetAddon("RepByZone")
 
 local A = UnitFactionGroup("player") == "Alliance"
 
----@type table<number, number>?
 local instancesAndFactions
 
----@param allianceFactionID number
----@param hordeFactionID number
----@return number
 local function GetFactionID(allianceFactionID, hordeFactionID)
 	if A then
 		return allianceFactionID
@@ -22,7 +17,6 @@ local function GetFactionID(allianceFactionID, hordeFactionID)
 end
 
 -- Return instance data to Core-TBC.lua
----@return table<number, number>
 function RepByZone:InstancesAndFactionList()
 	if instancesAndFactions then return instancesAndFactions end
 	instancesAndFactions = {

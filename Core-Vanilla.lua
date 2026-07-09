@@ -19,45 +19,15 @@ local UnitFactionGroup = UnitFactionGroup
 local UnitOnTaxi, UnitRace = UnitOnTaxi, UnitRace
 
 ------------------- Create the addon --------------------
----@class RepByZoneProfile
----@field enabled boolean
----@field verbose boolean
----@field watchOnTaxi boolean
----@field watchSubZones boolean
-
----@class RepByZoneCharacterDB
----@field watchedRepID number|string|nil
-
----@class RepByZoneGlobalDB
----@field delayGetFactionDataByID number
----@field current_db_version number?
-
----@class RepByZoneDB: AceDBObject-3.0
----@field RegisterCallback fun(target: table, eventName: string, method: string|function, arg?: any)
----@field ResetDB fun(self: RepByZoneDB, defaultProfile?: string)
----@field profile RepByZoneProfile
----@field char RepByZoneCharacterDB
----@field global RepByZoneGlobalDB
-
 ---@class RepByZone: AceAddon, AceEvent-3.0, AceConsole-3.0, LibAboutPanel-2.0
----@field db RepByZoneDB
----@field fallbackRepID number?
----@field GetOptions fun(self: RepByZone): table
----@field InstancesAndFactionList fun(self: RepByZone): table<number|string, number|string>
----@field ZoneAndFactionList fun(self: RepByZone): table<number|string, number|string>
----@field SubZonesAndFactionsList fun(self: RepByZone): table<number|string, number|string>
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
 -- Local variables
----@type RepByZoneProfile
 local db
 local isOnTaxi
----@type table<number|string, number|string>?
 local instancesAndFactions
----@type table<number|string, number|string>?
 local zonesAndFactions
----@type table<number|string, number|string>?
 local subZonesAndFactions
 
 local A = UnitFactionGroup("player") == "Alliance"
@@ -65,7 +35,6 @@ local H = UnitFactionGroup("player") == "Horde"
 local CURRENT_DB_VERSION = 1
 
 -- Table to localize subzones for which Blizzard does not provide areaIDs
----@type table<string, number>
 local citySubZonesAndFactions = {
 	-- [L["Subzone"]]				= factionID, subzone names are localized so we can compare to the localized minimap text from Blizzard
 	[L["Dwarven District"]]			= 47,		-- Ironforge
@@ -76,7 +45,6 @@ local citySubZonesAndFactions = {
 }
 
 -- Get the character's racial factionID for the defaults table
----@type table<number, number>
 local player_raceIDs_to_factionIDs = {
 	-- [playerRaceID]   = factionID
 	[1]		= 72,		-- Human/Stormwind
@@ -89,7 +57,6 @@ local player_raceIDs_to_factionIDs = {
 	[8]		= 530,		-- Troll/Darkspear Trolls
 }
 
----@return number?
 local function GetRacialRep()
 	local _, _, playerRaceID = UnitRace("player")
 	local racialRepID = player_raceIDs_to_factionIDs[playerRaceID]
@@ -104,8 +71,6 @@ local function GetRacialRep()
 	return racialRepID
 end
 
----@param watchedRepID number|string?
----@return number
 local function GetFallbackRepID(watchedRepID)
 	if type(watchedRepID) == "number" then
 		return watchedRepID
@@ -114,7 +79,6 @@ local function GetFallbackRepID(watchedRepID)
 end
 
 -- Return a table of default SV values
----@type table
 local defaults = {
 	profile = {
 		enabled					= true,
@@ -131,9 +95,7 @@ local defaults = {
 }
 
 function RepByZone:OnInitialize()
-	---@type RepByZoneDB
-	local repDB = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
-	self.db = repDB
+	self.db = LibStub("AceDB-3.0"):New("RepByZoneDB", defaults, true)
 	self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
 	self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
@@ -227,7 +189,6 @@ function RepByZone:SlashHandler()
 end
 
 -------------------- Reputation code starts here --------------------
----@type table<string, boolean>
 local repsCollapsed = {} -- Obey user's settings about headers opened or closed
 
 -- Open all faction headers
@@ -269,7 +230,6 @@ function RepByZone:CloseAllFactionHeaders()
 	wipe(repsCollapsed)
 end
 
----@return table<number|string, string>
 function RepByZone:GetAllFactions()
 	-- Will not return factions the user has marked as inactive
 	self:OpenAllFactionHeaders()
@@ -297,9 +257,6 @@ function RepByZone:CheckTaxi()
 end
 
 -- Entering an instance
----@param _ string
----@param isInitialLogin boolean
----@param isReloadingUi boolean
 function RepByZone:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 	-- If either of these are true, we didn't enter an instance, so exit
 	if isInitialLogin or isReloadingUi then
