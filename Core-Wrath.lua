@@ -202,7 +202,7 @@ function RepByZone:OnEnable()
 	if db.useFactionTabards then
 		self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
 		self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
-		self:GetEquippedTabard(nil, "player")
+		self:GetEquippedTabard("UNIT_INVENTORY_CHANGED", "player")
 	end
 
 	-- Is the player on a taxi?
@@ -242,7 +242,7 @@ function RepByZone:RefreshConfig()
 	subZonesAndFactions = self:SubZonesAndFactionsList()
 	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
-	self:GetEquippedTabard(nil, "player")
+	self:GetEquippedTabard("UNIT_INVENTORY_CHANGED", "player")
 	self:SwitchedZones()
 end
 

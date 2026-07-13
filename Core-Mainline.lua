@@ -34,6 +34,8 @@ local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 ---@field SubZonesAndFactionsList function
 ---@field db table
 ---@field covenantRepID number?
+---@field fallbackRepID number?
+---@field racialRepID number?
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
@@ -258,6 +260,14 @@ function RepByZone:OnInitialize()
 	-- Create slash commands
 	self:RegisterChatCommand("repbyzone", "SlashHandler")
 	self:RegisterChatCommand("rbz", "SlashHandler")
+
+	-- Pandaren do not start Alliance or Horde
+	if IsPlayerNeutral() then
+		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
+	elseif self.db.char.watchedRepID == 1216 then
+		-- We missed Pandaren joining either the Alliance or Horde and the char db is outdated
+		self:GetPandarenRep("NEUTRAL_FACTION_SELECT_RESULT", true)
+	end
 end
 
 function RepByZone:OnEnable()
@@ -275,16 +285,6 @@ function RepByZone:OnEnable()
 	-- We are zoning into an instance
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	-- Pandaren do not start Alliance or Horde
-	if IsPlayerNeutral() then
-		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
-	else
-		-- We missed Pandaren joining either the Alliance or Horde and the char db is outdated
-		if self.db.char.watchedRepID == 1216 then
-			self:GetPandarenRep(nil, true)
-		end
-	end
-
 	-- See if the player belongs to a Covenant, picks one, or changes Covenants
 	self:RegisterEvent("COVENANT_CHOSEN", "GetCovenantRep")
 
@@ -296,7 +296,7 @@ function RepByZone:OnEnable()
 	if db.useFactionTabards then
 		self:RegisterEvent("UNIT_INVENTORY_CHANGED", "GetEquippedTabard")
 		self:RegisterEvent("UPDATE_FACTION", "UpdateTabardStanding")
-		self:GetEquippedTabard(nil, "player")
+		self:GetEquippedTabard("UNIT_INVENTORY_CHANGED", "player")
 	end
 
 	-- Is the player on a taxi?
@@ -322,8 +322,12 @@ function RepByZone:OnEnable()
 end
 
 function RepByZone:OnDisable()
-	-- Stop watching events if RBZ is disabled
+	-- Stop watching events if RBZ is disabled...
 	self:UnregisterAllEvents()
+	-- ...Except for handling neutral characters
+	if IsPlayerNeutral() then
+		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "GetPandarenRep")
+	end
 
 	-- Shrink memory footprint by wiping variables
 	isOnTaxi = nil
@@ -348,7 +352,7 @@ function RepByZone:RefreshConfig()
 	subZonesAndFactions = self:SubZonesAndFactionsList()
 	instancesAndFactions = self:InstancesAndFactionList()
 	self:CheckTaxi()
-	self:GetEquippedTabard(nil, "player")
+	self:GetEquippedTabard("UNIT_INVENTORY_CHANGED", "player")
 	bodyguardRepID = self:GetActiveBodyguardRepID()
 	wipe(self.WoDFollowerZones)
 	for index, value in pairs(db.watchWoDBodyGuards) do
@@ -401,13 +405,11 @@ end
 -- Pandaren code
 function RepByZone:GetPandarenRep(event, success)
 	if success then
-		if event then
-			self:UnregisterEvent(event)
-		end
 		A = UnitFactionGroup("player") == "Alliance" and ALLIANCE
 		H = UnitFactionGroup("player") == "Horde" and HORDE
 		if A or H then
-			-- Update data
+			-- Update data and unregister the event
+			self:UnregisterEvent(event)
 			local watchedRepID = GetRacialRep()
 			self.db.char.watchedRepID = watchedRepID
 			self.racialRepID = watchedRepID

@@ -5,7 +5,7 @@ This file contains the core implementation, inline localization table, and publi
 
 assert(LibStub, "LibAboutPanel-2.0 requires LibStub")
 
-local lib = LibStub:NewLibrary("LibAboutPanel-2.0", 119)
+local lib = LibStub:NewLibrary("LibAboutPanel-2.0", 120)
 if not lib then return end
 
 -- Localize frequently used Lua and WoW API functions for performance.
@@ -25,27 +25,171 @@ local L = setmetatable({}, {
 
 local locale = GetLocale() -- current game client locale
 
--- Inline localization blocks.
 if locale == "deDE" then
---@localization(locale="deDE", format="lua_additive_table")@
+	L["About"] = "Über"
+	L["All Rights Reserved"] = "Alle Rechte vorbehalten"
+	L["Author"] = "Autor"
+	L["Click and press Ctrl-C to copy"] = "Klicken und Strg-C drücken, um zu kopieren"
+	L["Copyright"] = "Urheberrecht"
+	L["Credits"] = "Danksagungen"
+	L["Date"] = "Datum"
+	L["Developer Build"] = "Entwicklerversion"
+	L["Email"] = "E-Mail"
+	L["License"] = "Lizenz"
+	L["Localizations"] = "Übersetzungen"
+	L["on the %s realm"] = "auf dem Realm %s"
+	L["Repository"] = true
+	L["Website"] = "Webseite"
 elseif locale == "esES" then
---@localization(locale="esES", format="lua_additive_table")@
+	L["About"] = "Acerca de"
+	L["All Rights Reserved"] = "Todos los derechos reservados"
+	L["Author"] = "Autor"
+	L["Click and press Ctrl-C to copy"] = "Haz clic y pulsa Ctrl-C para copiar"
+	L["Copyright"] = true
+	L["Credits"] = "Créditos"
+	L["Date"] = "Fecha"
+	L["Developer Build"] = "Versión de desarrollo"
+	L["Email"] = "Correo electrónico"
+	L["License"] = "Licencia"
+	L["Localizations"] = "Localizaciones"
+	L["on the %s realm"] = "en el reino %s"
+	L["Repository"] = "Repositorio"
+	L["Website"] = "Sitio web"
 elseif locale == "esMX" then
---@localization(locale="esMX", format="lua_additive_table")@
+	L["About"] = "Acerca de"
+	L["All Rights Reserved"] = "Todos los derechos reservados"
+	L["Author"] = "Autor"
+	L["Click and press Ctrl-C to copy"] = "Haz clic y presiona Ctrl-C para copiar"
+	L["Copyright"] = "Derechos de autor"
+	L["Credits"] = "Créditos"
+	L["Date"] = "Fecha"
+	L["Developer Build"] = "Versión de desarrollo"
+	L["Email"] = "Correo electrónico"
+	L["License"] = "Licencia"
+	L["Localizations"] = "Localizaciones"
+	L["on the %s realm"] = "en el reino %s"
+	L["Repository"] = "Repositorio"
+	L["Website"] = "Sitio web"
 elseif locale == "frFR" then
---@localization(locale="frFR", format="lua_additive_table")@
+	L["About"] = "À propos"
+	L["All Rights Reserved"] = "Tous droits réservés"
+	L["Author"] = "Auteur"
+	L["Click and press Ctrl-C to copy"] = "Cliquez et appuyez sur Ctrl+C pour copier"
+	L["Copyright"] = true
+	L["Credits"] = "Crédits"
+	L["Date"] = true
+	L["Developer Build"] = "Version développeur"
+	L["Email"] = "E-mail"
+	L["License"] = "Licence"
+	L["Localizations"] = "Localisations"
+	L["on the %s realm"] = "sur le royaume %s"
+	L["Repository"] = "Dépôt"
+	L["Website"] = "Site web"
 elseif locale == "itIT" then
---@localization(locale="itIT", format="lua_additive_table")@
+	L["About"] = "Informazioni"
+	L["All Rights Reserved"] = "Tutti i diritti riservati"
+	L["Author"] = "Autore"
+	L["Click and press Ctrl-C to copy"] = "Fai clic e premi Ctrl-C per copiare"
+	L["Copyright"] = true
+	L["Credits"] = "Crediti"
+	L["Date"] = "Data"
+	L["Developer Build"] = "Versione di sviluppo"
+	L["Email"] = "E-mail"
+	L["License"] = "Licenza"
+	L["Localizations"] = "Localizzazioni"
+	L["on the %s realm"] = "nel reame %s"
+	L["Repository"] = true
+	L["Website"] = "Sito web"
 elseif locale == "koKR" then
---@localization(locale="koKR", format="lua_additive_table")@
+	L["About"] = "정보"
+	L["All Rights Reserved"] = "판권 소유"
+	L["Author"] = "작성자"
+	L["Click and press Ctrl-C to copy"] = "클릭 후 Ctrl-C를 눌러 복사하세요"
+	L["Copyright"] = "저작권"
+	L["Credits"] = "크레딧"
+	L["Date"] = "날짜"
+	L["Developer Build"] = "개발자 빌드"
+	L["Email"] = "이메일"
+	L["License"] = "라이선스"
+	L["Localizations"] = "현지화"
+	L["on the %s realm"] = "%s 서버에서"
+	L["Repository"] = "저장소"
+	L["Website"] = "웹사이트"
 elseif locale == "ptBR" then
---@localization(locale="ptBR", format="lua_additive_table")@
+	L["About"] = "Sobre"
+	L["All Rights Reserved"] = "Todos os direitos reservados"
+	L["Author"] = "Autor"
+	L["Click and press Ctrl-C to copy"] = "Clique e pressione Ctrl-C para copiar"
+	L["Copyright"] = "Direitos autorais"
+	L["Credits"] = "Créditos"
+	L["Date"] = "Data"
+	L["Developer Build"] = "Versão de desenvolvimento"
+	L["Email"] = "E-mail"
+	L["License"] = "Licença"
+	L["Localizations"] = "Localizações"
+	L["on the %s realm"] = "no reino %s"
+	L["Repository"] = "Repositório"
+	L["Website"] = "Site"
 elseif locale == "ruRU" then
---@localization(locale="ruRU", format="lua_additive_table")@
+	L["About"] = "О дополнении"
+	L["All Rights Reserved"] = "Все права защищены"
+	L["Author"] = "Автор"
+	L["Click and press Ctrl-C to copy"] = "Щёлкните и нажмите Ctrl-C, чтобы скопировать"
+	L["Copyright"] = "Авторские права"
+	L["Credits"] = "Благодарности"
+	L["Date"] = "Дата"
+	L["Developer Build"] = "Разработческая версия"
+	L["Email"] = "Эл. почта"
+	L["License"] = "Лицензия"
+	L["Localizations"] = "Локализации"
+	L["on the %s realm"] = "на сервере %s"
+	L["Repository"] = "Репозиторий"
+	L["Website"] = "Веб-сайт"
 elseif locale == "zhCN" then
---@localization(locale="zhCN", format="lua_additive_table")@
+	L["About"] = "关于"
+	L["All Rights Reserved"] = "版权所有"
+	L["Author"] = "作者"
+	L["Click and press Ctrl-C to copy"] = "点击并按下 Ctrl-C 以复制"
+	L["Copyright"] = "版权"
+	L["Credits"] = "致谢"
+	L["Date"] = "日期"
+	L["Developer Build"] = "开发者版本"
+	L["Email"] = "电子邮件"
+	L["License"] = "许可协议"
+	L["Localizations"] = "本地化"
+	L["on the %s realm"] = "在 %s 服务器"
+	L["Repository"] = "代码库"
+	L["Website"] = "网站"
 elseif locale == "zhTW" then
---@localization(locale="zhTW", format="lua_additive_table")@
+	L["About"] = "關於"
+	L["All Rights Reserved"] = "版權所有"
+	L["Author"] = "作者"
+	L["Click and press Ctrl-C to copy"] = "點擊並按下 Ctrl-C 以複製"
+	L["Copyright"] = "版權"
+	L["Credits"] = "銘謝"
+	L["Date"] = "日期"
+	L["Developer Build"] = "開發者版本"
+	L["Email"] = "電子郵件"
+	L["License"] = "授權條款"
+	L["Localizations"] = "在地化"
+	L["on the %s realm"] = "於 %s 伺服器"
+	L["Repository"] = "儲存庫"
+	L["Website"] = "網站"
+else
+	L["About"] = "About"
+	L["All Rights Reserved"] = "All Rights Reserved"
+	L["Author"] = "Author"
+	L["Click and press Ctrl-C to copy"] = "Click and press Ctrl-C to copy"
+	L["Copyright"] = "Copyright"
+	L["Credits"] = "Credits"
+	L["Date"] = "Date"
+	L["Developer Build"] = "Developer Build"
+	L["Email"] = "Email"
+	L["License"] = "License"
+	L["Localizations"] = "Localizations"
+	L["on the %s realm"] = "on the %s realm"
+	L["Repository"] = "Repository"
+	L["Website"] = "Website"
 end
 
 -- Persistent tables: preserve state across library upgrades and allow caching for performance.
