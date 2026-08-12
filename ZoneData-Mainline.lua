@@ -295,6 +295,7 @@ function RepByZone:ZoneAndFactionList()
 		[2405]		= 2699,						-- Voidstorm/The Singularity
 		[2413]		= 2704,						-- Harandar/Hara'ti
 		[2437]		= 2696,						-- Zul'Aman/Amani Tribe
+		[2512]		= 2696,						-- The Coiled Isle/Amani Tribe
 	}
 	return zonesAndFactions
 end

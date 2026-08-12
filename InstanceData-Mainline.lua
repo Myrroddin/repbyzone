@@ -58,6 +58,7 @@ local tabardExemptDungeons = {
 	[2874] = true, -- Maisara Caverns
 	[2915] = true, -- Nexus-Point Xenas
 	[2923] = true, -- Voidscar Arena
+	[2993] = true, -- Altar of Fangs
 }
 RepByZone.tabardExemptDungeons = tabardExemptDungeons
 
@@ -352,6 +353,8 @@ function RepByZone:InstancesAndFactionList()
 		[2915]		= 2699,							-- Nexus-Point Xenas/The Singularity
 		[2923]		= 2770,							-- Voidscar Arena/Slayer's Duellum
 		[2939]		= 2770,							-- The Dreamrift/Slayer's Duellum
+		[2993]		= 2696,							-- Altar of Fangs/Amani Tribe
+		[3004]		= 2696,							-- The Venomous Abyss/Amani Tribe
 	}
 	return instancesAndFactions
 end

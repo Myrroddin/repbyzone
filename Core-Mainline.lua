@@ -36,6 +36,7 @@ local UnitOnTaxi, UnitRace, UNKNOWN = UnitOnTaxi, UnitRace, UNKNOWN
 ---@field covenantRepID number?
 ---@field fallbackRepID number?
 ---@field racialRepID number?
+---@field tabardExemptDungeons table
 local RepByZone = LibStub("AceAddon-3.0"):NewAddon("RepByZone", "AceEvent-3.0", "AceConsole-3.0", "LibAboutPanel-2.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RepByZone")
 
