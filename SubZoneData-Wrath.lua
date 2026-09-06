@@ -23,6 +23,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(35)]		= 21,						-- Booty Bay/Booty Bay
 		[GetAreaInfo(36)]		= GetFactionID(730, 729),	-- Alterac Mountains/Stormpike Guard or Frostwolf Clan
 		[GetAreaInfo(43)]		= 87,						-- Wild Shore/Bloodsail Buccaneers
+		[GetAreaInfo(91)]		= 54,						-- Tower of Azora/Gnomeregan Exiles
 		[GetAreaInfo(100)]		= 47,						-- Nesingwary's Expedition/Ironforge
 		[GetAreaInfo(133)]		= 54,						-- New Tinkertown/Gnomeregan
 		[GetAreaInfo(150)]		= 72,						-- Menethil Harbor/Stormwind

@@ -98,7 +98,7 @@ function RepByZone:InstancesAndFactionList()
 		[36]		= 72,							-- The Deadmines/Stormwind
 		[43]		= 81,							-- Wailing Caverns/Thunder Bluff
 		[47]		= GetFactionID(69, 81),			-- Razorfen Kraul/Darnassus or Thunderbluff
-		[48]		= GetFactionID(69, 530),		-- Blackfathom Depths/Darnassus or Darkspear Trolls
+		[48]		= 1106,							-- Blackfathom Depths/Argent Crusade
 		[70]		= GetFactionID(47, 530),		-- Uldaman/Ironforge or Darkspear Trolls
 		[90]		= 54,							-- Gnomeregan/Gnomeregan
 		[129]		= GetFactionID(72, 76),			-- Razorfen Downs/Stormwind or Orgrimmar
@@ -111,7 +111,7 @@ function RepByZone:InstancesAndFactionList()
 		[389]		= 76,							-- Ragefire Chasm/Orgrimmar
 		[409]		= 749,							-- Molten Core/Hydraxian Waterlords
 		[429]		= 69,							-- Dire Maul/Darnassus
-		[469]		= GetFactionID(72, 46),			-- Blackwing Lair/Stormwind or Orgrimmar
+		[469]		= GetFactionID(72, 76),			-- Blackwing Lair/Stormwind or Orgrimmar
 		[509]		= 609,							-- Ruins of Ahn'Qiraj/Cenarion Circle
 		[531]		= 910,							-- Temple of Ahn'Qiraj/Brood of Nozdormu
 		[1001]		= 1106,							-- Scarlet Halls/Argent Crusade

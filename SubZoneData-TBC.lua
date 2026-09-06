@@ -27,6 +27,7 @@ function RepByZone:SubZonesAndFactionsList()
 		[GetAreaInfo(19)]		= 270,						-- Zul'Gurub/Zandalar Tribe
 		[GetAreaInfo(35)]		= 21,						-- Booty Bay/Booty Bay
 		[GetAreaInfo(36)]		= GetFactionID(730, 729),	-- Alterac Mountains/Stormpike Guard or Frostwolf Clan
+		[GetAreaInfo(91)]		= 54,						-- Tower of Azora/Gnomeregan Exiles
 		[GetAreaInfo(100)]		= 47,						-- Nesingwary's Expedition/Ironforge
 		[GetAreaInfo(122)]		= 270,						-- Zuuldaia Ruins/Zandalar Tribe
 		[GetAreaInfo(125)]		= 270,						-- Kal'ai Ruins/Zandalar Tribe

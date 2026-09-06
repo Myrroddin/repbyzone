@@ -30,7 +30,7 @@ function RepByZone:InstancesAndFactionList()
 		[36]		= 72,						-- The Deadmines/Stormwind
 		[43]		= 81,						-- Wailing Caverns/Thunder Bluff
 		[47]		= GetFactionID(69, 81),		-- Razorfen Kraul/Darnassus or Thunderbluff
-		[48]		= GetFactionID(69, 530),	-- Blackfathom Depths/Darnassus or Darkspear Trolls
+		[48]		= 529,						-- Blackfathom Depths/Argent Dawn
 		[70]		= GetFactionID(47, 530),	-- Uldaman/Ironforge or Darkspear Trolls
 		[90]		= 54,						-- Gnomeregan/Gnomeregan
 		[129]		= GetFactionID(72, 76),		-- Razorfen Downs/Stormwind or Orgrimmar
